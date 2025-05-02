@@ -1,29 +1,82 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
-
-    const handleAddQuestion = (type: string) => {
-        console.log("Створюємо завдання типу:", type);
-      };
-
+    const [questionType, setQuestionType] = useState("");
+    const [test, setTest] = useState({
+        title: "",
+        description: "",
+        duration: 0,
+        deadline: "",
+        questions: [],
+        pairs: [{ left: "", right: "" }],
+    });
+    const [question, setQuestion] = useState<any>({
+        title: "",
+        type: "",
+        answers: [],
+        pairs: [],
+      });
+      
     const handleSelect = (type: string) => {
-    handleAddQuestion(type);
-      setModalOpen(false);
+        setQuestionType(type);
+        
+        if (type === "multiple") {
+            setQuestion({
+            title: "",
+            type: "multiple",
+            answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false })),
+            pairs: [],
+            });
+        } else if (type === "matching") {
+            setQuestion({
+            title: "",
+            type: "matching",
+            answers: [],
+            pairs: [{ left: "", right: "" }],
+            });
+        } else if (type === "written") {
+            setQuestion({
+            title: "",
+            type: "written",
+            answers: [],
+            pairs: [],
+        });
+    }
+    
+    setModalOpen(false);
     };
+      
+
+    const updateAnswerText = (index: number, text: string) => {
+        const updatedAnswers = [...question.answers];
+        updatedAnswers[index].text = text;
+        setQuestion({ ...question, answers: updatedAnswers });
+    };
+    
+    const toggleAnswerCorrect = (index: number) => {
+        const updatedAnswers = [...question.answers];
+        updatedAnswers[index].isCorrect = !updatedAnswers[index].isCorrect;
+        setQuestion({ ...question, answers: updatedAnswers });
+    };
+
+    useEffect(() => {
+        console.log(test);
+    }, [test]);
+    
 
     return (
         <div>
-            <h1 className="text-[36px] font-bold text-center">Створення нового тесту</h1>
+            <h1 className="text-[36px] mb-4 font-bold text-center">Створення нового тесту</h1>
             <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
                 <div className="mb-4">
                     <label className="block text-gray-700 font-medium mb-1">Назва тесту</label>
                     <input
                     type="text"
-                    // value={title}
-                    // onChange={(e) => setTitle(e.target.value)}
+                    value={test.title}
+                    onChange={(e) => setTest({ ...test, title: e.target.value })}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                     placeholder="Наприклад: Тест №3 — Інтеграли"
                     />
@@ -32,8 +85,8 @@ const CreateTest = () => {
                 <div className="mb-4">
                     <label className="block text-gray-700 font-medium mb-1">Опис тесту</label>
                     <textarea
-                    // value={description}
-                    // onChange={(e) => setDescription(e.target.value)}
+                    value={test.description}
+                    onChange={(e) => setTest({ ...test, description: e.target.value })}
                     className="resize-none w-full border border-gray-300 rounded-xl px-4 py-2"
                     placeholder="Короткий опис, наприклад: Тест охоплює теми похідних, інтегралів і графіків функцій."
                     />
@@ -43,8 +96,8 @@ const CreateTest = () => {
                     <label className="block text-gray-700 font-medium mb-1">Тривалість (хв)</label>
                     <input
                     type="number"
-                    // value={duration}
-                    // onChange={(e) => setDuration(Number(e.target.value))}
+                    value={test.duration}
+                    onChange={(e) => setTest({ ...test, duration: Number(e.target.value) })}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                     />
                 </div>
@@ -53,25 +106,263 @@ const CreateTest = () => {
                     <label className="block text-gray-700 font-medium mb-1">Крайній термін проходження</label>
                     <input
                     type="datetime-local"
-                    // value={deadline}
-                    // onChange={(e) => setDeadline(e.target.value)}
+                    value={test.deadline}
+                    onChange={(e) => setTest({ ...test, deadline: e.target.value })}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                     />
                 </div>
             </div>
+            {test.questions.length > 0 && 
+            test.questions.map((item: any, index: number) => (
+                <div key={index}>
+                    {item.type === 'multiple' && (
+                        <div key={index} className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
+                        <p className="text-[24px] font-bold">Запитання {index + 1}</p>
+                        <p className="text-xl font-semibold mb-4">{item.title}</p>
+                        {item.answers.map((answer: any, index: number) => (
+                            <div key={index} className="flex items-center gap-4 mt-4">
+                                <input
+                                    type="checkbox"
+                                    checked={answer.isCorrect}
+                                    onChange={() => {}}
+                                />
+                                <p>{answer.text}</p>
+                            </div>
+                        ))}
+                    </div>)}
+                    {item.type === 'matching' && (
+                        <div key={index} className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
+                            <p className="text-[24px] font-bold">Запитання {index + 1}</p>
+                            <p className="text-xl font-semibold mb-4">{item.title}</p>
+                            {item.pairs.map((pair: any, index: number) => (
+                                <div key={index} className="flex items-center gap-4 mt-4">
+                                    <p className="font-medium">{index+ 1}.  {pair.left}</p>
+                                    <span className="text-gray-500">—</span>
+                                    <p>{pair.right}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {item.type === 'written' && (
+                        <div key={index} className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
+                            <p className="text-[24px] font-bold">Запитання {index + 1}</p>
+                            <p className="text-xl font-semibold mb-4">{item.title}</p>
+                            <div className="flex items-center gap-4 mt-4">
+                                <p className="font-medium">Відповідь: </p>
+                                <p>{item.answers?.[0]?.text || "Немає відповіді"}</p>
+
+                            </div>
+                        </div>
+                    )}
+                </div>  
+            ))}
             <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
-                <div
+                {questionType === '' && <div
                     onClick={() => setModalOpen(true)}
                     className="cursor-pointer border-2 border-dashed border-gray-400 hover:border-[#FA8E66] rounded-xl h-36 flex items-center justify-center transition"
                 >
                     <div className="text-4xl text-gray-500 hover:text-[#FA8E66] font-bold">＋</div>
+                </div>}
+                {questionType === 'multiple' && (
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
+                        <input
+                            type="text"
+                            value={question.title}
+                            onChange={(e) => setQuestion((prev: any) => ({...prev, title: e.target.value}))}
+                            className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                            placeholder="Введіть умову завдання"
+                        />
+                       {question.answers.map((answer: any, index: number) => (
+                            <div key={index} className="flex items-center gap-4 mt-4">
+                                <input
+                                    type="checkbox"
+                                    checked={answer.isCorrect}
+                                    onChange={() => toggleAnswerCorrect(index)}
+                                />
+                                <input
+                                    type="text"
+                                    value={answer.text}
+                                    onChange={(e) => updateAnswerText(index, e.target.value)}
+                                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                                    placeholder={`Введіть умову відповіді ${index + 1}`}
+                                />
+                            </div>
+                        ))}
+                        <div className="flex w-full mt-4 items-center gap-4 justify-end">
+                            <button
+                                className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                                onClick={() => setQuestionType('')}
+                            >
+                                Відхилити
+                            </button>  
+                            <button
+                                className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                                onClick={() => {
+                                    setTest((prev: any) => ({
+                                        ...prev,
+                                        questions: [...prev.questions, { ...question, type: questionType }],
+                                    }));
+                                    setQuestion({
+                                        title: "",
+                                        type: "",
+                                        answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false }))
+                                    });
+                                    setQuestionType("");
+                                    console.log(test);
+                                }}
+                            >
+                                Зберегти
+                            </button> 
+                        </div>    
+                    </div>
+                )}
+                {questionType === 'matching' && (
+                <div>
+                    <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
+                    <input
+                    type="text"
+                    value={question.title}
+                    onChange={(e) => setQuestion((prev: any) => ({ ...prev, title: e.target.value }))}
+                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                    placeholder="Введіть інструкцію для відповідності"
+                    />
+                    {question.pairs.map((pair: any, index: number) => (
+                    <div key={index} className="flex items-center gap-4 mt-4">
+                        <input
+                        type="text"
+                        value={pair.left}
+                        onChange={(e) => {
+                            const newPairs = [...question.pairs];
+                            newPairs[index].left = e.target.value;
+                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+                        }}
+                        className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                        placeholder={`Ліва частина ${index + 1}`}
+                        />
+                        <span className="text-xl font-bold">—</span>
+                        <input
+                        type="text"
+                        value={pair.right}
+                        onChange={(e) => {
+                            const newPairs = [...question.pairs];
+                            newPairs[index].right = e.target.value;
+                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+                        }}
+                        className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                        placeholder={`Права частина ${index + 1}`}
+                        />
+                        <button
+                        onClick={() => {
+                            const newPairs = [...question.pairs];
+                            newPairs.splice(index, 1);
+                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+                        }}
+                        className="text-red-500 hover:underline"
+                        >
+                        ✕
+                        </button>
+                    </div>
+                    ))}
+                    <button
+                    onClick={() => {
+                        setQuestion((prev: any) => ({
+                        ...prev,
+                        pairs: [...prev.pairs, { left: "", right: "" }],
+                        }));
+                    }}
+                    className="mt-4 text-sm text-blue-600 hover:underline"
+                    >
+                    ➕ Додати пару
+                    </button>
+                    <div className="flex w-full mt-4 items-center gap-4 justify-end">
+                    <button
+                        className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                        onClick={() => setQuestionType("")}
+                    >
+                        Відхилити
+                    </button>
+                    <button
+                        className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                        onClick={() => {
+                        setTest((prev: any) => ({
+                            ...prev,
+                            questions: [...prev.questions, { ...question, type: questionType }],
+                        }));
+                        setQuestion({
+                            title: "",
+                            type: "",
+                            answers: [],
+                            pairs: [{ left: "", right: "" }],
+                        });
+                        setQuestionType("");
+                        }}
+                    >
+                        Зберегти
+                    </button>
+                    </div>
                 </div>
+                )}
+                {questionType === 'written' && (
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
+                        <textarea
+                            value={question.title}
+                            onChange={(e) => setQuestion({ ...question, title: e.target.value })}
+                            className="w-full border border-gray-300 rounded-xl px-4 py-2 resize-none"
+                            placeholder="Введіть текст запитання"
+                        />
+                            <div className="flex items-center gap-4 mt-4">
+                                <p>Введіть відповідь: </p>
+                                <input
+                                    type="text"
+                                    value={question.answers[0]?.text || ""}
+                                    onChange={(e) => setQuestion({ ...question, answers: [{ text: e.target.value }] })}
+                                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                                    placeholder={`Введіть відповідь`}
+                                />
+                            </div>
+                        <div className="flex w-full mt-4 items-center gap-4 justify-end">
+                            <button
+                                className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                                onClick={() => setQuestionType('')}
+                            >
+                                Відхилити
+                            </button>  
+                            <button
+                                className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                                onClick={() => {
+                                    setTest((prev: any) => ({
+                                        ...prev,
+                                        questions: [...prev.questions, { ...question, type: questionType }],
+                                    }));
+                                    setQuestion({
+                                        title: "",
+                                        type: "",
+                                        answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false }))
+                                    });
+                                    setQuestionType("");
+                                    console.log(test);
+                                }}
+                            >
+                                Зберегти
+                            </button> 
+                        </div>    
+                    </div>
+                )}
+            </div>
+            <div className="flex items-center justify-end mx-auto max-w-3xl">
+                <button
+                    className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
+                >
+                    Створити тест
+                </button>
             </div>
             {modalOpen && (
                 <div className="fixed inset-0 bg-black/40  flex items-center justify-center z-1000">
-                <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
+                <div className="bg-white rounded-2xl p-6 w-[90%] max-w-[600px] shadow-xl">
                     <h3 className="text-xl font-semibold mb-4 text-gray-800">Оберіть тип завдання</h3>
-                    <div className="w-wull flex flex-col gap-3">
+                    <div className="flex flex-col gap-3">
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => handleSelect("multiple")}
@@ -89,7 +380,7 @@ const CreateTest = () => {
                                 onClick={() => handleSelect("written")}
                                 className="w-full py-2 px-4 bg-[#2F80ED] text-white rounded-xl hover:bg-opacity-90 transition"
                             >
-                                Завдання з розгорнутою відповіддю
+                                З розгорнутою відповіддю
                             </button>
                         </div>
                         <button
