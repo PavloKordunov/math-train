@@ -14,22 +14,22 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    // async signIn({ user }) {
-    //   console.log('Sign-in attempt from:', user.email);
+    async signIn({ user }) {
+      console.log('Sign-in attempt from:', user.email);
 
-    //   const res = await fetch('http://localhost:8080/api/login/oauth', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ email: user.email }),
-    //   });
+      const res = await fetch('http://localhost:8080/api/login/oauth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email }),
+      });
 
-    //   const result = await res.json();
-    //   if (result) {
-    //     return true
-    //   }
+      const result = await res.json();
+      if (result) {
+        return true
+      }
 
-    //   return false;
-    // },  
+      return false;
+    },  
     async jwt({ token, user }) {
       if (user) token.user = user;
       return token;

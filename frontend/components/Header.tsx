@@ -6,18 +6,23 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import Image from "next/image";
-// import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
 
     const [active, setActive] = useState("home");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const router = useRouter()
+
+    const{user, setUser} = useUser()
 
     const logOut = async() => {
         await signOut({ redirect: false })
+        localStorage.removeItem('user');
+        setUser(null); 
+        router.push('login')
     }
-
-    // const {user} = useUser()
 
     return (
         <div className="w-full bg-[#fff] px-10 py-6 shadow-md flex items-center justify-between">
@@ -61,8 +66,8 @@ const NavBar = () => {
                 >
                     <FaUserCircle size={48} color="#2F2929" />
                     <div className="flex flex-col">
-                    <p className="text-[18px] font-semibold text-black">pavlo</p>
-                    <p className="text-sm text-gray-500">student@example.com</p>
+                        <p className="text-[18px] font-semibold text-black">pavlo</p>
+                        <p className="text-sm text-gray-500">student@example.com</p>
                     </div>
                 </div>
 

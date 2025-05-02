@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-// import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/useUser";
 
 export default function LoginPage() {
 
@@ -17,28 +17,32 @@ export default function LoginPage() {
   })
 
   const router = useRouter()
-//   const {user, setUser} = useUser()
+  const {user, setUser} = useUser()
 
   const handleLogin = async() => {
-    // try {
-    //   const res = await fetch('http://localhost:8080/api/login/native', {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       email: loginData.email,
-    //       password: loginData.password,
-    //     })
-    //   })
+    try {
+      const res = await fetch('http://localhost:8080/api/login/native', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginData.email,
+          password: loginData.password,
+        })
+      })
 
-    //   const data = await res.json()
-    //   router.push('/home')
-    //   console.log(data)
-    //   setUser(data.body.user)
-    // } catch (error) {
-    //   console.log(error)
-    // }
+      const data = await res.json()
+      if(data.user.status === 'Student'){
+        router.push('home')
+      } else if(data.user.status === 'Teacher'){
+          router.push('teacher')
+      }
+      console.log(data)
+      setUser(data.user)
+    } catch (error) {
+      console.log(error)
+    }
     router.push('/home')
   }
 
