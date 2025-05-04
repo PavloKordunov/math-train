@@ -18,25 +18,27 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
+    setInitialized(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (initialized) {
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
       } else {
         localStorage.removeItem('user');
       }
     }
-  }, [user]);
+  }, [user, initialized]);
+
+  if (!initialized) return null; 
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -44,6 +46,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     </UserContext.Provider>
   );
 };
+
 
 export const useUser = () => {
   const context = useContext(UserContext);

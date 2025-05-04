@@ -4,8 +4,8 @@ import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 
@@ -33,18 +33,31 @@ export default function LoginPage() {
       })
 
       const data = await res.json()
-      if(data.user.status === 'Student'){
-        router.push('home')
-      } else if(data.user.status === 'Teacher'){
-          router.push('teacher')
-      }
       console.log(data)
       setUser(data.user)
+      if (data.user.status === "Teacher") {
+        router.push("/teacher");
+      } else if (data.user.status === "Student") {
+        router.push("/home");
+      }
     } catch (error) {
       console.log(error)
     }
-    router.push('/home')
   }
+
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const role = session?.user?.status;
+
+      if (role === "Teacher") {
+        router.push("/teacher");
+      } else if (role === "Student") {
+        router.push("/home");
+      }
+    }
+  }, [session, status, router, user]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">
@@ -96,12 +109,12 @@ export default function LoginPage() {
 
         <div className="flex items-center gap-4 mt-8 justify-center">
           <button
-           onClick={() => signIn("google", { callbackUrl: "/home" })}
+           onClick={() => signIn("google")}
            className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg border hover:bg-gray-50 transition">
             <FcGoogle size={24} /> 
           </button>
           <button
-           onClick={() => signIn("google", { callbackUrl: "/home" })}
+           onClick={() => signIn("github")}
            className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg border hover:bg-gray-50 transition">
             <FaGithub size={24} color="black" /> 
           </button>

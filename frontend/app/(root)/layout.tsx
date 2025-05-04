@@ -8,9 +8,6 @@ import { ReactNode, useEffect } from "react";
 
 export default function homeLayout({ children }: { children: ReactNode }) {
     const { data: session, status } = useSession();
-    const {user, setUser} = useUser()
-
-    const router = useRouter()
 
     // useEffect(() => {
     //     if(!user){
@@ -23,6 +20,17 @@ export default function homeLayout({ children }: { children: ReactNode }) {
     //         }
     //     }
     // }, [])
+
+    const {user, setUser} = useUser()
+    // const router= useRouter()
+  
+    // useEffect(() => {
+    //   if(user?.status === 'Student'){
+    //     router.push('home')
+    //   } else if(user?.status === 'Teacher'){
+    //       router.push('teacher')
+    //   }
+    // }, [user])
 
     useEffect(() => {
         if (status === 'authenticated' && session?.user) {

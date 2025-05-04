@@ -24,8 +24,9 @@ export default NextAuth({
       });
 
       const result = await res.json();
-      if (result) {
-        return true
+      if (result?.user) {
+        user.status = result.user.status;
+        return true;
       }
 
       return false;
@@ -35,8 +36,8 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.user = token.user as { name?: string | null; email?: string | null; image?: string | null };
+      session.user = token.user as { name?: string | null; email?: string | null; image?: string | null; status?: "Student" | "Teacher"; };
       return session;
-    },
+    }    
   },
 });

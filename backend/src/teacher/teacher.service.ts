@@ -8,6 +8,10 @@ import * as bcrypt from 'bcrypt'
 export class TeacherService {
     constructor(private readonly databaseServise: DatabaseService, private jwtService: JwtService) {}
 
+    async getAllTeachers() {
+        return this.databaseServise.teacher.findMany()
+    }
+
     async register(createTeacherDto: createTeacherDto) {
         const existingUser = await this.databaseServise.teacher.findUnique({
             where: {email: createTeacherDto.email}

@@ -1,17 +1,19 @@
 'use client';
 
+import { useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [questionType, setQuestionType] = useState("");
+    const {user, setUser} = useUser()
     const [test, setTest] = useState({
         title: "",
         description: "",
-        duration: 0,
-        deadline: "",
-        questions: [],
-        pairs: [{ left: "", right: "" }],
+        timeLimit: 0,
+        endTime: "",
+        teacherId: user?.id,
+        tasks: []
     });
     const [question, setQuestion] = useState<any>({
         title: "",
@@ -19,6 +21,23 @@ const CreateTest = () => {
         answers: [],
         pairs: [],
       });
+
+    const handleCreateTest = async() => {
+        try {
+            const res = await fetch('http://localhost:8080/api/test', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(test)
+            })
+
+            const data = await res.json()
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
       
     const handleSelect = (type: string) => {
         setQuestionType(type);
@@ -62,6 +81,16 @@ const CreateTest = () => {
         setQuestion({ ...question, answers: updatedAnswers });
     };
 
+    const formatDateForInput = (isoString: string) => {
+        if (!isoString) return ""; 
+
+        const date = new Date(isoString);
+        if (isNaN(date.getTime())) return "";
+      
+        const offset = date.getTimezoneOffset() * 60000;
+        return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+      };
+
     useEffect(() => {
         console.log(test);
     }, [test]);
@@ -96,8 +125,8 @@ const CreateTest = () => {
                     <label className="block text-gray-700 font-medium mb-1">Тривалість (хв)</label>
                     <input
                     type="number"
-                    value={test.duration}
-                    onChange={(e) => setTest({ ...test, duration: Number(e.target.value) })}
+                    value={test.timeLimit}
+                    onChange={(e) => setTest({ ...test, timeLimit: Number(e.target.value) })}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                     />
                 </div>
@@ -106,14 +135,17 @@ const CreateTest = () => {
                     <label className="block text-gray-700 font-medium mb-1">Крайній термін проходження</label>
                     <input
                     type="datetime-local"
-                    value={test.deadline}
-                    onChange={(e) => setTest({ ...test, deadline: e.target.value })}
+                    value={formatDateForInput(test.endTime)}
+                    onChange={(e) => {
+                        const isoDate = new Date(e.target.value).toISOString();
+                        setTest({ ...test, endTime: isoDate });
+                      }}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                     />
                 </div>
             </div>
-            {test.questions.length > 0 && 
-            test.questions.map((item: any, index: number) => (
+            {test.tasks.length > 0 && 
+            test.tasks.map((item: any, index: number) => (
                 <div key={index}>
                     {item.type === 'multiple' && (
                         <div key={index} className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
@@ -201,7 +233,7 @@ const CreateTest = () => {
                                 onClick={() => {
                                     setTest((prev: any) => ({
                                         ...prev,
-                                        questions: [...prev.questions, { ...question, type: questionType }],
+                                        tasks: [...prev.tasks, { ...question, type: questionType }],
                                     }));
                                     setQuestion({
                                         title: "",
@@ -334,7 +366,7 @@ const CreateTest = () => {
                                 onClick={() => {
                                     setTest((prev: any) => ({
                                         ...prev,
-                                        questions: [...prev.questions, { ...question, type: questionType }],
+                                        tasks: [...prev.tasks, { ...question, type: questionType }],
                                     }));
                                     setQuestion({
                                         title: "",
@@ -353,6 +385,7 @@ const CreateTest = () => {
             </div>
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
+                    onClick={handleCreateTest}
                     className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
                 >
                     Створити тест

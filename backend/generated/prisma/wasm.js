@@ -145,6 +145,7 @@ exports.Prisma.StudentScoreScalarFieldEnum = {
   studentId: 'studentId',
   testId: 'testId',
   score: 'score',
+  isCompleted: 'isCompleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -153,6 +154,7 @@ exports.Prisma.TestScalarFieldEnum = {
   id: 'id',
   title: 'title',
   timeLimit: 'timeLimit',
+  description: 'description',
   startTime: 'startTime',
   endTime: 'endTime',
   createdAt: 'createdAt',
@@ -164,9 +166,11 @@ exports.Prisma.TestScalarFieldEnum = {
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description',
-  testId: 'testId',
   image: 'image',
+  type: 'type',
+  pairs: 'pairs',
+  answers: 'answers',
+  testId: 'testId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -176,9 +180,25 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Status = exports.$Enums.Status = {
   Teacher: 'Teacher',
@@ -194,7 +214,7 @@ exports.TestStatus = exports.$Enums.TestStatus = {
 exports.Prisma.ModelName = {
   Teacher: 'Teacher',
   Student: 'Student',
-  studentScore: 'studentScore',
+  StudentScore: 'StudentScore',
   Test: 'Test',
   Task: 'Task'
 };
