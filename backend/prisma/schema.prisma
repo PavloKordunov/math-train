@@ -35,6 +35,7 @@ model Student {
   status    Status   @default(Student)
 
   scores    StudentScore[]
+  assignedTests AssignedTest[]
 }
 
 model StudentScore {
@@ -65,9 +66,19 @@ model Test {
 
   teacherId   String
   teacher     Teacher @relation(fields: [teacherId], references: [id])
-  tasks       Task[]
+  tasks       Task[]  
   studentScores StudentScore[]
   status      TestStatus @default(PENDING)
+  assignedTo  AssignedTest[]
+}
+
+model AssignedTest {
+  id        String   @id @default(uuid())
+  student   Student     @relation(fields: [studentId], references: [id])
+  studentId String
+  test      Test     @relation(fields: [testId], references: [id])
+  testId    String
+  assignedAt DateTime @default(now())
 }
 
 model Task {
@@ -81,7 +92,7 @@ model Task {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  test        Test @relation(fields: [testId], references: [id])
+  test      Test @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 enum Status {

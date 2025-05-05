@@ -163,6 +163,13 @@ exports.Prisma.TestScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.AssignedTestScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  testId: 'testId',
+  assignedAt: 'assignedAt'
+};
+
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -216,6 +223,7 @@ exports.Prisma.ModelName = {
   Student: 'Student',
   StudentScore: 'StudentScore',
   Test: 'Test',
+  AssignedTest: 'AssignedTest',
   Task: 'Task'
 };
 

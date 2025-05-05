@@ -34,6 +34,11 @@ export type StudentScore = $Result.DefaultSelection<Prisma.$StudentScorePayload>
  */
 export type Test = $Result.DefaultSelection<Prisma.$TestPayload>
 /**
+ * Model AssignedTest
+ * 
+ */
+export type AssignedTest = $Result.DefaultSelection<Prisma.$AssignedTestPayload>
+/**
  * Model Task
  * 
  */
@@ -233,6 +238,16 @@ export class PrismaClient<
     * ```
     */
   get test(): Prisma.TestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assignedTest`: Exposes CRUD operations for the **AssignedTest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssignedTests
+    * const assignedTests = await prisma.assignedTest.findMany()
+    * ```
+    */
+  get assignedTest(): Prisma.AssignedTestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.task`: Exposes CRUD operations for the **Task** model.
@@ -687,6 +702,7 @@ export namespace Prisma {
     Student: 'Student',
     StudentScore: 'StudentScore',
     Test: 'Test',
+    AssignedTest: 'AssignedTest',
     Task: 'Task'
   };
 
@@ -706,7 +722,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "teacher" | "student" | "studentScore" | "test" | "task"
+      modelProps: "teacher" | "student" | "studentScore" | "test" | "assignedTest" | "task"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1006,6 +1022,80 @@ export namespace Prisma {
           }
         }
       }
+      AssignedTest: {
+        payload: Prisma.$AssignedTestPayload<ExtArgs>
+        fields: Prisma.AssignedTestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignedTestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignedTestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>
+          }
+          findFirst: {
+            args: Prisma.AssignedTestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignedTestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>
+          }
+          findMany: {
+            args: Prisma.AssignedTestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>[]
+          }
+          create: {
+            args: Prisma.AssignedTestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>
+          }
+          createMany: {
+            args: Prisma.AssignedTestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignedTestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>[]
+          }
+          delete: {
+            args: Prisma.AssignedTestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>
+          }
+          update: {
+            args: Prisma.AssignedTestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignedTestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignedTestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssignedTestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>[]
+          }
+          upsert: {
+            args: Prisma.AssignedTestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedTestPayload>
+          }
+          aggregate: {
+            args: Prisma.AssignedTestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignedTest>
+          }
+          groupBy: {
+            args: Prisma.AssignedTestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignedTestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignedTestCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignedTestCountAggregateOutputType> | number
+          }
+        }
+      }
       Task: {
         payload: Prisma.$TaskPayload<ExtArgs>
         fields: Prisma.TaskFieldRefs
@@ -1168,6 +1258,7 @@ export namespace Prisma {
     student?: StudentOmit
     studentScore?: StudentScoreOmit
     test?: TestOmit
+    assignedTest?: AssignedTestOmit
     task?: TaskOmit
   }
 
@@ -1295,10 +1386,12 @@ export namespace Prisma {
 
   export type StudentCountOutputType = {
     scores: number
+    assignedTests: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     scores?: boolean | StudentCountOutputTypeCountScoresArgs
+    assignedTests?: boolean | StudentCountOutputTypeCountAssignedTestsArgs
   }
 
   // Custom InputTypes
@@ -1319,6 +1412,13 @@ export namespace Prisma {
     where?: StudentScoreWhereInput
   }
 
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountAssignedTestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignedTestWhereInput
+  }
+
 
   /**
    * Count Type TestCountOutputType
@@ -1327,11 +1427,13 @@ export namespace Prisma {
   export type TestCountOutputType = {
     tasks: number
     studentScores: number
+    assignedTo: number
   }
 
   export type TestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tasks?: boolean | TestCountOutputTypeCountTasksArgs
     studentScores?: boolean | TestCountOutputTypeCountStudentScoresArgs
+    assignedTo?: boolean | TestCountOutputTypeCountAssignedToArgs
   }
 
   // Custom InputTypes
@@ -1357,6 +1459,13 @@ export namespace Prisma {
    */
   export type TestCountOutputTypeCountStudentScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StudentScoreWhereInput
+  }
+
+  /**
+   * TestCountOutputType without action
+   */
+  export type TestCountOutputTypeCountAssignedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignedTestWhereInput
   }
 
 
@@ -2641,6 +2750,7 @@ export namespace Prisma {
     updatedAt?: boolean
     status?: boolean
     scores?: boolean | Student$scoresArgs<ExtArgs>
+    assignedTests?: boolean | Student$assignedTestsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -2677,6 +2787,7 @@ export namespace Prisma {
   export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     scores?: boolean | Student$scoresArgs<ExtArgs>
+    assignedTests?: boolean | Student$assignedTestsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2686,6 +2797,7 @@ export namespace Prisma {
     name: "Student"
     objects: {
       scores: Prisma.$StudentScorePayload<ExtArgs>[]
+      assignedTests: Prisma.$AssignedTestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3090,6 +3202,7 @@ export namespace Prisma {
   export interface Prisma__StudentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     scores<T extends Student$scoresArgs<ExtArgs> = {}>(args?: Subset<T, Student$scoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignedTests<T extends Student$assignedTestsArgs<ExtArgs> = {}>(args?: Subset<T, Student$assignedTestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3535,6 +3648,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StudentScoreScalarFieldEnum | StudentScoreScalarFieldEnum[]
+  }
+
+  /**
+   * Student.assignedTests
+   */
+  export type Student$assignedTestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    where?: AssignedTestWhereInput
+    orderBy?: AssignedTestOrderByWithRelationInput | AssignedTestOrderByWithRelationInput[]
+    cursor?: AssignedTestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignedTestScalarFieldEnum | AssignedTestScalarFieldEnum[]
   }
 
   /**
@@ -4923,6 +5060,7 @@ export namespace Prisma {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
     studentScores?: boolean | Test$studentScoresArgs<ExtArgs>
+    assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
@@ -4972,6 +5110,7 @@ export namespace Prisma {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
     studentScores?: boolean | Test$studentScoresArgs<ExtArgs>
+    assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4987,6 +5126,7 @@ export namespace Prisma {
       teacher: Prisma.$TeacherPayload<ExtArgs>
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       studentScores: Prisma.$StudentScorePayload<ExtArgs>[]
+      assignedTo: Prisma.$AssignedTestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5396,6 +5536,7 @@ export namespace Prisma {
     teacher<T extends TeacherDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeacherDefaultArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tasks<T extends Test$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Test$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     studentScores<T extends Test$studentScoresArgs<ExtArgs> = {}>(args?: Subset<T, Test$studentScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignedTo<T extends Test$assignedToArgs<ExtArgs> = {}>(args?: Subset<T, Test$assignedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5879,6 +6020,30 @@ export namespace Prisma {
   }
 
   /**
+   * Test.assignedTo
+   */
+  export type Test$assignedToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    where?: AssignedTestWhereInput
+    orderBy?: AssignedTestOrderByWithRelationInput | AssignedTestOrderByWithRelationInput[]
+    cursor?: AssignedTestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignedTestScalarFieldEnum | AssignedTestScalarFieldEnum[]
+  }
+
+  /**
    * Test without action
    */
   export type TestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5894,6 +6059,1059 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssignedTest
+   */
+
+  export type AggregateAssignedTest = {
+    _count: AssignedTestCountAggregateOutputType | null
+    _min: AssignedTestMinAggregateOutputType | null
+    _max: AssignedTestMaxAggregateOutputType | null
+  }
+
+  export type AssignedTestMinAggregateOutputType = {
+    id: string | null
+    studentId: string | null
+    testId: string | null
+    assignedAt: Date | null
+  }
+
+  export type AssignedTestMaxAggregateOutputType = {
+    id: string | null
+    studentId: string | null
+    testId: string | null
+    assignedAt: Date | null
+  }
+
+  export type AssignedTestCountAggregateOutputType = {
+    id: number
+    studentId: number
+    testId: number
+    assignedAt: number
+    _all: number
+  }
+
+
+  export type AssignedTestMinAggregateInputType = {
+    id?: true
+    studentId?: true
+    testId?: true
+    assignedAt?: true
+  }
+
+  export type AssignedTestMaxAggregateInputType = {
+    id?: true
+    studentId?: true
+    testId?: true
+    assignedAt?: true
+  }
+
+  export type AssignedTestCountAggregateInputType = {
+    id?: true
+    studentId?: true
+    testId?: true
+    assignedAt?: true
+    _all?: true
+  }
+
+  export type AssignedTestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignedTest to aggregate.
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedTests to fetch.
+     */
+    orderBy?: AssignedTestOrderByWithRelationInput | AssignedTestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignedTestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedTests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedTests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssignedTests
+    **/
+    _count?: true | AssignedTestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignedTestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignedTestMaxAggregateInputType
+  }
+
+  export type GetAssignedTestAggregateType<T extends AssignedTestAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignedTest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignedTest[P]>
+      : GetScalarType<T[P], AggregateAssignedTest[P]>
+  }
+
+
+
+
+  export type AssignedTestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignedTestWhereInput
+    orderBy?: AssignedTestOrderByWithAggregationInput | AssignedTestOrderByWithAggregationInput[]
+    by: AssignedTestScalarFieldEnum[] | AssignedTestScalarFieldEnum
+    having?: AssignedTestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignedTestCountAggregateInputType | true
+    _min?: AssignedTestMinAggregateInputType
+    _max?: AssignedTestMaxAggregateInputType
+  }
+
+  export type AssignedTestGroupByOutputType = {
+    id: string
+    studentId: string
+    testId: string
+    assignedAt: Date
+    _count: AssignedTestCountAggregateOutputType | null
+    _min: AssignedTestMinAggregateOutputType | null
+    _max: AssignedTestMaxAggregateOutputType | null
+  }
+
+  type GetAssignedTestGroupByPayload<T extends AssignedTestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignedTestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignedTestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignedTestGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignedTestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignedTestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    testId?: boolean
+    assignedAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    test?: boolean | TestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignedTest"]>
+
+  export type AssignedTestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    testId?: boolean
+    assignedAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    test?: boolean | TestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignedTest"]>
+
+  export type AssignedTestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    testId?: boolean
+    assignedAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    test?: boolean | TestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignedTest"]>
+
+  export type AssignedTestSelectScalar = {
+    id?: boolean
+    studentId?: boolean
+    testId?: boolean
+    assignedAt?: boolean
+  }
+
+  export type AssignedTestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "testId" | "assignedAt", ExtArgs["result"]["assignedTest"]>
+  export type AssignedTestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    test?: boolean | TestDefaultArgs<ExtArgs>
+  }
+  export type AssignedTestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    test?: boolean | TestDefaultArgs<ExtArgs>
+  }
+  export type AssignedTestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    test?: boolean | TestDefaultArgs<ExtArgs>
+  }
+
+  export type $AssignedTestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssignedTest"
+    objects: {
+      student: Prisma.$StudentPayload<ExtArgs>
+      test: Prisma.$TestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      studentId: string
+      testId: string
+      assignedAt: Date
+    }, ExtArgs["result"]["assignedTest"]>
+    composites: {}
+  }
+
+  type AssignedTestGetPayload<S extends boolean | null | undefined | AssignedTestDefaultArgs> = $Result.GetResult<Prisma.$AssignedTestPayload, S>
+
+  type AssignedTestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssignedTestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssignedTestCountAggregateInputType | true
+    }
+
+  export interface AssignedTestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssignedTest'], meta: { name: 'AssignedTest' } }
+    /**
+     * Find zero or one AssignedTest that matches the filter.
+     * @param {AssignedTestFindUniqueArgs} args - Arguments to find a AssignedTest
+     * @example
+     * // Get one AssignedTest
+     * const assignedTest = await prisma.assignedTest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignedTestFindUniqueArgs>(args: SelectSubset<T, AssignedTestFindUniqueArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AssignedTest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssignedTestFindUniqueOrThrowArgs} args - Arguments to find a AssignedTest
+     * @example
+     * // Get one AssignedTest
+     * const assignedTest = await prisma.assignedTest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignedTestFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignedTestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignedTest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestFindFirstArgs} args - Arguments to find a AssignedTest
+     * @example
+     * // Get one AssignedTest
+     * const assignedTest = await prisma.assignedTest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignedTestFindFirstArgs>(args?: SelectSubset<T, AssignedTestFindFirstArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignedTest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestFindFirstOrThrowArgs} args - Arguments to find a AssignedTest
+     * @example
+     * // Get one AssignedTest
+     * const assignedTest = await prisma.assignedTest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignedTestFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignedTestFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AssignedTests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssignedTests
+     * const assignedTests = await prisma.assignedTest.findMany()
+     * 
+     * // Get first 10 AssignedTests
+     * const assignedTests = await prisma.assignedTest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignedTestWithIdOnly = await prisma.assignedTest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignedTestFindManyArgs>(args?: SelectSubset<T, AssignedTestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AssignedTest.
+     * @param {AssignedTestCreateArgs} args - Arguments to create a AssignedTest.
+     * @example
+     * // Create one AssignedTest
+     * const AssignedTest = await prisma.assignedTest.create({
+     *   data: {
+     *     // ... data to create a AssignedTest
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignedTestCreateArgs>(args: SelectSubset<T, AssignedTestCreateArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AssignedTests.
+     * @param {AssignedTestCreateManyArgs} args - Arguments to create many AssignedTests.
+     * @example
+     * // Create many AssignedTests
+     * const assignedTest = await prisma.assignedTest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignedTestCreateManyArgs>(args?: SelectSubset<T, AssignedTestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssignedTests and returns the data saved in the database.
+     * @param {AssignedTestCreateManyAndReturnArgs} args - Arguments to create many AssignedTests.
+     * @example
+     * // Create many AssignedTests
+     * const assignedTest = await prisma.assignedTest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssignedTests and only return the `id`
+     * const assignedTestWithIdOnly = await prisma.assignedTest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignedTestCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignedTestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AssignedTest.
+     * @param {AssignedTestDeleteArgs} args - Arguments to delete one AssignedTest.
+     * @example
+     * // Delete one AssignedTest
+     * const AssignedTest = await prisma.assignedTest.delete({
+     *   where: {
+     *     // ... filter to delete one AssignedTest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignedTestDeleteArgs>(args: SelectSubset<T, AssignedTestDeleteArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AssignedTest.
+     * @param {AssignedTestUpdateArgs} args - Arguments to update one AssignedTest.
+     * @example
+     * // Update one AssignedTest
+     * const assignedTest = await prisma.assignedTest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignedTestUpdateArgs>(args: SelectSubset<T, AssignedTestUpdateArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AssignedTests.
+     * @param {AssignedTestDeleteManyArgs} args - Arguments to filter AssignedTests to delete.
+     * @example
+     * // Delete a few AssignedTests
+     * const { count } = await prisma.assignedTest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignedTestDeleteManyArgs>(args?: SelectSubset<T, AssignedTestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignedTests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssignedTests
+     * const assignedTest = await prisma.assignedTest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignedTestUpdateManyArgs>(args: SelectSubset<T, AssignedTestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignedTests and returns the data updated in the database.
+     * @param {AssignedTestUpdateManyAndReturnArgs} args - Arguments to update many AssignedTests.
+     * @example
+     * // Update many AssignedTests
+     * const assignedTest = await prisma.assignedTest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AssignedTests and only return the `id`
+     * const assignedTestWithIdOnly = await prisma.assignedTest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssignedTestUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignedTestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AssignedTest.
+     * @param {AssignedTestUpsertArgs} args - Arguments to update or create a AssignedTest.
+     * @example
+     * // Update or create a AssignedTest
+     * const assignedTest = await prisma.assignedTest.upsert({
+     *   create: {
+     *     // ... data to create a AssignedTest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssignedTest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignedTestUpsertArgs>(args: SelectSubset<T, AssignedTestUpsertArgs<ExtArgs>>): Prisma__AssignedTestClient<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AssignedTests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestCountArgs} args - Arguments to filter AssignedTests to count.
+     * @example
+     * // Count the number of AssignedTests
+     * const count = await prisma.assignedTest.count({
+     *   where: {
+     *     // ... the filter for the AssignedTests we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignedTestCountArgs>(
+      args?: Subset<T, AssignedTestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignedTestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssignedTest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignedTestAggregateArgs>(args: Subset<T, AssignedTestAggregateArgs>): Prisma.PrismaPromise<GetAssignedTestAggregateType<T>>
+
+    /**
+     * Group by AssignedTest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedTestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignedTestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignedTestGroupByArgs['orderBy'] }
+        : { orderBy?: AssignedTestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignedTestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignedTestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssignedTest model
+   */
+  readonly fields: AssignedTestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssignedTest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignedTestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    test<T extends TestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TestDefaultArgs<ExtArgs>>): Prisma__TestClient<$Result.GetResult<Prisma.$TestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssignedTest model
+   */
+  interface AssignedTestFieldRefs {
+    readonly id: FieldRef<"AssignedTest", 'String'>
+    readonly studentId: FieldRef<"AssignedTest", 'String'>
+    readonly testId: FieldRef<"AssignedTest", 'String'>
+    readonly assignedAt: FieldRef<"AssignedTest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssignedTest findUnique
+   */
+  export type AssignedTestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedTest to fetch.
+     */
+    where: AssignedTestWhereUniqueInput
+  }
+
+  /**
+   * AssignedTest findUniqueOrThrow
+   */
+  export type AssignedTestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedTest to fetch.
+     */
+    where: AssignedTestWhereUniqueInput
+  }
+
+  /**
+   * AssignedTest findFirst
+   */
+  export type AssignedTestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedTest to fetch.
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedTests to fetch.
+     */
+    orderBy?: AssignedTestOrderByWithRelationInput | AssignedTestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignedTests.
+     */
+    cursor?: AssignedTestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedTests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedTests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignedTests.
+     */
+    distinct?: AssignedTestScalarFieldEnum | AssignedTestScalarFieldEnum[]
+  }
+
+  /**
+   * AssignedTest findFirstOrThrow
+   */
+  export type AssignedTestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedTest to fetch.
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedTests to fetch.
+     */
+    orderBy?: AssignedTestOrderByWithRelationInput | AssignedTestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignedTests.
+     */
+    cursor?: AssignedTestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedTests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedTests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignedTests.
+     */
+    distinct?: AssignedTestScalarFieldEnum | AssignedTestScalarFieldEnum[]
+  }
+
+  /**
+   * AssignedTest findMany
+   */
+  export type AssignedTestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedTests to fetch.
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedTests to fetch.
+     */
+    orderBy?: AssignedTestOrderByWithRelationInput | AssignedTestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssignedTests.
+     */
+    cursor?: AssignedTestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedTests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedTests.
+     */
+    skip?: number
+    distinct?: AssignedTestScalarFieldEnum | AssignedTestScalarFieldEnum[]
+  }
+
+  /**
+   * AssignedTest create
+   */
+  export type AssignedTestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssignedTest.
+     */
+    data: XOR<AssignedTestCreateInput, AssignedTestUncheckedCreateInput>
+  }
+
+  /**
+   * AssignedTest createMany
+   */
+  export type AssignedTestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssignedTests.
+     */
+    data: AssignedTestCreateManyInput | AssignedTestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssignedTest createManyAndReturn
+   */
+  export type AssignedTestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * The data used to create many AssignedTests.
+     */
+    data: AssignedTestCreateManyInput | AssignedTestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignedTest update
+   */
+  export type AssignedTestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssignedTest.
+     */
+    data: XOR<AssignedTestUpdateInput, AssignedTestUncheckedUpdateInput>
+    /**
+     * Choose, which AssignedTest to update.
+     */
+    where: AssignedTestWhereUniqueInput
+  }
+
+  /**
+   * AssignedTest updateMany
+   */
+  export type AssignedTestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssignedTests.
+     */
+    data: XOR<AssignedTestUpdateManyMutationInput, AssignedTestUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignedTests to update
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * Limit how many AssignedTests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignedTest updateManyAndReturn
+   */
+  export type AssignedTestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * The data used to update AssignedTests.
+     */
+    data: XOR<AssignedTestUpdateManyMutationInput, AssignedTestUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignedTests to update
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * Limit how many AssignedTests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignedTest upsert
+   */
+  export type AssignedTestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssignedTest to update in case it exists.
+     */
+    where: AssignedTestWhereUniqueInput
+    /**
+     * In case the AssignedTest found by the `where` argument doesn't exist, create a new AssignedTest with this data.
+     */
+    create: XOR<AssignedTestCreateInput, AssignedTestUncheckedCreateInput>
+    /**
+     * In case the AssignedTest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignedTestUpdateInput, AssignedTestUncheckedUpdateInput>
+  }
+
+  /**
+   * AssignedTest delete
+   */
+  export type AssignedTestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
+    /**
+     * Filter which AssignedTest to delete.
+     */
+    where: AssignedTestWhereUniqueInput
+  }
+
+  /**
+   * AssignedTest deleteMany
+   */
+  export type AssignedTestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignedTests to delete
+     */
+    where?: AssignedTestWhereInput
+    /**
+     * Limit how many AssignedTests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignedTest without action
+   */
+  export type AssignedTestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedTest
+     */
+    select?: AssignedTestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedTest
+     */
+    omit?: AssignedTestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedTestInclude<ExtArgs> | null
   }
 
 
@@ -7068,6 +8286,16 @@ export namespace Prisma {
   export type TestScalarFieldEnum = (typeof TestScalarFieldEnum)[keyof typeof TestScalarFieldEnum]
 
 
+  export const AssignedTestScalarFieldEnum: {
+    id: 'id',
+    studentId: 'studentId',
+    testId: 'testId',
+    assignedAt: 'assignedAt'
+  };
+
+  export type AssignedTestScalarFieldEnum = (typeof AssignedTestScalarFieldEnum)[keyof typeof AssignedTestScalarFieldEnum]
+
+
   export const TaskScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -7314,6 +8542,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     status?: EnumStatusFilter<"Student"> | $Enums.Status
     scores?: StudentScoreListRelationFilter
+    assignedTests?: AssignedTestListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -7325,6 +8554,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     status?: SortOrder
     scores?: StudentScoreOrderByRelationAggregateInput
+    assignedTests?: AssignedTestOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -7339,6 +8569,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     status?: EnumStatusFilter<"Student"> | $Enums.Status
     scores?: StudentScoreListRelationFilter
+    assignedTests?: AssignedTestListRelationFilter
   }, "id" | "email">
 
   export type StudentOrderByWithAggregationInput = {
@@ -7454,6 +8685,7 @@ export namespace Prisma {
     teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
     tasks?: TaskListRelationFilter
     studentScores?: StudentScoreListRelationFilter
+    assignedTo?: AssignedTestListRelationFilter
   }
 
   export type TestOrderByWithRelationInput = {
@@ -7470,6 +8702,7 @@ export namespace Prisma {
     teacher?: TeacherOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
     studentScores?: StudentScoreOrderByRelationAggregateInput
+    assignedTo?: AssignedTestOrderByRelationAggregateInput
   }
 
   export type TestWhereUniqueInput = Prisma.AtLeast<{
@@ -7489,6 +8722,7 @@ export namespace Prisma {
     teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
     tasks?: TaskListRelationFilter
     studentScores?: StudentScoreListRelationFilter
+    assignedTo?: AssignedTestListRelationFilter
   }, "id">
 
   export type TestOrderByWithAggregationInput = {
@@ -7523,6 +8757,59 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     teacherId?: StringWithAggregatesFilter<"Test"> | string
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
+  }
+
+  export type AssignedTestWhereInput = {
+    AND?: AssignedTestWhereInput | AssignedTestWhereInput[]
+    OR?: AssignedTestWhereInput[]
+    NOT?: AssignedTestWhereInput | AssignedTestWhereInput[]
+    id?: StringFilter<"AssignedTest"> | string
+    studentId?: StringFilter<"AssignedTest"> | string
+    testId?: StringFilter<"AssignedTest"> | string
+    assignedAt?: DateTimeFilter<"AssignedTest"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    test?: XOR<TestScalarRelationFilter, TestWhereInput>
+  }
+
+  export type AssignedTestOrderByWithRelationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    testId?: SortOrder
+    assignedAt?: SortOrder
+    student?: StudentOrderByWithRelationInput
+    test?: TestOrderByWithRelationInput
+  }
+
+  export type AssignedTestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssignedTestWhereInput | AssignedTestWhereInput[]
+    OR?: AssignedTestWhereInput[]
+    NOT?: AssignedTestWhereInput | AssignedTestWhereInput[]
+    studentId?: StringFilter<"AssignedTest"> | string
+    testId?: StringFilter<"AssignedTest"> | string
+    assignedAt?: DateTimeFilter<"AssignedTest"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    test?: XOR<TestScalarRelationFilter, TestWhereInput>
+  }, "id">
+
+  export type AssignedTestOrderByWithAggregationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    testId?: SortOrder
+    assignedAt?: SortOrder
+    _count?: AssignedTestCountOrderByAggregateInput
+    _max?: AssignedTestMaxOrderByAggregateInput
+    _min?: AssignedTestMinOrderByAggregateInput
+  }
+
+  export type AssignedTestScalarWhereWithAggregatesInput = {
+    AND?: AssignedTestScalarWhereWithAggregatesInput | AssignedTestScalarWhereWithAggregatesInput[]
+    OR?: AssignedTestScalarWhereWithAggregatesInput[]
+    NOT?: AssignedTestScalarWhereWithAggregatesInput | AssignedTestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssignedTest"> | string
+    studentId?: StringWithAggregatesFilter<"AssignedTest"> | string
+    testId?: StringWithAggregatesFilter<"AssignedTest"> | string
+    assignedAt?: DateTimeWithAggregatesFilter<"AssignedTest"> | Date | string
   }
 
   export type TaskWhereInput = {
@@ -7683,6 +8970,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     status?: $Enums.Status
     scores?: StudentScoreCreateNestedManyWithoutStudentInput
+    assignedTests?: AssignedTestCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -7694,6 +8982,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     status?: $Enums.Status
     scores?: StudentScoreUncheckedCreateNestedManyWithoutStudentInput
+    assignedTests?: AssignedTestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -7705,6 +8994,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     scores?: StudentScoreUpdateManyWithoutStudentNestedInput
+    assignedTests?: AssignedTestUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -7716,6 +9006,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     scores?: StudentScoreUncheckedUpdateManyWithoutStudentNestedInput
+    assignedTests?: AssignedTestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -7829,6 +9120,7 @@ export namespace Prisma {
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
   }
 
   export type TestUncheckedCreateInput = {
@@ -7844,6 +9136,7 @@ export namespace Prisma {
     status?: $Enums.TestStatus
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
 
   export type TestUpdateInput = {
@@ -7859,6 +9152,7 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
   }
 
   export type TestUncheckedUpdateInput = {
@@ -7874,6 +9168,7 @@ export namespace Prisma {
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
 
   export type TestCreateManyInput = {
@@ -7912,6 +9207,53 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+  }
+
+  export type AssignedTestCreateInput = {
+    id?: string
+    assignedAt?: Date | string
+    student: StudentCreateNestedOneWithoutAssignedTestsInput
+    test: TestCreateNestedOneWithoutAssignedToInput
+  }
+
+  export type AssignedTestUncheckedCreateInput = {
+    id?: string
+    studentId: string
+    testId: string
+    assignedAt?: Date | string
+  }
+
+  export type AssignedTestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAssignedTestsNestedInput
+    test?: TestUpdateOneRequiredWithoutAssignedToNestedInput
+  }
+
+  export type AssignedTestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    testId?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignedTestCreateManyInput = {
+    id?: string
+    studentId: string
+    testId: string
+    assignedAt?: Date | string
+  }
+
+  export type AssignedTestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignedTestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    testId?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskCreateInput = {
@@ -8118,7 +9460,17 @@ export namespace Prisma {
     none?: StudentScoreWhereInput
   }
 
+  export type AssignedTestListRelationFilter = {
+    every?: AssignedTestWhereInput
+    some?: AssignedTestWhereInput
+    none?: AssignedTestWhereInput
+  }
+
   export type StudentScoreOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssignedTestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8381,6 +9733,27 @@ export namespace Prisma {
     _min?: NestedEnumTestStatusFilter<$PrismaModel>
     _max?: NestedEnumTestStatusFilter<$PrismaModel>
   }
+
+  export type AssignedTestCountOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    testId?: SortOrder
+    assignedAt?: SortOrder
+  }
+
+  export type AssignedTestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    testId?: SortOrder
+    assignedAt?: SortOrder
+  }
+
+  export type AssignedTestMinOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    testId?: SortOrder
+    assignedAt?: SortOrder
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -8524,11 +9897,25 @@ export namespace Prisma {
     connect?: StudentScoreWhereUniqueInput | StudentScoreWhereUniqueInput[]
   }
 
+  export type AssignedTestCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AssignedTestCreateWithoutStudentInput, AssignedTestUncheckedCreateWithoutStudentInput> | AssignedTestCreateWithoutStudentInput[] | AssignedTestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutStudentInput | AssignedTestCreateOrConnectWithoutStudentInput[]
+    createMany?: AssignedTestCreateManyStudentInputEnvelope
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+  }
+
   export type StudentScoreUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<StudentScoreCreateWithoutStudentInput, StudentScoreUncheckedCreateWithoutStudentInput> | StudentScoreCreateWithoutStudentInput[] | StudentScoreUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: StudentScoreCreateOrConnectWithoutStudentInput | StudentScoreCreateOrConnectWithoutStudentInput[]
     createMany?: StudentScoreCreateManyStudentInputEnvelope
     connect?: StudentScoreWhereUniqueInput | StudentScoreWhereUniqueInput[]
+  }
+
+  export type AssignedTestUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AssignedTestCreateWithoutStudentInput, AssignedTestUncheckedCreateWithoutStudentInput> | AssignedTestCreateWithoutStudentInput[] | AssignedTestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutStudentInput | AssignedTestCreateOrConnectWithoutStudentInput[]
+    createMany?: AssignedTestCreateManyStudentInputEnvelope
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
   }
 
   export type StudentScoreUpdateManyWithoutStudentNestedInput = {
@@ -8545,6 +9932,20 @@ export namespace Prisma {
     deleteMany?: StudentScoreScalarWhereInput | StudentScoreScalarWhereInput[]
   }
 
+  export type AssignedTestUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AssignedTestCreateWithoutStudentInput, AssignedTestUncheckedCreateWithoutStudentInput> | AssignedTestCreateWithoutStudentInput[] | AssignedTestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutStudentInput | AssignedTestCreateOrConnectWithoutStudentInput[]
+    upsert?: AssignedTestUpsertWithWhereUniqueWithoutStudentInput | AssignedTestUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AssignedTestCreateManyStudentInputEnvelope
+    set?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    disconnect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    delete?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    update?: AssignedTestUpdateWithWhereUniqueWithoutStudentInput | AssignedTestUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AssignedTestUpdateManyWithWhereWithoutStudentInput | AssignedTestUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
+  }
+
   export type StudentScoreUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<StudentScoreCreateWithoutStudentInput, StudentScoreUncheckedCreateWithoutStudentInput> | StudentScoreCreateWithoutStudentInput[] | StudentScoreUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: StudentScoreCreateOrConnectWithoutStudentInput | StudentScoreCreateOrConnectWithoutStudentInput[]
@@ -8557,6 +9958,20 @@ export namespace Prisma {
     update?: StudentScoreUpdateWithWhereUniqueWithoutStudentInput | StudentScoreUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: StudentScoreUpdateManyWithWhereWithoutStudentInput | StudentScoreUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: StudentScoreScalarWhereInput | StudentScoreScalarWhereInput[]
+  }
+
+  export type AssignedTestUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AssignedTestCreateWithoutStudentInput, AssignedTestUncheckedCreateWithoutStudentInput> | AssignedTestCreateWithoutStudentInput[] | AssignedTestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutStudentInput | AssignedTestCreateOrConnectWithoutStudentInput[]
+    upsert?: AssignedTestUpsertWithWhereUniqueWithoutStudentInput | AssignedTestUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AssignedTestCreateManyStudentInputEnvelope
+    set?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    disconnect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    delete?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    update?: AssignedTestUpdateWithWhereUniqueWithoutStudentInput | AssignedTestUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AssignedTestUpdateManyWithWhereWithoutStudentInput | AssignedTestUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
   }
 
   export type StudentCreateNestedOneWithoutScoresInput = {
@@ -8619,6 +10034,13 @@ export namespace Prisma {
     connect?: StudentScoreWhereUniqueInput | StudentScoreWhereUniqueInput[]
   }
 
+  export type AssignedTestCreateNestedManyWithoutTestInput = {
+    create?: XOR<AssignedTestCreateWithoutTestInput, AssignedTestUncheckedCreateWithoutTestInput> | AssignedTestCreateWithoutTestInput[] | AssignedTestUncheckedCreateWithoutTestInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutTestInput | AssignedTestCreateOrConnectWithoutTestInput[]
+    createMany?: AssignedTestCreateManyTestInputEnvelope
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+  }
+
   export type TaskUncheckedCreateNestedManyWithoutTestInput = {
     create?: XOR<TaskCreateWithoutTestInput, TaskUncheckedCreateWithoutTestInput> | TaskCreateWithoutTestInput[] | TaskUncheckedCreateWithoutTestInput[]
     connectOrCreate?: TaskCreateOrConnectWithoutTestInput | TaskCreateOrConnectWithoutTestInput[]
@@ -8631,6 +10053,13 @@ export namespace Prisma {
     connectOrCreate?: StudentScoreCreateOrConnectWithoutTestInput | StudentScoreCreateOrConnectWithoutTestInput[]
     createMany?: StudentScoreCreateManyTestInputEnvelope
     connect?: StudentScoreWhereUniqueInput | StudentScoreWhereUniqueInput[]
+  }
+
+  export type AssignedTestUncheckedCreateNestedManyWithoutTestInput = {
+    create?: XOR<AssignedTestCreateWithoutTestInput, AssignedTestUncheckedCreateWithoutTestInput> | AssignedTestCreateWithoutTestInput[] | AssignedTestUncheckedCreateWithoutTestInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutTestInput | AssignedTestCreateOrConnectWithoutTestInput[]
+    createMany?: AssignedTestCreateManyTestInputEnvelope
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -8681,6 +10110,20 @@ export namespace Prisma {
     deleteMany?: StudentScoreScalarWhereInput | StudentScoreScalarWhereInput[]
   }
 
+  export type AssignedTestUpdateManyWithoutTestNestedInput = {
+    create?: XOR<AssignedTestCreateWithoutTestInput, AssignedTestUncheckedCreateWithoutTestInput> | AssignedTestCreateWithoutTestInput[] | AssignedTestUncheckedCreateWithoutTestInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutTestInput | AssignedTestCreateOrConnectWithoutTestInput[]
+    upsert?: AssignedTestUpsertWithWhereUniqueWithoutTestInput | AssignedTestUpsertWithWhereUniqueWithoutTestInput[]
+    createMany?: AssignedTestCreateManyTestInputEnvelope
+    set?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    disconnect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    delete?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    update?: AssignedTestUpdateWithWhereUniqueWithoutTestInput | AssignedTestUpdateWithWhereUniqueWithoutTestInput[]
+    updateMany?: AssignedTestUpdateManyWithWhereWithoutTestInput | AssignedTestUpdateManyWithWhereWithoutTestInput[]
+    deleteMany?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
+  }
+
   export type TaskUncheckedUpdateManyWithoutTestNestedInput = {
     create?: XOR<TaskCreateWithoutTestInput, TaskUncheckedCreateWithoutTestInput> | TaskCreateWithoutTestInput[] | TaskUncheckedCreateWithoutTestInput[]
     connectOrCreate?: TaskCreateOrConnectWithoutTestInput | TaskCreateOrConnectWithoutTestInput[]
@@ -8707,6 +10150,48 @@ export namespace Prisma {
     update?: StudentScoreUpdateWithWhereUniqueWithoutTestInput | StudentScoreUpdateWithWhereUniqueWithoutTestInput[]
     updateMany?: StudentScoreUpdateManyWithWhereWithoutTestInput | StudentScoreUpdateManyWithWhereWithoutTestInput[]
     deleteMany?: StudentScoreScalarWhereInput | StudentScoreScalarWhereInput[]
+  }
+
+  export type AssignedTestUncheckedUpdateManyWithoutTestNestedInput = {
+    create?: XOR<AssignedTestCreateWithoutTestInput, AssignedTestUncheckedCreateWithoutTestInput> | AssignedTestCreateWithoutTestInput[] | AssignedTestUncheckedCreateWithoutTestInput[]
+    connectOrCreate?: AssignedTestCreateOrConnectWithoutTestInput | AssignedTestCreateOrConnectWithoutTestInput[]
+    upsert?: AssignedTestUpsertWithWhereUniqueWithoutTestInput | AssignedTestUpsertWithWhereUniqueWithoutTestInput[]
+    createMany?: AssignedTestCreateManyTestInputEnvelope
+    set?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    disconnect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    delete?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
+    update?: AssignedTestUpdateWithWhereUniqueWithoutTestInput | AssignedTestUpdateWithWhereUniqueWithoutTestInput[]
+    updateMany?: AssignedTestUpdateManyWithWhereWithoutTestInput | AssignedTestUpdateManyWithWhereWithoutTestInput[]
+    deleteMany?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
+  }
+
+  export type StudentCreateNestedOneWithoutAssignedTestsInput = {
+    create?: XOR<StudentCreateWithoutAssignedTestsInput, StudentUncheckedCreateWithoutAssignedTestsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAssignedTestsInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type TestCreateNestedOneWithoutAssignedToInput = {
+    create?: XOR<TestCreateWithoutAssignedToInput, TestUncheckedCreateWithoutAssignedToInput>
+    connectOrCreate?: TestCreateOrConnectWithoutAssignedToInput
+    connect?: TestWhereUniqueInput
+  }
+
+  export type StudentUpdateOneRequiredWithoutAssignedTestsNestedInput = {
+    create?: XOR<StudentCreateWithoutAssignedTestsInput, StudentUncheckedCreateWithoutAssignedTestsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAssignedTestsInput
+    upsert?: StudentUpsertWithoutAssignedTestsInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAssignedTestsInput, StudentUpdateWithoutAssignedTestsInput>, StudentUncheckedUpdateWithoutAssignedTestsInput>
+  }
+
+  export type TestUpdateOneRequiredWithoutAssignedToNestedInput = {
+    create?: XOR<TestCreateWithoutAssignedToInput, TestUncheckedCreateWithoutAssignedToInput>
+    connectOrCreate?: TestCreateOrConnectWithoutAssignedToInput
+    upsert?: TestUpsertWithoutAssignedToInput
+    connect?: TestWhereUniqueInput
+    update?: XOR<XOR<TestUpdateToOneWithWhereWithoutAssignedToInput, TestUpdateWithoutAssignedToInput>, TestUncheckedUpdateWithoutAssignedToInput>
   }
 
   export type TestCreateNestedOneWithoutTasksInput = {
@@ -8966,6 +10451,7 @@ export namespace Prisma {
     status?: $Enums.TestStatus
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
   }
 
   export type TestUncheckedCreateWithoutTeacherInput = {
@@ -8980,6 +10466,7 @@ export namespace Prisma {
     status?: $Enums.TestStatus
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
 
   export type TestCreateOrConnectWithoutTeacherInput = {
@@ -9052,6 +10539,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssignedTestCreateWithoutStudentInput = {
+    id?: string
+    assignedAt?: Date | string
+    test: TestCreateNestedOneWithoutAssignedToInput
+  }
+
+  export type AssignedTestUncheckedCreateWithoutStudentInput = {
+    id?: string
+    testId: string
+    assignedAt?: Date | string
+  }
+
+  export type AssignedTestCreateOrConnectWithoutStudentInput = {
+    where: AssignedTestWhereUniqueInput
+    create: XOR<AssignedTestCreateWithoutStudentInput, AssignedTestUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AssignedTestCreateManyStudentInputEnvelope = {
+    data: AssignedTestCreateManyStudentInput | AssignedTestCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type StudentScoreUpsertWithWhereUniqueWithoutStudentInput = {
     where: StudentScoreWhereUniqueInput
     update: XOR<StudentScoreUpdateWithoutStudentInput, StudentScoreUncheckedUpdateWithoutStudentInput>
@@ -9081,6 +10590,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"StudentScore"> | Date | string
   }
 
+  export type AssignedTestUpsertWithWhereUniqueWithoutStudentInput = {
+    where: AssignedTestWhereUniqueInput
+    update: XOR<AssignedTestUpdateWithoutStudentInput, AssignedTestUncheckedUpdateWithoutStudentInput>
+    create: XOR<AssignedTestCreateWithoutStudentInput, AssignedTestUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AssignedTestUpdateWithWhereUniqueWithoutStudentInput = {
+    where: AssignedTestWhereUniqueInput
+    data: XOR<AssignedTestUpdateWithoutStudentInput, AssignedTestUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type AssignedTestUpdateManyWithWhereWithoutStudentInput = {
+    where: AssignedTestScalarWhereInput
+    data: XOR<AssignedTestUpdateManyMutationInput, AssignedTestUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type AssignedTestScalarWhereInput = {
+    AND?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
+    OR?: AssignedTestScalarWhereInput[]
+    NOT?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
+    id?: StringFilter<"AssignedTest"> | string
+    studentId?: StringFilter<"AssignedTest"> | string
+    testId?: StringFilter<"AssignedTest"> | string
+    assignedAt?: DateTimeFilter<"AssignedTest"> | Date | string
+  }
+
   export type StudentCreateWithoutScoresInput = {
     id?: string
     name: string
@@ -9089,6 +10624,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    assignedTests?: AssignedTestCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutScoresInput = {
@@ -9099,6 +10635,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    assignedTests?: AssignedTestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutScoresInput = {
@@ -9118,6 +10655,7 @@ export namespace Prisma {
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
   }
 
   export type TestUncheckedCreateWithoutStudentScoresInput = {
@@ -9132,6 +10670,7 @@ export namespace Prisma {
     teacherId: string
     status?: $Enums.TestStatus
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
 
   export type TestCreateOrConnectWithoutStudentScoresInput = {
@@ -9158,6 +10697,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    assignedTests?: AssignedTestUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutScoresInput = {
@@ -9168,6 +10708,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    assignedTests?: AssignedTestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TestUpsertWithoutStudentScoresInput = {
@@ -9193,6 +10734,7 @@ export namespace Prisma {
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
   }
 
   export type TestUncheckedUpdateWithoutStudentScoresInput = {
@@ -9207,6 +10749,7 @@ export namespace Prisma {
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
 
   export type TeacherCreateWithoutTestsInput = {
@@ -9294,6 +10837,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssignedTestCreateWithoutTestInput = {
+    id?: string
+    assignedAt?: Date | string
+    student: StudentCreateNestedOneWithoutAssignedTestsInput
+  }
+
+  export type AssignedTestUncheckedCreateWithoutTestInput = {
+    id?: string
+    studentId: string
+    assignedAt?: Date | string
+  }
+
+  export type AssignedTestCreateOrConnectWithoutTestInput = {
+    where: AssignedTestWhereUniqueInput
+    create: XOR<AssignedTestCreateWithoutTestInput, AssignedTestUncheckedCreateWithoutTestInput>
+  }
+
+  export type AssignedTestCreateManyTestInputEnvelope = {
+    data: AssignedTestCreateManyTestInput | AssignedTestCreateManyTestInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TeacherUpsertWithoutTestsInput = {
     update: XOR<TeacherUpdateWithoutTestsInput, TeacherUncheckedUpdateWithoutTestsInput>
     create: XOR<TeacherCreateWithoutTestsInput, TeacherUncheckedCreateWithoutTestsInput>
@@ -9372,6 +10937,158 @@ export namespace Prisma {
     data: XOR<StudentScoreUpdateManyMutationInput, StudentScoreUncheckedUpdateManyWithoutTestInput>
   }
 
+  export type AssignedTestUpsertWithWhereUniqueWithoutTestInput = {
+    where: AssignedTestWhereUniqueInput
+    update: XOR<AssignedTestUpdateWithoutTestInput, AssignedTestUncheckedUpdateWithoutTestInput>
+    create: XOR<AssignedTestCreateWithoutTestInput, AssignedTestUncheckedCreateWithoutTestInput>
+  }
+
+  export type AssignedTestUpdateWithWhereUniqueWithoutTestInput = {
+    where: AssignedTestWhereUniqueInput
+    data: XOR<AssignedTestUpdateWithoutTestInput, AssignedTestUncheckedUpdateWithoutTestInput>
+  }
+
+  export type AssignedTestUpdateManyWithWhereWithoutTestInput = {
+    where: AssignedTestScalarWhereInput
+    data: XOR<AssignedTestUpdateManyMutationInput, AssignedTestUncheckedUpdateManyWithoutTestInput>
+  }
+
+  export type StudentCreateWithoutAssignedTestsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.Status
+    scores?: StudentScoreCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutAssignedTestsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.Status
+    scores?: StudentScoreUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutAssignedTestsInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutAssignedTestsInput, StudentUncheckedCreateWithoutAssignedTestsInput>
+  }
+
+  export type TestCreateWithoutAssignedToInput = {
+    id?: string
+    title: string
+    timeLimit: number
+    description?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.TestStatus
+    teacher: TeacherCreateNestedOneWithoutTestsInput
+    tasks?: TaskCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+  }
+
+  export type TestUncheckedCreateWithoutAssignedToInput = {
+    id?: string
+    title: string
+    timeLimit: number
+    description?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: string
+    status?: $Enums.TestStatus
+    tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+  }
+
+  export type TestCreateOrConnectWithoutAssignedToInput = {
+    where: TestWhereUniqueInput
+    create: XOR<TestCreateWithoutAssignedToInput, TestUncheckedCreateWithoutAssignedToInput>
+  }
+
+  export type StudentUpsertWithoutAssignedTestsInput = {
+    update: XOR<StudentUpdateWithoutAssignedTestsInput, StudentUncheckedUpdateWithoutAssignedTestsInput>
+    create: XOR<StudentCreateWithoutAssignedTestsInput, StudentUncheckedCreateWithoutAssignedTestsInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutAssignedTestsInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutAssignedTestsInput, StudentUncheckedUpdateWithoutAssignedTestsInput>
+  }
+
+  export type StudentUpdateWithoutAssignedTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    scores?: StudentScoreUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutAssignedTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    scores?: StudentScoreUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type TestUpsertWithoutAssignedToInput = {
+    update: XOR<TestUpdateWithoutAssignedToInput, TestUncheckedUpdateWithoutAssignedToInput>
+    create: XOR<TestCreateWithoutAssignedToInput, TestUncheckedCreateWithoutAssignedToInput>
+    where?: TestWhereInput
+  }
+
+  export type TestUpdateToOneWithWhereWithoutAssignedToInput = {
+    where?: TestWhereInput
+    data: XOR<TestUpdateWithoutAssignedToInput, TestUncheckedUpdateWithoutAssignedToInput>
+  }
+
+  export type TestUpdateWithoutAssignedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    timeLimit?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    tasks?: TaskUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateWithoutAssignedToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    timeLimit?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+  }
+
   export type TestCreateWithoutTasksInput = {
     id?: string
     title: string
@@ -9384,6 +11101,7 @@ export namespace Prisma {
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
   }
 
   export type TestUncheckedCreateWithoutTasksInput = {
@@ -9398,6 +11116,7 @@ export namespace Prisma {
     teacherId: string
     status?: $Enums.TestStatus
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
 
   export type TestCreateOrConnectWithoutTasksInput = {
@@ -9428,6 +11147,7 @@ export namespace Prisma {
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTasksInput = {
@@ -9442,6 +11162,7 @@ export namespace Prisma {
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
 
   export type TestCreateManyTeacherInput = {
@@ -9468,6 +11189,7 @@ export namespace Prisma {
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTeacherInput = {
@@ -9482,6 +11204,7 @@ export namespace Prisma {
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
 
   export type TestUncheckedUpdateManyWithoutTeacherInput = {
@@ -9503,6 +11226,12 @@ export namespace Prisma {
     isCompleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type AssignedTestCreateManyStudentInput = {
+    id?: string
+    testId: string
+    assignedAt?: Date | string
   }
 
   export type StudentScoreUpdateWithoutStudentInput = {
@@ -9532,6 +11261,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssignedTestUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    test?: TestUpdateOneRequiredWithoutAssignedToNestedInput
+  }
+
+  export type AssignedTestUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    testId?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignedTestUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    testId?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TaskCreateManyTestInput = {
     id?: string
     title: string
@@ -9550,6 +11297,12 @@ export namespace Prisma {
     isCompleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type AssignedTestCreateManyTestInput = {
+    id?: string
+    studentId: string
+    assignedAt?: Date | string
   }
 
   export type TaskUpdateWithoutTestInput = {
@@ -9610,6 +11363,24 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignedTestUpdateWithoutTestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAssignedTestsNestedInput
+  }
+
+  export type AssignedTestUncheckedUpdateWithoutTestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignedTestUncheckedUpdateManyWithoutTestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

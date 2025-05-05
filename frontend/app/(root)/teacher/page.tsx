@@ -2,8 +2,41 @@
 
 import TeacherTestItem from "@/components/TeacherTestItem";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const TeacherPage = () => {
+
+  const [students, setStudents] = useState<any[]>([])
+  const [tests, setTests] = useState<any[]>([])
+
+  useEffect(() => {
+      const getAllStudents =async ( ) => {
+          try {
+              const res = await fetch('http://localhost:8080/api/student')
+
+              const data = await res.json()
+              setStudents(data)
+              console.log(data)
+          } catch (error) {
+              console.log(error)
+          }
+      }
+
+      const getAllTest = async() => {
+        try {
+          const res = await fetch('http://localhost:8080/api/test')
+
+          const data = await res.json()
+          setTests(data)
+          console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+      }
+
+      getAllStudents()
+      getAllTest()
+  }, [])
 
   return (
     <div className="flex flex-col py-2">
@@ -13,9 +46,9 @@ const TeacherPage = () => {
         </div>
         <h1 className="text-4xl font-bold mb-6">Створені тести</h1>
         <div>
-            <TeacherTestItem />
-            <TeacherTestItem />
-            <TeacherTestItem />
+            {tests.length > 0 ? tests.map((test) => (
+              <TeacherTestItem key={test.id} test={test} students={students}/>
+            )) : <p>Поки що немає тестів</p>}
         </div>
     </div>
   );
