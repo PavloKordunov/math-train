@@ -1,6 +1,31 @@
+'use client'
+
 import TestItem from "@/components/TestItem";
+import { useUser } from "@/hooks/useUser";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+
+    const [tests, setTests] = useState<any | null>([])
+    const {user} = useUser()
+
+    useEffect(() => {
+        if(!user) return
+        const getAssignedTests = async() => {
+            try {
+               const res = await fetch(`http://localhost:8080/api/test/assign/${user?.id}`)
+
+               const data = await res.json()
+               setTests(data)
+               console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        getAssignedTests()
+    }, [user])
+
     return (
         <div className="flex flex-col py-2">
             <div className="w-full py-10 flex gap-2 items-center justify-center mb-2">
@@ -17,9 +42,9 @@ const Home = () => {
             </div>
             <h1 className="text-4xl font-bold mb-6">Active tests: </h1>
             <div>
-                <TestItem />
-                <TestItem />
-                <TestItem />
+                {tests.length > 0 ? tests.map((test:any) => (
+                    <TestItem key={test.id} test={test} />
+                )) : <p>Поки що немає тестів</p>}
             </div>
         </div>
     );

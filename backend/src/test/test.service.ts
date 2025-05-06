@@ -26,6 +26,13 @@ export class TestService {
         }
     }
 
+    async getAssignedTest(id: string){
+        return this.databaseService.assignedTest.findMany({
+            where: {studentId: id},
+            include: {test: true}
+        })
+    }
+
     async getTestTask(id: string) {
         try {
             return this.databaseService.test.findMany({

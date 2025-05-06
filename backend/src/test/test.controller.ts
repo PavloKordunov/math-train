@@ -21,6 +21,11 @@ export class TestController {
         return this.testService.getAllTestByTeacher(id);
     }
 
+    @Get('assign/:id')
+    getAssignedTest(@Param('id') id:string){
+        return this.testService.getAssignedTest(id)
+    }
+
     @Post()
     createTest(@Body() createTestDto: CreateTestDto) {
         return this.testService.createTest(createTestDto);
@@ -31,13 +36,14 @@ export class TestController {
         return this.testService.assign(id, dto.studentId);
     }
 
-    @Get(':id')
-    getTestId(@Param('id') id: string) {
-        return this.testService.getTestId(id);
-    }
-
+    
     @Delete(':id')
     deleteTest(@Param('id') id: string) {
         return this.testService.deleteTest(id);
+    }
+    
+    @Get(':id')
+    getTestId(@Param('id') id: string) {
+        return this.testService.getTestId(id);
     }
 }

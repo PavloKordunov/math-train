@@ -81,7 +81,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
                 </button>
             </div>
             {isModalOpen && 
-                <div className="w-full h-full absolute left-0 top-0 bg-black/60 z-50 flex items-center justify-center">
+                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center">
                     <div className="bg-[#F0F4F8] px-10 py-6 rounded-[31px] w-fit">
                         <div className="flex items-center justify-between mb-5">
                             <p className="text-[28px] text-black font-semibold mr-12">Виберіть студента</p>
