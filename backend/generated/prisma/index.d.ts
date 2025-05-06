@@ -7128,6 +7128,7 @@ export namespace Prisma {
   export type TaskMinAggregateOutputType = {
     id: string | null
     title: string | null
+    number: string | null
     image: string | null
     type: string | null
     testId: string | null
@@ -7138,6 +7139,7 @@ export namespace Prisma {
   export type TaskMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    number: string | null
     image: string | null
     type: string | null
     testId: string | null
@@ -7148,6 +7150,7 @@ export namespace Prisma {
   export type TaskCountAggregateOutputType = {
     id: number
     title: number
+    number: number
     image: number
     type: number
     pairs: number
@@ -7162,6 +7165,7 @@ export namespace Prisma {
   export type TaskMinAggregateInputType = {
     id?: true
     title?: true
+    number?: true
     image?: true
     type?: true
     testId?: true
@@ -7172,6 +7176,7 @@ export namespace Prisma {
   export type TaskMaxAggregateInputType = {
     id?: true
     title?: true
+    number?: true
     image?: true
     type?: true
     testId?: true
@@ -7182,6 +7187,7 @@ export namespace Prisma {
   export type TaskCountAggregateInputType = {
     id?: true
     title?: true
+    number?: true
     image?: true
     type?: true
     pairs?: true
@@ -7267,6 +7273,7 @@ export namespace Prisma {
   export type TaskGroupByOutputType = {
     id: string
     title: string
+    number: string
     image: string | null
     type: string | null
     pairs: JsonValue | null
@@ -7296,6 +7303,7 @@ export namespace Prisma {
   export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    number?: boolean
     image?: boolean
     type?: boolean
     pairs?: boolean
@@ -7309,6 +7317,7 @@ export namespace Prisma {
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    number?: boolean
     image?: boolean
     type?: boolean
     pairs?: boolean
@@ -7322,6 +7331,7 @@ export namespace Prisma {
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    number?: boolean
     image?: boolean
     type?: boolean
     pairs?: boolean
@@ -7335,6 +7345,7 @@ export namespace Prisma {
   export type TaskSelectScalar = {
     id?: boolean
     title?: boolean
+    number?: boolean
     image?: boolean
     type?: boolean
     pairs?: boolean
@@ -7344,7 +7355,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "image" | "type" | "pairs" | "answers" | "testId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "number" | "image" | "type" | "pairs" | "answers" | "testId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     test?: boolean | TestDefaultArgs<ExtArgs>
   }
@@ -7363,6 +7374,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
+      number: string
       image: string | null
       type: string | null
       pairs: Prisma.JsonValue | null
@@ -7796,6 +7808,7 @@ export namespace Prisma {
   interface TaskFieldRefs {
     readonly id: FieldRef<"Task", 'String'>
     readonly title: FieldRef<"Task", 'String'>
+    readonly number: FieldRef<"Task", 'String'>
     readonly image: FieldRef<"Task", 'String'>
     readonly type: FieldRef<"Task", 'String'>
     readonly pairs: FieldRef<"Task", 'Json'>
@@ -8299,6 +8312,7 @@ export namespace Prisma {
   export const TaskScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    number: 'number',
     image: 'image',
     type: 'type',
     pairs: 'pairs',
@@ -8818,6 +8832,7 @@ export namespace Prisma {
     NOT?: TaskWhereInput | TaskWhereInput[]
     id?: StringFilter<"Task"> | string
     title?: StringFilter<"Task"> | string
+    number?: StringFilter<"Task"> | string
     image?: StringNullableFilter<"Task"> | string | null
     type?: StringNullableFilter<"Task"> | string | null
     pairs?: JsonNullableFilter<"Task">
@@ -8831,6 +8846,7 @@ export namespace Prisma {
   export type TaskOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    number?: SortOrder
     image?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     pairs?: SortOrderInput | SortOrder
@@ -8847,6 +8863,7 @@ export namespace Prisma {
     OR?: TaskWhereInput[]
     NOT?: TaskWhereInput | TaskWhereInput[]
     title?: StringFilter<"Task"> | string
+    number?: StringFilter<"Task"> | string
     image?: StringNullableFilter<"Task"> | string | null
     type?: StringNullableFilter<"Task"> | string | null
     pairs?: JsonNullableFilter<"Task">
@@ -8860,6 +8877,7 @@ export namespace Prisma {
   export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    number?: SortOrder
     image?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     pairs?: SortOrderInput | SortOrder
@@ -8878,6 +8896,7 @@ export namespace Prisma {
     NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Task"> | string
     title?: StringWithAggregatesFilter<"Task"> | string
+    number?: StringWithAggregatesFilter<"Task"> | string
     image?: StringNullableWithAggregatesFilter<"Task"> | string | null
     type?: StringNullableWithAggregatesFilter<"Task"> | string | null
     pairs?: JsonNullableWithAggregatesFilter<"Task">
@@ -9259,6 +9278,7 @@ export namespace Prisma {
   export type TaskCreateInput = {
     id?: string
     title: string
+    number: string
     image?: string | null
     type?: string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9271,6 +9291,7 @@ export namespace Prisma {
   export type TaskUncheckedCreateInput = {
     id?: string
     title: string
+    number: string
     image?: string | null
     type?: string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9283,6 +9304,7 @@ export namespace Prisma {
   export type TaskUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9295,6 +9317,7 @@ export namespace Prisma {
   export type TaskUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9307,6 +9330,7 @@ export namespace Prisma {
   export type TaskCreateManyInput = {
     id?: string
     title: string
+    number: string
     image?: string | null
     type?: string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9319,6 +9343,7 @@ export namespace Prisma {
   export type TaskUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9330,6 +9355,7 @@ export namespace Prisma {
   export type TaskUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -9781,6 +9807,7 @@ export namespace Prisma {
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    number?: SortOrder
     image?: SortOrder
     type?: SortOrder
     pairs?: SortOrder
@@ -9793,6 +9820,7 @@ export namespace Prisma {
   export type TaskMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    number?: SortOrder
     image?: SortOrder
     type?: SortOrder
     testId?: SortOrder
@@ -9803,6 +9831,7 @@ export namespace Prisma {
   export type TaskMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    number?: SortOrder
     image?: SortOrder
     type?: SortOrder
     testId?: SortOrder
@@ -10780,6 +10809,7 @@ export namespace Prisma {
   export type TaskCreateWithoutTestInput = {
     id?: string
     title: string
+    number: string
     image?: string | null
     type?: string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -10791,6 +10821,7 @@ export namespace Prisma {
   export type TaskUncheckedCreateWithoutTestInput = {
     id?: string
     title: string
+    number: string
     image?: string | null
     type?: string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -10912,6 +10943,7 @@ export namespace Prisma {
     NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
     id?: StringFilter<"Task"> | string
     title?: StringFilter<"Task"> | string
+    number?: StringFilter<"Task"> | string
     image?: StringNullableFilter<"Task"> | string | null
     type?: StringNullableFilter<"Task"> | string | null
     pairs?: JsonNullableFilter<"Task">
@@ -11282,6 +11314,7 @@ export namespace Prisma {
   export type TaskCreateManyTestInput = {
     id?: string
     title: string
+    number: string
     image?: string | null
     type?: string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -11308,6 +11341,7 @@ export namespace Prisma {
   export type TaskUpdateWithoutTestInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -11319,6 +11353,7 @@ export namespace Prisma {
   export type TaskUncheckedUpdateWithoutTestInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue
@@ -11330,6 +11365,7 @@ export namespace Prisma {
   export type TaskUncheckedUpdateManyWithoutTestInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     pairs?: NullableJsonNullValueInput | InputJsonValue

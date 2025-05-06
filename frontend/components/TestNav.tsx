@@ -7,7 +7,7 @@ const TestNav = () => {
 
     const [active, setActive] = useState("test");
     return (
-        <div className="w-full bg-[#fff] px-10 py-6 shadow-md flex items-center ">
+        <div className="w-full bg-[#fff] px-10 py-6 flex items-center ">
             <div className="flex gap-12">
                 <Link
                     href='/test'

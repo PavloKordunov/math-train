@@ -40,6 +40,10 @@ const CreateTest = () => {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        console.log(question)
+    }, [question])
       
     const handleSelect = (type: string) => {
         setQuestionType(type);
@@ -48,7 +52,7 @@ const CreateTest = () => {
             setQuestion({
             title: "",
             type: "multiple",
-            answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false })),
+            answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false })),
             pairs: [],
             });
         } else if (type === "matching") {
@@ -56,7 +60,7 @@ const CreateTest = () => {
             title: "",
             type: "matching",
             answers: [],
-            pairs: [{ left: "", right: "" }],
+            pairs: [{ left: '', right: '' }],
             });
         } else if (type === "written") {
             setQuestion({
@@ -240,7 +244,7 @@ const CreateTest = () => {
                                     setQuestion({
                                         title: "",
                                         type: "",
-                                        answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false }))
+                                        answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false }))
                                     });
                                     setQuestionType("");
                                     console.log(test);
@@ -265,7 +269,7 @@ const CreateTest = () => {
                     <div key={index} className="flex items-center gap-4 mt-4">
                         <input
                         type="text"
-                        value={pair.left}
+                        value={pair?.left}
                         onChange={(e) => {
                             const newPairs = [...question.pairs];
                             newPairs[index].left = e.target.value;
@@ -277,7 +281,7 @@ const CreateTest = () => {
                         <span className="text-xl font-bold">—</span>
                         <input
                         type="text"
-                        value={pair.right}
+                        value={pair?.right}
                         onChange={(e) => {
                             const newPairs = [...question.pairs];
                             newPairs[index].right = e.target.value;
@@ -321,7 +325,7 @@ const CreateTest = () => {
                         onClick={() => {
                         setTest((prev: any) => ({
                             ...prev,
-                            questions: [...prev.questions, { ...question, type: questionType }],
+                            tasks: [...prev.tasks, { ...question, type: questionType }],
                         }));
                         setQuestion({
                             title: "",

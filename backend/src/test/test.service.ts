@@ -10,6 +10,7 @@ export class TestService {
         try {
             return this.databaseService.test.findMany({
                 include: {tasks: true}
+                
             })
         } catch (error) {
             throw new InternalServerErrorException(error.message);
@@ -18,8 +19,9 @@ export class TestService {
 
     async getTestId(id: string) {
         try {
-            return this.databaseService.test.findMany({
-                where: {id}
+            return this.databaseService.test.findUnique({
+                where: {id},
+                include: {tasks: true}
             })     
         } catch (error) {
             throw new InternalServerErrorException(error.message);
@@ -62,12 +64,13 @@ export class TestService {
                 data: {
                     ...testData,
                     tasks: {
-                        create: tasks.map((t) => ({
+                        create: tasks.map((t, index) => ({
                           title: t.title,
                           type: t.type ?? '',
                           answers: t.answers ?? [],
                           pairs: t.pairs ?? [],
-                          image: t.image ?? '', 
+                          image: t.image ?? '',
+                          number: (index + 1).toString()
                         })),
                     },
                 },

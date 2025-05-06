@@ -4,5 +4,6 @@ export class CreateTaskDto {
     type: string;
     answers: string[];
     pairs: string[];
+    number: string
   }
   

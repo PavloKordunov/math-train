@@ -78,6 +78,7 @@ model AssignedTest {
 model Task {
   id          String   @id @default(cuid())
   title       String
+  number      String
   image       String?  
   type        String?
   pairs       Json?

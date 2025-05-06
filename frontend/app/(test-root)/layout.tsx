@@ -10,10 +10,9 @@ export default function homeLayout({ children }: { children: ReactNode }) {
             <div className="relative">
                 <div className="px-20 fixed inset-x-0 z-1000">
                     <TimeTracker />
-                    <TestNav />
                 </div>
             </div>
-            <div className="py-70">{children}</div>
+            <div className="py-50">{children}</div>
         </div>
     );
 }

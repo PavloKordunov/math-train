@@ -173,6 +173,7 @@ exports.Prisma.AssignedTestScalarFieldEnum = {
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  number: 'number',
   image: 'image',
   type: 'type',
   pairs: 'pairs',

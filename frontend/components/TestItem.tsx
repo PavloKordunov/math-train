@@ -44,7 +44,7 @@ const TestItem = ({test} : {test: any}) => {
                         <p className="mb-10 font-medium text-[18px]">Тест обмежений часом на  {test.test.timeLimit} хвилин</p>
                         <div className="flex gap-4 items-center justify-end">
                             <button className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase" onClick={toggleModal}>Скасувати</button>
-                            <Link href='/test' className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase">Розпочати тестування</Link>
+                            <Link href={`/test/${test.test.id}`} className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase">Розпочати тестування</Link>
                         </div>
                     </div>
                 </div>
