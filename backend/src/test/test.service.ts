@@ -1,6 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateTestDto } from './dto/createTestDto';
+import { CompareAnswersDto } from './dto/compareAnswerc';
 
 @Injectable()
 export class TestService {
@@ -93,6 +94,87 @@ export class TestService {
             throw new InternalServerErrorException(error.message);
         }
     }
+
+    async compareAnswers(id: string, compareAnswersDtos: CompareAnswersDto[]) {
+        try {
+            const test = await this.databaseService.test.findUnique({
+                where: { id },
+                include: { 
+                    tasks: {
+                        select: {
+                            id: true,
+                            answers: true,
+                            type: true
+                        }
+                    }
+                }
+            });
+    
+            if (!test) {
+                throw new NotFoundException('Test not found');
+            }
+    
+            let totalScore = 0;
+    
+            for (const dto of compareAnswersDtos) {
+                if (!dto?.taskId) continue;
+    
+                const task: any = test.tasks.find(t => t.id === dto.taskId);
+                if (!task) continue;
+    
+                if (dto.type !== task.type) continue;
+    
+                switch (task.type) {
+                    case 'multiple': {
+                        if (typeof dto.answer !== 'string') continue;
+                        const selectedAnswer = task.answers.find(a => a.id === dto.answer);
+                        if (selectedAnswer?.isCorrect) {
+                            totalScore += 1;
+                        }
+                        break;
+                    }
+    
+                    case 'matching': {
+                        if (!Array.isArray(dto.answer)) continue;
+                        let correctPairs = 0;
+                        dto.answer.forEach((userPair, index) => {
+                            const taskAnswer = task.answers[index];
+                            if (taskAnswer?.left?.rightId === userPair?.left?.rightId) {
+                                correctPairs++;
+                            }
+                        });
+                        totalScore += correctPairs;
+                        break;
+                    }
+    
+                    case 'written': {
+                        if (typeof dto.answer !== 'string') continue;
+                        const correctText = task.answers[0]?.text;
+                        if (
+                            correctText &&
+                            correctText.toLowerCase().trim() === dto.answer.toLowerCase().trim()
+                        ) {
+                            totalScore += 2;
+                        }
+                        break;
+                    }
+    
+                    default:
+                        continue; 
+                }
+            }
+    
+            return { totalScore };
+    
+        } catch (error) {
+            console.error('Answer comparison failed:', error.message);
+            if (error instanceof NotFoundException || error instanceof BadRequestException) {
+                throw error;
+            }
+            throw new InternalServerErrorException('Failed to evaluate answers');
+        }
+    }
+    
 
     async deleteTest(id: string) {
         console.log('ID:', id, typeof id)

@@ -4844,6 +4844,7 @@ export namespace Prisma {
     title: string | null
     timeLimit: number | null
     description: string | null
+    score: string | null
     startTime: Date | null
     endTime: Date | null
     createdAt: Date | null
@@ -4857,6 +4858,7 @@ export namespace Prisma {
     title: string | null
     timeLimit: number | null
     description: string | null
+    score: string | null
     startTime: Date | null
     endTime: Date | null
     createdAt: Date | null
@@ -4870,6 +4872,7 @@ export namespace Prisma {
     title: number
     timeLimit: number
     description: number
+    score: number
     startTime: number
     endTime: number
     createdAt: number
@@ -4893,6 +4896,7 @@ export namespace Prisma {
     title?: true
     timeLimit?: true
     description?: true
+    score?: true
     startTime?: true
     endTime?: true
     createdAt?: true
@@ -4906,6 +4910,7 @@ export namespace Prisma {
     title?: true
     timeLimit?: true
     description?: true
+    score?: true
     startTime?: true
     endTime?: true
     createdAt?: true
@@ -4919,6 +4924,7 @@ export namespace Prisma {
     title?: true
     timeLimit?: true
     description?: true
+    score?: true
     startTime?: true
     endTime?: true
     createdAt?: true
@@ -5019,6 +5025,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description: string | null
+    score: string | null
     startTime: Date | null
     endTime: Date | null
     createdAt: Date
@@ -5051,6 +5058,7 @@ export namespace Prisma {
     title?: boolean
     timeLimit?: boolean
     description?: boolean
+    score?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
@@ -5069,6 +5077,7 @@ export namespace Prisma {
     title?: boolean
     timeLimit?: boolean
     description?: boolean
+    score?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
@@ -5083,6 +5092,7 @@ export namespace Prisma {
     title?: boolean
     timeLimit?: boolean
     description?: boolean
+    score?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
@@ -5097,6 +5107,7 @@ export namespace Prisma {
     title?: boolean
     timeLimit?: boolean
     description?: boolean
+    score?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
@@ -5105,7 +5116,7 @@ export namespace Prisma {
     status?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "teacherId" | "status", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "teacherId" | "status", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
@@ -5133,6 +5144,7 @@ export namespace Prisma {
       title: string
       timeLimit: number
       description: string | null
+      score: string | null
       startTime: Date | null
       endTime: Date | null
       createdAt: Date
@@ -5570,6 +5582,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Test", 'String'>
     readonly timeLimit: FieldRef<"Test", 'Int'>
     readonly description: FieldRef<"Test", 'String'>
+    readonly score: FieldRef<"Test", 'String'>
     readonly startTime: FieldRef<"Test", 'DateTime'>
     readonly endTime: FieldRef<"Test", 'DateTime'>
     readonly createdAt: FieldRef<"Test", 'DateTime'>
@@ -7131,6 +7144,7 @@ export namespace Prisma {
     number: string | null
     image: string | null
     type: string | null
+    isSaved: boolean | null
     testId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7142,6 +7156,7 @@ export namespace Prisma {
     number: string | null
     image: string | null
     type: string | null
+    isSaved: boolean | null
     testId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7153,6 +7168,8 @@ export namespace Prisma {
     number: number
     image: number
     type: number
+    isSaved: number
+    userAnsewer: number
     pairs: number
     answers: number
     testId: number
@@ -7168,6 +7185,7 @@ export namespace Prisma {
     number?: true
     image?: true
     type?: true
+    isSaved?: true
     testId?: true
     createdAt?: true
     updatedAt?: true
@@ -7179,6 +7197,7 @@ export namespace Prisma {
     number?: true
     image?: true
     type?: true
+    isSaved?: true
     testId?: true
     createdAt?: true
     updatedAt?: true
@@ -7190,6 +7209,8 @@ export namespace Prisma {
     number?: true
     image?: true
     type?: true
+    isSaved?: true
+    userAnsewer?: true
     pairs?: true
     answers?: true
     testId?: true
@@ -7276,6 +7297,8 @@ export namespace Prisma {
     number: string
     image: string | null
     type: string | null
+    isSaved: boolean | null
+    userAnsewer: JsonValue | null
     pairs: JsonValue | null
     answers: JsonValue | null
     testId: string
@@ -7306,6 +7329,8 @@ export namespace Prisma {
     number?: boolean
     image?: boolean
     type?: boolean
+    isSaved?: boolean
+    userAnsewer?: boolean
     pairs?: boolean
     answers?: boolean
     testId?: boolean
@@ -7320,6 +7345,8 @@ export namespace Prisma {
     number?: boolean
     image?: boolean
     type?: boolean
+    isSaved?: boolean
+    userAnsewer?: boolean
     pairs?: boolean
     answers?: boolean
     testId?: boolean
@@ -7334,6 +7361,8 @@ export namespace Prisma {
     number?: boolean
     image?: boolean
     type?: boolean
+    isSaved?: boolean
+    userAnsewer?: boolean
     pairs?: boolean
     answers?: boolean
     testId?: boolean
@@ -7348,6 +7377,8 @@ export namespace Prisma {
     number?: boolean
     image?: boolean
     type?: boolean
+    isSaved?: boolean
+    userAnsewer?: boolean
     pairs?: boolean
     answers?: boolean
     testId?: boolean
@@ -7355,7 +7386,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "number" | "image" | "type" | "pairs" | "answers" | "testId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "number" | "image" | "type" | "isSaved" | "userAnsewer" | "pairs" | "answers" | "testId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     test?: boolean | TestDefaultArgs<ExtArgs>
   }
@@ -7377,6 +7408,8 @@ export namespace Prisma {
       number: string
       image: string | null
       type: string | null
+      isSaved: boolean | null
+      userAnsewer: Prisma.JsonValue | null
       pairs: Prisma.JsonValue | null
       answers: Prisma.JsonValue | null
       testId: string
@@ -7811,6 +7844,8 @@ export namespace Prisma {
     readonly number: FieldRef<"Task", 'String'>
     readonly image: FieldRef<"Task", 'String'>
     readonly type: FieldRef<"Task", 'String'>
+    readonly isSaved: FieldRef<"Task", 'Boolean'>
+    readonly userAnsewer: FieldRef<"Task", 'Json'>
     readonly pairs: FieldRef<"Task", 'Json'>
     readonly answers: FieldRef<"Task", 'Json'>
     readonly testId: FieldRef<"Task", 'String'>
@@ -8288,6 +8323,7 @@ export namespace Prisma {
     title: 'title',
     timeLimit: 'timeLimit',
     description: 'description',
+    score: 'score',
     startTime: 'startTime',
     endTime: 'endTime',
     createdAt: 'createdAt',
@@ -8315,6 +8351,8 @@ export namespace Prisma {
     number: 'number',
     image: 'image',
     type: 'type',
+    isSaved: 'isSaved',
+    userAnsewer: 'userAnsewer',
     pairs: 'pairs',
     answers: 'answers',
     testId: 'testId',
@@ -8690,6 +8728,7 @@ export namespace Prisma {
     title?: StringFilter<"Test"> | string
     timeLimit?: IntFilter<"Test"> | number
     description?: StringNullableFilter<"Test"> | string | null
+    score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
@@ -8707,6 +8746,7 @@ export namespace Prisma {
     title?: SortOrder
     timeLimit?: SortOrder
     description?: SortOrderInput | SortOrder
+    score?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
     endTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -8727,6 +8767,7 @@ export namespace Prisma {
     title?: StringFilter<"Test"> | string
     timeLimit?: IntFilter<"Test"> | number
     description?: StringNullableFilter<"Test"> | string | null
+    score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
@@ -8744,6 +8785,7 @@ export namespace Prisma {
     title?: SortOrder
     timeLimit?: SortOrder
     description?: SortOrderInput | SortOrder
+    score?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
     endTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -8765,6 +8807,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Test"> | string
     timeLimit?: IntWithAggregatesFilter<"Test"> | number
     description?: StringNullableWithAggregatesFilter<"Test"> | string | null
+    score?: StringNullableWithAggregatesFilter<"Test"> | string | null
     startTime?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
     endTime?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
@@ -8835,6 +8878,8 @@ export namespace Prisma {
     number?: StringFilter<"Task"> | string
     image?: StringNullableFilter<"Task"> | string | null
     type?: StringNullableFilter<"Task"> | string | null
+    isSaved?: BoolNullableFilter<"Task"> | boolean | null
+    userAnsewer?: JsonNullableFilter<"Task">
     pairs?: JsonNullableFilter<"Task">
     answers?: JsonNullableFilter<"Task">
     testId?: StringFilter<"Task"> | string
@@ -8849,6 +8894,8 @@ export namespace Prisma {
     number?: SortOrder
     image?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
+    isSaved?: SortOrderInput | SortOrder
+    userAnsewer?: SortOrderInput | SortOrder
     pairs?: SortOrderInput | SortOrder
     answers?: SortOrderInput | SortOrder
     testId?: SortOrder
@@ -8866,6 +8913,8 @@ export namespace Prisma {
     number?: StringFilter<"Task"> | string
     image?: StringNullableFilter<"Task"> | string | null
     type?: StringNullableFilter<"Task"> | string | null
+    isSaved?: BoolNullableFilter<"Task"> | boolean | null
+    userAnsewer?: JsonNullableFilter<"Task">
     pairs?: JsonNullableFilter<"Task">
     answers?: JsonNullableFilter<"Task">
     testId?: StringFilter<"Task"> | string
@@ -8880,6 +8929,8 @@ export namespace Prisma {
     number?: SortOrder
     image?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
+    isSaved?: SortOrderInput | SortOrder
+    userAnsewer?: SortOrderInput | SortOrder
     pairs?: SortOrderInput | SortOrder
     answers?: SortOrderInput | SortOrder
     testId?: SortOrder
@@ -8899,6 +8950,8 @@ export namespace Prisma {
     number?: StringWithAggregatesFilter<"Task"> | string
     image?: StringNullableWithAggregatesFilter<"Task"> | string | null
     type?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    isSaved?: BoolNullableWithAggregatesFilter<"Task"> | boolean | null
+    userAnsewer?: JsonNullableWithAggregatesFilter<"Task">
     pairs?: JsonNullableWithAggregatesFilter<"Task">
     answers?: JsonNullableWithAggregatesFilter<"Task">
     testId?: StringWithAggregatesFilter<"Task"> | string
@@ -9131,6 +9184,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -9147,6 +9201,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -9163,6 +9218,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9179,6 +9235,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9195,6 +9252,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -9208,6 +9266,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9220,6 +9279,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9281,6 +9341,8 @@ export namespace Prisma {
     number: string
     image?: string | null
     type?: string | null
+    isSaved?: boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -9294,6 +9356,8 @@ export namespace Prisma {
     number: string
     image?: string | null
     type?: string | null
+    isSaved?: boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     testId: string
@@ -9307,6 +9371,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9320,6 +9386,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     testId?: StringFieldUpdateOperationsInput | string
@@ -9333,6 +9401,8 @@ export namespace Prisma {
     number: string
     image?: string | null
     type?: string | null
+    isSaved?: boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     testId: string
@@ -9346,6 +9416,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9358,6 +9430,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     testId?: StringFieldUpdateOperationsInput | string
@@ -9676,6 +9750,7 @@ export namespace Prisma {
     title?: SortOrder
     timeLimit?: SortOrder
     description?: SortOrder
+    score?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
@@ -9693,6 +9768,7 @@ export namespace Prisma {
     title?: SortOrder
     timeLimit?: SortOrder
     description?: SortOrder
+    score?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
@@ -9706,6 +9782,7 @@ export namespace Prisma {
     title?: SortOrder
     timeLimit?: SortOrder
     description?: SortOrder
+    score?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
@@ -9780,6 +9857,11 @@ export namespace Prisma {
     testId?: SortOrder
     assignedAt?: SortOrder
   }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -9810,6 +9892,8 @@ export namespace Prisma {
     number?: SortOrder
     image?: SortOrder
     type?: SortOrder
+    isSaved?: SortOrder
+    userAnsewer?: SortOrder
     pairs?: SortOrder
     answers?: SortOrder
     testId?: SortOrder
@@ -9823,6 +9907,7 @@ export namespace Prisma {
     number?: SortOrder
     image?: SortOrder
     type?: SortOrder
+    isSaved?: SortOrder
     testId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9834,9 +9919,18 @@ export namespace Prisma {
     number?: SortOrder
     image?: SortOrder
     type?: SortOrder
+    isSaved?: SortOrder
     testId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -10229,6 +10323,10 @@ export namespace Prisma {
     connect?: TestWhereUniqueInput
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
   export type TestUpdateOneRequiredWithoutTasksNestedInput = {
     create?: XOR<TestCreateWithoutTasksInput, TestUncheckedCreateWithoutTasksInput>
     connectOrCreate?: TestCreateOrConnectWithoutTasksInput
@@ -10444,6 +10542,19 @@ export namespace Prisma {
     _min?: NestedEnumTestStatusFilter<$PrismaModel>
     _max?: NestedEnumTestStatusFilter<$PrismaModel>
   }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -10473,6 +10584,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -10488,6 +10600,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -10532,6 +10645,7 @@ export namespace Prisma {
     title?: StringFilter<"Test"> | string
     timeLimit?: IntFilter<"Test"> | number
     description?: StringNullableFilter<"Test"> | string | null
+    score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
@@ -10677,6 +10791,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -10692,6 +10807,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -10756,6 +10872,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10771,6 +10888,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10812,6 +10930,8 @@ export namespace Prisma {
     number: string
     image?: string | null
     type?: string | null
+    isSaved?: boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -10824,6 +10944,8 @@ export namespace Prisma {
     number: string
     image?: string | null
     type?: string | null
+    isSaved?: boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -10946,6 +11068,8 @@ export namespace Prisma {
     number?: StringFilter<"Task"> | string
     image?: StringNullableFilter<"Task"> | string | null
     type?: StringNullableFilter<"Task"> | string | null
+    isSaved?: BoolNullableFilter<"Task"> | boolean | null
+    userAnsewer?: JsonNullableFilter<"Task">
     pairs?: JsonNullableFilter<"Task">
     answers?: JsonNullableFilter<"Task">
     testId?: StringFilter<"Task"> | string
@@ -11017,6 +11141,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -11032,6 +11157,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -11096,6 +11222,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11111,6 +11238,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11126,6 +11254,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -11141,6 +11270,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -11172,6 +11302,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11187,6 +11318,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11202,6 +11334,7 @@ export namespace Prisma {
     title: string
     timeLimit: number
     description?: string | null
+    score?: string | null
     startTime?: Date | string | null
     endTime?: Date | string | null
     createdAt?: Date | string
@@ -11214,6 +11347,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11229,6 +11363,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11244,6 +11379,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     timeLimit?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11317,6 +11453,8 @@ export namespace Prisma {
     number: string
     image?: string | null
     type?: string | null
+    isSaved?: boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -11344,6 +11482,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11356,6 +11496,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11368,6 +11510,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    isSaved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -53,6 +53,7 @@ model Test {
   title       String
   timeLimit   Int
   description String?
+  score       String?
   startTime   DateTime?
   endTime     DateTime?
   createdAt   DateTime @default(now())
@@ -81,6 +82,8 @@ model Task {
   number      String
   image       String?  
   type        String?
+  isSaved     Boolean? @default(false)
+  userAnsewer Json?
   pairs       Json?
   answers     Json?
   testId      String

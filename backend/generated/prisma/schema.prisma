@@ -53,6 +53,7 @@ model Test {
   title       String
   timeLimit   Int
   description String?
+  score       String?
   startTime   DateTime?
   endTime     DateTime?
   createdAt   DateTime  @default(now())
@@ -76,16 +77,18 @@ model AssignedTest {
 }
 
 model Task {
-  id        String   @id @default(cuid())
-  title     String
-  number    String
-  image     String?
-  type      String?
-  pairs     Json?
-  answers   Json?
-  testId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  title       String
+  number      String
+  image       String?
+  type        String?
+  isSaved     Boolean? @default(false)
+  userAnsewer Json?
+  pairs       Json?
+  answers     Json?
+  testId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   test Test @relation(fields: [testId], references: [id], onDelete: Cascade)
 }

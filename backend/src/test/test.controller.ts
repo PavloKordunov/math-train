@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { TestService } from './test.service';
 import { CreateTestDto } from './dto/createTestDto';
+import { CompareAnswersDto } from './dto/compareAnswerc'
 
 @Controller('test')
 export class TestController {
@@ -36,6 +37,10 @@ export class TestController {
         return this.testService.assign(id, dto.studentId);
     }
 
+    @Post(':id/check')
+    compareAnswers(@Param('id') id: string, @Body() comapareAnswersDto: CompareAnswersDto[]){
+        return this.testService.compareAnswers(id, comapareAnswersDto)
+    }
     
     @Delete(':id')
     deleteTest(@Param('id') id: string) {

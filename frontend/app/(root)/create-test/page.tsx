@@ -3,7 +3,8 @@
 import { useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { addStyles, EditableMathField } from 'react-mathquill';
-
+import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -23,6 +24,7 @@ const CreateTest = () => {
         answers: [],
         pairs: [],
       });
+    const router = useRouter()
 
     const handleCreateTest = async() => {
         try {
@@ -36,6 +38,7 @@ const CreateTest = () => {
 
             const data = await res.json()
             console.log(data)
+            router.push('/teacher')
         } catch (error) {
             console.log(error)
         }
@@ -52,21 +55,21 @@ const CreateTest = () => {
             setQuestion({
             title: "",
             type: "multiple",
-            answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false })),
+            answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false, id: nanoid() })),
             pairs: [],
             });
         } else if (type === "matching") {
             setQuestion({
             title: "",
             type: "matching",
-            answers: [],
-            pairs: [{ left: '', right: '' }],
+            answers: [{left: {rightId: ''}}],
+            pairs: [{ left: {id: nanoid(), text: ''}, right: {id: nanoid(), text: ''}, id: nanoid() }],
             });
         } else if (type === "written") {
             setQuestion({
             title: "",
             type: "written",
-            answers: [],
+            answers: [{text: '', id: nanoid()}],
             pairs: [],
         });
     }
@@ -95,12 +98,51 @@ const CreateTest = () => {
       
         const offset = date.getTimezoneOffset() * 60000;
         return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+    };
+
+    const handleSaveMatchingTask = () => {
+        const validPairs = question.pairs.filter(
+          (pair: any) => pair.left?.text?.trim() && pair.right?.text?.trim()
+        );
+      
+        const answers = validPairs.map((pair: any) => ({
+          left: {
+            rightId: pair.right.id 
+          }
+        }));
+      
+        const taskToSave = {
+          ...question,
+          type: questionType,
+          answers: answers,
+          pairs: question.pairs.map((pair: any) => ({
+            left: { id: pair.left.id, text: pair.left.text },
+            right: { id: pair.right.id, text: pair.right.text }
+          }))
+        };
+      
+        setTest((prev: any) => ({
+          ...prev,
+          tasks: [...prev.tasks, taskToSave]
+        }));
+      
+        setQuestion({
+          title: "",
+          type: "",
+          answers: [],
+          pairs: [{ left: {id: nanoid(), text: ''}, right: {id: nanoid(), text: ''}, id: nanoid() }]
+        });
+        setQuestionType("");
       };
 
     useEffect(() => {
         addStyles();
     }, []);
     
+    useEffect(() => {
+        addStyles();
+        console.log(test)
+    }, [test]);
 
     return (
         <div>
@@ -174,9 +216,9 @@ const CreateTest = () => {
                             <p className="text-xl font-semibold mb-4">{item.title}</p>
                             {item.pairs.map((pair: any, index: number) => (
                                 <div key={index} className="flex items-center gap-4 mt-4">
-                                    <p className="font-medium">{index+ 1}.  {pair.left}</p>
+                                    <p className="font-medium">{index+ 1}.  {pair.left.text}</p>
                                     <span className="text-gray-500">—</span>
-                                    <p>{pair.right}</p>
+                                    <p>{pair.right.text}</p>
                                 </div>
                             ))}
                         </div>
@@ -269,10 +311,10 @@ const CreateTest = () => {
                     <div key={index} className="flex items-center gap-4 mt-4">
                         <input
                         type="text"
-                        value={pair?.left}
+                        value={pair?.left.text}
                         onChange={(e) => {
                             const newPairs = [...question.pairs];
-                            newPairs[index].left = e.target.value;
+                            newPairs[index].left.text = e.target.value;
                             setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
                         }}
                         className="w-full border border-gray-300 rounded-xl px-4 py-2"
@@ -281,10 +323,10 @@ const CreateTest = () => {
                         <span className="text-xl font-bold">—</span>
                         <input
                         type="text"
-                        value={pair?.right}
+                        value={pair?.right.text}
                         onChange={(e) => {
                             const newPairs = [...question.pairs];
-                            newPairs[index].right = e.target.value;
+                            newPairs[index].right.text = e.target.value;
                             setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
                         }}
                         className="w-full border border-gray-300 rounded-xl px-4 py-2"
@@ -306,7 +348,7 @@ const CreateTest = () => {
                     onClick={() => {
                         setQuestion((prev: any) => ({
                         ...prev,
-                        pairs: [...prev.pairs, { left: "", right: "" }],
+                        pairs: [...prev.pairs, { left: {id: nanoid(), text: ''}, right: {id: nanoid(), text: ''}, id: nanoid() }],
                         }));
                     }}
                     className="mt-4 text-sm text-blue-600 hover:underline"
@@ -322,19 +364,7 @@ const CreateTest = () => {
                     </button>
                     <button
                         className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
-                        onClick={() => {
-                        setTest((prev: any) => ({
-                            ...prev,
-                            tasks: [...prev.tasks, { ...question, type: questionType }],
-                        }));
-                        setQuestion({
-                            title: "",
-                            type: "",
-                            answers: [],
-                            pairs: [{ left: "", right: "" }],
-                        });
-                        setQuestionType("");
-                        }}
+                        onClick={handleSaveMatchingTask}
                     >
                         Зберегти
                     </button>
@@ -355,7 +385,7 @@ const CreateTest = () => {
                                 <input
                                     type="text"
                                     value={question.answers[0]?.text || ""}
-                                    onChange={(e) => setQuestion({ ...question, answers: [{ text: e.target.value }] })}
+                                    onChange={(e) => setQuestion({ ...question, answers: [{ text: e.target.value, id: nanoid() }] })}
                                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                                     placeholder={`Введіть відповідь`}
                                 />

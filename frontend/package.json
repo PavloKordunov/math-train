@@ -11,6 +11,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "mathquill": "^0.10.1-a",
+    "nanoid": "^5.1.5",
     "next": "15.3.1",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
