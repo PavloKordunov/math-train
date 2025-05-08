@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import CustomRadio from '../../../../components/CustomRadio'
+import CustomRadio from '../../../components/CustomRadio'
 import { FaTimes } from 'react-icons/fa'
 import TestNav from '@/components/TestNav'
 import { useParams } from 'next/navigation'
+import TimeTracker from '@/components/TimeTracker'
+import { useUser } from '@/hooks/useUser'
 
 type SavedAnswers = {
     multiple: { [taskId: string]: string };
@@ -15,6 +17,7 @@ type SavedAnswers = {
 const TestPage = () => {
     const params = useParams()
     const testId = params?.id
+    const {user} = useUser()
 
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [matches, setMatches] = useState<{ [key: number]: string | null }>({
@@ -55,6 +58,7 @@ const TestPage = () => {
     }>({});
 
     const [answers, setAnswers] = useState<any>([])
+    const [testResult, setTestResult] = useState<any>({})
 
     useEffect(() => {
         console.log(savedAnswers)
@@ -108,7 +112,7 @@ const TestPage = () => {
 
     const handleEndTest = async() => {
         try {
-            const res = await fetch(`http://localhost:8080/api/test/${test.id}/check`, {
+            const res = await fetch(`http://localhost:8080/api/test/${test.id}/check/${user?.id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,6 +121,7 @@ const TestPage = () => {
             })
 
             const data = await res.json()
+            setTestResult(data)
             console.log(data)
         } catch (error) {
             console.log(error)
@@ -203,12 +208,19 @@ const TestPage = () => {
     }, [answers])
 
     return (
+        <div className="w-full px-20">
+        <div className="relative">
+            <div className="px-20 fixed inset-x-0 z-1000">
+                <TimeTracker test={test} handleEndTest={handleEndTest} answers={answers} testResult={testResult}/>
+            </div>
+        </div>
+        <div className="py-50">
         <div>
             <TestNav />
             <div className='relative mx-auto flex'>
                 <div className="w-4/5 border border-2 border-gray-300 p-15">
                     <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
-                        <p className="text-center font-semibold text-[22px] ">Завдання 1-14 мають по пʼять варіантів відповіді, з яких лише один правильний. Виберіть правильний, на Вашу думку, варіант відповіді. Позначте відповідь і збережіть її.</p>
+                        <p className="text-center font-semibold text-[22px] ">Завдання 1-{sortedTasks.multiple.length} мають по пʼять варіантів відповіді, з яких лише один правильний. Виберіть правильний, на Вашу думку, варіант відповіді. Позначте відповідь і збережіть її.</p>
                     </div>
                     {sortedTasks.multiple.map((task) => {
                     const isSaved = Boolean(savedAnswers.multiple[task.id]);
@@ -257,7 +269,7 @@ const TestPage = () => {
                     );
                     })}
                     <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
-                        <p className='text-center font-semibold text-[22px]'>У завданнях 15-18 до кожного з трьох фрагентів інформації, позначених цифрою, доберіть один правильний, на Вашу думку, варіант, позначений буквою. Для цього натисніть курсором на інформацію, позначену буквою, а потім - на порожнє поле навпроти відповідної інформації, позначеної цифрою. Збережіть відповідь.</p>
+                        <p className='text-center font-semibold text-[22px]'>У завданнях {sortedTasks.matching[0]?.number}-{sortedTasks.matching[sortedTasks.matching.length-1]?.number} до кожного з трьох фрагентів інформації, позначених цифрою, доберіть один правильний, на Вашу думку, варіант, позначений буквою. Для цього натисніть курсором на інформацію, позначену буквою, а потім - на порожнє поле навпроти відповідної інформації, позначеної цифрою. Збережіть відповідь.</p>
                     </div>
 
                     {sortedTasks.matching.map((task) => {
@@ -376,7 +388,7 @@ const TestPage = () => {
                     )})}
 
                     <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
-                        <p className='text-center font-semibold text-[22px]'>Розвʼяжіть завдання 19-20. Одержані числові відповіді впишіть у спеціальне поле. Відповіді записуйте лише десятковим дробом, урахувавши положення коми. Знак «мінус» записуйте перед першою цифрою числа.
+                        <p className='text-center font-semibold text-[22px]'>Розвʼяжіть завдання {sortedTasks.written[0]?.number}-{sortedTasks.written[sortedTasks.written.length-1]?.number}. Одержані числові відповіді впишіть у спеціальне поле. Відповіді записуйте лише десятковим дробом, урахувавши положення коми. Знак «мінус» записуйте перед першою цифрою числа.
                         Збережіть відповідь.</p>
                     </div>
 
@@ -439,13 +451,9 @@ const TestPage = () => {
                     </div>
                 </div>
             </div>
-            <button 
-                className='bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold mb-6' 
-                onClick={handleEndTest}
-            >
-                завершити
-            </button>
         </div>
+        </div>
+    </div>
     )
 }
 

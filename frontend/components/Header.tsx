@@ -33,7 +33,7 @@ const NavBar = () => {
             </div>
             <div className="flex gap-12">
                 <Link
-                    href='/home'
+                    href={`${user?.status === 'Student' ? '/home' : '/teacher'}`}
                     onClick={() => setActive("home")}
                     className={`text-[20px] cursor-pointer relative transition duration-200 ${
                     active === "home" ? "text-[#FA8E66] font-bold" : "text-black font-medium"
@@ -45,7 +45,7 @@ const NavBar = () => {
                     )}
                 </Link>
                 <Link 
-                    href='/home'
+                    href={`${user?.status === 'Student' ? '/home' : '/teacher'}`}
                     onClick={() => setActive("map")}
                     className={`text-[20px] cursor-pointer relative transition duration-200 ${
                     active === "map" ? "text-[#FA8E66] font-bold" : "text-black font-medium"

@@ -37,9 +37,9 @@ export class TestController {
         return this.testService.assign(id, dto.studentId);
     }
 
-    @Post(':id/check')
-    compareAnswers(@Param('id') id: string, @Body() comapareAnswersDto: CompareAnswersDto[]){
-        return this.testService.compareAnswers(id, comapareAnswersDto)
+    @Post(':id/check/:userId')
+    compareAnswers(@Param('id') id: string, @Param('userId') userId: string, @Body() comapareAnswersDto: CompareAnswersDto[]){
+        return this.testService.compareAnswers(id, userId, comapareAnswersDto)
     }
     
     @Delete(':id')

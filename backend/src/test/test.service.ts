@@ -95,7 +95,7 @@ export class TestService {
         }
     }
 
-    async compareAnswers(id: string, compareAnswersDtos: CompareAnswersDto[]) {
+    async compareAnswers(id: string, userId: string, compareAnswersDtos: CompareAnswersDto[]) {
         try {
             const test = await this.databaseService.test.findUnique({
                 where: { id },
@@ -115,6 +115,7 @@ export class TestService {
             }
     
             let totalScore = 0;
+            let maxScore = 0
     
             for (const dto of compareAnswersDtos) {
                 if (!dto?.taskId) continue;
@@ -131,6 +132,7 @@ export class TestService {
                         if (selectedAnswer?.isCorrect) {
                             totalScore += 1;
                         }
+                        maxScore += 1
                         break;
                     }
     
@@ -142,6 +144,7 @@ export class TestService {
                             if (taskAnswer?.left?.rightId === userPair?.left?.rightId) {
                                 correctPairs++;
                             }
+                            maxScore += 1
                         });
                         totalScore += correctPairs;
                         break;
@@ -156,6 +159,7 @@ export class TestService {
                         ) {
                             totalScore += 2;
                         }
+                        maxScore += 2
                         break;
                     }
     
@@ -163,8 +167,12 @@ export class TestService {
                         continue; 
                 }
             }
+
+            await this.databaseService.assignedTest.deleteMany({
+                where: {studentId: userId, testId: test.id}
+            })
     
-            return { totalScore };
+            return { totalScore, maxScore };
     
         } catch (error) {
             console.error('Answer comparison failed:', error.message);
