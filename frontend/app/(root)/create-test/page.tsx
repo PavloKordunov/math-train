@@ -2,7 +2,6 @@
 
 import { useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
-import { addStyles, EditableMathField } from 'react-mathquill';
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import TestTasks from "@/components/testComponents/TestTasks";
@@ -139,13 +138,8 @@ const CreateTest = () => {
         });
         setQuestionType("");
       };
-
-    useEffect(() => {
-        addStyles();
-    }, []);
     
     useEffect(() => {
-        addStyles();
         console.log(test)
     }, [test]);
 
