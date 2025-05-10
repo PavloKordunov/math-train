@@ -195,7 +195,7 @@ const CreateTest = () => {
 
     return (
         <div>
-            <h1 className="text-[36px] mb-4 font-bold text-center">Створення нового тесту</h1>
+            <h1 className="text-[36px] mb-4 font-bold text-center">Оновлення нового тесту</h1>
             <TestBasicInfo test={test} setTest={setTest} formatDateForInput={formatDateForInput} />
             <TestTasks test={test} updateTask={updateTask} deleteTask={deleteTask} />
             <CreateTestTask questionType={questionType} setQuestionType={setQuestionType} test={test} setTest={setTest} setModalOpen={setModalOpen} question={question} setQuestion={setQuestion} toggleAnswerCorrect={toggleAnswerCorrect} updateAnswerText={updateAnswerText} handleSaveMatchingTask={handleSaveMatchingTask} />

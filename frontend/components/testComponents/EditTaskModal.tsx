@@ -4,11 +4,12 @@ import { useState, useEffect } from "react"
 import { nanoid } from "nanoid"
 
 const EditTaskModal = ({ task, onSave, onClose }: any) => {
-    const [editedTask, setEditedTask] = useState(task)
-    
+    const [editedTask, setEditedTask] = useState(JSON.parse(JSON.stringify(task)))
+
     useEffect(() => {
-        setEditedTask(task)
+        setEditedTask(JSON.parse(JSON.stringify(task)))
     }, [task])
+
 
     const handleTitleChange = (e: any) => {
         setEditedTask({...editedTask, title: e.target.value})
@@ -21,10 +22,13 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
     }
 
     const handleAnswerCorrectChange = (index: any) => {
-        const updatedAnswers = [...editedTask.answers]
-        updatedAnswers[index].isCorrect = !updatedAnswers[index].isCorrect
+        const updatedAnswers = editedTask.answers.map((answer: any, i: number) => ({
+            ...answer,
+            isCorrect: i === index 
+        }))
         setEditedTask({...editedTask, answers: updatedAnswers})
     }
+    
 
     const handlePairLeftChange = (index: any, text: any) => {
         const updatedPairs = [...editedTask.pairs]
@@ -65,10 +69,10 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
-            <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-[31px] p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-bold">Редагувати завдання</h2>
-                    <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+                    <button onClick={onClose} className="text-gray-500 text-[32px] hover:text-gray-700">
                         &times;
                     </button>
                 </div>
@@ -80,7 +84,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                             type="text"
                             value={editedTask.title}
                             onChange={handleTitleChange}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded-lg"
                             required
                         />
                     </div>
@@ -99,7 +103,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                         type="text"
                                         value={answer.text}
                                         onChange={(e) => handleAnswerTextChange(index, e.target.value)}
-                                        className="flex-1 p-2 border rounded"
+                                        className="flex-1 p-2 border rounded-lg"
                                         required
                                     />
                                 </div>

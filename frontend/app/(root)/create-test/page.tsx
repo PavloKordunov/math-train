@@ -148,11 +148,28 @@ const CreateTest = () => {
         console.log(test)
     }, [test]);
 
+    const updateTask = (updatedTask: any) => {
+        setTest((prev: any) => ({
+            ...prev,
+            tasks: prev.tasks.map((task: any) => 
+                task.id === updatedTask.id ? updatedTask : task
+            )
+        }))
+    }
+    
+    const deleteTask = (taskId: any) => {
+        setTest(prev => ({
+            ...prev,
+            tasks: prev.tasks.filter((task: any) => task.id !== taskId)
+        }))
+    }
+
+
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">Створення нового тесту</h1>
             <TestBasicInfo test={test} setTest={setTest} formatDateForInput={formatDateForInput} />
-            <TestTasks test={test} />
+            <TestTasks test={test} updateTask={updateTask} deleteTask={deleteTask} />
             <CreateTestTask questionType={questionType} handleSelect={handleSelect} setQuestionType={setQuestionType} test={test} setTest={setTest} setModalOpen={setModalOpen} question={question} setQuestion={setQuestion} toggleAnswerCorrect={toggleAnswerCorrect} updateAnswerText={updateAnswerText} handleSaveMatchingTask={handleSaveMatchingTask} />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
