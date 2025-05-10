@@ -32,7 +32,7 @@ const CreateTest = () => {
 
     const handleCreateTest = async() => {
         try {
-            const res = await fetch(`${API_URL}/api/test`, {
+            const res = await fetch(`https://math-train.onrender.com/api/test`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

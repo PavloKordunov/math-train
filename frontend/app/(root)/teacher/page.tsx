@@ -13,7 +13,7 @@ const TeacherPage = () => {
   useEffect(() => {
       const getAllStudents =async ( ) => {
           try {
-              const res = await fetch(`${API_URL}/api/student`)
+              const res = await fetch(`https://math-train.onrender.com/api/student`)
 
               const data = await res.json()
               setStudents(data)
@@ -25,7 +25,7 @@ const TeacherPage = () => {
 
       const getAllTest = async() => {
         try {
-          const res = await fetch(`${API_URL}/api/test`)
+          const res = await fetch(`https://math-train.onrender.com/api/test`)
 
           const data = await res.json()
           setTests(data)

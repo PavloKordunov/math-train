@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   const handleLogin = async() => {
     try {
-      const res = await fetch(`${API_URL}/api/login/native`, {
+      const res = await fetch(`https://math-train.onrender.com/api/login/native`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function LoginPage() {
         router.push("/home");
       }
     }
-  }, [session, status, router, user]);
+  }, [session, status, router, user]);  
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">

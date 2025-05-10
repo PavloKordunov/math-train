@@ -24,7 +24,7 @@ export default function RegisterPage() {
   const handleRegister = async(e: any) => {
     e.preventDefault()
     try {
-      const res = await fetch(`${API_URL}/api/student/register`, {
+      const res = await fetch(`https://math-train.onrender.com/api/student/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,9 +61,6 @@ export default function RegisterPage() {
 
       <div className="bg-[#FFFFFF] rounded-[32px] shadow-md w-full max-w-md py-12 px-10 text-center z-10">
         <h1 className="text-[#000] text-2xl md:text-3xl font-bold mb-8 flex items-center justify-center gap-2">
-          <svg className="w-6 h-6" fill="#000">
-            <use href={`/sprite.svg?v=1#icon-logo`}></use>
-          </svg>
           Create a user
         </h1>
 

@@ -14,7 +14,7 @@ const Home = () => {
         if(!user) return
         const getAssignedTests = async() => {
             try {
-               const res = await fetch(`${API_URL}/api/test/assign/${user?.id}`)
+               const res = await fetch(`https://math-train.onrender.com/api/test/assign/${user?.id}`)
 
                const data = await res.json()
                setTests(data)

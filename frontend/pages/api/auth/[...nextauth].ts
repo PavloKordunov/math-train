@@ -25,7 +25,7 @@ export default NextAuth({
       try {
         console.log('Sign-in attempt from:', user.email);
 
-        const res = await fetch(`${API_URL}/api/login/oauth`, {
+        const res = await fetch(`https://math-train.onrender.com/api/login/oauth`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: user.email }),

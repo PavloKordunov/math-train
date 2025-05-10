@@ -16,7 +16,7 @@ export default function homeLayout({ children }: { children: ReactNode }) {
         if (status === 'authenticated' && session?.user) {
           const getUser = async () => {
             try {
-              const res = await fetch(`${API_URL}/api/login/oauth`, {
+              const res = await fetch(`https://math-train.onrender.com/api/login/oauth`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: session?.user?.email }),
