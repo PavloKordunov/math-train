@@ -1,5 +1,5 @@
 # 1. Build stage
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -7,18 +7,19 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# Копіюємо лише Prisma schema і генеруємо Prisma Client
+COPY ./prisma ./prisma
+RUN npx prisma generate
+
 # Копіюємо решту файлів проєкту
 COPY . .
-
-# Генеруємо Prisma client
-RUN npx prisma generate
 
 # Білдимо NestJS
 RUN npm run build
 
 
 # 2. Production stage
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -26,13 +27,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production
 
-# Копіюємо побудований додаток з попереднього шару
+# Копіюємо побудований додаток і Prisma schema
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules ./node_modules
-
-# Генеруємо Prisma Client ще раз (на всяк випадок)
-RUN npx prisma generate
 
 # Запускаємо міграції перед стартом сервера
 CMD npx prisma migrate deploy && node dist/main

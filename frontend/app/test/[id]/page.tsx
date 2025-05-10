@@ -18,6 +18,7 @@ const TestPage = () => {
     const params = useParams()
     const testId = params?.id
     const {user} = useUser()
+    const API_URL = process.env.API_URL;
 
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [matches, setMatches] = useState<{ [key: number]: string | null }>({
@@ -67,7 +68,7 @@ const TestPage = () => {
     useEffect(() => {
         const getTestById = async () => {
             try {
-                const res = await fetch(`http://localhost:8080/api/test/${testId}`);
+                const res = await fetch(`${API_URL}/api/test/${testId}`);
                 const data = await res.json();
                 console.log(data);
                 setTest(data);
@@ -112,7 +113,7 @@ const TestPage = () => {
 
     const handleEndTest = async() => {
         try {
-            const res = await fetch(`http://localhost:8080/api/test/${test.id}/check/${user?.id}`, {
+            const res = await fetch(`${API_URL}/api/test/${test.id}/check/${user?.id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

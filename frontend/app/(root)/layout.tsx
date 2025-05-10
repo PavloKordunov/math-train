@@ -9,34 +9,14 @@ import { ReactNode, useEffect } from "react";
 export default function homeLayout({ children }: { children: ReactNode }) {
     const { data: session, status } = useSession();
 
-    // useEffect(() => {
-    //     if(!user){
-    //         router.push('login')
-    //     } else if(user){
-    //         if(user.status === 'Student'){
-    //             router.push('home')
-    //         } else if(user.status === 'Teacher'){
-    //             router.push('teacher')
-    //         }
-    //     }
-    // }, [])
-
     const {user, setUser} = useUser()
-    // const router= useRouter()
-  
-    // useEffect(() => {
-    //   if(user?.status === 'Student'){
-    //     router.push('home')
-    //   } else if(user?.status === 'Teacher'){
-    //       router.push('teacher')
-    //   }
-    // }, [user])
+    const API_URL = process.env.API_URL;
 
     useEffect(() => {
         if (status === 'authenticated' && session?.user) {
           const getUser = async () => {
             try {
-              const res = await fetch('http://localhost:8080/api/login/oauth', {
+              const res = await fetch(`${API_URL}/api/login/oauth`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: session?.user?.email }),

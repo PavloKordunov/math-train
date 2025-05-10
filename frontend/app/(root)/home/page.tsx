@@ -8,12 +8,13 @@ const Home = () => {
 
     const [tests, setTests] = useState<any | null>([])
     const {user} = useUser()
+    const API_URL = process.env.API_URL;
 
     useEffect(() => {
         if(!user) return
         const getAssignedTests = async() => {
             try {
-               const res = await fetch(`http://localhost:8080/api/test/assign/${user?.id}`)
+               const res = await fetch(`${API_URL}/api/test/assign/${user?.id}`)
 
                const data = await res.json()
                setTests(data)

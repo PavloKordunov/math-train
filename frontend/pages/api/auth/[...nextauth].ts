@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 
+const API_URL = process.env.API_URL;
+
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -17,7 +19,7 @@ export default NextAuth({
     async signIn({ user }) {
       console.log('Sign-in attempt from:', user.email);
 
-      const res = await fetch('http://localhost:8080/api/login/oauth', {
+      const res = await fetch(`${API_URL}/api/login/oauth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),

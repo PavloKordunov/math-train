@@ -11,6 +11,8 @@ import { useUser } from "@/hooks/useUser";
 
 export default function LoginPage() {
 
+  const API_URL = process.env.API_URL;
+
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
@@ -21,7 +23,7 @@ export default function LoginPage() {
 
   const handleLogin = async() => {
     try {
-      const res = await fetch('http://localhost:8080/api/login/native', {
+      const res = await fetch(`${API_URL}/api/login/native`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

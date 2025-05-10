@@ -8,11 +8,12 @@ const TeacherPage = () => {
 
   const [students, setStudents] = useState<any[]>([])
   const [tests, setTests] = useState<any[]>([])
+  const API_URL = process.env.API_URL;
 
   useEffect(() => {
       const getAllStudents =async ( ) => {
           try {
-              const res = await fetch('http://localhost:8080/api/student')
+              const res = await fetch(`${API_URL}/api/student`)
 
               const data = await res.json()
               setStudents(data)
@@ -24,7 +25,7 @@ const TeacherPage = () => {
 
       const getAllTest = async() => {
         try {
-          const res = await fetch('http://localhost:8080/api/test')
+          const res = await fetch(`${API_URL}/api/test`)
 
           const data = await res.json()
           setTests(data)

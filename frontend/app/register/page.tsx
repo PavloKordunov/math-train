@@ -10,6 +10,8 @@ import { useUser } from "@/hooks/useUser";
 
 export default function RegisterPage() {
 
+  const API_URL = process.env.API_URL;
+
   const [registerData, setRegisterData] = useState({
     email: '',
     password: '',
@@ -22,7 +24,7 @@ export default function RegisterPage() {
   const handleRegister = async(e: any) => {
     e.preventDefault()
     try {
-      const res = await fetch('http://localhost:8080/api/student/register', {
+      const res = await fetch(`${API_URL}/api/student/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

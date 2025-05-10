@@ -31,11 +31,12 @@ const CreateTest = () => {
         pairs: [],
       });
     const router = useRouter()
+    const API_URL = process.env.API_URL;
 
     useEffect(() => {
         const getTestById = async () => {
             try {
-                const res = await fetch(`http://localhost:8080/api/test/${testId}`);
+                const res = await fetch(`${API_URL}/api/test/${testId}`);
                 const data = await res.json();
                 console.log(data);
                 setTest(data);
@@ -49,7 +50,7 @@ const CreateTest = () => {
 
     const handleUpdateTest = async() => {
         try {
-            const res = await fetch(`http://localhost:8080/api/test/${testId}`, {
+            const res = await fetch(`${API_URL}/api/test/${testId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

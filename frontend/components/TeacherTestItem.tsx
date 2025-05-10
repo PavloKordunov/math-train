@@ -9,6 +9,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
     const [studentName, setStudentName] = useState('')
     const [selectedStudnt, setSelectedStudent] = useState<any | null>(null)
     const [filtredStudents, setFilteredStudents] = useState<any[]>([])
+    const API_URL = process.env.API_URL;
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen)
@@ -23,7 +24,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
 
     const assignTest = async() => {
         try {
-            const res = await fetch(`http://localhost:8080/api/test/${test.id}/assign`, {
+            const res = await fetch(`${API_URL}/api/test/${test.id}/assign`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

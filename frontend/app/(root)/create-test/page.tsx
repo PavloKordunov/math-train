@@ -29,10 +29,11 @@ const CreateTest = () => {
         pairs: [],
       });
     const router = useRouter()
+    const API_URL = process.env.API_URL;
 
     const handleCreateTest = async() => {
         try {
-            const res = await fetch('http://localhost:8080/api/test', {
+            const res = await fetch(`${API_URL}/api/test`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
