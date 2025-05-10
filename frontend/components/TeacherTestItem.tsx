@@ -45,7 +45,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
 
     const deleteTest = async() => {
         try {
-            const res = await fetch(`http://localhost:8080/api/test/${test.id}`, {
+            const res = await fetch(`${API_URL}/api/test/${test.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
