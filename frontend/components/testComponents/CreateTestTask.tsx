@@ -1,5 +1,4 @@
 import { nanoid } from "nanoid";
-import { EditableMathField } from "react-mathquill";
 
 const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalOpen, question, setQuestion, toggleAnswerCorrect, updateAnswerText, handleSaveMatchingTask}: any) => {
     
@@ -14,12 +13,14 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
             {questionType === 'multiple' && (
                 <div>
                     <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
-                    <EditableMathField
-                        latex={question.title}
-                        onChange={(mathField) =>
-                            setQuestion((prev: any) => ({ ...prev, title: mathField.latex() }))
+                    <input
+                        type="text"
+                        value={question.title}
+                        onChange={(e) =>
+                            setQuestion((prev: any) => ({ ...prev, title: e.target.value }))
                         }
                         className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                        placeholder={`Введіть умову умову`}
                     />
                     {question.answers.map((answer: any, index: number) => (
                         <div key={index} className="flex items-center gap-4 mt-4">
