@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { DatabaseService } from 'src/database/database.service';
 import { CreateTestDto } from './dto/createTestDto';
 import { CompareAnswersDto } from './dto/compareAnswerc';
+import { UpdateTestDto } from './dto/updateTestDto';
 
 @Injectable()
 export class TestService {
@@ -180,6 +181,58 @@ export class TestService {
                 throw error;
             }
             throw new InternalServerErrorException('Failed to evaluate answers');
+        }
+    }
+
+    async updateTest(id: string, updateTestDto: UpdateTestDto) {
+        try {
+            const { tasks, ...testData } = updateTestDto;
+    
+            const currentTest = await this.databaseService.test.findUnique({
+                where: { id },
+                include: { tasks: true }
+            });
+    
+            const currentTaskIds = currentTest?.tasks.map(task => task.id) || [];
+            const incomingTaskIds = tasks?.filter(t => !!t.id).map(t => t.id) || [];
+            
+            const tasksToDelete = currentTaskIds.filter(id => !incomingTaskIds.includes(id));
+    
+            return this.databaseService.test.update({
+                where: { id },
+                data: {
+                    ...testData,
+                    tasks: {
+                        deleteMany: tasksToDelete.length > 0 ? tasksToDelete.map(id => ({ id })) : undefined,
+                        update: tasks
+                            ?.filter(t => !!t.id)
+                            .map((t, index) => ({
+                                where: { id: t.id },
+                                data: {
+                                    title: t.title,
+                                    type: t.type ?? '',
+                                    answers: t.answers ?? [],
+                                    pairs: t.pairs ?? [],
+                                    image: t.image ?? '',
+                                    number: (index + 1).toString(),
+                                },
+                            })),
+                        create: tasks
+                            ?.filter(t => !t.id)
+                            .map((t, index) => ({
+                                title: t.title,
+                                type: t.type ?? '',
+                                answers: t.answers ?? [],
+                                pairs: t.pairs ?? [],
+                                image: t.image ?? '',
+                                number: (index + 1).toString(),
+                            })),
+                    }
+                },
+                include: { tasks: true },
+            });
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to update test');
         }
     }
     

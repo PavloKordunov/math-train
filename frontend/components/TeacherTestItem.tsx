@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaTimes } from 'react-icons/fa';
+import Link from "next/link";
 
 const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -72,7 +73,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
                 <div>
                     <p className="font-bold text-[18px] uppercase mb-6">Тест, {test.title}: 5 травня 19:00</p>
                     <div className="flex items-center gap-6">
-                        <button className="border border-gray-400 text-gray-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold uppercase">Переглянути</button>
+                        <Link href={`/view-test/${test.id}`} className="border border-gray-400 text-gray-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold uppercase">Переглянути</Link>
                         <button className="bg-rose-600 text-white px-3 py-1 rounded hover:bg-rose-700 font-semibold uppercase" onClick={toggleModal}>Назначити</button>    
                     </div>
                 </div>

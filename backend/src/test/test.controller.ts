@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { TestService } from './test.service';
 import { CreateTestDto } from './dto/createTestDto';
 import { CompareAnswersDto } from './dto/compareAnswerc'
+import { UpdateTestDto } from './dto/updateTestDto';
 
 @Controller('test')
 export class TestController {
@@ -40,6 +41,11 @@ export class TestController {
     @Post(':id/check/:userId')
     compareAnswers(@Param('id') id: string, @Param('userId') userId: string, @Body() comapareAnswersDto: CompareAnswersDto[]){
         return this.testService.compareAnswers(id, userId, comapareAnswersDto)
+    }
+
+    @Patch(':id')
+    updateTest(@Param('id') id: string, @Body() updaeteTestDto: UpdateTestDto){
+        return this.testService.updateTest(id, updaeteTestDto)
     }
     
     @Delete(':id')

@@ -1,4 +1,5 @@
 export class CreateTaskDto {
+    id: string; 
     title: string;
     image?: string;
     type: string;

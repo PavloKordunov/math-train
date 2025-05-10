@@ -2,15 +2,17 @@
 
 import { useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
-import { addStyles, EditableMathField } from 'react-mathquill';
+import { addStyles } from 'react-mathquill';
 import { nanoid } from "nanoid";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import TestTasks from "@/components/testComponents/TestTasks";
 import CreateTestTask from "@/components/testComponents/CreateTestTask";
 import TestBasicInfo from "@/components/testComponents/TestBasicInfo";
 import CreateTaskModal from "@/components/testComponents/CreateTaskModal";
 
 const CreateTest = () => {
+    const params = useParams()
+    const testId = params?.id
     const [modalOpen, setModalOpen] = useState(false);
     const [questionType, setQuestionType] = useState("");
     const {user, setUser} = useUser()
@@ -30,14 +32,42 @@ const CreateTest = () => {
       });
     const router = useRouter()
 
-    const handleCreateTest = async() => {
+    useEffect(() => {
+        const getTestById = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/api/test/${testId}`);
+                const data = await res.json();
+                console.log(data);
+                setTest(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getTestById()
+    }, [])
+
+    const handleUpdateTest = async() => {
         try {
-            const res = await fetch('http://localhost:8080/api/test', {
-                method: "POST",
+            const res = await fetch(`http://localhost:8080/api/test/${testId}`, {
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(test)
+                body: JSON.stringify({
+                    title: test.title,
+                    description: test.description,
+                    timeLimit: test.timeLimit,
+                    teacherId: test.teacherId,
+                    endTime: test.endTime,
+                    tasks: test.tasks.map((task: any) => ({
+                        title: task.title,
+                        type: task.type,
+                        answers: task.answers,
+                        pairs: task.pairs,
+                        number: task.number
+                    }))
+                })
             })
 
             const data = await res.json()
@@ -144,22 +174,37 @@ const CreateTest = () => {
     }, []);
     
     useEffect(() => {
-        addStyles();
-        console.log(test)
-    }, [test]);
+        console.log(question)
+    }, [question]);
+
+    const updateTask = (updatedTask: any) => {
+        setTest((prev: any) => ({
+            ...prev,
+            tasks: prev.tasks.map((task: any) => 
+                task.id === updatedTask.id ? updatedTask : task
+            )
+        }))
+    }
+    
+    const deleteTask = (taskId: any) => {
+        setTest(prev => ({
+            ...prev,
+            tasks: prev.tasks.filter((task: any) => task.id !== taskId)
+        }))
+    }
 
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">Створення нового тесту</h1>
             <TestBasicInfo test={test} setTest={setTest} formatDateForInput={formatDateForInput} />
-            <TestTasks test={test} />
-            <CreateTestTask questionType={questionType} handleSelect={handleSelect} setQuestionType={setQuestionType} test={test} setTest={setTest} setModalOpen={setModalOpen} question={question} setQuestion={setQuestion} toggleAnswerCorrect={toggleAnswerCorrect} updateAnswerText={updateAnswerText} handleSaveMatchingTask={handleSaveMatchingTask} />
+            <TestTasks test={test} updateTask={updateTask} deleteTask={deleteTask} />
+            <CreateTestTask questionType={questionType} setQuestionType={setQuestionType} test={test} setTest={setTest} setModalOpen={setModalOpen} question={question} setQuestion={setQuestion} toggleAnswerCorrect={toggleAnswerCorrect} updateAnswerText={updateAnswerText} handleSaveMatchingTask={handleSaveMatchingTask} />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
-                    onClick={handleCreateTest}
+                    onClick={handleUpdateTest}
                     className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
                 >
-                    Створити тест
+                    Оновити тест
                 </button>
             </div>
             {modalOpen && <CreateTaskModal handleSelect={handleSelect} setModalOpen={setModalOpen} />}
