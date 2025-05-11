@@ -72,7 +72,7 @@ export class TestService {
                           answers: t.answers ?? [],
                           pairs: t.pairs ?? [],
                           image: t.image ?? '',
-                          number: (index + 1).toString()
+                          number: (index + 1).toString(),
                         })),
                     },
                 },

@@ -1,10 +1,29 @@
+import { IsOptional, IsString } from 'class-validator';
+
 export class CreateTaskDto {
-    id?: string; 
-    title?: string;
-    image?: string;
-    type?: string;
-    answers?: string[];
-    pairs?: string[];
-    number?: string
-  }
-  
+  @IsOptional()
+  @IsString()
+  id?: string;
+
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
+
+  @IsOptional()
+  @IsString()
+  type?: string;
+
+  @IsOptional()
+  answers?: string[];
+
+  @IsOptional()
+  pairs?: string[];
+
+  @IsOptional()
+  @IsString()
+  number?: string;
+}

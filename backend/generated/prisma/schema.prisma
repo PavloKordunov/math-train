@@ -80,7 +80,7 @@ model Task {
   id          String   @id @default(cuid())
   title       String
   number      String
-  image       String?
+  image       String?  @db.Text
   type        String?
   isSaved     Boolean? @default(false)
   userAnsewer Json?

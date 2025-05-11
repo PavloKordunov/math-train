@@ -35,7 +35,7 @@ const CreateTest = () => {
     useEffect(() => {
         const getTestById = async () => {
             try {
-                const res = await fetch(`${API_URL}/api/test/${testId}`);
+                const res = await fetch(`https://math-train.onrender.com/api/test/${testId}`);
                 const data = await res.json();
                 console.log(data);
                 setTest(data);
@@ -49,7 +49,7 @@ const CreateTest = () => {
 
     const handleUpdateTest = async() => {
         try {
-            const res = await fetch(`${API_URL}/api/test/${testId}`, {
+            const res = await fetch(`https://math-train.onrender.com/api/test/${testId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
