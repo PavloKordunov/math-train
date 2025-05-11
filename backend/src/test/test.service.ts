@@ -67,7 +67,7 @@ export class TestService {
                     ...testData,
                     tasks: {
                         create: tasks.map((t, index) => ({
-                          title: t.title,
+                          title: t.title ?? 'Untitled Task',
                           type: t.type ?? '',
                           answers: t.answers ?? [],
                           pairs: t.pairs ?? [],
@@ -220,7 +220,7 @@ export class TestService {
                         create: tasks
                             ?.filter(t => !t.id)
                             .map((t, index) => ({
-                                title: t.title,
+                                title: t.title ?? 'Untitled Task',
                                 type: t.type ?? '',
                                 answers: t.answers ?? [],
                                 pairs: t.pairs ?? [],

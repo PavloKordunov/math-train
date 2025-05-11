@@ -17,14 +17,6 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
   });
   
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    })
-  );
-  
   await app.listen(process.env.PORT ?? 8080);
 }
 bootstrap()
