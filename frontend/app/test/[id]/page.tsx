@@ -7,6 +7,8 @@ import TestNav from '@/components/TestNav'
 import { useParams } from 'next/navigation'
 import TimeTracker from '@/components/TimeTracker'
 import { useUser } from '@/hooks/useUser'
+import LatextTranform from "@/helpers/latexTransform"
+import Image from 'next/image'
 
 type SavedAnswers = {
     multiple: { [taskId: string]: string };
@@ -21,11 +23,6 @@ const TestPage = () => {
     const API_URL = process.env.API_URL;
 
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    const [matches, setMatches] = useState<{ [key: number]: string | null }>({
-        0: null,
-        1: null,
-        2: null,
-    });
     const [test, setTest] = useState<any | null>({})
     const [sortedTasks, setSortedTasks] = useState<{
         multiple: any[];
@@ -68,7 +65,7 @@ const TestPage = () => {
     useEffect(() => {
         const getTestById = async () => {
             try {
-                const res = await fetch(`${API_URL}/api/test/${testId}`);
+                const res = await fetch(`https://math-train.onrender.com/api/test/${testId}`);
                 const data = await res.json();
                 console.log(data);
                 setTest(data);
@@ -113,7 +110,7 @@ const TestPage = () => {
 
     const handleEndTest = async() => {
         try {
-            const res = await fetch(`${API_URL}/api/test/${test.id}/check/${user?.id}`, {
+            const res = await fetch(`https://math-train.onrender.com/api/test/${test.id}/check/${user?.id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -231,7 +228,16 @@ const TestPage = () => {
                         <div id={`task-${task.id}`} key={task.id}>
                         <div className="h-[2px] w-full bg-gray-300 mb-6"></div>
                         <h2 className="text-[24px] font-medium mb-8">Завдання {task.number}</h2>
-                        <p className="text-[18px] mb-6 font-medium">{task.title}</p>
+                        <LatextTranform content={task.title} className="text-[18px] mb-6 font-medium" />
+                        {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
+                            <Image 
+                                src={task.image} 
+                                alt={task.title} 
+                                width={237} 
+                                height={237}
+                                className="w-full h-full object-cover" 
+                            />
+                        </div>}
                         
                         <div className="flex flex-col gap-3 w-full mb-8">
                             {task.answers.map((answer: any) => (
@@ -244,7 +250,7 @@ const TestPage = () => {
                                 checked={selectedAnswerIndex === answer.id}
                                 onChange={() => handleAnswerSelect(task.id, answer.id)}
                                 />
-                                <p>{answer.text}</p>
+                                <LatextTranform content={answer.text} />
                             </div>
                             ))}
                         </div>
@@ -290,17 +296,33 @@ const TestPage = () => {
                         return (<div id={`task-${task.id}`} key={task.id}>
                             <div className="h-[2px] w-full bg-gray-300 mb-6"></div>
                             <h2 className="text-[24px] font-medium mb-8">Завдання {task.number}</h2>
-                            <p className="text-[18px] mb-6 font-medium">{task.title}</p>
+                            <LatextTranform content={task.title} className="text-[18px] mb-6 font-medium" />
+                            {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
+                                <Image 
+                                    src={task.image} 
+                                    alt={task.title} 
+                                    width={237} 
+                                    height={237}
+                                    className="w-full h-full object-cover" 
+                                />
+                            </div>}
                             
                             <div className='flex gap-100 mb-8'>
                                 <div className='flex flex-col gap-4 text-[16px] font-semibold'>
                                 {task.pairs.filter((pair: any) => pair.left.text).map((pair: any, index: any) => (
-                                    <p key={`left-${index}`}>{index + 1}. {pair.left.text}</p>
+                                    <div className='flex items-center'  key={`left-${index}`}>
+                                        <p>{index + 1}. </p>
+                                        <LatextTranform content={pair.left.text} className="text-[18px] mb-6 font-medium" />
+                                    </div>
                                 ))}
                                 </div>
                                 <div className='flex flex-col gap-4 text-[16px] font-semibold'>
                                 {task.pairs.filter((pair: any) => pair.right.text).map((pair: any, index: any) => (
-                                    <p key={`right-${index}`}>{String.fromCharCode(65 + index)}. {pair.right.text}</p>
+                                    
+                                    <div className='flex items-center' key={`right-${index}`}>
+                                    <p >{String.fromCharCode(65 + index)}. </p>
+                                    <LatextTranform content={pair.right.text} className="text-[18px] mb-6 font-medium" />
+                                </div>
                                 ))}
                                 </div>
                             </div>
@@ -399,7 +421,16 @@ const TestPage = () => {
                             <div className="h-[2px] w-full bg-gray-300 mb-6"></div>
 
                             <h2 className="text-[24px] font-medium mb-8">Завдання {task.number}</h2>
-                            <p className="text-[18px] mb-6 font-medium">{task.title}</p>
+                            <LatextTranform content={task.title} className="text-[18px] mb-6 font-medium" />
+                            {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
+                                <Image 
+                                    src={task.image} 
+                                    alt={task.title} 
+                                    width={237} 
+                                    height={237}
+                                    className="w-full h-full object-cover" 
+                                />
+                            </div>}
 
                             <p className="text-[18px] mb-6 font-medium">Упишіть відповідь</p>
                             <input

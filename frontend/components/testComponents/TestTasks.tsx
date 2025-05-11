@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { MdEdit, MdDelete } from "react-icons/md"
 import EditTaskModal from "./EditTaskModal" 
+import LatextTranform from "@/helpers/latexTransform"
+import Image from "next/image"
 
 const TestTasks = ({ test, updateTask, deleteTask }: any) => {
     const [editingTask, setEditingTask] = useState(null)
@@ -12,7 +14,10 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
     }
 
     const handleSave = (updatedTask: any) => {
-        updateTask(updatedTask)
+        updateTask({
+            ...updatedTask,
+            image: updatedTask.image || null
+        });
         setEditingTask(null)
     }
 
@@ -44,7 +49,16 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                         </button>
                                     </div>
                                 </div>
-                                <p className="text-xl font-semibold mb-4">{task.title}</p>
+                                <LatextTranform content={task.title} className="text-xl font-semibold mb-4" />
+                                {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
+                                    <Image 
+                                        src={task.image} 
+                                        alt={task.title} 
+                                        width={237} 
+                                        height={237}
+                                        className="w-full h-full object-cover" 
+                                    />
+                                </div>}
                                 {task.answers.map((answer: any, idx: any) => (
                                     <div key={idx} className="flex items-center gap-4 mt-4">
                                         <input
@@ -52,7 +66,7 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                             checked={answer.isCorrect}
                                             readOnly
                                         />
-                                        <p>{answer.text}</p>
+                                        <LatextTranform content={answer.text} />
                                     </div>
                                 ))}
                             </div>
@@ -71,12 +85,24 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                         </button>
                                     </div>
                                 </div>
-                                <p className="text-xl font-semibold mb-4">{task.title}</p>
+                                <LatextTranform content={task.title} className="text-xl font-semibold mb-4" />
+                                {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
+                                    <Image 
+                                        src={task.image} 
+                                        alt={task.title} 
+                                        width={237} 
+                                        height={237}
+                                        className="w-full h-full object-cover" 
+                                    />
+                                </div>}
                                 {task.pairs.map((pair: any, idx: any) => (
                                     <div key={idx} className="flex items-center gap-4 mt-4">
-                                        <p className="font-medium">{idx + 1}. {pair.left.text}</p>
+                                        <div className="flex items-center">
+                                            <p className="font-medium">{idx + 1}.</p>
+                                            <LatextTranform content={pair.left.text} />
+                                        </div>
                                         <span className="text-gray-500">—</span>
-                                        <p>{pair.right.text}</p>
+                                        <LatextTranform content={pair.right.text} />
                                     </div>
                                 ))}
                             </div>
@@ -95,10 +121,19 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                         </button>
                                     </div>
                                 </div>
-                                <p className="text-xl font-semibold mb-4">{task.title}</p>
+                                <LatextTranform content={task.title} className="text-xl font-semibold mb-4" />
+                                {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
+                                    <Image 
+                                        src={task.image} 
+                                        alt={task.title} 
+                                        width={237} 
+                                        height={237}
+                                        className="w-full h-full object-cover" 
+                                    />
+                                </div>}
                                 <div className="flex items-center gap-4 mt-4">
                                     <p className="font-medium">Відповідь: </p>
-                                    <p>{task.answers?.[0]?.text || "Немає відповіді"}</p>
+                                    <LatextTranform content={task.answers?.[0]?.text || "Немає відповіді"} />
                                 </div>
                             </div>
                         )}

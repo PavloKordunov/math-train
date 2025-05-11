@@ -1,7 +1,14 @@
 import { nanoid } from "nanoid";
+import MathInput from "../MathInput";
+import Image from "next/image";
+import { encodeImageFileAsURL } from "@/helpers/imageLoader";
+import { useState } from "react";
+import { MdDelete } from "react-icons/md";
 
 const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalOpen, question, setQuestion, toggleAnswerCorrect, updateAnswerText, handleSaveMatchingTask}: any) => {
-    
+   
+    const [base64, setBase64] = useState('')
+
     return (
         <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
             {questionType === '' && <div
@@ -13,15 +20,37 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
             {questionType === 'multiple' && (
                 <div>
                     <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
-                    <input
-                        type="text"
-                        value={question.title}
-                        onChange={(e) =>
-                            setQuestion((prev: any) => ({ ...prev, title: e.target.value }))
-                        }
-                        className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                        placeholder={`Введіть умову умову`}
+                    <MathInput
+                    value={question.title}
+                    onChange={(val: string) => {
+                        setQuestion((prev: any) => ({
+                        ...prev,
+                        title: val
+                        }));
+                    }}
+                    className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
                     />
+                    <div className={`w-full mt-4 h-64 px-4 py-2 flex items-center justify-center bg-[#fff] rounded-[10px] mb-5`}>
+                        
+                        {base64 ? (
+                                <div className="relative w-fit">
+                                    <Image src={base64} alt="" width={2} height={2} className="w-fit max-h-64" />
+                                    <div onClick={() => setBase64('')} className="absolute top-[10px] right-[10px] w-7 h-8" >
+                                        <MdDelete size={24} />
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <label
+                                        className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+                                        htmlFor="img"
+                                    >
+                                        <span>Завантажте світлину</span>
+                                    </label>
+                        <           input type="file" id="img" onChange={(e) => encodeImageFileAsURL(e, setBase64, setQuestion)} className="hidden"/>
+                                </>
+                            )}
+                    </div>
                     {question.answers.map((answer: any, index: number) => (
                         <div key={index} className="flex items-center gap-4 mt-4">
                             <input
@@ -29,12 +58,12 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
                                 checked={answer.isCorrect}
                                 onChange={() => toggleAnswerCorrect(index)}
                             />
-                            <input
-                                type="text"
+                            <MathInput
                                 value={answer.text}
-                                onChange={(e) => updateAnswerText(index, e.target.value)}
-                                className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                                placeholder={`Введіть умову відповіді ${index + 1}`}
+                                onChange={(val: string) => {
+                                    updateAnswerText(index, val)
+                                }}
+                                className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                             />
                         </div>
                     ))}
@@ -55,9 +84,11 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
                                 setQuestion({
                                     title: "",
                                     type: "",
-                                    answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false }))
+                                    answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false })),
+                                    image: ''
                                 });
                                 setQuestionType("");
+                                setBase64('')
                                 console.log(test);
                             }}
                         >
@@ -69,37 +100,57 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
             {questionType === 'matching' && (
             <div>
                 <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
-                <input
-                type="text"
-                value={question.title}
-                onChange={(e) => setQuestion((prev: any) => ({ ...prev, title: e.target.value }))}
-                className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                placeholder="Введіть інструкцію для відповідності"
+                <MathInput
+                    value={question.title}
+                    onChange={(val: string) => {
+                        setQuestion((prev: any) => ({
+                        ...prev,
+                        title: val
+                        }));
+                    }}
+                    className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
                 />
+                <div className={`w-full mt-4 h-64 px-4 py-2 flex items-center justify-center bg-[#fff] rounded-[10px] mb-5`}>
+                        
+                    {base64 ? (
+                            <div className="relative w-fit">
+                                <Image src={base64} alt="" width={2} height={2} className="w-fit max-h-64" />
+                                <div onClick={() => setBase64('')} className="absolute top-[10px] right-[10px] w-7 h-8" >
+                                    <MdDelete size={24} />
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <label
+                                    className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+                                    htmlFor="img"
+                                >
+                                    <span>Завантажте світлину</span>
+                                </label>
+                    <           input type="file" id="img" onChange={(e) => encodeImageFileAsURL(e, setBase64, setQuestion)} className="hidden"/>
+                            </>
+                        )}
+                </div>
                 {question.pairs.map((pair: any, index: number) => (
                 <div key={index} className="flex items-center gap-4 mt-4">
-                    <input
-                    type="text"
-                    value={pair?.left.text}
-                    onChange={(e) => {
-                        const newPairs = [...question.pairs];
-                        newPairs[index].left.text = e.target.value;
-                        setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
-                    }}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                    placeholder={`Ліва частина ${index + 1}`}
+                    <MathInput
+                        value={pair?.left.text}
+                        onChange={(val) => {
+                            const newPairs = [...question.pairs];
+                            newPairs[index].left.text = val;
+                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+                        }}
+                        className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                     />
                     <span className="text-xl font-bold">—</span>
-                    <input
-                    type="text"
-                    value={pair?.right.text}
-                    onChange={(e) => {
-                        const newPairs = [...question.pairs];
-                        newPairs[index].right.text = e.target.value;
-                        setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
-                    }}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                    placeholder={`Права частина ${index + 1}`}
+                    <MathInput
+                        value={pair?.right.text}
+                        onChange={(val) => {
+                            const newPairs = [...question.pairs];
+                            newPairs[index].right.text = val;
+                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+                        }}
+                        className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                     />
                     <button
                     onClick={() => {
@@ -133,7 +184,11 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
                 </button>
                 <button
                     className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
-                    onClick={handleSaveMatchingTask}
+                    onClick={() => {
+                        handleSaveMatchingTask()
+                        setBase64('')
+                    }}
+                    
                 >
                     Зберегти
                 </button>
@@ -143,22 +198,45 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
             {questionType === 'written' && (
                 <div>
                     <label className="block text-gray-700 font-medium mb-1">Умова завдання</label>
-                    <textarea
+                    <MathInput
                         value={question.title}
-                        onChange={(e) => setQuestion({ ...question, title: e.target.value })}
-                        className="w-full border border-gray-300 rounded-xl px-4 py-2 resize-none"
-                        placeholder="Введіть текст запитання"
+                        onChange={(val: string) => {
+                            setQuestion((prev: any) => ({
+                            ...prev,
+                            title: val
+                            }));
+                        }}
+                        className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
                     />
-                        <div className="flex items-center gap-4 mt-4">
-                            <p>Введіть відповідь: </p>
-                            <input
-                                type="text"
-                                value={question.answers[0]?.text || ""}
-                                onChange={(e) => setQuestion({ ...question, answers: [{ text: e.target.value, id: nanoid() }] })}
-                                className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                                placeholder={`Введіть відповідь`}
-                            />
-                        </div>
+                    <div className={`w-full mt-4 h-64 px-4 py-2 flex items-center justify-center bg-[#fff] rounded-[10px] mb-5`}>
+                        
+                        {base64 ? (
+                                <div className="relative w-fit">
+                                    <Image src={base64} alt="" width={2} height={2} className="w-fit max-h-64" />
+                                    <div onClick={() => setBase64('')} className="absolute top-[10px] right-[10px] w-7 h-8" >
+                                        <MdDelete size={24} />
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <label
+                                        className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+                                        htmlFor="img"
+                                    >
+                                        <span>Завантажте світлину</span>
+                                    </label>
+                        <           input type="file" id="img" onChange={(e) => encodeImageFileAsURL(e, setBase64, setQuestion)} className="hidden"/>
+                                </>
+                            )}
+                    </div>
+                    <div className="flex items-center gap-4 mt-4">
+                        <p>Введіть відповідь: </p>
+                        <MathInput
+                            value={question.answers[0]?.text || ""}
+                            onChange={(val) => setQuestion({ ...question, answers: [{ text: val, id: nanoid() }] })}
+                            className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                        />
+                    </div>
                     <div className="flex w-full mt-4 items-center gap-4 justify-end">
                         <button
                             className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
@@ -176,9 +254,11 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
                                 setQuestion({
                                     title: "",
                                     type: "",
-                                    answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false }))
+                                    answers: Array(4).fill(null).map(() => ({ text: "", isCorrect: false })),
+                                    image: ''
                                 });
                                 setQuestionType("");
+                                setBase64('')
                                 console.log(test);
                             }}
                         >

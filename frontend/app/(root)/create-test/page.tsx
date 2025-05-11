@@ -26,13 +26,14 @@ const CreateTest = () => {
         type: "",
         answers: [],
         pairs: [],
+        image: ''
       });
     const router = useRouter()
     const API_URL = process.env.API_URL;
 
     const handleCreateTest = async() => {
         try {
-            const res = await fetch(`https://math-train.onrender.com/api/test`, {
+            const res = await fetch(`http://localhost:8080/api/test`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,6 +62,7 @@ const CreateTest = () => {
             type: "multiple",
             answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false, id: nanoid() })),
             pairs: [],
+            image: '',
             });
         } else if (type === "matching") {
             setQuestion({
@@ -68,6 +70,7 @@ const CreateTest = () => {
             type: "matching",
             answers: [{left: {rightId: ''}}],
             pairs: [{ left: {id: nanoid(), text: ''}, right: {id: nanoid(), text: ''}, id: nanoid() }],
+            image: ''
             });
         } else if (type === "written") {
             setQuestion({
@@ -75,6 +78,7 @@ const CreateTest = () => {
             type: "written",
             answers: [{text: '', id: nanoid()}],
             pairs: [],
+            image: ''
         });
     }
     

@@ -2,6 +2,8 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "mathlive";
+
 import { SessionProvider } from "next-auth/react";
 import { UserProvider} from "@/hooks/useUser";
 

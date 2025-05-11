@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'KaTeX_Main';
+    src: url('/mathlive-fonts/KaTeX_Main-Regular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+  }
+  @font-face {
+    font-family: 'KaTeX_Main';
+    src: url('/mathlive-fonts/KaTeX_Main-BoldItalic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  
