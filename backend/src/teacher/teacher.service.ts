@@ -39,6 +39,22 @@ export class TeacherService {
         } 
     }
 
+    async getTeacherById(id: string){
+        try {
+            const teacher = await this.databaseServise.teacher.findUnique({
+                where: {id}
+            })
+    
+            if(!teacher){
+                throw new NotFoundException("User not found");
+            }
+    
+            return teacher   
+        } catch (error) {
+            throw new InternalServerErrorException(error.message);
+        }
+    }
+
     async delete(id: string) {
         try {
             const user = await this.databaseServise.teacher.findUnique({

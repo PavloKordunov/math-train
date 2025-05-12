@@ -461,7 +461,7 @@ const TestPage = () => {
                         </div>
                     )})}
                 </div>
-                <div className="w-1/6 absolute right-10 top-0 h-fit bg-white border-2 border-gray-300 shadow-md p-4 overflow-y-auto">
+                <div className="w-1/6 fixed right-20 -transform-x-1/2 -transform-y-1/2 h-fit bg-white border-2 border-gray-300 shadow-md p-4 overflow-y-auto">
                     <h2 className="text-lg font-semibold mb-4">Завдання</h2>
                     <div className="grid grid-cols-4 gap-2">
                         {test?.tasks?.map((task: any) => {

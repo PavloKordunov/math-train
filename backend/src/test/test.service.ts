@@ -62,6 +62,18 @@ export class TestService {
         try {
             const {tasks, ...testData} = createTestDto
     
+            console.log(testData)
+
+            const teacher = await this.databaseService.teacher.findUnique({
+                where: {id: testData.teacherId}
+            })
+
+            console.log(teacher)
+
+            if(!teacher){
+                throw new NotFoundException("User not found");
+            }
+
             return this.databaseService.test.create({
                 data: {
                     ...testData,

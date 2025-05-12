@@ -21,7 +21,7 @@ const NavBar = () => {
         await signOut({ redirect: false })
         localStorage.removeItem('user');
         setUser(null); 
-        router.push('login')
+        router.push('/login')
     }
 
     return (
