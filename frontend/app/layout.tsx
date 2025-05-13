@@ -6,6 +6,7 @@ import "mathlive";
 
 import { SessionProvider } from "next-auth/react";
 import { UserProvider} from "@/hooks/useUser";
+import { MathJaxProvider } from "@/helpers/MathJaxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,9 @@ export default function RootLayout({
       >
         <SessionProvider>
           <UserProvider>
-            {children}
+            <MathJaxProvider>
+              {children}
+            </MathJaxProvider>
           </UserProvider>
         </SessionProvider>
       </body>

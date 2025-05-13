@@ -49,7 +49,7 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                         </button>
                                     </div>
                                 </div>
-                                <LatextTranform content={task.title} className="text-xl font-semibold mb-4" />
+                                <LatextTranform content={task.title} className="text-xl font-semibold mb-4 max-w-full"/>
                                 {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
                                     <Image 
                                         src={task.image} 

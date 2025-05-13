@@ -103,7 +103,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
-            <div className="bg-white rounded-[31px] p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-[31px] p-6 w-full max-w-200 max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-bold">Редагувати завдання</h2>
                     <button onClick={onClose} className="text-gray-500 text-[32px] hover:text-gray-700">
@@ -111,14 +111,16 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit}>
+                <form className="max-w-200" onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700 mb-2">Заголовок:</label>
-                        <MathInput
-                            value={editedTask.title}
-                            onChange={(val) => handleTitleChange(val)}
-                            className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
-                        />
+                        <div className="w-full">
+                            <MathInput
+                                value={editedTask.title}
+                                onChange={(val) => handleTitleChange(val)}
+                                className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                            />
+                        </div>
                         {editedTask.image ? (
                             <div className="relative w-fit">
                                 <Image 
@@ -180,7 +182,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                             <h3 className="text-lg font-semibold mb-2">Пари:</h3>
                             {editedTask.pairs.map((pair: any, index: any) => (
                                 <div key={index} className="flex items-center gap-4 mb-4">
-                                    <div className="flex-1">
+                                    <div className="flex-1 max-w-50">
                                         <MathInput
                                             value={pair.left.text}
                                             onChange={(val: string) => {
@@ -190,7 +192,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                         />
                                     </div>
                                     <span className="text-gray-500">—</span>
-                                    <div className="flex-1">
+                                    <div className="flex-1 max-w-50">
                                         <MathInput
                                             value={pair.right.text}
                                             onChange={(val: string) => {

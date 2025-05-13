@@ -132,37 +132,45 @@ const CreateTestTask = ({questionType, setQuestionType, test, setTest, setModalO
                         )}
                 </div>
                 {question.pairs.map((pair: any, index: number) => (
-                <div key={index} className="flex items-center gap-4 mt-4">
-                    <MathInput
-                        value={pair?.left.text}
-                        onChange={(val) => {
-                            const newPairs = [...question.pairs];
-                            newPairs[index].left.text = val;
-                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
-                        }}
-                        className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
-                    />
-                    <span className="text-xl font-bold">—</span>
-                    <MathInput
-                        value={pair?.right.text}
-                        onChange={(val) => {
-                            const newPairs = [...question.pairs];
-                            newPairs[index].right.text = val;
-                            setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
-                        }}
-                        className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
-                    />
-                    <button
-                    onClick={() => {
-                        const newPairs = [...question.pairs];
-                        newPairs.splice(index, 1);
-                        setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
-                    }}
-                    className="text-red-500 hover:underline"
-                    >
-                    ✕
-                    </button>
-                </div>
+                    <div key={index} className="flex items-center gap-4 mt-4 w-full">
+  <div className="flex-1 min-w-0">
+    <MathInput
+      value={pair?.left.text}
+      onChange={(val) => {
+        const newPairs = [...question.pairs];
+        newPairs[index].left.text = val;
+        setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+      }}
+      className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1 truncate"
+    />
+  </div>
+
+  <span className="text-xl font-bold">—</span>
+
+  <div className="flex-1 min-w-0">
+    <MathInput
+      value={pair?.right.text}
+      onChange={(val) => {
+        const newPairs = [...question.pairs];
+        newPairs[index].right.text = val;
+        setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+      }}
+      className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1 truncate"
+    />
+  </div>
+
+  <button
+    onClick={() => {
+      const newPairs = [...question.pairs];
+      newPairs.splice(index, 1);
+      setQuestion((prev: any) => ({ ...prev, pairs: newPairs }));
+    }}
+    className="text-red-500 hover:underline"
+  >
+    ✕
+  </button>
+</div>
+
                 ))}
                 <button
                 onClick={() => {

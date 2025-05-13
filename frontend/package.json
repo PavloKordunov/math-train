@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "better-react-mathjax": "^2.3.0",
     "katex": "^0.16.22",
     "mathlive": "^0.105.2",
     "nanoid": "^5.1.5",

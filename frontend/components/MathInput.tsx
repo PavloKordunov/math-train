@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MathInputProps {
   value?: string;
@@ -11,6 +11,8 @@ interface MathInputProps {
 const MathInput = ({ value = '', onChange, className }: MathInputProps) => {
   const mathfieldRef = useRef<any>(null);
   const lastValueRef = useRef(value);
+  const [isTextMode, setIsTextMode] = useState(true);
+  const modeLockRef = useRef(false);
 
   useEffect(() => {
     const originalError = console.error;
@@ -21,18 +23,33 @@ const MathInput = ({ value = '', onChange, className }: MathInputProps) => {
     return () => {
       console.error = originalError;
     };
-  }, [onChange]);
+  }, []);
 
   useEffect(() => {
     if (!mathfieldRef.current) return;
 
     const mathfield = mathfieldRef.current;
-    
+
     mathfield.value = value;
     lastValueRef.current = value;
 
-    mathfield.smartMode = true;
-    mathfield.smartSuperscript = true;
+    mathfield.smartSuperscript = false;
+    mathfield.defaultMode = isTextMode ? 'text' : 'math';
+    mathfield.mode = isTextMode ? 'text' : 'math';
+        mathfield.inlineShortcuts = {
+      "in": "\\in",
+      "notin": "\\notin",
+      "infty": "\\infty",
+      "->": "\\to",
+      "=>": "\\Rightarrow",
+      "<=": "\\le",
+      ">=": "\\ge",
+      "!=": "\\ne",
+      "**": "\\cdot",
+      "xx": "\\times",
+      "//": "\\frac",
+      "\\\\": "\\setminus"
+    };
 
     const handleInput = () => {
       const newValue = mathfield.value;
@@ -40,13 +57,17 @@ const MathInput = ({ value = '', onChange, className }: MathInputProps) => {
         lastValueRef.current = newValue;
         onChange?.(newValue);
       }
+      
+      if (modeLockRef.current) {
+        mathfield.mode = isTextMode ? 'text' : 'math';
+      }
     };
 
     mathfield.addEventListener('input', handleInput);
     return () => {
       mathfield.removeEventListener('input', handleInput);
     };
-  }, [onChange]);
+  }, [onChange, isTextMode]);
 
   useEffect(() => {
     if (mathfieldRef.current && value !== lastValueRef.current) {
@@ -55,13 +76,35 @@ const MathInput = ({ value = '', onChange, className }: MathInputProps) => {
     }
   }, [value]);
 
+  const toggleMode = () => {
+    modeLockRef.current = true;
+    setIsTextMode(prev => !prev);
+    
+    if (mathfieldRef.current) {
+      mathfieldRef.current.mode = !isTextMode ? 'text' : 'math';
+      mathfieldRef.current.focus();
+    }
+  };
+
   return (
-    //@ts-ignore
-    <math-field
-      ref={mathfieldRef}
-      className={className}
-      style={{ minHeight: '40px' }}
-    />
+    <div className="w-full  flex items-center gap-2">
+      {/* @ts-ignore */}
+      <math-field
+        ref={mathfieldRef}
+        className={`${className} max-w-full overflow-hidden`}
+        style={{ minHeight: '40px' }}
+        smart-mode="true"
+        default-mode={isTextMode ? 'text' : 'math'}
+      />
+
+      <button
+        type="button"
+        onClick={toggleMode}
+        className="px-4 py-2 rounded-md bg-blue-500 text-white text-md hover:bg-blue-600 transition"
+      >
+        {isTextMode ? 'Текст' : 'Формула'}
+      </button>
+    </div>
   );
 };
 

@@ -28,6 +28,7 @@ const CreateTest = () => {
         type: "",
         answers: [],
         pairs: [],
+        image: ''
       });
     const router = useRouter()
     const API_URL = process.env.API_URL;
@@ -87,6 +88,7 @@ const CreateTest = () => {
         
         if (type === "multiple") {
             setQuestion({
+            id: nanoid(),
             title: "",
             type: "multiple",
             answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false, id: nanoid() })),
@@ -94,6 +96,7 @@ const CreateTest = () => {
             });
         } else if (type === "matching") {
             setQuestion({
+            id: nanoid(),
             title: "",
             type: "matching",
             answers: [{left: {rightId: ''}}],
@@ -101,6 +104,7 @@ const CreateTest = () => {
             });
         } else if (type === "written") {
             setQuestion({
+            id: nanoid(),
             title: "",
             type: "written",
             answers: [{text: '', id: nanoid()}],
@@ -161,6 +165,7 @@ const CreateTest = () => {
         }));
       
         setQuestion({
+          id: '',
           title: "",
           type: "",
           answers: [],
