@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
+import { ClipLoader } from "react-spinners";
 
 export default function LoginPage() {
 
@@ -20,8 +21,10 @@ export default function LoginPage() {
 
   const router = useRouter()
   const {user, setUser} = useUser()
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleLogin = async() => {
+    setIsLoading(true)
     try {
       const res = await fetch(`https://math-train.onrender.com/api/login/native`, {
         method: "POST",
@@ -44,6 +47,9 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
+    } finally{
+      setIsLoading(false)
     }
   }
 
@@ -103,9 +109,10 @@ export default function LoginPage() {
               e.preventDefault()
               handleLogin()
             }}
+            disabled={isLoading}
             className="px-8 py-3 rounded-[16px] bg-[#1565C0] text-white font-semibold text-[16px] shadow-md transition"
           >
-            Log in
+            {isLoading ? <ClipLoader color="#36d7b7" size={20} /> : "Log In"}
           </button>
         </form>
 

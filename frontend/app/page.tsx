@@ -13,6 +13,10 @@ export default function Home() {
   useEffect(() => {
     if(!user) {
       router.push('/login')
+    } else if(user.status === "Teacher"){
+      router.push('/teacher')
+    } else if(user.status === "Student"){
+      router.push('/home')
     }
   }, [])
 
