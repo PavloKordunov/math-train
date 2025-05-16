@@ -45,7 +45,7 @@ const NavBar = () => {
                     )}
                 </Link>
                 <Link 
-                    href={`${user?.status === 'Student' ? '/home' : '/teacher'}`}
+                    href={`${user?.status === 'Student' ? '/perfomence' : '/teacher'}`}
                     onClick={() => setActive("map")}
                     className={`text-[20px] cursor-pointer relative transition duration-200 ${
                     active === "map" ? "text-[#FA8E66] font-bold" : "text-black font-medium"

@@ -10,7 +10,7 @@ import { useUser } from "@/hooks/useUser";
 
 export default function RegisterPage() {
 
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   const [registerData, setRegisterData] = useState({
     email: '',
@@ -24,7 +24,7 @@ export default function RegisterPage() {
   const handleRegister = async(e: any) => {
     e.preventDefault()
     try {
-      const res = await fetch(`https://math-train.onrender.com/api/student/register`, {
+      const res = await fetch(`${API_URL}/api/student/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

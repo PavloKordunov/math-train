@@ -12,7 +12,7 @@ import { ClipLoader } from "react-spinners";
 
 export default function LoginPage() {
 
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   const [loginData, setLoginData] = useState({
     email: '',
@@ -26,7 +26,7 @@ export default function LoginPage() {
   const handleLogin = async() => {
     setIsLoading(true)
     try {
-      const res = await fetch(`https://math-train.onrender.com/api/login/native`, {
+      const res = await fetch(`${API_URL}/api/login/native`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

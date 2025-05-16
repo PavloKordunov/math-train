@@ -184,6 +184,18 @@ export class TestService {
             await this.databaseService.assignedTest.deleteMany({
                 where: {studentId: userId, testId: test.id}
             })
+
+            await this.databaseService.studentScore.create({
+                data: {
+                    studentId: userId,
+                    testId: test.id,
+                    score: totalScore,
+                    isCompleted: true,
+                    maxScore: maxScore,
+                    testName: test.title,
+                    studentTest: JSON.stringify(compareAnswersDtos),
+                }
+            })
     
             return { totalScore, maxScore };
     

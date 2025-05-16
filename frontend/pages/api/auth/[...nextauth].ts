@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -25,7 +25,7 @@ export default NextAuth({
       try {
         console.log('Sign-in attempt from:', user.email);
 
-        const res = await fetch(`https://math-train.onrender.com/api/login/oauth`, {
+        const res = await fetch(`${API_URL}/api/login/oauth`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: user.email }),

@@ -20,7 +20,7 @@ const TestPage = () => {
     const params = useParams()
     const testId = params?.id
     const {user} = useUser()
-    const API_URL = process.env.API_URL;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [test, setTest] = useState<any | null>({})
@@ -65,7 +65,7 @@ const TestPage = () => {
     useEffect(() => {
         const getTestById = async () => {
             try {
-                const res = await fetch(`https://math-train.onrender.com/api/test/${testId}`);
+                const res = await fetch(`${API_URL}/api/test/${testId}`);
                 const data = await res.json();
                 console.log(data);
                 setTest(data);
@@ -110,7 +110,7 @@ const TestPage = () => {
 
     const handleEndTest = async() => {
         try {
-            const res = await fetch(`https://math-train.onrender.com/api/test/${test.id}/check/${user?.id}`, {
+            const res = await fetch(`${API_URL}/api/test/${test.id}/check/${user?.id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -217,9 +217,9 @@ const TestPage = () => {
             <TestNav />
             <div className='relative mx-auto flex'>
                 <div className="w-4/5 border border-2 border-gray-300 p-15">
-                    <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
+                    {sortedTasks.multiple.length > 0 && <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
                         <p className="text-center font-semibold text-[22px] ">Завдання 1-{sortedTasks.multiple.length} мають по пʼять варіантів відповіді, з яких лише один правильний. Виберіть правильний, на Вашу думку, варіант відповіді. Позначте відповідь і збережіть її.</p>
-                    </div>
+                    </div>}
                     {sortedTasks.multiple.map((task) => {
                     const isSaved = Boolean(savedAnswers.multiple[task.id]);
                     const selectedAnswerIndex = selectedAnswers[task.id];
@@ -275,9 +275,9 @@ const TestPage = () => {
                         </div>
                     );
                     })}
-                    <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
+                    {sortedTasks.matching.length > 0 && <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
                         <p className='text-center font-semibold text-[22px]'>У завданнях {sortedTasks.matching[0]?.number}-{sortedTasks.matching[sortedTasks.matching.length-1]?.number} до кожного з трьох фрагентів інформації, позначених цифрою, доберіть один правильний, на Вашу думку, варіант, позначений буквою. Для цього натисніть курсором на інформацію, позначену буквою, а потім - на порожнє поле навпроти відповідної інформації, позначеної цифрою. Збережіть відповідь.</p>
-                    </div>
+                    </div>}
 
                     {sortedTasks.matching.map((task) => {
                         const isSaved = !!savedAnswers.matching[task.id];
@@ -410,10 +410,10 @@ const TestPage = () => {
                         </div>
                     )})}
 
-                    <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
+                    { sortedTasks.written.length > 0 && <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
                         <p className='text-center font-semibold text-[22px]'>Розвʼяжіть завдання {sortedTasks.written[0]?.number}-{sortedTasks.written[sortedTasks.written.length-1]?.number}. Одержані числові відповіді впишіть у спеціальне поле. Відповіді записуйте лише десятковим дробом, урахувавши положення коми. Знак «мінус» записуйте перед першою цифрою числа.
                         Збережіть відповідь.</p>
-                    </div>
+                    </div>}
 
                     {sortedTasks.written.map((task: any) => {
                         const isSaved = !!savedAnswers.written[task.id];

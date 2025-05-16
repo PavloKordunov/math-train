@@ -37,7 +37,11 @@ model StudentScore {
   studentId   String
   testId      String
   score       Int
+  maxScore    Int
+  testName    String   @default("Untitled Test")
+  studentTest Json?
   isCompleted Boolean  @default(false)
+  viewAccess  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -68,10 +72,10 @@ model Test {
 }
 
 model AssignedTest {
-  id        String   @id @default(uuid())
-  student   Student     @relation(fields: [studentId], references: [id])
+  id        String    @id @default(uuid())
+  student   Student   @relation(fields: [studentId], references: [id])
   studentId String
-  test      Test     @relation(fields: [testId], references: [id])
+  test      Test      @relation(fields: [testId], references: [id])
   testId    String
   assignedAt DateTime @default(now())
 }

@@ -37,7 +37,11 @@ model StudentScore {
   studentId   String
   testId      String
   score       Int
+  maxScore    Int
+  testName    String   @default("Untitled Test")
+  studentTest Json?
   isCompleted Boolean  @default(false)
+  viewAccess  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

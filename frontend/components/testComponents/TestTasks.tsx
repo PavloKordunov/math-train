@@ -5,6 +5,7 @@ import { MdEdit, MdDelete } from "react-icons/md"
 import EditTaskModal from "./EditTaskModal" 
 import LatextTranform from "@/helpers/latexTransform"
 import Image from "next/image"
+import { MathJaxContext } from "better-react-mathjax"
 
 const TestTasks = ({ test, updateTask, deleteTask }: any) => {
     const [editingTask, setEditingTask] = useState(null)
@@ -25,8 +26,21 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
         deleteTask(taskId)
     }
 
+    const config = {
+        loader: { load: ['input/asciimath', 'input/tex', '[tex]/ams'] },
+        asciimath: {}, 
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            packages: { '[+]': ['ams'] },
+        },
+        svg: {
+            fontCache: 'global',
+        },
+    };
+
     return (
-        <div>
+        <MathJaxContext config={config}>
             {test.tasks.length > 0 && 
                 test.tasks.map((task: any, index: any) => (
                     <div key={task.id || index}>
@@ -147,7 +161,7 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                     onClose={() => setEditingTask(null)}
                 />
             )}
-        </div>
+        </MathJaxContext>
     )
 }
 

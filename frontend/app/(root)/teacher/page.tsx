@@ -8,12 +8,12 @@ const TeacherPage = () => {
 
   const [students, setStudents] = useState<any[]>([])
   const [tests, setTests] = useState<any[]>([])
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
       const getAllStudents =async ( ) => {
           try {
-              const res = await fetch(`https://math-train.onrender.com/api/student`)
+              const res = await fetch(`${API_URL}/api/student`)
 
               const data = await res.json()
               setStudents(data)
@@ -25,7 +25,7 @@ const TeacherPage = () => {
 
       const getAllTest = async() => {
         try {
-          const res = await fetch(`https://math-train.onrender.com/api/test`)
+          const res = await fetch(`${API_URL}/api/test`)
 
           const data = await res.json()
           setTests(data)
