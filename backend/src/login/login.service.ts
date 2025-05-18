@@ -39,6 +39,7 @@ export class LoginService {
                   id: user.id,
                   email: user.email,
                   status: user.status,
+                  name: user.name,
                 }
             }
 
@@ -82,6 +83,7 @@ export class LoginService {
                 user: {
                   id: user.id,
                   email: user.email,
+                  name: user.name,
                   status: user.status,
                 }
             }

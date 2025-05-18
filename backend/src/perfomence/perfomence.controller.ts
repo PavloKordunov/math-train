@@ -10,6 +10,11 @@ export class PerfomenceController {
         return this.perfomenceService.getAllStudentPerfomence()
     }
 
+    @Get('one/student/:id')
+    getAllStudentPerfomenceById(@Param('id') id: string) {
+        return this.perfomenceService.getAllStudentPerfomenceById(id)
+    }
+
     @Get('student/:id')
     getTestReview(@Param('id') id: string){
         return this.perfomenceService.getTestReview(id)

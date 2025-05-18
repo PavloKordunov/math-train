@@ -285,14 +285,19 @@ const TestPage = () => {
                         const userAnswers = Object.entries(taskMatches)
                         .filter(([_, rightLetter]) => rightLetter !== null)
                         .map(([leftIndex, rightLetter]) => {
-                          const rightPair = task.pairs.filter((pair: any) => pair.right.text)[Number(rightLetter?.charCodeAt(0)) - 65];
+                          const rightPair = task.pairs.filter((pair: any) => pair.right)[Number(rightLetter?.charCodeAt(0)) - 65];
+                          const leftPair = task.pairs.filter((pair: any) => pair.left)[leftIndex]
                           return {
                             left: {
-                              rightId: rightPair?.right.id || ''
+                              rightId: rightPair?.right.id || '',
+                              rightText: rightPair?.right.text,
+                              leftId:  leftPair?.left.id,
+                              leftText: leftPair?.left.text,
                             }
                           };
                         });
 
+                        console.log("userAnswers: ", userAnswers)  
                         return (<div id={`task-${task.id}`} key={task.id}>
                             <div className="h-[2px] w-full bg-gray-300 mb-6"></div>
                             <h2 className="text-[24px] font-medium mb-8">Завдання {task.number}</h2>

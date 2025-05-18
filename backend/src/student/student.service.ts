@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseService } from 'src/database/database.service';
 import { createStudentDto } from './dto/CreateStudentDto';
@@ -10,6 +10,22 @@ export class StudentService {
 
     async findAllStudents() {
         return this.databaseService.student.findMany()
+    }
+
+    async findStudentById(id: string){
+        try {
+            const student = await this.databaseService.student.findUnique({
+                where: {id}
+            })   
+
+            if(!student){
+                throw new NotFoundException('Student not found')
+            }
+
+            return student
+        } catch (error) {
+            throw new InternalServerErrorException(`${error.message}`);
+        }
     }
 
     async create(createStudentDto: createStudentDto) {

@@ -9,6 +9,16 @@ export class PerfomenceService {
         return this.databaseService.studentScore.findMany()
     }
 
+    async getAllStudentPerfomenceById(id) {
+        try {
+            return this.databaseService.studentScore.findMany({
+                where: {studentId: id}
+            })   
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to get test review'); 
+        }
+    }
+
     async getTestReview(id: string) {
         try {
             const testResult = await this.databaseService.studentScore.findUnique({
@@ -66,37 +76,28 @@ export class PerfomenceService {
                         
                         userAnswer.answer.forEach((userPair, index) => {
                             const taskAnswer = task.answers[index];
-                            const taskPair = task.pairs.find((p: any) => p.left.id === userPair.left.id);
                             const isCorrect = taskAnswer?.left?.rightId === userPair?.left?.rightId;
                             
                             if (!isCorrect) allCorrect = false;
                             
-                            let correctRightText = '';
-                            if (taskAnswer?.left?.rightId) {
-                                const correctRightPair = task.pairs.find(p => 
-                                    p.right?.id === taskAnswer.left.rightId
-                                );
-                                correctRightText = correctRightPair?.right?.text || '';
-                            }
-                            
                             pairs.push({
                                 userAnswer: {
                                     left: {
-                                        text: taskPair?.left?.text || '', 
-                                        id: userPair.left.id
+                                        text: userPair?.left?.leftText || '', 
+                                        id: userPair.left.leftId
                                     },
                                     right: {
-                                        text: userPair.right?.text || '',
-                                        id: userPair.right?.id || ''
+                                        text: userPair.left.rightText || '',
+                                        id: userPair.left.rightId || ''
                                     }
                                 },
                                 correctAnswer: {
                                     left: {
-                                        text: taskPair?.left?.text || '', 
-                                        id: taskPair?.left?.id || ''
+                                        text: taskAnswer?.left?.leftText || '', 
+                                        id: taskAnswer?.left?.leftId || ''
                                     },
                                     right: {
-                                        text: correctRightText, 
+                                        text: taskAnswer?.left.rightText, 
                                         id: taskAnswer?.left?.rightId || ''
                                     }
                                 },

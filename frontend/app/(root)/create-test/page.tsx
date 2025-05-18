@@ -71,7 +71,7 @@ const CreateTest = () => {
             id: nanoid(),
             title: "",
             type: "matching",
-            answers: [{left: {rightId: ''}}],
+            answers: [{left: {rightId: '', rightText: '', leftText: '', leftId: "" }}],
             pairs: [{ left: {id: nanoid(), text: ''}, right: {id: nanoid(), text: ''}, id: nanoid() }],
             image: ''
             });
@@ -119,7 +119,10 @@ const CreateTest = () => {
       
         const answers = validPairs.map((pair: any) => ({
           left: {
-            rightId: pair.right.id 
+            rightId: pair.right.id,
+            rightText: pair.right.text,
+            leftId: pair.left.id,
+            leftText: pair.left.text 
           }
         }));
       
@@ -189,15 +192,15 @@ const CreateTest = () => {
                          <div className="mb-2">
                             <div className="flex gap-2">
                                 <p className="font-medium">Дріб:</p>
-                                <LatextTranform content={"$\\frac{a}{b}$"} /> 
+                                <LatextTranform content={"`a/b`"} /> 
                             </div>
-                             <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`a/b`</code></p> {/* Код AsciiMath */}
+                             <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`a/b`</code></p>
                          </div>
 
                          <div className="mb-2">
                             <div className="flex gap-2">
                                 <p className="font-medium">Корінь квадратний:</p>
-                                <LatextTranform content={"$\\sqrt{x}$"} />
+                                <LatextTranform content={"`sqrt(x)`"} />
                             </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`sqrt(x)`</code></p>
                          </div>
@@ -205,7 +208,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Корінь n-го степеня:</p>
-                                <LatextTranform content={"$\\sqrt[n]{x}$"} />
+                                <LatextTranform content={"`root(n)(x)`"} />
                              </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`root(n)(x)`</code></p>
                          </div>
@@ -213,11 +216,11 @@ const CreateTest = () => {
                          <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Степінь:</p>
-                                <LatextTranform content={"$x^2$"} />    
+                                <LatextTranform content={"`x^2`"} />    
                             </div>   
                             <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`x^2`</code></p>
                             <div className="flex gap-2">
-                                <LatextTranform content={"$e^x$"} />
+                                <LatextTranform content={"`e^x`"} />
                                 <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`e^x`</code></p>
                             </div>
                          </div>
@@ -225,7 +228,7 @@ const CreateTest = () => {
                          <div className="mb-2">
                             <div className="flex gap-2">
                                 <p className="font-medium">Індекс:</p>
-                                <LatextTranform content={"$x_1$"} />
+                                <LatextTranform content={"`x_1`"} />
                             </div>
                             <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`x_1`</code></p>
                          </div>
@@ -233,7 +236,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Сума:</p>
-                                <LatextTranform content={"$\\sum_{i=1}^n i^2$"} />
+                                <LatextTranform content={"`sum_(i=1)^n i^2`"} />
                              </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`sum_(i=1)^n i^2`</code></p>
                          </div>
@@ -241,7 +244,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Інтеграл:</p>
-                                <LatextTranform content={"$\\int_a^b x^2 dx$"} />
+                                <LatextTranform content={"`int_a^b x^2 dx`"} />
                              </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`int_a^b x^2 dx`</code></p>
                          </div>
@@ -249,7 +252,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Множення:</p>
-                                <LatextTranform content={"$a \\cdot b$"} />
+                                <LatextTranform content={"`a * b`"} />
                              </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`a * b`</code> або <code className="bg-gray-200 px-1 rounded">`a cdot b`</code></p>
                          </div>
@@ -257,7 +260,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Нерівності:</p>
-                                <LatextTranform content={"$a \\le b, a \\ge b, a \\ne b$"} />
+                                <LatextTranform content={"`a <= b`, `a >= b`, `a != b`"} />
                              </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`a {'<'}= b`</code>, <code className="bg-gray-200 px-1 rounded">`a {'>'}= b`</code>, <code className="bg-gray-200 px-1 rounded">`a != b`</code></p>
                          </div>
@@ -265,7 +268,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                             <div className="flex gap-2">
                                 <p className="font-medium">Нескінченність:</p>
-                                <LatextTranform content={"$\\infty$"} />
+                                <LatextTranform content={"`oo`"} />
                             </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`oo`</code></p>
                          </div>
@@ -273,7 +276,7 @@ const CreateTest = () => {
                           <div className="mb-2">
                              <div className="flex gap-2">
                                 <p className="font-medium">Пі:</p>
-                                <LatextTranform content={"$\\pi$"} />
+                                <LatextTranform content={"`pi`"} />
                              </div>
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`pi`</code></p>
                          </div>
@@ -281,7 +284,7 @@ const CreateTest = () => {
                           <div>
                              <div className="flex gap-2">
                                 <p className="font-medium">Грецькі літери (приклади):</p>
-                                <LatextTranform content={"$\\alpha, \\beta, \\gamma$"} />
+                                <LatextTranform content={"`alpha`, `beta`, `gamma`"} />
                              </div>   
                              <p>AsciiMath: <code className="bg-gray-200 px-1 rounded">`alpha`</code>, <code className="bg-gray-200 px-1 rounded">`beta`</code>, <code className="bg-gray-200 px-1 rounded">`gamma`</code> (повні назви)</p>
                          </div>

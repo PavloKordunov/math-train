@@ -9,7 +9,7 @@ import CreateTestTask from "@/components/testComponents/CreateTestTask";
 import TestBasicInfo from "@/components/testComponents/TestBasicInfo";
 import CreateTaskModal from "@/components/testComponents/CreateTaskModal";
 
-const CreateTest = () => {
+const ViewTest = () => {
     const params = useParams()
     const testId = params?.id
     const [modalOpen, setModalOpen] = useState(false);
@@ -63,6 +63,7 @@ const CreateTest = () => {
                     endTime: test.endTime,
                     tasks: test.tasks.map((task: any) => ({
                         title: task.title,
+                        image: task.image,
                         type: task.type,
                         answers: task.answers,
                         pairs: task.pairs,
@@ -93,14 +94,16 @@ const CreateTest = () => {
             type: "multiple",
             answers: Array(5).fill(null).map(() => ({ text: "", isCorrect: false, id: nanoid() })),
             pairs: [],
+            image: '',
             });
         } else if (type === "matching") {
             setQuestion({
             id: nanoid(),
             title: "",
             type: "matching",
-            answers: [{left: {rightId: ''}}],
+            answers: [{left: {rightId: '', rightText: '', leftText: '', leftId: "" }}],
             pairs: [{ left: {id: nanoid(), text: ''}, right: {id: nanoid(), text: ''}, id: nanoid() }],
+            image: ''
             });
         } else if (type === "written") {
             setQuestion({
@@ -109,6 +112,7 @@ const CreateTest = () => {
             type: "written",
             answers: [{text: '', id: nanoid()}],
             pairs: [],
+            image: ''
         });
     }
     
@@ -145,7 +149,10 @@ const CreateTest = () => {
       
         const answers = validPairs.map((pair: any) => ({
           left: {
-            rightId: pair.right.id 
+            rightId: pair.right.id,
+            rightText: pair.right.text,
+            leftId: pair.left.id,
+            leftText: pair.left.text 
           }
         }));
       
@@ -165,7 +172,7 @@ const CreateTest = () => {
         }));
       
         setQuestion({
-          id: '',
+          id: '', 
           title: "",
           type: "",
           answers: [],
@@ -213,4 +220,4 @@ const CreateTest = () => {
     );
 }
 
-export default CreateTest;
+export default ViewTest;

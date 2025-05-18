@@ -6,11 +6,12 @@ import { useEffect, useState } from "react"
 const StudentPerfomence = () => {
 
     const [test,setTest] = useState<any | null>([])
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     useEffect(() => {
         const getAllStudentPerfomence = async() => {
             try {
-               const res = await fetch('http://localhost:8080/api/perfomence/student')
+               const res = await fetch(`${API_URL}/api/perfomence/student`)
                const data = await res.json()
 
                console.log(data)
