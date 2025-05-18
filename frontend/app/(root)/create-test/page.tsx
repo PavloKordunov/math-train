@@ -9,6 +9,7 @@ import CreateTestTask from "@/components/testComponents/CreateTestTask";
 import TestBasicInfo from "@/components/testComponents/TestBasicInfo";
 import CreateTaskModal from "@/components/testComponents/CreateTaskModal";
 import LatextTranform from "@/helpers/latexTransform"
+import { TestContext } from "node:test";
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -44,11 +45,25 @@ const CreateTest = () => {
 
             const data = await res.json()
             console.log(data)
+            localStorage.removeItem('test');
             router.push('/teacher')
         } catch (error) {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        const storedTest = localStorage.getItem('test');
+        if (storedTest) {
+        setTest(JSON.parse(storedTest));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (test.tasks.length>0) {
+            localStorage.setItem('test', JSON.stringify(test));
+        }
+    }, [test]);
 
     useEffect(() => {
         console.log(question)
