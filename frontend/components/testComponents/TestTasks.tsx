@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { memo, useState } from "react"
 import { MdEdit, MdDelete } from "react-icons/md"
 import EditTaskModal from "./EditTaskModal" 
 import LatextTranform from "@/helpers/latexTransform"
@@ -165,4 +165,4 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
     )
 }
 
-export default TestTasks
+export default memo(TestTasks)

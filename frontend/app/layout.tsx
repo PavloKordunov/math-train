@@ -31,7 +31,9 @@ export default function RootLayout({
       >
         <SessionProvider>
           <UserProvider>
+            <MathJaxProvider >
               {children}
+            </MathJaxProvider>
           </UserProvider>
         </SessionProvider>
       </body>

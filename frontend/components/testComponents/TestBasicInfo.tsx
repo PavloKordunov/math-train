@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const TestBasicInfo = ({test, setTest, formatDateForInput}: any) => {
     return (
         <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
@@ -48,4 +50,4 @@ const TestBasicInfo = ({test, setTest, formatDateForInput}: any) => {
     )
 } 
 
-export default TestBasicInfo
+export default memo(TestBasicInfo)
