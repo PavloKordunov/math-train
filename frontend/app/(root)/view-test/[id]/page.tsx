@@ -8,6 +8,7 @@ import TestTasks from "@/components/testComponents/TestTasks";
 import CreateTestTask from "@/components/testComponents/CreateTestTask";
 import TestBasicInfo from "@/components/testComponents/TestBasicInfo";
 import CreateTaskModal from "@/components/testComponents/CreateTaskModal";
+import FormulaHints from "@/components/testComponents/FormulasHint";
 
 const ViewTest = () => {
     const params = useParams()
@@ -215,6 +216,7 @@ const ViewTest = () => {
                     Оновити тест
                 </button>
             </div>
+            <FormulaHints />
             {modalOpen && <CreateTaskModal handleSelect={handleSelect} setModalOpen={setModalOpen} />}
         </div>
     );

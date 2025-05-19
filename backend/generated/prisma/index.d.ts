@@ -2587,6 +2587,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     status: $Enums.Status | null
+    viewAccess: boolean | null
   }
 
   export type StudentMaxAggregateOutputType = {
@@ -2597,6 +2598,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     status: $Enums.Status | null
+    viewAccess: boolean | null
   }
 
   export type StudentCountAggregateOutputType = {
@@ -2607,6 +2609,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     status: number
+    viewAccess: number
     _all: number
   }
 
@@ -2619,6 +2622,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     status?: true
+    viewAccess?: true
   }
 
   export type StudentMaxAggregateInputType = {
@@ -2629,6 +2633,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     status?: true
+    viewAccess?: true
   }
 
   export type StudentCountAggregateInputType = {
@@ -2639,6 +2644,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     status?: true
+    viewAccess?: true
     _all?: true
   }
 
@@ -2722,6 +2728,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     status: $Enums.Status
+    viewAccess: boolean
     _count: StudentCountAggregateOutputType | null
     _min: StudentMinAggregateOutputType | null
     _max: StudentMaxAggregateOutputType | null
@@ -2749,6 +2756,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
+    viewAccess?: boolean
     scores?: boolean | Student$scoresArgs<ExtArgs>
     assignedTests?: boolean | Student$assignedTestsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
@@ -2762,6 +2770,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
+    viewAccess?: boolean
   }, ExtArgs["result"]["student"]>
 
   export type StudentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2772,6 +2781,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
+    viewAccess?: boolean
   }, ExtArgs["result"]["student"]>
 
   export type StudentSelectScalar = {
@@ -2782,9 +2792,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
+    viewAccess?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt" | "status" | "viewAccess", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     scores?: boolean | Student$scoresArgs<ExtArgs>
     assignedTests?: boolean | Student$assignedTestsArgs<ExtArgs>
@@ -2807,6 +2818,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       status: $Enums.Status
+      viewAccess: boolean
     }, ExtArgs["result"]["student"]>
     composites: {}
   }
@@ -3239,6 +3251,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Student", 'DateTime'>
     readonly updatedAt: FieldRef<"Student", 'DateTime'>
     readonly status: FieldRef<"Student", 'Status'>
+    readonly viewAccess: FieldRef<"Student", 'Boolean'>
   }
     
 
@@ -3723,7 +3736,6 @@ export namespace Prisma {
     maxScore: number | null
     testName: string | null
     isCompleted: boolean | null
-    viewAccess: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3736,7 +3748,6 @@ export namespace Prisma {
     maxScore: number | null
     testName: string | null
     isCompleted: boolean | null
-    viewAccess: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3750,7 +3761,6 @@ export namespace Prisma {
     testName: number
     studentTest: number
     isCompleted: number
-    viewAccess: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3775,7 +3785,6 @@ export namespace Prisma {
     maxScore?: true
     testName?: true
     isCompleted?: true
-    viewAccess?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3788,7 +3797,6 @@ export namespace Prisma {
     maxScore?: true
     testName?: true
     isCompleted?: true
-    viewAccess?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3802,7 +3810,6 @@ export namespace Prisma {
     testName?: true
     studentTest?: true
     isCompleted?: true
-    viewAccess?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3903,7 +3910,6 @@ export namespace Prisma {
     testName: string
     studentTest: JsonValue | null
     isCompleted: boolean
-    viewAccess: boolean
     createdAt: Date
     updatedAt: Date
     _count: StudentScoreCountAggregateOutputType | null
@@ -3936,7 +3942,6 @@ export namespace Prisma {
     testName?: boolean
     studentTest?: boolean
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
@@ -3952,7 +3957,6 @@ export namespace Prisma {
     testName?: boolean
     studentTest?: boolean
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
@@ -3968,7 +3972,6 @@ export namespace Prisma {
     testName?: boolean
     studentTest?: boolean
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
@@ -3984,12 +3987,11 @@ export namespace Prisma {
     testName?: boolean
     studentTest?: boolean
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StudentScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "testId" | "score" | "maxScore" | "testName" | "studentTest" | "isCompleted" | "viewAccess" | "createdAt" | "updatedAt", ExtArgs["result"]["studentScore"]>
+  export type StudentScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "testId" | "score" | "maxScore" | "testName" | "studentTest" | "isCompleted" | "createdAt" | "updatedAt", ExtArgs["result"]["studentScore"]>
   export type StudentScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
     test?: boolean | TestDefaultArgs<ExtArgs>
@@ -4018,7 +4020,6 @@ export namespace Prisma {
       testName: string
       studentTest: Prisma.JsonValue | null
       isCompleted: boolean
-      viewAccess: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["studentScore"]>
@@ -4454,7 +4455,6 @@ export namespace Prisma {
     readonly testName: FieldRef<"StudentScore", 'String'>
     readonly studentTest: FieldRef<"StudentScore", 'Json'>
     readonly isCompleted: FieldRef<"StudentScore", 'Boolean'>
-    readonly viewAccess: FieldRef<"StudentScore", 'Boolean'>
     readonly createdAt: FieldRef<"StudentScore", 'DateTime'>
     readonly updatedAt: FieldRef<"StudentScore", 'DateTime'>
   }
@@ -8351,7 +8351,8 @@ export namespace Prisma {
     password: 'password',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    status: 'status'
+    status: 'status',
+    viewAccess: 'viewAccess'
   };
 
   export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -8366,7 +8367,6 @@ export namespace Prisma {
     testName: 'testName',
     studentTest: 'studentTest',
     isCompleted: 'isCompleted',
-    viewAccess: 'viewAccess',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8508,6 +8508,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -8532,13 +8539,6 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8649,6 +8649,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     status?: EnumStatusFilter<"Student"> | $Enums.Status
+    viewAccess?: BoolFilter<"Student"> | boolean
     scores?: StudentScoreListRelationFilter
     assignedTests?: AssignedTestListRelationFilter
   }
@@ -8661,6 +8662,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+    viewAccess?: SortOrder
     scores?: StudentScoreOrderByRelationAggregateInput
     assignedTests?: AssignedTestOrderByRelationAggregateInput
   }
@@ -8676,6 +8678,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     status?: EnumStatusFilter<"Student"> | $Enums.Status
+    viewAccess?: BoolFilter<"Student"> | boolean
     scores?: StudentScoreListRelationFilter
     assignedTests?: AssignedTestListRelationFilter
   }, "id" | "email">
@@ -8688,6 +8691,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+    viewAccess?: SortOrder
     _count?: StudentCountOrderByAggregateInput
     _max?: StudentMaxOrderByAggregateInput
     _min?: StudentMinOrderByAggregateInput
@@ -8704,6 +8708,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     status?: EnumStatusWithAggregatesFilter<"Student"> | $Enums.Status
+    viewAccess?: BoolWithAggregatesFilter<"Student"> | boolean
   }
 
   export type StudentScoreWhereInput = {
@@ -8718,7 +8723,6 @@ export namespace Prisma {
     testName?: StringFilter<"StudentScore"> | string
     studentTest?: JsonNullableFilter<"StudentScore">
     isCompleted?: BoolFilter<"StudentScore"> | boolean
-    viewAccess?: BoolFilter<"StudentScore"> | boolean
     createdAt?: DateTimeFilter<"StudentScore"> | Date | string
     updatedAt?: DateTimeFilter<"StudentScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
@@ -8734,7 +8738,6 @@ export namespace Prisma {
     testName?: SortOrder
     studentTest?: SortOrderInput | SortOrder
     isCompleted?: SortOrder
-    viewAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     student?: StudentOrderByWithRelationInput
@@ -8753,7 +8756,6 @@ export namespace Prisma {
     testName?: StringFilter<"StudentScore"> | string
     studentTest?: JsonNullableFilter<"StudentScore">
     isCompleted?: BoolFilter<"StudentScore"> | boolean
-    viewAccess?: BoolFilter<"StudentScore"> | boolean
     createdAt?: DateTimeFilter<"StudentScore"> | Date | string
     updatedAt?: DateTimeFilter<"StudentScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
@@ -8769,7 +8771,6 @@ export namespace Prisma {
     testName?: SortOrder
     studentTest?: SortOrderInput | SortOrder
     isCompleted?: SortOrder
-    viewAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StudentScoreCountOrderByAggregateInput
@@ -8791,7 +8792,6 @@ export namespace Prisma {
     testName?: StringWithAggregatesFilter<"StudentScore"> | string
     studentTest?: JsonNullableWithAggregatesFilter<"StudentScore">
     isCompleted?: BoolWithAggregatesFilter<"StudentScore"> | boolean
-    viewAccess?: BoolWithAggregatesFilter<"StudentScore"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"StudentScore"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StudentScore"> | Date | string
   }
@@ -9117,6 +9117,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
     scores?: StudentScoreCreateNestedManyWithoutStudentInput
     assignedTests?: AssignedTestCreateNestedManyWithoutStudentInput
   }
@@ -9129,6 +9130,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
     scores?: StudentScoreUncheckedCreateNestedManyWithoutStudentInput
     assignedTests?: AssignedTestUncheckedCreateNestedManyWithoutStudentInput
   }
@@ -9141,6 +9143,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     scores?: StudentScoreUpdateManyWithoutStudentNestedInput
     assignedTests?: AssignedTestUpdateManyWithoutStudentNestedInput
   }
@@ -9153,6 +9156,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     scores?: StudentScoreUncheckedUpdateManyWithoutStudentNestedInput
     assignedTests?: AssignedTestUncheckedUpdateManyWithoutStudentNestedInput
   }
@@ -9165,6 +9169,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
   }
 
   export type StudentUpdateManyMutationInput = {
@@ -9175,6 +9180,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StudentUncheckedUpdateManyInput = {
@@ -9185,6 +9191,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StudentScoreCreateInput = {
@@ -9194,7 +9201,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutScoresInput
@@ -9210,7 +9216,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9222,7 +9227,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutScoresNestedInput
@@ -9238,7 +9242,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9252,7 +9255,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9264,7 +9266,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9278,7 +9279,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9658,6 +9658,11 @@ export namespace Prisma {
     _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type StudentScoreListRelationFilter = {
     every?: StudentScoreWhereInput
     some?: StudentScoreWhereInput
@@ -9686,6 +9691,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+    viewAccess?: SortOrder
   }
 
   export type StudentMaxOrderByAggregateInput = {
@@ -9696,6 +9702,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+    viewAccess?: SortOrder
   }
 
   export type StudentMinOrderByAggregateInput = {
@@ -9706,6 +9713,15 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+    viewAccess?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9742,11 +9758,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type StudentScalarRelationFilter = {
     is?: StudentWhereInput
     isNot?: StudentWhereInput
@@ -9771,7 +9782,6 @@ export namespace Prisma {
     testName?: SortOrder
     studentTest?: SortOrder
     isCompleted?: SortOrder
-    viewAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9789,7 +9799,6 @@ export namespace Prisma {
     maxScore?: SortOrder
     testName?: SortOrder
     isCompleted?: SortOrder
-    viewAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9802,7 +9811,6 @@ export namespace Prisma {
     maxScore?: SortOrder
     testName?: SortOrder
     isCompleted?: SortOrder
-    viewAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9852,14 +9860,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -10157,6 +10157,10 @@ export namespace Prisma {
     connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type StudentScoreUpdateManyWithoutStudentNestedInput = {
     create?: XOR<StudentScoreCreateWithoutStudentInput, StudentScoreUncheckedCreateWithoutStudentInput> | StudentScoreCreateWithoutStudentInput[] | StudentScoreUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: StudentScoreCreateOrConnectWithoutStudentInput | StudentScoreCreateOrConnectWithoutStudentInput[]
@@ -10231,10 +10235,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type StudentUpdateOneRequiredWithoutScoresNestedInput = {
@@ -10540,6 +10540,14 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -10599,14 +10607,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -10777,7 +10777,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     test: TestCreateNestedOneWithoutStudentScoresInput
@@ -10791,7 +10790,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10856,7 +10854,6 @@ export namespace Prisma {
     testName?: StringFilter<"StudentScore"> | string
     studentTest?: JsonNullableFilter<"StudentScore">
     isCompleted?: BoolFilter<"StudentScore"> | boolean
-    viewAccess?: BoolFilter<"StudentScore"> | boolean
     createdAt?: DateTimeFilter<"StudentScore"> | Date | string
     updatedAt?: DateTimeFilter<"StudentScore"> | Date | string
   }
@@ -10895,6 +10892,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
     assignedTests?: AssignedTestCreateNestedManyWithoutStudentInput
   }
 
@@ -10906,6 +10904,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
     assignedTests?: AssignedTestUncheckedCreateNestedManyWithoutStudentInput
   }
 
@@ -10970,6 +10969,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     assignedTests?: AssignedTestUpdateManyWithoutStudentNestedInput
   }
 
@@ -10981,6 +10981,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     assignedTests?: AssignedTestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
@@ -11097,7 +11098,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutScoresInput
@@ -11111,7 +11111,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11253,6 +11252,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
     scores?: StudentScoreCreateNestedManyWithoutStudentInput
   }
 
@@ -11264,6 +11264,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
+    viewAccess?: boolean
     scores?: StudentScoreUncheckedCreateNestedManyWithoutStudentInput
   }
 
@@ -11328,6 +11329,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     scores?: StudentScoreUpdateManyWithoutStudentNestedInput
   }
 
@@ -11339,6 +11341,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     scores?: StudentScoreUncheckedUpdateManyWithoutStudentNestedInput
   }
 
@@ -11531,7 +11534,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11549,7 +11551,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     test?: TestUpdateOneRequiredWithoutStudentScoresNestedInput
@@ -11563,7 +11564,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11576,7 +11576,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11621,7 +11620,6 @@ export namespace Prisma {
     testName?: string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: boolean
-    viewAccess?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11681,7 +11679,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutScoresNestedInput
@@ -11695,7 +11692,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11708,7 +11704,6 @@ export namespace Prisma {
     testName?: StringFieldUpdateOperationsInput | string
     studentTest?: NullableJsonNullValueInput | InputJsonValue
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    viewAccess?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -28,6 +28,31 @@ export class StudentService {
         }
     }
 
+    async giveStudentFullAccess(id: string) {
+        try {
+            const student = await this.databaseService.student.findUnique({
+                where: {id}
+            })
+
+            if(!student){
+                throw new NotFoundException('student not found')
+            }
+
+            const viewAccess = student?.viewAccess
+
+            const updateStudent = await this.databaseService.student.update({
+                where: { id },
+                data: {
+                    viewAccess: !viewAccess
+                }
+            })
+
+            return updateStudent
+        } catch (error) {
+            throw new InternalServerErrorException(`${error.message}`);
+        }
+    }
+
     async create(createStudentDto: createStudentDto) {
         try {
             const existingUser = await this.databaseService.student.findUnique({

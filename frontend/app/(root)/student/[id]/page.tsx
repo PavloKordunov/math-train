@@ -5,6 +5,7 @@ import TestResults from "@/components/TestResults"
 import Image from "next/image"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import toast, { Toaster } from "react-hot-toast"
 import { FaTimes } from "react-icons/fa"
 
 const StudentPage = () => {
@@ -24,7 +25,7 @@ const StudentPage = () => {
         setIsModalOpen(!isModalOpen)
     }
 
-    useEffect(() => {
+        useEffect(() => {
         const getStudent = async() => {
             try {
                 const res = await fetch(`${API_URL}/api/student/${studentId}`)
@@ -37,6 +38,10 @@ const StudentPage = () => {
             }
         }
 
+        getStudent()
+    }, [student])
+
+    useEffect(() => {
         const geAllTests = async() => {
             try {
                 const res = await fetch(`${API_URL}/api/test`)
@@ -63,7 +68,6 @@ const StudentPage = () => {
 
         getAllStudentPerfomenceById()
         geAllTests()
-        getStudent()
     }, [])
 
     const assignTest = async() => {
@@ -82,8 +86,28 @@ const StudentPage = () => {
             const data = await res.json()
             console.log(data)
             setSelectedTest(null)
+            toast.success('Успішно! тест назначено');
         } catch (error) {
             console.log(error)
+            toast.error('Сталась помилка тест не було назначено');
+        }
+    }
+
+    const changeStudentAccess = async() => {
+        try {
+            const res = await fetch(`${API_URL}/api/student/access/${studentId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+
+            const data = await res.json()
+            console.log(data)
+            toast.success('Успішно! доступ студента було змінено');
+        } catch (error) {
+            console.log(error)
+            toast.error('Сталась помилка доступ студента не було змінено');
         }
     }
 
@@ -102,6 +126,7 @@ const StudentPage = () => {
 
     return (
         <div>
+            <Toaster position="bottom-center" />
             <div className="flex items-center mb-6">
                 <Image src='/person.png' alt='' width={100} height={100} className="mr-8" />
                 <div className="flex-col h-fit items-center">
@@ -110,14 +135,14 @@ const StudentPage = () => {
                 </div>
             </div>
             <div className="flex items-center gap-6 mb-10">
-                <button className="border border-gray-400 text-gray-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold uppercase">Надати повний доступ</button>
+                <button className="border border-gray-400 text-gray-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold uppercase" onClick={changeStudentAccess}> {student?.viewAccess ? 'Забрати повний доступ' : 'Надати повний доступ' }</button>
                 <button className="bg-rose-600 text-white px-3 py-1 rounded hover:bg-rose-700 font-semibold uppercase" onClick={toggleModal}>Назначити тест</button>    
             </div>
             <StudentProgressChart testResults={testResuls} />
             <h2 className="mt-10 font-bold text-[28px]">Пройдені тести</h2>
             <div className="py-6">
                 {testResuls.length > 0 ? testResuls.map((test: any) => (
-                    <TestResults key={test.id} test={test} />
+                    <TestResults key={test.id} test={test} student={student} />
                 )) : <p>Поки що немає зданих тестів</p>}
             </div>
 

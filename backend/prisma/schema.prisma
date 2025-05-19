@@ -27,6 +27,7 @@ model Student {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   status    Status   @default(Student)
+  viewAccess  Boolean  @default(false)
 
   scores    StudentScore[]
   assignedTests AssignedTest[]
@@ -41,7 +42,6 @@ model StudentScore {
   testName    String   @default("Untitled Test")
   studentTest Json?
   isCompleted Boolean  @default(false)
-  viewAccess  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

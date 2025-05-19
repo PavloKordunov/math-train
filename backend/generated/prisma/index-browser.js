@@ -137,7 +137,8 @@ exports.Prisma.StudentScalarFieldEnum = {
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  status: 'status'
+  status: 'status',
+  viewAccess: 'viewAccess'
 };
 
 exports.Prisma.StudentScoreScalarFieldEnum = {
@@ -149,7 +150,6 @@ exports.Prisma.StudentScoreScalarFieldEnum = {
   testName: 'testName',
   studentTest: 'studentTest',
   isCompleted: 'isCompleted',
-  viewAccess: 'viewAccess',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

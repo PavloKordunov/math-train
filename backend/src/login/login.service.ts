@@ -39,7 +39,7 @@ export class LoginService {
                   id: user.id,
                   email: user.email,
                   status: user.status,
-                  name: user.name,
+                  name: user.name
                 }
             }
 

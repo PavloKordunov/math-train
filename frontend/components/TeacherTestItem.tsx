@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaTimes } from 'react-icons/fa';
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
 
 const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,8 +39,10 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
             const data = await res.json()
             console.log(data)
             setSelectedStudent(null)
+            toast.success('Успішно! тест назначено');
         } catch (error) {
             console.log(error)
+            toast.error('Сталась помилка тест не було назначено');
         }
     }
 
@@ -67,6 +70,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
 
     return (
         <div className="flex items-stretch w-fit h-fit mb-8">
+            <Toaster position="bottom-center" />
             <div className="px-20 py-8 bg-[#FFECE7]">
                 <Image src='/mathItemImg.png' alt="" width={100} height={100} />
             </div>

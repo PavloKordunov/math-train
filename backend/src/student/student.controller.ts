@@ -16,6 +16,11 @@ export class StudentController {
         return this.studentService.findStudentById(id)
     }
 
+    @Post('access/:id')
+    giveStudentFullAccess(@Param('id') id: string){
+        return this.studentService.giveStudentFullAccess(id)
+    }
+
     @Post('register')
     create(@Body() createStudentDto: createStudentDto) {
         return this.studentService.create(createStudentDto)

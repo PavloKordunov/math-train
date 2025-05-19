@@ -9,6 +9,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { ClipLoader } from "react-spinners";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function LoginPage() {
 
@@ -34,20 +35,34 @@ export default function LoginPage() {
         body: JSON.stringify({
           email: loginData.email,
           password: loginData.password,
-        })
-      })
+        }),
+      });
 
-      const data = await res.json()
-      console.log(data)
-      setUser(data.user)
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error('Сталась помилка! Не вірний пароль або електронна адресса');
+        setLoginData(() => ({
+    email: '',
+    password: ''
+  }))
+        setIsLoading(false);
+        return;
+      }
+
+      setUser(data.user);
+      toast.success('Успішно! Ви увійшли у свій аккаунт');
+
       if (data.user.status === "Teacher") {
         router.push("/teacher");
       } else if (data.user.status === "Student") {
         router.push("/home");
       }
+
     } catch (error) {
       console.log(error)
       setIsLoading(false)
+      toast.error('Сталась помилка! Не вірний пароль або електронна адресса ');
     } finally{
       setIsLoading(false)
     }
@@ -69,7 +84,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">
-      
+      <Toaster position="bottom-center" />
       <div className="absolute top-6 left-6 flex items-center gap-2">
         <div className="w-30 h-30 relative mb-4">
           <Image src='/logo.png' alt="" fill className="object-contein" />    
@@ -85,8 +100,8 @@ export default function LoginPage() {
           <div className="text-left">
             <label className="text-sm text-[#000] font-medium mb-1 block"> 📧  E-mail</label>
             <input
-              value={loginData.email}
-              onChange={(e) => setLoginData((prev) => ({...prev, email: e.target.value}))}
+              value={loginData?.email}
+              onChange={(e) => setLoginData((prev: any) => ({...prev, email: e.target.value}))}
               type="email"
               className="w-full px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 focus:ring-[#4CAF50] text-[#000]"
               placeholder="you@example.com"
@@ -95,8 +110,8 @@ export default function LoginPage() {
           <div className="text-left">
             <label className="text-sm text-[#000] font-medium mb-1 block"> 🔑 Password</label>
             <input
-              value={loginData.password}
-              onChange={(e) => setLoginData((prev) => ({...prev, password: e.target.value}))}
+              value={loginData?.password}
+              onChange={(e) => setLoginData((prev: any) => ({...prev, password: e.target.value}))}
               type="password"
               className="w-full text-[#000] px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 focus:ring-[#1565C0]"
               placeholder="********"

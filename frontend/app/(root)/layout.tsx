@@ -3,7 +3,6 @@
 import NavBar from "@/components/Header";
 import { useUser } from "@/hooks/useUser";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
 export default function homeLayout({ children }: { children: ReactNode }) {
