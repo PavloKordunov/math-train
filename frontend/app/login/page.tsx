@@ -24,28 +24,28 @@ export default function LoginPage() {
   const {user, setUser} = useUser()
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleLogin = async() => {
-    setIsLoading(true)
-    try {
-      const res = await fetch(`${API_URL}/api/login/native`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: loginData.email,
-          password: loginData.password,
-        }),
-      });
+    const handleLogin = async() => {
+      setIsLoading(true)
+      try {
+        const res = await fetch(`${API_URL}/api/login/native`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: loginData.email,
+            password: loginData.password,
+          }),
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (!res.ok) {
-        toast.error('Сталась помилка! Не вірний пароль або електронна адресса');
-        setLoginData(() => ({
-    email: '',
-    password: ''
-  }))
+        if (!res.ok) {
+          toast.error('Сталась помилка! Не вірний пароль або електронна адресса');
+          setLoginData(() => ({
+        email: '',
+        password: ''
+      }))
         setIsLoading(false);
         return;
       }

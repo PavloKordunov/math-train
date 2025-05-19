@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
@@ -8,7 +10,6 @@ import toast, { Toaster } from "react-hot-toast";
 const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [studentName, setStudentName] = useState('')
-    const [selectedStudnt, setSelectedStudent] = useState<any | null>(null)
     const [filtredStudents, setFilteredStudents] = useState<any[]>([])
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -23,28 +24,25 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
         setFilteredStudents(filtered);
     }, [studentName, students]);
 
-    const assignTest = async() => {
+    const assignTest = async (student: any) => {
         try {
             const res = await fetch(`${API_URL}/api/test/${test.id}/assign`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     testId: test.id,
-                    studentId: selectedStudnt?.id
-                })
-            })
+                    studentId: student.id,
+                }),
+            });
 
-            const data = await res.json()
-            console.log(data)
-            setSelectedStudent(null)
-            toast.success('Успішно! тест назначено');
+            const data = await res.json();
+            console.log(data);
+            toast.success(`Тест призначено для ${student.name}`);
         } catch (error) {
-            console.log(error)
-            toast.error('Сталась помилка тест не було назначено');
+            console.error(error);
+            toast.error('Помилка: тест не призначено');
         }
-    }
+    };
 
     const deleteTest = async() => {
         try {
@@ -57,16 +55,11 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
 
             const data = await res.json()
             console.log(data)
+            toast.success("Тест видалено");
         } catch (error) {
             console.log(error)
         }
     }
-
-    useEffect(() => {
-        if(selectedStudnt !== null){
-            assignTest()
-        }
-    }, [selectedStudnt])
 
     return (
         <div className="flex items-stretch w-fit h-fit mb-8">
@@ -105,7 +98,7 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
                                 filtredStudents.map((student) => (
                                     <div key={student.id} className="text-black py-2 px-4 rounded-md bg-white mb-2"
                                         onClick={() => {
-                                            setSelectedStudent(student)
+                                            assignTest(student)
                                             toggleModal()
                                         }}
                                     >

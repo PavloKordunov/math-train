@@ -25,22 +25,6 @@ const StudentPage = () => {
         setIsModalOpen(!isModalOpen)
     }
 
-        useEffect(() => {
-        const getStudent = async() => {
-            try {
-                const res = await fetch(`${API_URL}/api/student/${studentId}`)
-                const data = await res.json()
-
-                console.log(data)
-                setStudent(data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        getStudent()
-    }, [student])
-
     useEffect(() => {
         const geAllTests = async() => {
             try {
@@ -65,6 +49,20 @@ const StudentPage = () => {
                 console.log(error)
             }
         }
+
+        const getStudent = async() => {
+            try {
+                const res = await fetch(`${API_URL}/api/student/${studentId}`)
+                const data = await res.json()
+
+                console.log(data)
+                setStudent(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        getStudent()
 
         getAllStudentPerfomenceById()
         geAllTests()
