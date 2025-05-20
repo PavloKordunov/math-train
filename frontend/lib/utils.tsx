@@ -2,7 +2,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const getAllStudents =async ( ) => {
     try {
-        const res = await fetch(`${API_URL}/api/student`)
+        const res = await fetch(`${API_URL}/api/student`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        })
 
         const data = await res.json()
         console.log(data)
@@ -15,7 +21,13 @@ export const getAllStudents =async ( ) => {
 
 export const getAllTest = async() => {
     try {
-        const res = await fetch(`${API_URL}/api/test`)
+        const res = await fetch(`${API_URL}/api/test`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        })
 
         const data = await res.json()
 
@@ -28,7 +40,12 @@ export const getAllTest = async() => {
 
 export const getStudentById = async(studentId: any) => {
     try {
-        const res = await fetch(`${API_URL}/api/student/${studentId}`)
+        const res = await fetch(`${API_URL}/api/student/${studentId}`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        })
         const data = await res.json()
 
         console.log(data)
@@ -40,7 +57,12 @@ export const getStudentById = async(studentId: any) => {
 
 export const geAllTests = async() => {
     try {
-        const res = await fetch(`${API_URL}/api/test`)
+        const res = await fetch(`${API_URL}/api/test`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        })
         const data = await res.json()
 
         console.log(data)
@@ -52,7 +74,12 @@ export const geAllTests = async() => {
 
 export const getAllStudentPerfomenceById = async(studentId: any) => {
     try {
-        const res = await fetch(`${API_URL}/api/perfomence/one/student/${studentId}`)
+        const res = await fetch(`${API_URL}/api/perfomence/one/student/${studentId}`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        })
         const data = await res.json()
 
         console.log(data)
