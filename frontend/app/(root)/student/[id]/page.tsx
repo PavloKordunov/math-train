@@ -6,6 +6,9 @@ import { Toaster } from "react-hot-toast"
 import { Suspense } from "react"
 import { ClipLoader } from "react-spinners"
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const StudentPage = async ({ params }: any ) => {  
     const studentId = params.id
 
