@@ -6,14 +6,8 @@ import { Toaster } from "react-hot-toast"
 import { Suspense } from "react"
 import { ClipLoader } from "react-spinners"
 
-const StudentPage = async ({ params }: { params: { id: string } }) => {
+const StudentPage = async ({ params }: any ) => {  
     const studentId = params.id
-
-    // const [studentPromise, testsPromise, studentResultsPromise] = await Promise.all([
-    //     getStudentById(studentId),
-    //     getAllTest(),
-    //     getAllStudentPerfomenceById(studentId),
-    // ])
 
     const studentPromise = getStudentById(studentId)
     const testsPromise = getAllTest()
