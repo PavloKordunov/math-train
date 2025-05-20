@@ -1,3 +1,5 @@
+'use client'
+
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 type TestResult = {
