@@ -7,7 +7,6 @@ const CreatedTest = ({ testsPromise, studentsPromise }: {
   testsPromise: Promise<any[]>;
   studentsPromise: Promise<any[]>;
 }) => {
-  try {
     const tests = use(testsPromise) || [];
     const students = use(studentsPromise) || [];
 
@@ -18,10 +17,7 @@ const CreatedTest = ({ testsPromise, studentsPromise }: {
         )) : <p>Поки що немає тестів</p>}
       </div>
     );
-  } catch (error) {
-    console.error("Failed to load data:", error);
-    return <p>Помилка завантаження даних</p>;
-  }
+
 };
 
 export default CreatedTest;
