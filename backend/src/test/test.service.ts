@@ -3,6 +3,7 @@ import { DatabaseService } from 'src/database/database.service';
 import { CreateTestDto } from './dto/createTestDto';
 import { CompareAnswersDto } from './dto/compareAnswerc';
 import { UpdateTestDto } from './dto/updateTestDto';
+import { Prisma } from 'generated/prisma';
 
 @Injectable()
 export class TestService {
@@ -210,57 +211,84 @@ export class TestService {
 
     async updateTest(id: string, updateTestDto: UpdateTestDto) {
         try {
-            const { tasks, ...testData } = updateTestDto;
-    
+            const { tasks = [], ...testData } = updateTestDto;
+
             const currentTest = await this.databaseService.test.findUnique({
                 where: { id },
                 include: { tasks: true }
             });
-    
-            const currentTaskIds = currentTest?.tasks.map(task => task.id) || [];
-            const incomingTaskIds = tasks?.filter(t => !!t.id).map(t => t.id) || [];
-            
+
+            if (!currentTest) {
+                throw new NotFoundException(`Test with ID ${id} not found`);
+            }
+
+            const currentTaskIds = currentTest.tasks.map(task => task.id);
+            const incomingTaskIds = tasks.filter(t => !!t.id).map(t => t.id);
+
+            const invalidTaskIds = incomingTaskIds.filter((id: any) => !currentTaskIds.includes(id));
+            if (invalidTaskIds.length > 0) {
+                throw new BadRequestException(
+                    `Invalid task IDs: ${invalidTaskIds.join(', ')}`
+                );
+            }
+
             const tasksToDelete = currentTaskIds.filter(id => !incomingTaskIds.includes(id));
-    
-            return this.databaseService.test.update({
-                where: { id },
-                data: {
-                    ...testData,
-                    tasks: {
-                        deleteMany: tasksToDelete.length > 0 ? tasksToDelete.map(id => ({ id })) : undefined,
-                        update: tasks
-                            ?.filter(t => !!t.id)
-                            .map((t, index) => ({
-                                where: { id: t.id },
-                                data: {
-                                    title: t.title,
-                                    type: t.type ?? '',
-                                    answers: t.answers ?? [],
-                                    pairs: t.pairs ?? [],
-                                    image: t.image ?? '',
-                                    number: (index + 1).toString(),
-                                },
-                            })),
-                        create: tasks
-                            ?.filter(t => !t.id)
-                            .map((t, index) => ({
-                                title: t.title ?? 'Untitled Task',
-                                type: t.type ?? '',
-                                answers: t.answers ?? [],
-                                pairs: t.pairs ?? [],
-                                image: t.image ?? '',
-                                number: (index + 1).toString(),
-                            })),
+
+            if (tasksToDelete.length > 0) {
+                await this.databaseService.task.deleteMany({
+                    where: { id: { in: tasksToDelete } }
+                });
+            }
+
+            const updateOperations = tasks
+                .filter(t => t.id && currentTaskIds.includes(t.id))
+                .map(t => this.databaseService.task.update({
+                    where: { id: t.id },
+                    data: {
+                        title: t.title,
+                        type: t.type ?? '',
+                        answers: t.answers ?? [],
+                        pairs: t.pairs ?? [],
+                        image: t.image ?? '',
+                        number: t.number ?? '',
                     }
-                },
-                include: { tasks: true },
+                }));
+
+            const createOperations = tasks
+                .filter(t => !t.id)
+                .map((t: any) => this.databaseService.task.create({
+                    data: {
+                        ...t,
+                        testId: id,
+                        number: t.number ?? '',
+                    }
+                }));
+
+            await Promise.all([...updateOperations, ...createOperations]);
+
+            return this.databaseService.test.findUnique({
+                where: { id },
+                include: { tasks: true }
             });
+
         } catch (error) {
+            console.error('Update test error:', error);
+            
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === 'P2025') {
+                    throw new NotFoundException('Related record not found');
+                }
+                throw new BadRequestException('Invalid data format');
+            }
+            
+            if (error instanceof NotFoundException || error instanceof BadRequestException) {
+                throw error;
+            }
+            
             throw new InternalServerErrorException('Failed to update test');
         }
     }
     
-
     async deleteTest(id: string) {
         console.log('ID:', id, typeof id)
         try{
