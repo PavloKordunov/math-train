@@ -24,7 +24,7 @@ export class TestService {
         try {
             return this.databaseService.test.findUnique({
                 where: {id},
-                include: {tasks: true}
+                include: {tasks: {orderBy: {number: "asc"}}}
             })     
         } catch (error) {
             throw new InternalServerErrorException(error.message);
@@ -42,7 +42,7 @@ export class TestService {
         try {
             return this.databaseService.test.findMany({
                 where: {id},
-                include: {tasks: true}
+                include: {tasks: {orderBy: {number: "asc"}}}
             })       
         } catch (error) {
             throw new InternalServerErrorException(error.message);
@@ -89,7 +89,7 @@ export class TestService {
                         })),
                     },
                 },
-                include: {tasks: true}
+                include: {tasks: {orderBy: {number: "asc"}}}
             })
         } catch (error) {
             throw new InternalServerErrorException(error.message);
