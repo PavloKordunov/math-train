@@ -14,7 +14,7 @@ const StudentPerfomence = () => {
     useEffect(() => {
         const getAllStudentPerfomence = async() => {
             try {
-               const res = await fetch(`${API_URL}/api/perfomence/student`)
+               const res = await fetch(`${API_URL}/api/perfomence/one/student/${user?.id}`)
                const data = await res.json()
 
                console.log(data)
