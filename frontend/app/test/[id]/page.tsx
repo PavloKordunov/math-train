@@ -2,19 +2,20 @@
 
 import { useEffect, useState } from 'react'
 import CustomRadio from '../../../components/CustomRadio'
-import { FaTimes } from 'react-icons/fa'
-import TestNav from '@/components/TestNav'
+import TestNav from '@/components/userTest/TestNav'
 import { useParams } from 'next/navigation'
-import TimeTracker from '@/components/TimeTracker'
+import TimeTracker from '@/components/userTest/TimeTracker'
 import { useUser } from '@/hooks/useUser'
 import LatextTranform from "@/helpers/latexTransform"
 import Image from 'next/image'
+import MatchingTask from '@/components/userTest/MatchingTasks'
+import AdditionalDocs from '@/components/userTest/AdditionalDocs'
 
 type SavedAnswers = {
     multiple: { [taskId: string]: string };
     matching: { [taskId: string]: { [leftIndex: number]: string } };
     written: { [taskId: string]: string }; 
-  };
+};
 
 const TestPage = () => {
     const params = useParams()
@@ -22,7 +23,6 @@ const TestPage = () => {
     const {user} = useUser()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [test, setTest] = useState<any | null>({})
     const [sortedTasks, setSortedTasks] = useState<{
         multiple: any[];
@@ -41,22 +41,10 @@ const TestPage = () => {
     });
 
     const [writtenAnswers, setWrittenAnswers] = useState<{[taskId: string]: string}>({});
-
     const [selectedAnswers, setSelectedAnswers] = useState<{[taskId: string]: number}>({});
-
-    const handleAnswerSelect = (taskId: string, answerIndex: number) => {
-      setSelectedAnswers(prev => ({
-        ...prev,
-        [taskId]: answerIndex
-      }));
-    };
-
-    const [currentMatches, setCurrentMatches] = useState<{
-        [taskId: string]: { [leftIndex: number]: string | null };
-    }>({});
-
     const [answers, setAnswers] = useState<any>([])
     const [testResult, setTestResult] = useState<any>({})
+    const [active, setActive] = useState(false)
 
     useEffect(() => {
         console.log(savedAnswers)
@@ -78,15 +66,11 @@ const TestPage = () => {
         };
     
         const sortTests = (tasks: any[]) => {
-            const newSortedTasks: {
-                multiple: any[];
-                matching: any[];
-                written: any[];
-            } = {
+            const newSortedTasks = {
                 multiple: [],
                 matching: [],
                 written: []
-            };
+            } as any;
     
             tasks.forEach((task: any) => {
                 if (task.type === 'multiple') {
@@ -104,10 +88,6 @@ const TestPage = () => {
         getTestById();
     }, [testId]);
     
-    useEffect(() => {
-        console.log(sortedTasks)
-    }, [sortedTasks])
-
     const handleEndTest = async() => {
         try {
             const res = await fetch(`${API_URL}/api/test/${test.id}/check/${user?.id}`, {
@@ -125,47 +105,13 @@ const TestPage = () => {
             console.log(error)
         }
     }
-    
-    
-    const handleSelectOption = (taskId: string, opt: string) => {
-        setSelectedOption(opt);
-      };
-      
-      const handleMatch = (taskId: string, index: number) => {
-        if (selectedOption) {
-          setCurrentMatches(prev => ({
-            ...prev,
-            [taskId]: {
-              ...prev[taskId],
-              [index]: selectedOption
-            }
-          }));
-          setSelectedOption(null);
-        }
-      };
-      
-      const handleRemoveMatch = (taskId: string, index: number) => {
-        setCurrentMatches(prev => ({
-          ...prev,
-          [taskId]: {
-            ...prev[taskId],
-            [index]: null
-          }
-        }));
-      };
-      
-      const handleSaveMatching = (taskId: string) => {
-        if (currentMatches[taskId]) {
-          setSavedAnswers((prev: any) => ({
-            ...prev,
-            matching: {
-              ...prev.matching,
-              [taskId]: currentMatches[taskId]
-            }
-          }));
-        }
-      };
-      
+
+    const handleAnswerSelect = (taskId: string, answerIndex: number) => {
+      setSelectedAnswers(prev => ({
+        ...prev,
+        [taskId]: answerIndex
+      }));
+    };
 
     const handleSaveMultiple = (taskId: string, answerIndex: number) => {
         setSavedAnswers((prev: any) => ({
@@ -195,15 +141,11 @@ const TestPage = () => {
     };
 
     const handleAnswer = (taskId: any, answer: any, type: any) => {
-            setAnswers((prev: any) => [
-            ...prev,
-            {taskId, answer, type}
+        setAnswers((prev: any) => [
+        ...prev,
+        {taskId, answer, type}
         ])
     }
-
-    useEffect(() => {
-        console.log(answers)
-    }, [answers])
 
     return (
         <div className="w-full px-20">
@@ -214,7 +156,8 @@ const TestPage = () => {
         </div>
         <div className="py-50">
         <div>
-            <TestNav />
+            <TestNav active={active} setActive={setActive} />
+            {!active ? (
             <div className='relative mx-auto flex'>
                 <div className="w-4/5 border border-2 border-gray-300 p-15">
                     {sortedTasks.multiple.length > 0 && <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
@@ -281,139 +224,24 @@ const TestPage = () => {
 
                     {sortedTasks.matching.map((task) => {
                         const isSaved = !!savedAnswers.matching[task.id];
-                        const taskMatches = currentMatches[task.id] || {};
-                        const userAnswers = Object.entries(taskMatches)
-                        .filter(([_, rightLetter]) => rightLetter !== null)
-                        .map(([leftIndex, rightLetter]) => {
-                          const rightPair = task.pairs.filter((pair: any) => pair.right)[Number(rightLetter?.charCodeAt(0)) - 65];
-                          const leftPair = task.pairs.filter((pair: any) => pair.left)[leftIndex]
-                          return {
-                            left: {
-                              rightId: rightPair?.right.id || '',
-                              rightText: rightPair?.right.text,
-                              leftId:  leftPair?.left.id,
-                              leftText: leftPair?.left.text,
-                            }
-                          };
-                        });
-
-                        console.log("userAnswers: ", userAnswers)  
-                        return (<div id={`task-${task.id}`} key={task.id}>
-                            <div className="h-[2px] w-full bg-gray-300 mb-6"></div>
-                            <h2 className="text-[24px] font-medium mb-8">Завдання {task.number}</h2>
-                            <LatextTranform content={task.title} className="text-[18px] mb-6 font-medium" />
-                            {task.image && <div className="w-full h-fit overflow-hidden rounded-[21px]"> 
-                                <Image 
-                                    src={task.image} 
-                                    alt={task.title} 
-                                    width={237} 
-                                    height={237}
-                                    className="w-full h-full object-cover" 
-                                />
-                            </div>}
-                            
-                            <div className='flex gap-100 mb-8'>
-                                <div className='flex flex-col gap-4 text-[16px] font-semibold'>
-                                {task.pairs.filter((pair: any) => pair.left.text).map((pair: any, index: any) => (
-                                    <div className='flex items-center'  key={`left-${index}`}>
-                                        <p>{index + 1}. </p>
-                                        <LatextTranform content={pair.left.text} className="text-[18px] mb-6 font-medium" />
-                                    </div>
-                                ))}
-                                </div>
-                                <div className='flex flex-col gap-4 text-[16px] font-semibold'>
-                                {task.pairs.filter((pair: any) => pair.right.text).map((pair: any, index: any) => (
-                                    
-                                    <div className='flex items-center' key={`right-${index}`}>
-                                    <p >{String.fromCharCode(65 + index)}. </p>
-                                    <LatextTranform content={pair.right.text} className="text-[18px] mb-6 font-medium" />
-                                </div>
-                                ))}
-                                </div>
-                            </div>
-                            
-                            <div className='flex w-full gap-8'>
-                                <div className="w-2/3 py-6 px-6 bg-[#D0EFFF] border rounded-lg border-2 border-gray-300 mb-8 flex">
-                                <div className='flex w-1/2 flex-col gap-3 text-[18px] font-semibold'>
-                                    {task.pairs.filter((pair: any) => pair.left.text).map((_: any, index: any) => (
-                                    <div key={`left-box-${index}`} className='w-full py-2 px-4 bg-[#81D5FF] rounded-md'>
-                                        <p>{index + 1}.</p>
-                                    </div>
-                                    ))}
-                                </div>
-                                
-                                <div>
-                                    {task.pairs.filter((pair: any) => pair.left.text).map((_: any, index: any) => (
-                                    <div key={`arrow-${index}`} className='max-h-[43px] mb-2'>
-                                        <span style={{ fontSize: '48px', color: '#555', height: '43px', display: "flex", alignItems: "center", justifyContent: "center", paddingBottom:'10px' }}>→</span>
-                                    </div>
-                                    ))}
-                                </div>
-                                
-                                <div className='flex w-1/2 flex-col gap-3 text-[18px] font-semibold'>
-                                    {task.pairs.filter((pair: any) => pair.left.text).map((_: any, index: any) => (
-                                    <div
-                                        key={`match-${index}`}
-                                        className={`w-full h-[43px] flex items-center justify-between px-4 rounded-md cursor-pointer transition-all duration-200 ${
-                                        taskMatches[index] ? 'bg-[#5EFF66]' : 'bg-white border border-gray-300'
-                                        }`}
-                                        onClick={() => handleMatch(task.id, index)}
-                                    >
-                                        {taskMatches[index] ? (
-                                        <>
-                                            <p>{taskMatches[index]}</p>
-                                            <div
-                                            className='bg-gray-200 p-2 cursor-pointer'
-                                            onClick={(e) => {
-                                                e.stopPropagation(); 
-                                                handleRemoveMatch(task.id, index);
-                                            }}
-                                            >
-                                            <FaTimes size={14} color="#000" />
-                                            </div>
-                                        </>
-                                        ) : null}
-                                    </div>
-                                    ))}
-                                </div>
-                                </div>
-                                
-                                <div className="w-1/3 py-6 px-6 bg-[#ACFFB6] border rounded-lg border-2 border-gray-300 mb-8">
-                                <div className='flex flex-col gap-3 text-[18px] font-semibold'>
-                                    {task.pairs.filter((pair: any) => pair.right.text).map((pair: any, index: any) => (
-                                    <div
-                                        key={`option-${index}`}
-                                        className={`cursor-pointer w-fit px-4 py-2 rounded-md font-semibold ${
-                                        selectedOption === String.fromCharCode(65 + index) ? 'bg-gray-300' : 'bg-[#5EFF66]'
-                                        }`}
-                                        onClick={() => handleSelectOption(task.id, String.fromCharCode(65 + index))}
-                                    >
-                                        {String.fromCharCode(65 + index)}
-                                    </div>
-                                    ))}
-                                </div>
-                                </div>
-                            </div>
-                        
-                            <button 
-                                className='bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold mb-6' 
-                                disabled={isSaved} 
-                                onClick={() => {
-                                    handleSaveMatching(task.id)
-                                    handleAnswer(task.id, userAnswers, task.type)
+                        return (
+                            <MatchingTask 
+                                key={task.id}
+                                task={task}
+                                isSaved={isSaved}
+                                onSave={(userAnswers: any) => {
+                                    setSavedAnswers(prev => ({
+                                        ...prev,
+                                        matching: {
+                                            ...prev.matching,
+                                            [task.id]: userAnswers
+                                        }
+                                    }));
+                                    handleAnswer(task.id, userAnswers, task.type);
                                 }}
-                            >
-                                Зберегти відповідь
-                            </button>
-                            
-                            {isSaved && (
-                                <div className='mb-8'>
-                                <div className="h-[2px] w-full bg-rose-600 mb-1"></div>
-                                <p className='text-rose-600 text-[16px] font-semibold'>Відповідь збережено</p>
-                                </div>
-                            )}
-                        </div>
-                    )})}
+                            />
+                        );
+                    })}
 
                     { sortedTasks.written.length > 0 && <div className="py-2 px-4 bg-gray-200 border border-1 border-gray-300 mb-12">
                         <p className='text-center font-semibold text-[22px]'>Розвʼяжіть завдання {sortedTasks.written[0]?.number}-{sortedTasks.written[sortedTasks.written.length-1]?.number}. Одержані числові відповіді впишіть у спеціальне поле. Відповіді записуйте лише десятковим дробом, урахувавши положення коми. Знак «мінус» записуйте перед першою цифрою числа.
@@ -488,6 +316,9 @@ const TestPage = () => {
                     </div>
                 </div>
             </div>
+            ) : (
+                <AdditionalDocs />
+            )}
         </div>
         </div>
     </div>

@@ -80,10 +80,6 @@ const ViewTest = () => {
             console.log(error)
         }
     }
-
-    useEffect(() => {
-        console.log(question)
-    }, [question])
       
     const handleSelect = (type: string) => {
         setQuestionType(type);
@@ -202,11 +198,16 @@ const ViewTest = () => {
         }))
     }
 
+    useEffect(() => {console.log(test)}, [test])
+    const updateTest = (updatedTest: any) => {
+        setTest(updatedTest);
+    }
+
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">Оновлення тесту</h1>
             <TestBasicInfo test={test} setTest={setTest} formatDateForInput={formatDateForInput} />
-            <TestTasks test={test} updateTask={updateTask} deleteTask={deleteTask} />
+            <TestTasks test={test} updateTask={updateTask} deleteTask={deleteTask} updateTest={updateTest} />
             <CreateTestTask questionType={questionType} setQuestionType={setQuestionType} test={test} setTest={setTest} setModalOpen={setModalOpen} question={question} setQuestion={setQuestion} toggleAnswerCorrect={toggleAnswerCorrect} updateAnswerText={updateAnswerText} handleSaveMatchingTask={handleSaveMatchingTask} />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button

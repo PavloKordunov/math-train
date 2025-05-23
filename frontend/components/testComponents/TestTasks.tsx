@@ -6,8 +6,9 @@ import EditTaskModal from "./EditTaskModal"
 import LatextTranform from "@/helpers/latexTransform"
 import Image from "next/image"
 import { MathJaxContext } from "better-react-mathjax"
+import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 
-const TestTasks = ({ test, updateTask, deleteTask }: any) => {
+const TestTasks = ({ test, updateTask, deleteTask , updateTest}: any) => {
     const [editingTask, setEditingTask] = useState(null)
     
     const handleEditClick = (task: any) => {
@@ -24,6 +25,47 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
 
     const handleDelete = (taskId: any) => {
         deleteTask(taskId)
+    }
+
+    const handleMoveUpTask = (task: any) => {
+        const currentNumber = parseInt(task.number);
+        if (currentNumber <= 1) return;
+        
+        const newNumber = currentNumber - 1;
+        
+        const updatedTasks = test.tasks.map((t: any) => {
+            if (parseInt(t.number) === currentNumber) {
+                return { ...t, number: newNumber.toString() };
+            } else if (parseInt(t.number) === newNumber) {
+                return { ...t, number: currentNumber.toString() };
+            }
+            return t;
+        });
+        
+        const sortedTasks = [...updatedTasks].sort((a, b) => parseInt(a.number) - parseInt(b.number));
+        
+        updateTest({ ...test, tasks: sortedTasks });
+    }
+
+    const handleMoveDownTask = (task: any) => {
+        const currentNumber = parseInt(task.number);
+        const maxNumber = Math.max(...test.tasks.map((t: any) => parseInt(t.number)));
+        
+        if (currentNumber >= maxNumber) return;
+        
+        const newNumber = currentNumber + 1;
+        
+        const updatedTasks = test.tasks.map((t: any) => {
+            if (parseInt(t.number) === currentNumber) {
+                return { ...t, number: newNumber.toString() };
+            } else if (parseInt(t.number) === newNumber) {
+                return { ...t, number: currentNumber.toString() };
+            }
+            return t;
+        });
+        
+        const sortedTasks = [...updatedTasks].sort((a, b) => parseInt(a.number) - parseInt(b.number));
+        updateTest({ ...test, tasks: sortedTasks });
     }
 
     const config = {
@@ -49,6 +91,18 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                 <div className="flex items-center justify-between">
                                     <p className="text-[24px] font-bold">Запитання {task.number}</p>
                                     <div className="flex gap-2">
+                                        <button 
+                                            onClick={() => handleMoveUpTask(task)}
+                                            className="p-1 hover:text-yellow-500"
+                                        >
+                                            <FaArrowUp />
+                                        </button>
+                                        <button 
+                                            onClick={() => handleMoveDownTask(task)}
+                                            className="p-1 hover:text-yellow-500"
+                                        >
+                                            <FaArrowDown />
+                                        </button>
                                         <button 
                                             onClick={() => handleEditClick(task)}
                                             className="p-1 hover:text-blue-500"
@@ -91,6 +145,18 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                 <div className="flex items-center justify-between">
                                     <p className="text-[24px] font-bold">Запитання {task.number}</p>
                                     <div className="flex gap-2">
+                                        <button 
+                                            onClick={() => handleMoveUpTask(task)}
+                                            className="p-1 hover:text-yellow-500"
+                                        >
+                                            <FaArrowUp />
+                                        </button>
+                                        <button 
+                                            onClick={() => handleMoveDownTask(task)}
+                                            className="p-1 hover:text-yellow-500"
+                                        >
+                                            <FaArrowDown />
+                                        </button>
                                         <button onClick={() => handleEditClick(task)} className="p-1 hover:text-blue-500">
                                             <MdEdit size={24} />
                                         </button>
@@ -127,6 +193,18 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                                 <div className="flex items-center justify-between">
                                     <p className="text-[24px] font-bold">Запитання {task.number}</p>
                                     <div className="flex gap-2">
+                                        <button 
+                                            onClick={() => handleMoveUpTask(task)}
+                                            className="p-1 hover:text-yellow-500"
+                                        >
+                                            <FaArrowUp />
+                                        </button>
+                                        <button 
+                                            onClick={() => handleMoveDownTask(task)}
+                                            className="p-1 hover:text-yellow-500"
+                                        >
+                                            <FaArrowDown />
+                                        </button>
                                         <button onClick={() => handleEditClick(task)} className="p-1 hover:text-blue-500">
                                             <MdEdit size={24} />
                                         </button>

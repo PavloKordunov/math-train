@@ -28,16 +28,17 @@ const TimeTracker = ({test, handleEndTest, answers, testResult}: {test: any, han
     }, [test])
 
     useEffect(() => {
-        if (typeof timeLeft !== 'number' || timeLeft <= 0) {
-            if (timeLeft === 0) {
-                return //add end test
-            }
-            return
-        }
-
         const interval = setInterval(() => {
             setTimeLeft((prev) => prev - 1)
         }, 1000)
+
+        // if (typeof timeLeft !== 'number' || timeLeft <= 0) {
+        //     if (timeLeft === 0) {
+        //         setShowAnswerModal(true)
+        //         handleEndTest() 
+        //     }
+        //     return
+        // }
 
         return () => clearInterval(interval)
     }, [timeLeft, handleEndTest])

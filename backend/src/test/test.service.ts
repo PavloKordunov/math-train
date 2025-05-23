@@ -247,12 +247,12 @@ async updateTest(id: string, updateTestDto: UpdateTestDto) {
                 .filter(t => t.id && currentTaskIds.includes(t.id))
                 .map(t => this.databaseService.task.update({
                     where: { id: t.id },
-                    data: { ...t, number: t.number }
+                    data: { ...t, number: t.number  }
                 })),
             ...tasks
                 .filter(t => !t.id)
-                .map((t: any) => this.databaseService.task.create({
-                    data: { ...t, testId: id, number: t.number || '' }
+                .map((t: any, index: any) => this.databaseService.task.create({
+                    data: { ...t, testId: id, number: (index+1).toString() || '' }
                 }))
         ]);
 
