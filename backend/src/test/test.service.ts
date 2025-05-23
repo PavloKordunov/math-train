@@ -268,7 +268,7 @@ export class TestService {
 
             return this.databaseService.test.findUnique({
                 where: { id },
-                include: { tasks: true }
+                include: { tasks: {orderBy: {number: "asc"}} }
             });
 
         } catch (error) {

@@ -47,7 +47,7 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                         {task.type === 'multiple' && (
                             <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
                                 <div className="flex items-center justify-between">
-                                    <p className="text-[24px] font-bold">Запитання {index + 1}</p>
+                                    <p className="text-[24px] font-bold">Запитання {task.number}</p>
                                     <div className="flex gap-2">
                                         <button 
                                             onClick={() => handleEditClick(task)}
@@ -89,7 +89,7 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                         {task.type === 'matching' && (
                             <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
                                 <div className="flex items-center justify-between">
-                                    <p className="text-[24px] font-bold">Запитання {index + 1}</p>
+                                    <p className="text-[24px] font-bold">Запитання {task.number}</p>
                                     <div className="flex gap-2">
                                         <button onClick={() => handleEditClick(task)} className="p-1 hover:text-blue-500">
                                             <MdEdit size={24} />
@@ -125,7 +125,7 @@ const TestTasks = ({ test, updateTask, deleteTask }: any) => {
                         {task.type === 'written' && (
                             <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
                                 <div className="flex items-center justify-between">
-                                    <p className="text-[24px] font-bold">Запитання {index + 1}</p>
+                                    <p className="text-[24px] font-bold">Запитання {task.number}</p>
                                     <div className="flex gap-2">
                                         <button onClick={() => handleEditClick(task)} className="p-1 hover:text-blue-500">
                                             <MdEdit size={24} />
