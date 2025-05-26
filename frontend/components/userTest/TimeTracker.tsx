@@ -38,7 +38,7 @@ const TimeTracker = ({test, handleEndTest, answers, testResult}: {test: any, han
         }
 
         return () => clearInterval(interval)
-    }, [timeLeft, handleEndTest])
+    }, [timeLeft])
 
     const formatTime = (seconds: number) => {
         const safeSeconds = Math.max(0, seconds)

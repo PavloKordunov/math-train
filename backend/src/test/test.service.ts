@@ -134,6 +134,19 @@ export class TestService {
     
             let totalScore = 0;
             let maxScore = 0
+            for(const task of test.tasks){
+                if(task.type === 'multiple'){
+                    maxScore +=1
+                }
+                else if(task.type === 'matching'){
+                    if (Array.isArray(task.answers)) {
+                        maxScore += task.answers.length;
+                    }
+                }
+                if(task.type === 'written'){
+                    maxScore +=2
+                } 
+            }
     
             for (const dto of compareAnswersDtos) {
                 if (!dto?.taskId) continue;
@@ -150,7 +163,6 @@ export class TestService {
                         if (selectedAnswer?.isCorrect) {
                             totalScore += 1;
                         }
-                        maxScore += 1
                         break;
                     }
     
@@ -162,7 +174,7 @@ export class TestService {
                             if (taskAnswer?.left?.rightId === userPair?.left?.rightId) {
                                 correctPairs++;
                             }
-                            maxScore += 1
+                            // maxScore += 1
                         });
                         totalScore += correctPairs;
                         break;
@@ -177,7 +189,7 @@ export class TestService {
                         ) {
                             totalScore += 2;
                         }
-                        maxScore += 2
+                        // maxScore += 2
                         break;
                     }
     
