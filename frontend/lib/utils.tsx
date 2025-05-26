@@ -88,3 +88,14 @@ export const getAllStudentPerfomenceById = async(studentId: any) => {
         console.log(error)
     }
 }
+
+export const getAssignedTests = async(studentId: any) => {
+    try {
+        const res = await fetch(`${API_URL}/api/test/assign/${studentId}`)
+
+        const data = await res.json()
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}

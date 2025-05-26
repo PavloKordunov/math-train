@@ -1,5 +1,6 @@
 'use client'
 
+import { useUser } from "@/hooks/useUser";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,6 +11,7 @@ const TestItem = ({test} : {test: any}) => {
     const toggleModal = () => {
         setIsOpen(!isOpen)
     }
+    const {user} = useUser()
 
     function formatDateToUkrainian(dateString: string): string {
         const date = new Date(dateString);
@@ -35,7 +37,7 @@ const TestItem = ({test} : {test: any}) => {
             </div>
             <div className="px-10 border-[2px] border-[#CDC8C8] border-l-0 flex items-center justify-between min-w-[900px] gap-10">
                 <p className="font-bold text-[18px] uppercase">Тест, {test.test.title}, час завершення: {formatDateToUkrainian(test.test.endTime)}</p>
-                <button className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase" onClick={toggleModal}>Перейти до тесту</button>
+                {user?.status === "Student" && <button className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase" onClick={toggleModal}>Перейти до тесту</button>}
             </div>
             {isOpen && 
                 <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center">
