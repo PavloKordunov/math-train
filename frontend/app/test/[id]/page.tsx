@@ -46,9 +46,10 @@ const TestPage = () => {
     const [testResult, setTestResult] = useState<any>({})
     const [active, setActive] = useState(false)
 
-    useEffect(() => {
-        console.log(savedAnswers)
-    }, [savedAnswers])
+    // useEffect(() => {
+    //     console.log(savedAnswers)
+    //     console.log("Answers: ", answers)
+    // }, [savedAnswers, answers])
     
     useEffect(() => {
         const getTestById = async () => {
@@ -87,6 +88,7 @@ const TestPage = () => {
     
         getTestById();
     }, [testId]);
+
     
     const handleEndTest = async() => {
         try {
@@ -124,6 +126,9 @@ const TestPage = () => {
       };
     
     const handleSaveWritten = (taskId: string, answerText: string) => {
+    if(savedAnswers.written[taskId.toString()]){
+    console.log("Its already here")
+    }
     setSavedAnswers(prev => ({
         ...prev,
         written: {
@@ -141,10 +146,10 @@ const TestPage = () => {
     };
 
     const handleAnswer = (taskId: any, answer: any, type: any) => {
-        setAnswers((prev: any) => [
-        ...prev,
-        {taskId, answer, type}
-        ])
+        setAnswers((prev: any) => { 
+            const filtred = prev?.filter((ans: any) => ans.taskId !== taskId)
+            return  [...filtred, {taskId, answer, type}]
+        })
     }
 
     return (
@@ -200,7 +205,7 @@ const TestPage = () => {
                         
                         <button 
                             className='bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold mb-6' 
-                            disabled={isSaved || selectedAnswerIndex === undefined}
+                            // disabled={isSaved || selectedAnswerIndex === undefined}
                             onClick={() => {
                                 handleSaveMultiple(task.id, selectedAnswerIndex)
                                 handleAnswer(task.id, selectedAnswerIndex, task.type)
@@ -277,7 +282,7 @@ const TestPage = () => {
                             />
                             <button 
                                 className='bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold mb-6' 
-                                disabled={isSaved} 
+                                // disabled={isSaved} 
                                 onClick={() => {
                                     handleSaveWritten(task.id,  writtenAnswers[task.id])
                                     handleAnswer(task.id, writtenAnswers[task.id], task.type )

@@ -32,13 +32,10 @@ const TimeTracker = ({test, handleEndTest, answers, testResult}: {test: any, han
             setTimeLeft((prev) => prev - 1)
         }, 1000)
 
-        // if (typeof timeLeft !== 'number' || timeLeft <= 0) {
-        //     if (timeLeft === 0) {
-        //         setShowAnswerModal(true)
-        //         handleEndTest() 
-        //     }
-        //     return
-        // }
+        if (timeLeft === 1) {
+            setShowAnswerModal(true)
+            handleEndTest() 
+        }
 
         return () => clearInterval(interval)
     }, [timeLeft, handleEndTest])

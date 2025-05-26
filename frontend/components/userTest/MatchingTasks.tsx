@@ -169,7 +169,6 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({ task, isSaved, onSave }) =>
         
             <button 
                 className='bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold mb-6' 
-                disabled={isSaved} 
                 onClick={handleSaveMatching}
             >
                 Зберегти відповідь
