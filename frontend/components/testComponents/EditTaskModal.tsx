@@ -1,48 +1,50 @@
 'use client'
 
-import { useState, useEffect } from "react"
-import { nanoid } from "nanoid"
-import MathInput from "../MathInput"
-import { MdDelete } from "react-icons/md"
-import Image from "next/image"
+import { useState, useEffect } from 'react'
+import { nanoid } from 'nanoid'
+import MathInput from '../MathInput'
+import { MdDelete } from 'react-icons/md'
+import Image from 'next/image'
 
 const EditTaskModal = ({ task, onSave, onClose }: any) => {
-    const [editedTask, setEditedTask] = useState(JSON.parse(JSON.stringify(task)))
+    const [editedTask, setEditedTask] = useState(
+        JSON.parse(JSON.stringify(task))
+    )
 
     useEffect(() => {
         setEditedTask(JSON.parse(JSON.stringify(task)))
     }, [task])
 
-
     const handleTitleChange = (val: any) => {
-        setEditedTask({...editedTask, title: val})
+        setEditedTask({ ...editedTask, title: val })
     }
 
     const handleAnswerTextChange = (index: any, text: any) => {
         const updatedAnswers = [...editedTask.answers]
         updatedAnswers[index].text = text
-        setEditedTask({...editedTask, answers: updatedAnswers})
+        setEditedTask({ ...editedTask, answers: updatedAnswers })
     }
 
     const handleAnswerCorrectChange = (index: any) => {
-        const updatedAnswers = editedTask.answers.map((answer: any, i: number) => ({
-            ...answer,
-            isCorrect: i === index 
-        }))
-        setEditedTask({...editedTask, answers: updatedAnswers})
+        const updatedAnswers = editedTask.answers.map(
+            (answer: any, i: number) => ({
+                ...answer,
+                isCorrect: i === index,
+            })
+        )
+        setEditedTask({ ...editedTask, answers: updatedAnswers })
     }
-    
 
     const handlePairLeftChange = (index: any, text: any) => {
         const updatedPairs = [...editedTask.pairs]
         updatedPairs[index].left.text = text
-        setEditedTask({...editedTask, pairs: updatedPairs})
+        setEditedTask({ ...editedTask, pairs: updatedPairs })
     }
 
     const handlePairRightChange = (index: any, text: any) => {
         const updatedPairs = [...editedTask.pairs]
         updatedPairs[index].right.text = text
-        setEditedTask({...editedTask, pairs: updatedPairs})
+        setEditedTask({ ...editedTask, pairs: updatedPairs })
     }
 
     const addPair = () => {
@@ -50,19 +52,19 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
             ...editedTask,
             pairs: [
                 ...editedTask.pairs,
-                { 
-                    left: {id: nanoid(), text: ''}, 
-                    right: {id: nanoid(), text: ''}, 
-                    id: nanoid() 
-                }
-            ]
+                {
+                    left: { id: nanoid(), text: '' },
+                    right: { id: nanoid(), text: '' },
+                    id: nanoid(),
+                },
+            ],
         })
     }
 
     const removePair = (index: any) => {
         const updatedPairs = [...editedTask.pairs]
         updatedPairs.splice(index, 1)
-        setEditedTask({...editedTask, pairs: updatedPairs})
+        setEditedTask({ ...editedTask, pairs: updatedPairs })
     }
 
     const handleSubmit = (e: any) => {
@@ -72,29 +74,31 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
 
     const [base64, setBase64] = useState('')
 
-    const encodeImageFileAsURL = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-    
-        const reader = new FileReader();
-        reader.onloadend = function() {
-            const base64String = reader.result as string;
+    const encodeImageFileAsURL = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = event.target.files?.[0]
+        if (!file) return
+
+        const reader = new FileReader()
+        reader.onloadend = function () {
+            const base64String = reader.result as string
             setEditedTask((prev: any) => ({
                 ...prev,
-                image: base64String
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
+                image: base64String,
+            }))
+        }
+        reader.readAsDataURL(file)
+    }
 
-      useEffect(() => {
+    useEffect(() => {
         if (base64 && base64 !== editedTask.image) {
             setEditedTask((prev: any) => ({
                 ...prev,
-                image: base64
-            }));
+                image: base64,
+            }))
         }
-    }, [base64]);
+    }, [base64])
 
     useEffect(() => {
         console.log(editedTask)
@@ -106,14 +110,19 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
             <div className="bg-white rounded-[31px] p-6 w-full max-w-200 max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-bold">Редагувати завдання</h2>
-                    <button onClick={onClose} className="text-gray-500 text-[32px] hover:text-gray-700">
+                    <button
+                        onClick={onClose}
+                        className="text-gray-500 text-[32px] hover:text-gray-700"
+                    >
                         &times;
                     </button>
                 </div>
 
                 <form className="max-w-200" onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-gray-700 mb-2">Заголовок:</label>
+                        <label className="block text-gray-700 mb-2">
+                            Заголовок:
+                        </label>
                         <div className="w-full">
                             <MathInput
                                 value={editedTask.title}
@@ -123,15 +132,20 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                         </div>
                         {editedTask.image ? (
                             <div className="relative w-fit">
-                                <Image 
-                                    src={editedTask.image} 
-                                    alt="" 
-                                    width={200} 
-                                    height={200} 
-                                    className="w-fit max-h-64" 
+                                <Image
+                                    src={editedTask.image}
+                                    alt=""
+                                    width={200}
+                                    height={200}
+                                    className="w-fit max-h-64"
                                 />
-                                <div 
-                                    onClick={() => setEditedTask((prev: any) => ({ ...prev, image: '' }))} 
+                                <div
+                                    onClick={() =>
+                                        setEditedTask((prev: any) => ({
+                                            ...prev,
+                                            image: '',
+                                        }))
+                                    }
                                     className="absolute top-[10px] right-[10px] w-7 h-8 cursor-pointer"
                                 >
                                     <MdDelete size={24} />
@@ -145,10 +159,10 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                 >
                                     <span>Завантажте світлину</span>
                                 </label>
-                                <input 
-                                    type="file" 
-                                    id="img" 
-                                    onChange={encodeImageFileAsURL} 
+                                <input
+                                    type="file"
+                                    id="img"
+                                    onChange={encodeImageFileAsURL}
                                     className="hidden"
                                 />
                             </>
@@ -157,31 +171,48 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
 
                     {editedTask.type === 'multiple' && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">Варіанти відповідей:</h3>
-                            {editedTask.answers.map((answer: any, index: any) => (
-                                <div key={index} className="flex items-center gap-4 mb-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={answer.isCorrect}
-                                        onChange={() => handleAnswerCorrectChange(index)}
-                                    />
-                                    <MathInput
-                                        value={answer.text}
-                                        onChange={(val: string) => {
-                                            handleAnswerTextChange(index, val)
-                                        }}
-                                        className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
-                                    />
-                                </div>
-                            ))}
+                            <h3 className="text-lg font-semibold mb-2">
+                                Варіанти відповідей:
+                            </h3>
+                            {editedTask.answers.map(
+                                (answer: any, index: any) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center gap-4 mb-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={answer.isCorrect}
+                                            onChange={() =>
+                                                handleAnswerCorrectChange(index)
+                                            }
+                                        />
+                                        <MathInput
+                                            value={answer.text}
+                                            onChange={(val: string) => {
+                                                handleAnswerTextChange(
+                                                    index,
+                                                    val
+                                                )
+                                            }}
+                                            className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                        />
+                                    </div>
+                                )
+                            )}
                         </div>
                     )}
 
                     {editedTask.type === 'matching' && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">Пари:</h3>
+                            <h3 className="text-lg font-semibold mb-2">
+                                Пари:
+                            </h3>
                             {editedTask.pairs.map((pair: any, index: any) => (
-                                <div key={index} className="flex items-center gap-4 mb-4">
+                                <div
+                                    key={index}
+                                    className="flex items-center gap-4 mb-4"
+                                >
                                     <div className="flex-1 max-w-50">
                                         <MathInput
                                             value={pair.left.text}
@@ -196,12 +227,15 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                         <MathInput
                                             value={pair.right.text}
                                             onChange={(val: string) => {
-                                                handlePairRightChange(index, val)
+                                                handlePairRightChange(
+                                                    index,
+                                                    val
+                                                )
                                             }}
                                             className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                                         />
                                     </div>
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={() => removePair(index)}
                                         className="text-red-500 hover:text-red-700"
@@ -222,7 +256,9 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
 
                     {editedTask.type === 'written' && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">Відповідь:</h3>
+                            <h3 className="text-lg font-semibold mb-2">
+                                Відповідь:
+                            </h3>
                             <MathInput
                                 value={editedTask.answers[0]?.text || ''}
                                 onChange={(val: string) => {

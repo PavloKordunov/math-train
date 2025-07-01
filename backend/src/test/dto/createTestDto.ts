@@ -1,12 +1,4 @@
-import { Type } from 'class-transformer';
-import {
-  IsArray,
-  IsDateString,
-  IsInt,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsDateString, IsInt, IsString } from 'class-validator';
 import { CreateTaskDto } from './createTaskDto';
 
 export class CreateTestDto {
@@ -17,10 +9,10 @@ export class CreateTestDto {
   timeLimit: number;
 
   @IsString()
-  description: string; 
+  description: string;
 
   @IsDateString()
-  startTime: string; 
+  startTime: string;
 
   @IsDateString()
   endTime: string;
@@ -29,7 +21,5 @@ export class CreateTestDto {
   teacherId: string;
 
   @IsArray()
-//   @ValidateNested({ each: true })
-//   @Type(() => CreateTaskDto)
   tasks: CreateTaskDto[];
 }

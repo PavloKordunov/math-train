@@ -4,5 +4,7 @@
         "plaintext": false,
         "markdown": false,
         "scminput": false
-    }
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
 }

@@ -1,13 +1,13 @@
 'use client'
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
-import { FaTimes } from 'react-icons/fa';
-import Link from "next/link";
-import toast, { Toaster } from "react-hot-toast";
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { MdDelete } from 'react-icons/md'
+import { FaTimes } from 'react-icons/fa'
+import Link from 'next/link'
+import toast, { Toaster } from 'react-hot-toast'
 
-const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
+const TeacherTestItem = ({ students, test }: { students: any; test: any }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [studentName, setStudentName] = useState('')
     const [filtredStudents, setFilteredStudents] = useState<any[]>([])
@@ -20,42 +20,68 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
     useEffect(() => {
         const filtered = students.filter((student: any) =>
             student.name.toLowerCase().includes(studentName.toLowerCase())
-        );
-        setFilteredStudents(filtered);
-    }, [studentName, students]);
+        )
+        setFilteredStudents(filtered)
+    }, [studentName, students])
+
+    function formatDateToUkrainian(dateString: string): string {
+        const date = new Date(dateString)
+
+        const day = date.getDate()
+        const monthIndex = date.getMonth()
+        const hours = date.getHours().toString().padStart(2, '0')
+        const minutes = date.getMinutes().toString().padStart(2, '0')
+
+        const monthsGenitive = [
+            'січня',
+            'лютого',
+            'березня',
+            'квітня',
+            'травня',
+            'червня',
+            'липня',
+            'серпня',
+            'вересня',
+            'жовтня',
+            'листопада',
+            'грудня',
+        ]
+
+        return `${day} ${monthsGenitive[monthIndex]} ${hours}:${minutes}`
+    }
 
     const assignTest = async (student: any) => {
         try {
             const res = await fetch(`${API_URL}/api/test/${test.id}/assign`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     testId: test.id,
                     studentId: student.id,
                 }),
-            });
+            })
 
-            const data = await res.json();
-            console.log(data);
-            toast.success(`Тест призначено для ${student.name}`);
+            const data = await res.json()
+            console.log(data)
+            toast.success(`Тест призначено для ${student.name}`)
         } catch (error) {
-            console.error(error);
-            toast.error('Помилка: тест не призначено');
+            console.error(error)
+            toast.error('Помилка: тест не призначено')
         }
-    };
+    }
 
-    const deleteTest = async() => {
+    const deleteTest = async () => {
         try {
             const res = await fetch(`${API_URL}/api/test/${test.id}`, {
-                method: "DELETE",
+                method: 'DELETE',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
             })
 
             const data = await res.json()
             console.log(data)
-            toast.success("Тест видалено");
+            toast.success('Тест видалено')
         } catch (error) {
             console.log(error)
         }
@@ -65,38 +91,61 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
         <div className="flex items-stretch w-fit h-fit mb-8">
             <Toaster position="bottom-center" />
             <div className="px-20 py-8 bg-[#FFECE7]">
-                <Image src='/mathItemImg.png' alt="" width={100} height={100} />
+                <Image src="/mathItemImg.png" alt="" width={100} height={100} />
             </div>
             <div className="px-10 border-[2px] border-[#CDC8C8] border-l-0 flex items-center justify-between min-w-150 w-fit gap-15">
                 <div>
-                    <p className="font-bold text-[18px] uppercase mb-6">Тест, {test.title}: 5 травня 19:00</p>
+                    <p className="font-bold text-[18px] uppercase mb-6">
+                        Тест, {test.title}:{' '}
+                        {formatDateToUkrainian(test.endTime)}
+                    </p>
                     <div className="flex items-center gap-6">
-                        <Link href={`/view-test/${test.id}`} className="border border-gray-400 text-gray-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold uppercase">Переглянути</Link>
-                        <button className="bg-rose-600 text-white px-3 py-1 rounded hover:bg-rose-700 font-semibold uppercase" onClick={toggleModal}>Назначити</button>    
+                        <Link
+                            href={`/view-test/${test.id}`}
+                            className="border border-gray-400 text-gray-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold uppercase"
+                        >
+                            Переглянути
+                        </Link>
+                        <button
+                            className="bg-rose-600 text-white px-3 py-1 rounded hover:bg-rose-700 font-semibold uppercase"
+                            onClick={toggleModal}
+                        >
+                            Назначити
+                        </button>
                     </div>
                 </div>
                 <button className="text-gray-500 hover:text-red-600 ml-4">
-                    <MdDelete size={24} onClick={deleteTest}/>
+                    <MdDelete size={24} onClick={deleteTest} />
                 </button>
             </div>
-            {isModalOpen && 
+            {isModalOpen && (
                 <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center">
                     <div className="bg-[#F0F4F8] px-10 py-6 rounded-[31px] w-fit">
                         <div className="flex items-center justify-between mb-5">
-                            <p className="text-[28px] text-black font-semibold mr-12">Виберіть студента</p>
-                            <FaTimes size={24} color="#000" onClick={toggleModal} />
+                            <p className="text-[28px] text-black font-semibold mr-12">
+                                Виберіть студента
+                            </p>
+                            <FaTimes
+                                size={24}
+                                color="#000"
+                                onClick={toggleModal}
+                            />
                         </div>
                         <input
                             type="text"
                             className="w-full h-12 px-4 py-2 text-black bg-[#fff] border-none rounded-[10px] mb-3 focus:outline-none"
                             placeholder="Введіть ім'я студента"
                             value={studentName}
-                            onChange={(e: any) => setStudentName(e.target.value)}
+                            onChange={(e: any) =>
+                                setStudentName(e.target.value)
+                            }
                         />
                         <div className="max-h-60 overflow-y-auto">
                             {filtredStudents.length > 0 ? (
                                 filtredStudents.map((student) => (
-                                    <div key={student.id} className="text-black py-2 px-4 rounded-md bg-white mb-2"
+                                    <div
+                                        key={student.id}
+                                        className="text-black py-2 px-4 rounded-md bg-white mb-2"
                                         onClick={() => {
                                             assignTest(student)
                                             toggleModal()
@@ -106,14 +155,16 @@ const TeacherTestItem = ({students, test}: {students: any, test: any}) => {
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-gray-400">Студента не знайдено</p>
+                                <p className="text-gray-400">
+                                    Студента не знайдено
+                                </p>
                             )}
                         </div>
                     </div>
                 </div>
-            }
+            )}
         </div>
-    );
+    )
 }
 
-export default TeacherTestItem;
+export default TeacherTestItem
