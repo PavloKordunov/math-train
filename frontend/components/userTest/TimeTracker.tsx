@@ -7,11 +7,15 @@ const TimeTracker = ({
     handleEndTest,
     answers,
     testResult,
+    endedTest,
+    setEndedTest,
 }: {
     test: any
     handleEndTest: () => void
     answers: any
     testResult: any
+    endedTest: boolean
+    setEndedTest: any
 }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [notProvidedAnsw, setNotProvidedAnsw] = useState<any>([])
@@ -41,17 +45,19 @@ const TimeTracker = ({
     }, [test])
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setTimeLeft((prev) => prev - 1)
-        }, 1000)
+        if (!endedTest) {
+            const interval = setInterval(() => {
+                setTimeLeft((prev) => prev - 1)
+            }, 1000)
 
-        if (timeLeft === 1) {
-            setShowAnswerModal(true)
-            handleEndTest()
+            if (timeLeft === 1) {
+                setShowAnswerModal(true)
+                handleEndTest()
+            }
+
+            return () => clearInterval(interval)
         }
-
-        return () => clearInterval(interval)
-    }, [timeLeft])
+    }, [timeLeft, endedTest])
 
     const formatTime = (seconds: number) => {
         const safeSeconds = Math.max(0, seconds)
@@ -67,19 +73,25 @@ const TimeTracker = ({
     useEffect(() => {
         if (timeLeftFromStorage) {
             const parsedTimeLeft = JSON.parse(timeLeftFromStorage)
-            setTimeLeft(parsedTimeLeft)
+            setTimeLeft(parsedTimeLeft.timeLeft)
         }
     }, [])
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            if (timeLeft > 0) {
-                localStorage.setItem('time-left', JSON.stringify(timeLeft))
-            }
-        }, 1000)
+        if (!endedTest) {
+            const timer = setTimeout(() => {
+                if (timeLeft > 0) {
+                    localStorage.setItem(
+                        'time-left',
+                        JSON.stringify({ timeLeft, testId: test.id })
+                    )
+                }
+            }, 1000)
 
-        return () => clearTimeout(timer)
-    }, [timeLeft])
+            return () => clearTimeout(timer)
+        }
+        localStorage.removeItem('time-left')
+    }, [timeLeft, endedTest])
 
     useEffect(() => {
         handleSetNotProvidedAnsw()
@@ -101,7 +113,9 @@ const TimeTracker = ({
                 <div className="flex gap-6 items-center justify-end mb-6">
                     <button
                         className="bg-rose-600 text-white px-3 py-1 rounded-[21px] hover:bg-rose-700 font-semibold"
-                        onClick={() => setIsOpen(true)}
+                        onClick={() => {
+                            setIsOpen(true)
+                        }}
                     >
                         Завершити роботу над тестом
                     </button>
@@ -143,6 +157,7 @@ const TimeTracker = ({
                                 <button
                                     className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 font-medium"
                                     onClick={() => {
+                                        setEndedTest(true)
                                         handleEndTest()
                                         setIsOpen(false)
                                         setShowAnswerModal(true)

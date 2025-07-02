@@ -39,6 +39,7 @@ const TestPage = () => {
         matching: {},
         written: {},
     })
+    const [endedTest, setEndedTest] = useState(false)
 
     const [writtenAnswers, setWrittenAnswers] = useState<{
         [taskId: string]: string
@@ -218,6 +219,8 @@ const TestPage = () => {
                         handleEndTest={handleEndTest}
                         answers={answers}
                         testResult={testResult}
+                        endedTest={endedTest}
+                        setEndedTest={setEndedTest}
                     />
                 </div>
             </div>

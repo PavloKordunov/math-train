@@ -41,7 +41,7 @@ const TestItem = ({ test }: { test: any }) => {
     }
 
     useEffect(() => {
-        const notEndedTestLC = localStorage.getItem('saved-answers')
+        const notEndedTestLC = localStorage.getItem('time-left')
         if (notEndedTestLC) {
             const parsedNotEndedTest = JSON.parse(notEndedTestLC)
             setNotEndedTest(parsedNotEndedTest)
