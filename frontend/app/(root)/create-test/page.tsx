@@ -30,11 +30,11 @@ const CreateTest = () => {
         image: '',
         number: 0,
     })
-    const [maxNumber, setMaxNumber] = useState(
-        test.tasks.length > 0
-            ? Math.max(...test.tasks.map((t: any) => parseInt(t.number)))
-            : 1
-    )
+    // const [maxNumber, setMaxNumber] = useState(
+    //     test.tasks.length > 0
+    //         ? Math.max(...test.tasks.map((t: any) => parseInt(t.number)))
+    //         : 1
+    // )
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -63,11 +63,11 @@ const CreateTest = () => {
         if (storedTest) {
             const parsedTest = JSON.parse(storedTest)
             setTest(parsedTest)
-            setMaxNumber(
-                Math.max(
-                    ...parsedTest?.tasks?.map((t: any) => parseInt(t.number))
-                ) + 1
-            )
+            // setMaxNumber(
+            //     Math.max(
+            //         ...parsedTest?.tasks?.map((t: any) => parseInt(t.number))
+            //     ) + 1
+            // )
         }
     }, [])
 
@@ -189,23 +189,25 @@ const CreateTest = () => {
             },
         }))
 
-        const taskToSave = {
-            ...question,
-            type: questionType,
-            answers: answers,
-            pairs: question.pairs.map((pair: any) => ({
-                left: { id: pair.left.id, text: pair.left.text },
-                right: { id: pair.right.id, text: pair.right.text },
-            })),
-            number: maxNumber,
-        }
+        setTest((prev: any) => {
+            const newNumber = prev.tasks.length + 1
 
-        setTest((prev: any) => ({
-            ...prev,
-            tasks: [...prev.tasks, taskToSave],
-        }))
+            const taskToSave = {
+                ...question,
+                type: questionType,
+                answers: answers,
+                pairs: question.pairs.map((pair: any) => ({
+                    left: { id: pair.left.id, text: pair.left.text },
+                    right: { id: pair.right.id, text: pair.right.text },
+                })),
+                number: newNumber.toString(),
+            }
 
-        setMaxNumber((prev) => prev + 1)
+            return {
+                ...prev,
+                tasks: [...prev.tasks, taskToSave],
+            }
+        })
 
         setQuestion({
             id: '',
@@ -268,8 +270,8 @@ const CreateTest = () => {
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
-                maxNumber={maxNumber}
-                setMaxNumber={setMaxNumber}
+                // maxNumber={maxNumber}
+                // setMaxNumber={setMaxNumber}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button

@@ -1,79 +1,89 @@
-import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { createTeacherDto } from './dto/createTeacherDto';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class TeacherService {
-    constructor(private readonly databaseServise: DatabaseService, private jwtService: JwtService) {}
+  constructor(
+    private readonly databaseServise: DatabaseService,
+    private jwtService: JwtService,
+  ) {}
 
-    async getAllTeachers() {
-        return this.databaseServise.teacher.findMany()
+  async getAllTeachers() {
+    return this.databaseServise.teacher.findMany();
+  }
+
+  async register(createTeacherDto: createTeacherDto) {
+    const existingUser = await this.databaseServise.teacher.findUnique({
+      where: { email: createTeacherDto.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('Email is already in use');
     }
 
-    async register(createTeacherDto: createTeacherDto) {
-        const existingUser = await this.databaseServise.teacher.findUnique({
-            where: {email: createTeacherDto.email}
-        })
+    const hashedPassword = await bcrypt.hash(createTeacherDto.password, 10);
 
-        if(existingUser){
-            throw new ConflictException('Email is already in use')
-        }
+    const user = await this.databaseServise.teacher.create({
+      data: { ...createTeacherDto, password: hashedPassword },
+    });
 
-        const hashedPassword = await bcrypt.hash(createTeacherDto.password, 10)
+    const token = await this.generateToken(user);
 
-        const user = await this.databaseServise.teacher.create({
-            data: {... createTeacherDto, password: hashedPassword}
-        })
+    return {
+      accessToken: token,
+      user: {
+        id: user.id,
+        email: user.email,
+        status: user.status,
+      },
+    };
+  }
 
-        const token = await this.generateToken(user)
+  async getTeacherById(id: string) {
+    try {
+      const teacher = await this.databaseServise.teacher.findUnique({
+        where: { id },
+      });
 
-        return {
-            accessToken: token, 
-            user: {
-                id: user.id,
-                email: user.email,
-                status: user.status,
-              }
-        } 
+      if (!teacher) {
+        throw new NotFoundException('User not found');
+      }
+
+      return teacher;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
+  }
 
-    async getTeacherById(id: string){
-        try {
-            const teacher = await this.databaseServise.teacher.findUnique({
-                where: {id}
-            })
-    
-            if(!teacher){
-                throw new NotFoundException("User not found");
-            }
-    
-            return teacher   
-        } catch (error) {
-            throw new InternalServerErrorException(error.message);
-        }
+  async delete(id: string) {
+    try {
+      const user = await this.databaseServise.teacher.findUnique({
+        where: { id },
+      });
+
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      return await this.databaseServise.teacher.delete({
+        where: { id },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
+  }
 
-    async delete(id: string) {
-        try {
-            const user = await this.databaseServise.teacher.findUnique({
-                where: { id }
-            })
-
-            if (!user) {
-                throw new NotFoundException("User not found");
-            }
-
-            return await this.databaseServise.teacher.delete({
-                where: { id }
-            })
-        } catch (error) {
-            throw new InternalServerErrorException(error.message);
-        }
-    }
-
-    async generateToken(user: any) {
-        return {access_token : this.jwtService.sign({ id: user.id, email: user.email})}
-    }
+  async generateToken(user: any) {
+    return {
+      access_token: this.jwtService.sign({ id: user.id, email: user.email }),
+    };
+  }
 }

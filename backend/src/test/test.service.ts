@@ -1,340 +1,351 @@
 import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
-import { CreateTestDto } from './dto/createTestDto';
-import { CompareAnswersDto } from './dto/compareAnswerc';
-import { UpdateTestDto } from './dto/updateTestDto';
-import { Prisma } from 'generated/prisma';
+    BadRequestException,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+} from '@nestjs/common'
+import { DatabaseService } from 'src/database/database.service'
+import { CreateTestDto } from './dto/createTestDto'
+import { CompareAnswersDto } from './dto/compareAnswerc'
+import { UpdateTestDto } from './dto/updateTestDto'
+import { Prisma } from 'generated/prisma'
 
 @Injectable()
 export class TestService {
-  constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService) {}
 
-  async getAllTests() {
-    try {
-      return this.databaseService.test.findMany({
-        include: { tasks: true },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  async getTestId(id: string) {
-    try {
-      const test: any = await this.databaseService.test.findUnique({
-        where: { id },
-        include: { tasks: true },
-      });
-
-      test.tasks.sort(
-        (a, b) => parseInt(a.number || '0') - parseInt(b.number || '0'),
-      );
-
-      return test;
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  async getAssignedTest(id: string) {
-    return this.databaseService.assignedTest.findMany({
-      where: { studentId: id },
-      include: { test: true },
-    });
-  }
-
-  async getTestTask(id: string) {
-    try {
-      return this.databaseService.test.findMany({
-        where: { id },
-        include: { tasks: true },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  async getAllTestByTeacher(id: string) {
-    try {
-      return this.databaseService.test.findMany({
-        where: { teacherId: id },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  async createTest(createTestDto: CreateTestDto) {
-    try {
-      const { tasks, ...testData } = createTestDto;
-
-      const teacher = await this.databaseService.teacher.findUnique({
-        where: { id: testData.teacherId },
-      });
-
-      if (!teacher) {
-        throw new NotFoundException('User not found');
-      }
-
-      return this.databaseService.test.create({
-        data: {
-          ...testData,
-          tasks: {
-            create: tasks.map((t, index) => ({
-              title: t.title ?? 'Untitled Task',
-              type: t.type ?? '',
-              answers: t.answers ?? [],
-              pairs: t.pairs ?? [],
-              image: t.image ?? '',
-              number: (index + 1).toString(),
-            })),
-          },
-        },
-        include: { tasks: true },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  async assign(id: string, studentId: string) {
-    try {
-      return await this.databaseService.assignedTest.create({
-        data: {
-          testId: id,
-          studentId,
-        },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
-  async compareAnswers(
-    id: string,
-    userId: string,
-    compareAnswersDtos: CompareAnswersDto[],
-  ) {
-    try {
-      const test = await this.databaseService.test.findUnique({
-        where: { id },
-        include: {
-          tasks: {
-            select: {
-              id: true,
-              answers: true,
-              type: true,
-            },
-          },
-        },
-      });
-
-      if (!test) {
-        throw new NotFoundException('Test not found');
-      }
-
-      let totalScore = 0;
-      let maxScore = 0;
-      for (const task of test.tasks) {
-        if (task.type === 'multiple') {
-          maxScore += 1;
-        } else if (task.type === 'matching') {
-          if (Array.isArray(task.answers)) {
-            maxScore += task.answers.length;
-          }
+    async getAllTests() {
+        try {
+            return this.databaseService.test.findMany({
+                include: { tasks: true },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
         }
-        if (task.type === 'written') {
-          maxScore += 2;
+    }
+
+    async getTestId(id: string) {
+        try {
+            const test: any = await this.databaseService.test.findUnique({
+                where: { id },
+                include: { tasks: true },
+            })
+
+            test.tasks.sort(
+                (a, b) => parseInt(a.number || '0') - parseInt(b.number || '0')
+            )
+
+            return test
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
         }
-      }
+    }
 
-      for (const dto of compareAnswersDtos) {
-        if (!dto?.taskId) continue;
+    async getAssignedTest(id: string) {
+        return this.databaseService.assignedTest.findMany({
+            where: { studentId: id },
+            include: { test: true },
+        })
+    }
 
-        const task: any = test.tasks.find((t) => t.id === dto.taskId);
-        if (!task) continue;
+    async getTestTask(id: string) {
+        try {
+            return this.databaseService.test.findMany({
+                where: { id },
+                include: { tasks: true },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
 
-        if (dto.type !== task.type) continue;
+    async getAllTestByTeacher(id: string) {
+        try {
+            return this.databaseService.test.findMany({
+                where: { teacherId: id },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
 
-        switch (task.type) {
-          case 'multiple': {
-            if (typeof dto.answer !== 'string') continue;
-            const selectedAnswer = task.answers.find(
-              (a) => a.id === dto.answer,
-            );
-            if (selectedAnswer?.isCorrect) {
-              totalScore += 1;
+    async createTest(createTestDto: CreateTestDto) {
+        try {
+            const { tasks, ...testData } = createTestDto
+
+            const teacher = await this.databaseService.teacher.findUnique({
+                where: { id: testData.teacherId },
+            })
+
+            if (!teacher) {
+                throw new NotFoundException('User not found')
             }
-            break;
-          }
 
-          case 'matching': {
-            if (!Array.isArray(dto.answer)) continue;
-            let correctPairs = 0;
-            dto.answer.forEach((userPair, index) => {
-              const taskAnswer = task.answers[index];
-              if (taskAnswer?.left?.rightId === userPair?.left?.rightId) {
-                correctPairs++;
-              }
-              // maxScore += 1
-            });
-            totalScore += correctPairs;
-            break;
-          }
+            return this.databaseService.test.create({
+                data: {
+                    ...testData,
+                    tasks: {
+                        create: tasks.map((t, index) => ({
+                            title: t.title ?? 'Untitled Task',
+                            type: t.type ?? '',
+                            answers: t.answers ?? [],
+                            pairs: t.pairs ?? [],
+                            image: t.image ?? '',
+                            number: (index + 1).toString(),
+                        })),
+                    },
+                },
+                include: { tasks: true },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
 
-          case 'written': {
-            if (typeof dto.answer !== 'string') continue;
-            const correctText = task.answers[0]?.text;
+    async assign(id: string, studentId: string) {
+        try {
+            return await this.databaseService.assignedTest.create({
+                data: {
+                    testId: id,
+                    studentId,
+                },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
+
+    async compareAnswers(
+        id: string,
+        userId: string,
+        compareAnswersDtos: CompareAnswersDto[]
+    ) {
+        try {
+            const test = await this.databaseService.test.findUnique({
+                where: { id },
+                include: {
+                    tasks: {
+                        select: {
+                            id: true,
+                            answers: true,
+                            type: true,
+                        },
+                    },
+                },
+            })
+
+            if (!test) {
+                throw new NotFoundException('Test not found')
+            }
+
+            let totalScore = 0
+            let maxScore = 0
+            for (const task of test.tasks) {
+                if (task.type === 'multiple') {
+                    maxScore += 1
+                } else if (task.type === 'matching') {
+                    if (Array.isArray(task.answers)) {
+                        maxScore += task.answers.length
+                    }
+                }
+                if (task.type === 'written') {
+                    maxScore += 2
+                }
+            }
+
+            for (const dto of compareAnswersDtos) {
+                if (!dto?.taskId) continue
+
+                const task: any = test.tasks.find((t) => t.id === dto.taskId)
+                if (!task) continue
+
+                if (dto.type !== task.type) continue
+
+                switch (task.type) {
+                    case 'multiple': {
+                        if (typeof dto.answer !== 'string') continue
+                        const selectedAnswer = task.answers.find(
+                            (a) => a.id === dto.answer
+                        )
+                        if (selectedAnswer?.isCorrect) {
+                            totalScore += 1
+                        }
+                        break
+                    }
+
+                    case 'matching': {
+                        if (!Array.isArray(dto.answer)) continue
+                        let correctPairs = 0
+                        dto.answer.forEach((userPair, index) => {
+                            const taskAnswer = task.answers[index]
+                            if (
+                                taskAnswer?.left?.rightId ===
+                                userPair?.left?.rightId
+                            ) {
+                                correctPairs++
+                            }
+                            // maxScore += 1
+                        })
+                        totalScore += correctPairs
+                        break
+                    }
+
+                    case 'written': {
+                        if (typeof dto.answer !== 'string') continue
+                        const correctText = task.answers[0]?.text
+                        if (
+                            correctText &&
+                            correctText.toLowerCase().trim() ===
+                                dto.answer.toLowerCase().trim()
+                        ) {
+                            totalScore += 2
+                        }
+                        // maxScore += 2
+                        break
+                    }
+
+                    default:
+                        continue
+                }
+            }
+
+            await this.databaseService.assignedTest.deleteMany({
+                where: { studentId: userId, testId: test.id },
+            })
+
+            await this.databaseService.studentScore.create({
+                data: {
+                    studentId: userId,
+                    testId: test.id,
+                    score: totalScore,
+                    isCompleted: true,
+                    maxScore: maxScore,
+                    testName: test.title ?? '',
+                    studentTest: JSON.stringify(compareAnswersDtos),
+                },
+            })
+
+            return { totalScore, maxScore }
+        } catch (error) {
+            console.error('Answer comparison failed:', error.message)
             if (
-              correctText &&
-              correctText.toLowerCase().trim() ===
-                dto.answer.toLowerCase().trim()
+                error instanceof NotFoundException ||
+                error instanceof BadRequestException
             ) {
-              totalScore += 2;
+                throw error
             }
-            // maxScore += 2
-            break;
-          }
-
-          default:
-            continue;
+            throw new InternalServerErrorException('Failed to evaluate answers')
         }
-      }
-
-      await this.databaseService.assignedTest.deleteMany({
-        where: { studentId: userId, testId: test.id },
-      });
-
-      await this.databaseService.studentScore.create({
-        data: {
-          studentId: userId,
-          testId: test.id,
-          score: totalScore,
-          isCompleted: true,
-          maxScore: maxScore,
-          testName: test.title,
-          studentTest: JSON.stringify(compareAnswersDtos),
-        },
-      });
-
-      return { totalScore, maxScore };
-    } catch (error) {
-      console.error('Answer comparison failed:', error.message);
-      if (
-        error instanceof NotFoundException ||
-        error instanceof BadRequestException
-      ) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Failed to evaluate answers');
     }
-  }
 
-  async updateTest(id: string, updateTestDto: UpdateTestDto) {
-    try {
-      const { tasks = [], ...testData } = updateTestDto;
+    async updateTest(id: string, updateTestDto: UpdateTestDto) {
+        try {
+            const { tasks = [], ...testData } = updateTestDto
 
-      const currentTest = await this.databaseService.test.findUnique({
-        where: { id },
-        include: { tasks: true },
-      });
+            const currentTest = await this.databaseService.test.findUnique({
+                where: { id },
+                include: { tasks: true },
+            })
 
-      if (!currentTest) {
-        throw new NotFoundException(`Test with ID ${id} not found`);
-      }
+            if (!currentTest) {
+                throw new NotFoundException(`Test with ID ${id} not found`)
+            }
 
-      const currentTaskIds = currentTest.tasks.map((task) => task.id);
-      const incomingTaskIds = tasks.filter((t) => !!t.id).map((t) => t.id);
+            const currentTaskIds = currentTest.tasks.map((task) => task.id)
+            const incomingTaskIds = tasks.filter((t) => !!t.id).map((t) => t.id)
 
-      const invalidTaskIds = incomingTaskIds.filter(
-        (id: any) => !currentTaskIds.includes(id),
-      );
-      if (invalidTaskIds.length > 0) {
-        throw new BadRequestException(
-          `Invalid task IDs: ${invalidTaskIds.join(', ')}`,
-        );
-      }
+            const invalidTaskIds = incomingTaskIds.filter(
+                (id: any) => !currentTaskIds.includes(id)
+            )
+            if (invalidTaskIds.length > 0) {
+                throw new BadRequestException(
+                    `Invalid task IDs: ${invalidTaskIds.join(', ')}`
+                )
+            }
 
-      const tasksToDelete = currentTaskIds.filter(
-        (id) => !incomingTaskIds.includes(id),
-      );
+            const tasksToDelete = currentTaskIds.filter(
+                (id) => !incomingTaskIds.includes(id)
+            )
 
-      if (tasksToDelete.length > 0) {
-        await this.databaseService.task.deleteMany({
-          where: { id: { in: tasksToDelete } },
-        });
-      }
+            if (tasksToDelete.length > 0) {
+                await this.databaseService.task.deleteMany({
+                    where: { id: { in: tasksToDelete } },
+                })
+            }
 
-      await Promise.all([
-        ...tasks
-          .filter((t) => t.id && currentTaskIds.includes(t.id))
-          .map((t) =>
-            this.databaseService.task.update({
-              where: { id: t.id },
-              data: { ...t, number: t.number },
-            }),
-          ),
-        ...tasks
-          .filter((t) => !t.id)
-          .map((t: any, index: any) =>
-            this.databaseService.task.create({
-              data: { ...t, testId: id, number: (index + 1).toString() || '' },
-            }),
-          ),
-      ]);
+            await Promise.all([
+                ...tasks
+                    .filter((t) => t.id && currentTaskIds.includes(t.id))
+                    .map((t) =>
+                        this.databaseService.task.update({
+                            where: { id: t.id },
+                            data: { ...t, number: t.number },
+                        })
+                    ),
+                ...tasks
+                    .filter((t) => !t.id)
+                    .map((t: any, index: any) =>
+                        this.databaseService.task.create({
+                            data: {
+                                ...t,
+                                testId: id,
+                                number: (index + 1).toString() || '',
+                            },
+                        })
+                    ),
+            ])
 
-      const updatedTest: any = await this.databaseService.test.findUnique({
-        where: { id },
-        include: { tasks: true },
-      });
+            const updatedTest: any = await this.databaseService.test.findUnique(
+                {
+                    where: { id },
+                    include: { tasks: true },
+                }
+            )
 
-      updatedTest.tasks.sort(
-        (a, b) => parseInt(a.number || '0') - parseInt(b.number || '0'),
-      );
+            updatedTest.tasks.sort(
+                (a, b) => parseInt(a.number || '0') - parseInt(b.number || '0')
+            )
 
-      return updatedTest;
-    } catch (error) {
-      console.error('Update error:', error);
+            return updatedTest
+        } catch (error) {
+            console.error('Update error:', error)
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2025') {
-          throw new NotFoundException('Test or task not found');
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === 'P2025') {
+                    throw new NotFoundException('Test or task not found')
+                }
+                throw new BadRequestException('Database error')
+            }
+
+            throw error
         }
-        throw new BadRequestException('Database error');
-      }
-
-      throw error;
     }
-  }
 
-  async deleteTest(id: string) {
-    console.log('ID:', id, typeof id);
-    try {
-      const test = await this.databaseService.test.findUnique({
-        where: { id },
-      });
+    async deleteTest(id: string) {
+        console.log('ID:', id, typeof id)
+        try {
+            const test = await this.databaseService.test.findUnique({
+                where: { id },
+            })
 
-      if (!test) {
-        throw new NotFoundException('test not found');
-      }
-      await this.databaseService.task.deleteMany({ where: { testId: id } });
-      await this.databaseService.assignedTest.deleteMany({
-        where: { testId: id },
-      });
-      await this.databaseService.studentScore.deleteMany({
-        where: { testId: id },
-      });
+            if (!test) {
+                throw new NotFoundException('test not found')
+            }
+            await this.databaseService.task.deleteMany({
+                where: { testId: id },
+            })
+            await this.databaseService.assignedTest.deleteMany({
+                where: { testId: id },
+            })
+            await this.databaseService.studentScore.deleteMany({
+                where: { testId: id },
+            })
 
-      return await this.databaseService.test.delete({
-        where: { id },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
+            return await this.databaseService.test.delete({
+                where: { id },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
     }
-  }
 }

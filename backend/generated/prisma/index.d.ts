@@ -14,6 +14,21 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Admin
+ * 
+ */
+export type Admin = $Result.DefaultSelection<Prisma.$AdminPayload>
+/**
+ * Model Topic
+ * 
+ */
+export type Topic = $Result.DefaultSelection<Prisma.$TopicPayload>
+/**
+ * Model SubTopic
+ * 
+ */
+export type SubTopic = $Result.DefaultSelection<Prisma.$SubTopicPayload>
+/**
  * Model Teacher
  * 
  */
@@ -50,7 +65,8 @@ export type Task = $Result.DefaultSelection<Prisma.$TaskPayload>
 export namespace $Enums {
   export const Status: {
   Teacher: 'Teacher',
-  Student: 'Student'
+  Student: 'Student',
+  Admin: 'Admin'
 };
 
 export type Status = (typeof Status)[keyof typeof Status]
@@ -81,8 +97,8 @@ export const TestStatus: typeof $Enums.TestStatus
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Teachers
- * const teachers = await prisma.teacher.findMany()
+ * // Fetch zero or more Admins
+ * const admins = await prisma.admin.findMany()
  * ```
  *
  *
@@ -102,8 +118,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Teachers
-   * const teachers = await prisma.teacher.findMany()
+   * // Fetch zero or more Admins
+   * const admins = await prisma.admin.findMany()
    * ```
    *
    *
@@ -200,6 +216,36 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.admin`: Exposes CRUD operations for the **Admin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Admins
+    * const admins = await prisma.admin.findMany()
+    * ```
+    */
+  get admin(): Prisma.AdminDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.topic`: Exposes CRUD operations for the **Topic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Topics
+    * const topics = await prisma.topic.findMany()
+    * ```
+    */
+  get topic(): Prisma.TopicDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subTopic`: Exposes CRUD operations for the **SubTopic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubTopics
+    * const subTopics = await prisma.subTopic.findMany()
+    * ```
+    */
+  get subTopic(): Prisma.SubTopicDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.teacher`: Exposes CRUD operations for the **Teacher** model.
     * Example usage:
     * ```ts
@@ -698,6 +744,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Admin: 'Admin',
+    Topic: 'Topic',
+    SubTopic: 'SubTopic',
     Teacher: 'Teacher',
     Student: 'Student',
     StudentScore: 'StudentScore',
@@ -722,10 +771,232 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "teacher" | "student" | "studentScore" | "test" | "assignedTest" | "task"
+      modelProps: "admin" | "topic" | "subTopic" | "teacher" | "student" | "studentScore" | "test" | "assignedTest" | "task"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Admin: {
+        payload: Prisma.$AdminPayload<ExtArgs>
+        fields: Prisma.AdminFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AdminFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AdminFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
+          }
+          findFirst: {
+            args: Prisma.AdminFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AdminFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
+          }
+          findMany: {
+            args: Prisma.AdminFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>[]
+          }
+          create: {
+            args: Prisma.AdminCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
+          }
+          createMany: {
+            args: Prisma.AdminCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AdminCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>[]
+          }
+          delete: {
+            args: Prisma.AdminDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
+          }
+          update: {
+            args: Prisma.AdminUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
+          }
+          deleteMany: {
+            args: Prisma.AdminDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AdminUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AdminUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>[]
+          }
+          upsert: {
+            args: Prisma.AdminUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
+          }
+          aggregate: {
+            args: Prisma.AdminAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAdmin>
+          }
+          groupBy: {
+            args: Prisma.AdminGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AdminGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AdminCountArgs<ExtArgs>
+            result: $Utils.Optional<AdminCountAggregateOutputType> | number
+          }
+        }
+      }
+      Topic: {
+        payload: Prisma.$TopicPayload<ExtArgs>
+        fields: Prisma.TopicFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TopicFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TopicFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>
+          }
+          findFirst: {
+            args: Prisma.TopicFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TopicFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>
+          }
+          findMany: {
+            args: Prisma.TopicFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>[]
+          }
+          create: {
+            args: Prisma.TopicCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>
+          }
+          createMany: {
+            args: Prisma.TopicCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TopicCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>[]
+          }
+          delete: {
+            args: Prisma.TopicDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>
+          }
+          update: {
+            args: Prisma.TopicUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>
+          }
+          deleteMany: {
+            args: Prisma.TopicDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TopicUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TopicUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>[]
+          }
+          upsert: {
+            args: Prisma.TopicUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TopicPayload>
+          }
+          aggregate: {
+            args: Prisma.TopicAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTopic>
+          }
+          groupBy: {
+            args: Prisma.TopicGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TopicGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TopicCountArgs<ExtArgs>
+            result: $Utils.Optional<TopicCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubTopic: {
+        payload: Prisma.$SubTopicPayload<ExtArgs>
+        fields: Prisma.SubTopicFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubTopicFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubTopicFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>
+          }
+          findFirst: {
+            args: Prisma.SubTopicFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubTopicFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>
+          }
+          findMany: {
+            args: Prisma.SubTopicFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>[]
+          }
+          create: {
+            args: Prisma.SubTopicCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>
+          }
+          createMany: {
+            args: Prisma.SubTopicCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubTopicCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>[]
+          }
+          delete: {
+            args: Prisma.SubTopicDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>
+          }
+          update: {
+            args: Prisma.SubTopicUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubTopicDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubTopicUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubTopicUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubTopicUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubTopicPayload>
+          }
+          aggregate: {
+            args: Prisma.SubTopicAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubTopic>
+          }
+          groupBy: {
+            args: Prisma.SubTopicGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubTopicGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubTopicCountArgs<ExtArgs>
+            result: $Utils.Optional<SubTopicCountAggregateOutputType> | number
+          }
+        }
+      }
       Teacher: {
         payload: Prisma.$TeacherPayload<ExtArgs>
         fields: Prisma.TeacherFieldRefs
@@ -1254,6 +1525,9 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    admin?: AdminOmit
+    topic?: TopicOmit
+    subTopic?: SubTopicOmit
     teacher?: TeacherOmit
     student?: StudentOmit
     studentScore?: StudentScoreOmit
@@ -1347,6 +1621,99 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type AdminCountOutputType
+   */
+
+  export type AdminCountOutputType = {
+    topics: number
+  }
+
+  export type AdminCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topics?: boolean | AdminCountOutputTypeCountTopicsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AdminCountOutputType without action
+   */
+  export type AdminCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminCountOutputType
+     */
+    select?: AdminCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AdminCountOutputType without action
+   */
+  export type AdminCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicWhereInput
+  }
+
+
+  /**
+   * Count Type TopicCountOutputType
+   */
+
+  export type TopicCountOutputType = {
+    subTopics: number
+  }
+
+  export type TopicCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subTopics?: boolean | TopicCountOutputTypeCountSubTopicsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TopicCountOutputType without action
+   */
+  export type TopicCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TopicCountOutputType
+     */
+    select?: TopicCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TopicCountOutputType without action
+   */
+  export type TopicCountOutputTypeCountSubTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubTopicWhereInput
+  }
+
+
+  /**
+   * Count Type SubTopicCountOutputType
+   */
+
+  export type SubTopicCountOutputType = {
+    tests: number
+  }
+
+  export type SubTopicCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tests?: boolean | SubTopicCountOutputTypeCountTestsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SubTopicCountOutputType without action
+   */
+  export type SubTopicCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopicCountOutputType
+     */
+    select?: SubTopicCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubTopicCountOutputType without action
+   */
+  export type SubTopicCountOutputTypeCountTestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestWhereInput
+  }
 
 
   /**
@@ -1472,6 +1839,3226 @@ export namespace Prisma {
   /**
    * Models
    */
+
+  /**
+   * Model Admin
+   */
+
+  export type AggregateAdmin = {
+    _count: AdminCountAggregateOutputType | null
+    _min: AdminMinAggregateOutputType | null
+    _max: AdminMaxAggregateOutputType | null
+  }
+
+  export type AdminMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    password: string | null
+    status: $Enums.Status | null
+    createdAt: Date | null
+  }
+
+  export type AdminMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    password: string | null
+    status: $Enums.Status | null
+    createdAt: Date | null
+  }
+
+  export type AdminCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    password: number
+    status: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AdminMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    password?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type AdminMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    password?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type AdminCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    password?: true
+    status?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AdminAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Admin to aggregate.
+     */
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     */
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Admins
+    **/
+    _count?: true | AdminCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdminMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdminMaxAggregateInputType
+  }
+
+  export type GetAdminAggregateType<T extends AdminAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdmin]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdmin[P]>
+      : GetScalarType<T[P], AggregateAdmin[P]>
+  }
+
+
+
+
+  export type AdminGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdminWhereInput
+    orderBy?: AdminOrderByWithAggregationInput | AdminOrderByWithAggregationInput[]
+    by: AdminScalarFieldEnum[] | AdminScalarFieldEnum
+    having?: AdminScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdminCountAggregateInputType | true
+    _min?: AdminMinAggregateInputType
+    _max?: AdminMaxAggregateInputType
+  }
+
+  export type AdminGroupByOutputType = {
+    id: string
+    name: string
+    email: string
+    password: string
+    status: $Enums.Status
+    createdAt: Date
+    _count: AdminCountAggregateOutputType | null
+    _min: AdminMinAggregateOutputType | null
+    _max: AdminMaxAggregateOutputType | null
+  }
+
+  type GetAdminGroupByPayload<T extends AdminGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AdminGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdminGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdminGroupByOutputType[P]>
+            : GetScalarType<T[P], AdminGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdminSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    password?: boolean
+    status?: boolean
+    createdAt?: boolean
+    topics?: boolean | Admin$topicsArgs<ExtArgs>
+    _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["admin"]>
+
+  export type AdminSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    password?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["admin"]>
+
+  export type AdminSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    password?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["admin"]>
+
+  export type AdminSelectScalar = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    password?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }
+
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "status" | "createdAt", ExtArgs["result"]["admin"]>
+  export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topics?: boolean | Admin$topicsArgs<ExtArgs>
+    _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AdminIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AdminIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $AdminPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Admin"
+    objects: {
+      topics: Prisma.$TopicPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      email: string
+      password: string
+      status: $Enums.Status
+      createdAt: Date
+    }, ExtArgs["result"]["admin"]>
+    composites: {}
+  }
+
+  type AdminGetPayload<S extends boolean | null | undefined | AdminDefaultArgs> = $Result.GetResult<Prisma.$AdminPayload, S>
+
+  type AdminCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AdminFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AdminCountAggregateInputType | true
+    }
+
+  export interface AdminDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Admin'], meta: { name: 'Admin' } }
+    /**
+     * Find zero or one Admin that matches the filter.
+     * @param {AdminFindUniqueArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AdminFindUniqueArgs>(args: SelectSubset<T, AdminFindUniqueArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Admin that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AdminFindUniqueOrThrowArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AdminFindUniqueOrThrowArgs>(args: SelectSubset<T, AdminFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Admin that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminFindFirstArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AdminFindFirstArgs>(args?: SelectSubset<T, AdminFindFirstArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Admin that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminFindFirstOrThrowArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AdminFindFirstOrThrowArgs>(args?: SelectSubset<T, AdminFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Admins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Admins
+     * const admins = await prisma.admin.findMany()
+     * 
+     * // Get first 10 Admins
+     * const admins = await prisma.admin.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const adminWithIdOnly = await prisma.admin.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AdminFindManyArgs>(args?: SelectSubset<T, AdminFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Admin.
+     * @param {AdminCreateArgs} args - Arguments to create a Admin.
+     * @example
+     * // Create one Admin
+     * const Admin = await prisma.admin.create({
+     *   data: {
+     *     // ... data to create a Admin
+     *   }
+     * })
+     * 
+     */
+    create<T extends AdminCreateArgs>(args: SelectSubset<T, AdminCreateArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Admins.
+     * @param {AdminCreateManyArgs} args - Arguments to create many Admins.
+     * @example
+     * // Create many Admins
+     * const admin = await prisma.admin.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AdminCreateManyArgs>(args?: SelectSubset<T, AdminCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Admins and returns the data saved in the database.
+     * @param {AdminCreateManyAndReturnArgs} args - Arguments to create many Admins.
+     * @example
+     * // Create many Admins
+     * const admin = await prisma.admin.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Admins and only return the `id`
+     * const adminWithIdOnly = await prisma.admin.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AdminCreateManyAndReturnArgs>(args?: SelectSubset<T, AdminCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Admin.
+     * @param {AdminDeleteArgs} args - Arguments to delete one Admin.
+     * @example
+     * // Delete one Admin
+     * const Admin = await prisma.admin.delete({
+     *   where: {
+     *     // ... filter to delete one Admin
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AdminDeleteArgs>(args: SelectSubset<T, AdminDeleteArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Admin.
+     * @param {AdminUpdateArgs} args - Arguments to update one Admin.
+     * @example
+     * // Update one Admin
+     * const admin = await prisma.admin.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AdminUpdateArgs>(args: SelectSubset<T, AdminUpdateArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Admins.
+     * @param {AdminDeleteManyArgs} args - Arguments to filter Admins to delete.
+     * @example
+     * // Delete a few Admins
+     * const { count } = await prisma.admin.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AdminDeleteManyArgs>(args?: SelectSubset<T, AdminDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Admins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Admins
+     * const admin = await prisma.admin.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AdminUpdateManyArgs>(args: SelectSubset<T, AdminUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Admins and returns the data updated in the database.
+     * @param {AdminUpdateManyAndReturnArgs} args - Arguments to update many Admins.
+     * @example
+     * // Update many Admins
+     * const admin = await prisma.admin.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Admins and only return the `id`
+     * const adminWithIdOnly = await prisma.admin.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AdminUpdateManyAndReturnArgs>(args: SelectSubset<T, AdminUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Admin.
+     * @param {AdminUpsertArgs} args - Arguments to update or create a Admin.
+     * @example
+     * // Update or create a Admin
+     * const admin = await prisma.admin.upsert({
+     *   create: {
+     *     // ... data to create a Admin
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Admin we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AdminUpsertArgs>(args: SelectSubset<T, AdminUpsertArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Admins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminCountArgs} args - Arguments to filter Admins to count.
+     * @example
+     * // Count the number of Admins
+     * const count = await prisma.admin.count({
+     *   where: {
+     *     // ... the filter for the Admins we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdminCountArgs>(
+      args?: Subset<T, AdminCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdminCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Admin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdminAggregateArgs>(args: Subset<T, AdminAggregateArgs>): Prisma.PrismaPromise<GetAdminAggregateType<T>>
+
+    /**
+     * Group by Admin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdminGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdminGroupByArgs['orderBy'] }
+        : { orderBy?: AdminGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdminGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdminGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Admin model
+   */
+  readonly fields: AdminFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Admin.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AdminClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    topics<T extends Admin$topicsArgs<ExtArgs> = {}>(args?: Subset<T, Admin$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Admin model
+   */
+  interface AdminFieldRefs {
+    readonly id: FieldRef<"Admin", 'String'>
+    readonly name: FieldRef<"Admin", 'String'>
+    readonly email: FieldRef<"Admin", 'String'>
+    readonly password: FieldRef<"Admin", 'String'>
+    readonly status: FieldRef<"Admin", 'Status'>
+    readonly createdAt: FieldRef<"Admin", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Admin findUnique
+   */
+  export type AdminFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * Filter, which Admin to fetch.
+     */
+    where: AdminWhereUniqueInput
+  }
+
+  /**
+   * Admin findUniqueOrThrow
+   */
+  export type AdminFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * Filter, which Admin to fetch.
+     */
+    where: AdminWhereUniqueInput
+  }
+
+  /**
+   * Admin findFirst
+   */
+  export type AdminFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * Filter, which Admin to fetch.
+     */
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     */
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Admins.
+     */
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Admins.
+     */
+    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
+  }
+
+  /**
+   * Admin findFirstOrThrow
+   */
+  export type AdminFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * Filter, which Admin to fetch.
+     */
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     */
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Admins.
+     */
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Admins.
+     */
+    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
+  }
+
+  /**
+   * Admin findMany
+   */
+  export type AdminFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * Filter, which Admins to fetch.
+     */
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     */
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Admins.
+     */
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     */
+    skip?: number
+    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
+  }
+
+  /**
+   * Admin create
+   */
+  export type AdminCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Admin.
+     */
+    data: XOR<AdminCreateInput, AdminUncheckedCreateInput>
+  }
+
+  /**
+   * Admin createMany
+   */
+  export type AdminCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Admins.
+     */
+    data: AdminCreateManyInput | AdminCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Admin createManyAndReturn
+   */
+  export type AdminCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * The data used to create many Admins.
+     */
+    data: AdminCreateManyInput | AdminCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Admin update
+   */
+  export type AdminUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Admin.
+     */
+    data: XOR<AdminUpdateInput, AdminUncheckedUpdateInput>
+    /**
+     * Choose, which Admin to update.
+     */
+    where: AdminWhereUniqueInput
+  }
+
+  /**
+   * Admin updateMany
+   */
+  export type AdminUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Admins.
+     */
+    data: XOR<AdminUpdateManyMutationInput, AdminUncheckedUpdateManyInput>
+    /**
+     * Filter which Admins to update
+     */
+    where?: AdminWhereInput
+    /**
+     * Limit how many Admins to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Admin updateManyAndReturn
+   */
+  export type AdminUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * The data used to update Admins.
+     */
+    data: XOR<AdminUpdateManyMutationInput, AdminUncheckedUpdateManyInput>
+    /**
+     * Filter which Admins to update
+     */
+    where?: AdminWhereInput
+    /**
+     * Limit how many Admins to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Admin upsert
+   */
+  export type AdminUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Admin to update in case it exists.
+     */
+    where: AdminWhereUniqueInput
+    /**
+     * In case the Admin found by the `where` argument doesn't exist, create a new Admin with this data.
+     */
+    create: XOR<AdminCreateInput, AdminUncheckedCreateInput>
+    /**
+     * In case the Admin was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdminUpdateInput, AdminUncheckedUpdateInput>
+  }
+
+  /**
+   * Admin delete
+   */
+  export type AdminDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    /**
+     * Filter which Admin to delete.
+     */
+    where: AdminWhereUniqueInput
+  }
+
+  /**
+   * Admin deleteMany
+   */
+  export type AdminDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Admins to delete
+     */
+    where?: AdminWhereInput
+    /**
+     * Limit how many Admins to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Admin.topics
+   */
+  export type Admin$topicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    where?: TopicWhereInput
+    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
+    cursor?: TopicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
+  }
+
+  /**
+   * Admin without action
+   */
+  export type AdminDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Topic
+   */
+
+  export type AggregateTopic = {
+    _count: TopicCountAggregateOutputType | null
+    _min: TopicMinAggregateOutputType | null
+    _max: TopicMaxAggregateOutputType | null
+  }
+
+  export type TopicMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    adminId: string | null
+    createdAt: Date | null
+  }
+
+  export type TopicMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    adminId: string | null
+    createdAt: Date | null
+  }
+
+  export type TopicCountAggregateOutputType = {
+    id: number
+    name: number
+    adminId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TopicMinAggregateInputType = {
+    id?: true
+    name?: true
+    adminId?: true
+    createdAt?: true
+  }
+
+  export type TopicMaxAggregateInputType = {
+    id?: true
+    name?: true
+    adminId?: true
+    createdAt?: true
+  }
+
+  export type TopicCountAggregateInputType = {
+    id?: true
+    name?: true
+    adminId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TopicAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Topic to aggregate.
+     */
+    where?: TopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Topics
+    **/
+    _count?: true | TopicCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TopicMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TopicMaxAggregateInputType
+  }
+
+  export type GetTopicAggregateType<T extends TopicAggregateArgs> = {
+        [P in keyof T & keyof AggregateTopic]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTopic[P]>
+      : GetScalarType<T[P], AggregateTopic[P]>
+  }
+
+
+
+
+  export type TopicGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicWhereInput
+    orderBy?: TopicOrderByWithAggregationInput | TopicOrderByWithAggregationInput[]
+    by: TopicScalarFieldEnum[] | TopicScalarFieldEnum
+    having?: TopicScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TopicCountAggregateInputType | true
+    _min?: TopicMinAggregateInputType
+    _max?: TopicMaxAggregateInputType
+  }
+
+  export type TopicGroupByOutputType = {
+    id: string
+    name: string
+    adminId: string
+    createdAt: Date
+    _count: TopicCountAggregateOutputType | null
+    _min: TopicMinAggregateOutputType | null
+    _max: TopicMaxAggregateOutputType | null
+  }
+
+  type GetTopicGroupByPayload<T extends TopicGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TopicGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TopicGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TopicGroupByOutputType[P]>
+            : GetScalarType<T[P], TopicGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    adminId?: boolean
+    createdAt?: boolean
+    admin?: boolean | AdminDefaultArgs<ExtArgs>
+    subTopics?: boolean | Topic$subTopicsArgs<ExtArgs>
+    _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topic"]>
+
+  export type TopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    adminId?: boolean
+    createdAt?: boolean
+    admin?: boolean | AdminDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topic"]>
+
+  export type TopicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    adminId?: boolean
+    createdAt?: boolean
+    admin?: boolean | AdminDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["topic"]>
+
+  export type TopicSelectScalar = {
+    id?: boolean
+    name?: boolean
+    adminId?: boolean
+    createdAt?: boolean
+  }
+
+  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "adminId" | "createdAt", ExtArgs["result"]["topic"]>
+  export type TopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | AdminDefaultArgs<ExtArgs>
+    subTopics?: boolean | Topic$subTopicsArgs<ExtArgs>
+    _count?: boolean | TopicCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TopicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | AdminDefaultArgs<ExtArgs>
+  }
+  export type TopicIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | AdminDefaultArgs<ExtArgs>
+  }
+
+  export type $TopicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Topic"
+    objects: {
+      admin: Prisma.$AdminPayload<ExtArgs>
+      subTopics: Prisma.$SubTopicPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      adminId: string
+      createdAt: Date
+    }, ExtArgs["result"]["topic"]>
+    composites: {}
+  }
+
+  type TopicGetPayload<S extends boolean | null | undefined | TopicDefaultArgs> = $Result.GetResult<Prisma.$TopicPayload, S>
+
+  type TopicCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TopicFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TopicCountAggregateInputType | true
+    }
+
+  export interface TopicDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Topic'], meta: { name: 'Topic' } }
+    /**
+     * Find zero or one Topic that matches the filter.
+     * @param {TopicFindUniqueArgs} args - Arguments to find a Topic
+     * @example
+     * // Get one Topic
+     * const topic = await prisma.topic.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TopicFindUniqueArgs>(args: SelectSubset<T, TopicFindUniqueArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Topic that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TopicFindUniqueOrThrowArgs} args - Arguments to find a Topic
+     * @example
+     * // Get one Topic
+     * const topic = await prisma.topic.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TopicFindUniqueOrThrowArgs>(args: SelectSubset<T, TopicFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Topic that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicFindFirstArgs} args - Arguments to find a Topic
+     * @example
+     * // Get one Topic
+     * const topic = await prisma.topic.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TopicFindFirstArgs>(args?: SelectSubset<T, TopicFindFirstArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Topic that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicFindFirstOrThrowArgs} args - Arguments to find a Topic
+     * @example
+     * // Get one Topic
+     * const topic = await prisma.topic.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TopicFindFirstOrThrowArgs>(args?: SelectSubset<T, TopicFindFirstOrThrowArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Topics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Topics
+     * const topics = await prisma.topic.findMany()
+     * 
+     * // Get first 10 Topics
+     * const topics = await prisma.topic.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const topicWithIdOnly = await prisma.topic.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TopicFindManyArgs>(args?: SelectSubset<T, TopicFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Topic.
+     * @param {TopicCreateArgs} args - Arguments to create a Topic.
+     * @example
+     * // Create one Topic
+     * const Topic = await prisma.topic.create({
+     *   data: {
+     *     // ... data to create a Topic
+     *   }
+     * })
+     * 
+     */
+    create<T extends TopicCreateArgs>(args: SelectSubset<T, TopicCreateArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Topics.
+     * @param {TopicCreateManyArgs} args - Arguments to create many Topics.
+     * @example
+     * // Create many Topics
+     * const topic = await prisma.topic.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TopicCreateManyArgs>(args?: SelectSubset<T, TopicCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Topics and returns the data saved in the database.
+     * @param {TopicCreateManyAndReturnArgs} args - Arguments to create many Topics.
+     * @example
+     * // Create many Topics
+     * const topic = await prisma.topic.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Topics and only return the `id`
+     * const topicWithIdOnly = await prisma.topic.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TopicCreateManyAndReturnArgs>(args?: SelectSubset<T, TopicCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Topic.
+     * @param {TopicDeleteArgs} args - Arguments to delete one Topic.
+     * @example
+     * // Delete one Topic
+     * const Topic = await prisma.topic.delete({
+     *   where: {
+     *     // ... filter to delete one Topic
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TopicDeleteArgs>(args: SelectSubset<T, TopicDeleteArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Topic.
+     * @param {TopicUpdateArgs} args - Arguments to update one Topic.
+     * @example
+     * // Update one Topic
+     * const topic = await prisma.topic.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TopicUpdateArgs>(args: SelectSubset<T, TopicUpdateArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Topics.
+     * @param {TopicDeleteManyArgs} args - Arguments to filter Topics to delete.
+     * @example
+     * // Delete a few Topics
+     * const { count } = await prisma.topic.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TopicDeleteManyArgs>(args?: SelectSubset<T, TopicDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Topics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Topics
+     * const topic = await prisma.topic.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TopicUpdateManyArgs>(args: SelectSubset<T, TopicUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Topics and returns the data updated in the database.
+     * @param {TopicUpdateManyAndReturnArgs} args - Arguments to update many Topics.
+     * @example
+     * // Update many Topics
+     * const topic = await prisma.topic.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Topics and only return the `id`
+     * const topicWithIdOnly = await prisma.topic.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TopicUpdateManyAndReturnArgs>(args: SelectSubset<T, TopicUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Topic.
+     * @param {TopicUpsertArgs} args - Arguments to update or create a Topic.
+     * @example
+     * // Update or create a Topic
+     * const topic = await prisma.topic.upsert({
+     *   create: {
+     *     // ... data to create a Topic
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Topic we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TopicUpsertArgs>(args: SelectSubset<T, TopicUpsertArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Topics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicCountArgs} args - Arguments to filter Topics to count.
+     * @example
+     * // Count the number of Topics
+     * const count = await prisma.topic.count({
+     *   where: {
+     *     // ... the filter for the Topics we want to count
+     *   }
+     * })
+    **/
+    count<T extends TopicCountArgs>(
+      args?: Subset<T, TopicCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TopicCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Topic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TopicAggregateArgs>(args: Subset<T, TopicAggregateArgs>): Prisma.PrismaPromise<GetTopicAggregateType<T>>
+
+    /**
+     * Group by Topic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TopicGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TopicGroupByArgs['orderBy'] }
+        : { orderBy?: TopicGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TopicGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTopicGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Topic model
+   */
+  readonly fields: TopicFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Topic.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TopicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    admin<T extends AdminDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AdminDefaultArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subTopics<T extends Topic$subTopicsArgs<ExtArgs> = {}>(args?: Subset<T, Topic$subTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Topic model
+   */
+  interface TopicFieldRefs {
+    readonly id: FieldRef<"Topic", 'String'>
+    readonly name: FieldRef<"Topic", 'String'>
+    readonly adminId: FieldRef<"Topic", 'String'>
+    readonly createdAt: FieldRef<"Topic", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Topic findUnique
+   */
+  export type TopicFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * Filter, which Topic to fetch.
+     */
+    where: TopicWhereUniqueInput
+  }
+
+  /**
+   * Topic findUniqueOrThrow
+   */
+  export type TopicFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * Filter, which Topic to fetch.
+     */
+    where: TopicWhereUniqueInput
+  }
+
+  /**
+   * Topic findFirst
+   */
+  export type TopicFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * Filter, which Topic to fetch.
+     */
+    where?: TopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Topics.
+     */
+    cursor?: TopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Topics.
+     */
+    distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
+  }
+
+  /**
+   * Topic findFirstOrThrow
+   */
+  export type TopicFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * Filter, which Topic to fetch.
+     */
+    where?: TopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Topics.
+     */
+    cursor?: TopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Topics.
+     */
+    distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
+  }
+
+  /**
+   * Topic findMany
+   */
+  export type TopicFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * Filter, which Topics to fetch.
+     */
+    where?: TopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: TopicOrderByWithRelationInput | TopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Topics.
+     */
+    cursor?: TopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
+  }
+
+  /**
+   * Topic create
+   */
+  export type TopicCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Topic.
+     */
+    data: XOR<TopicCreateInput, TopicUncheckedCreateInput>
+  }
+
+  /**
+   * Topic createMany
+   */
+  export type TopicCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Topics.
+     */
+    data: TopicCreateManyInput | TopicCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Topic createManyAndReturn
+   */
+  export type TopicCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * The data used to create many Topics.
+     */
+    data: TopicCreateManyInput | TopicCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Topic update
+   */
+  export type TopicUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Topic.
+     */
+    data: XOR<TopicUpdateInput, TopicUncheckedUpdateInput>
+    /**
+     * Choose, which Topic to update.
+     */
+    where: TopicWhereUniqueInput
+  }
+
+  /**
+   * Topic updateMany
+   */
+  export type TopicUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Topics.
+     */
+    data: XOR<TopicUpdateManyMutationInput, TopicUncheckedUpdateManyInput>
+    /**
+     * Filter which Topics to update
+     */
+    where?: TopicWhereInput
+    /**
+     * Limit how many Topics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Topic updateManyAndReturn
+   */
+  export type TopicUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * The data used to update Topics.
+     */
+    data: XOR<TopicUpdateManyMutationInput, TopicUncheckedUpdateManyInput>
+    /**
+     * Filter which Topics to update
+     */
+    where?: TopicWhereInput
+    /**
+     * Limit how many Topics to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Topic upsert
+   */
+  export type TopicUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Topic to update in case it exists.
+     */
+    where: TopicWhereUniqueInput
+    /**
+     * In case the Topic found by the `where` argument doesn't exist, create a new Topic with this data.
+     */
+    create: XOR<TopicCreateInput, TopicUncheckedCreateInput>
+    /**
+     * In case the Topic was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TopicUpdateInput, TopicUncheckedUpdateInput>
+  }
+
+  /**
+   * Topic delete
+   */
+  export type TopicDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+    /**
+     * Filter which Topic to delete.
+     */
+    where: TopicWhereUniqueInput
+  }
+
+  /**
+   * Topic deleteMany
+   */
+  export type TopicDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Topics to delete
+     */
+    where?: TopicWhereInput
+    /**
+     * Limit how many Topics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Topic.subTopics
+   */
+  export type Topic$subTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    where?: SubTopicWhereInput
+    orderBy?: SubTopicOrderByWithRelationInput | SubTopicOrderByWithRelationInput[]
+    cursor?: SubTopicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubTopicScalarFieldEnum | SubTopicScalarFieldEnum[]
+  }
+
+  /**
+   * Topic without action
+   */
+  export type TopicDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Topic
+     */
+    select?: TopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Topic
+     */
+    omit?: TopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TopicInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SubTopic
+   */
+
+  export type AggregateSubTopic = {
+    _count: SubTopicCountAggregateOutputType | null
+    _min: SubTopicMinAggregateOutputType | null
+    _max: SubTopicMaxAggregateOutputType | null
+  }
+
+  export type SubTopicMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    topicId: string | null
+  }
+
+  export type SubTopicMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    topicId: string | null
+  }
+
+  export type SubTopicCountAggregateOutputType = {
+    id: number
+    name: number
+    topicId: number
+    _all: number
+  }
+
+
+  export type SubTopicMinAggregateInputType = {
+    id?: true
+    name?: true
+    topicId?: true
+  }
+
+  export type SubTopicMaxAggregateInputType = {
+    id?: true
+    name?: true
+    topicId?: true
+  }
+
+  export type SubTopicCountAggregateInputType = {
+    id?: true
+    name?: true
+    topicId?: true
+    _all?: true
+  }
+
+  export type SubTopicAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubTopic to aggregate.
+     */
+    where?: SubTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubTopics to fetch.
+     */
+    orderBy?: SubTopicOrderByWithRelationInput | SubTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubTopics
+    **/
+    _count?: true | SubTopicCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubTopicMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubTopicMaxAggregateInputType
+  }
+
+  export type GetSubTopicAggregateType<T extends SubTopicAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubTopic]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubTopic[P]>
+      : GetScalarType<T[P], AggregateSubTopic[P]>
+  }
+
+
+
+
+  export type SubTopicGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubTopicWhereInput
+    orderBy?: SubTopicOrderByWithAggregationInput | SubTopicOrderByWithAggregationInput[]
+    by: SubTopicScalarFieldEnum[] | SubTopicScalarFieldEnum
+    having?: SubTopicScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubTopicCountAggregateInputType | true
+    _min?: SubTopicMinAggregateInputType
+    _max?: SubTopicMaxAggregateInputType
+  }
+
+  export type SubTopicGroupByOutputType = {
+    id: string
+    name: string
+    topicId: string
+    _count: SubTopicCountAggregateOutputType | null
+    _min: SubTopicMinAggregateOutputType | null
+    _max: SubTopicMaxAggregateOutputType | null
+  }
+
+  type GetSubTopicGroupByPayload<T extends SubTopicGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubTopicGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubTopicGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubTopicGroupByOutputType[P]>
+            : GetScalarType<T[P], SubTopicGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubTopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    topicId?: boolean
+    topic?: boolean | TopicDefaultArgs<ExtArgs>
+    tests?: boolean | SubTopic$testsArgs<ExtArgs>
+    _count?: boolean | SubTopicCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subTopic"]>
+
+  export type SubTopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    topicId?: boolean
+    topic?: boolean | TopicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subTopic"]>
+
+  export type SubTopicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    topicId?: boolean
+    topic?: boolean | TopicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subTopic"]>
+
+  export type SubTopicSelectScalar = {
+    id?: boolean
+    name?: boolean
+    topicId?: boolean
+  }
+
+  export type SubTopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "topicId", ExtArgs["result"]["subTopic"]>
+  export type SubTopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topic?: boolean | TopicDefaultArgs<ExtArgs>
+    tests?: boolean | SubTopic$testsArgs<ExtArgs>
+    _count?: boolean | SubTopicCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SubTopicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topic?: boolean | TopicDefaultArgs<ExtArgs>
+  }
+  export type SubTopicIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    topic?: boolean | TopicDefaultArgs<ExtArgs>
+  }
+
+  export type $SubTopicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubTopic"
+    objects: {
+      topic: Prisma.$TopicPayload<ExtArgs>
+      tests: Prisma.$TestPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      topicId: string
+    }, ExtArgs["result"]["subTopic"]>
+    composites: {}
+  }
+
+  type SubTopicGetPayload<S extends boolean | null | undefined | SubTopicDefaultArgs> = $Result.GetResult<Prisma.$SubTopicPayload, S>
+
+  type SubTopicCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubTopicFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubTopicCountAggregateInputType | true
+    }
+
+  export interface SubTopicDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubTopic'], meta: { name: 'SubTopic' } }
+    /**
+     * Find zero or one SubTopic that matches the filter.
+     * @param {SubTopicFindUniqueArgs} args - Arguments to find a SubTopic
+     * @example
+     * // Get one SubTopic
+     * const subTopic = await prisma.subTopic.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubTopicFindUniqueArgs>(args: SelectSubset<T, SubTopicFindUniqueArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubTopic that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubTopicFindUniqueOrThrowArgs} args - Arguments to find a SubTopic
+     * @example
+     * // Get one SubTopic
+     * const subTopic = await prisma.subTopic.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubTopicFindUniqueOrThrowArgs>(args: SelectSubset<T, SubTopicFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubTopic that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicFindFirstArgs} args - Arguments to find a SubTopic
+     * @example
+     * // Get one SubTopic
+     * const subTopic = await prisma.subTopic.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubTopicFindFirstArgs>(args?: SelectSubset<T, SubTopicFindFirstArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubTopic that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicFindFirstOrThrowArgs} args - Arguments to find a SubTopic
+     * @example
+     * // Get one SubTopic
+     * const subTopic = await prisma.subTopic.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubTopicFindFirstOrThrowArgs>(args?: SelectSubset<T, SubTopicFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubTopics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubTopics
+     * const subTopics = await prisma.subTopic.findMany()
+     * 
+     * // Get first 10 SubTopics
+     * const subTopics = await prisma.subTopic.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subTopicWithIdOnly = await prisma.subTopic.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubTopicFindManyArgs>(args?: SelectSubset<T, SubTopicFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubTopic.
+     * @param {SubTopicCreateArgs} args - Arguments to create a SubTopic.
+     * @example
+     * // Create one SubTopic
+     * const SubTopic = await prisma.subTopic.create({
+     *   data: {
+     *     // ... data to create a SubTopic
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubTopicCreateArgs>(args: SelectSubset<T, SubTopicCreateArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubTopics.
+     * @param {SubTopicCreateManyArgs} args - Arguments to create many SubTopics.
+     * @example
+     * // Create many SubTopics
+     * const subTopic = await prisma.subTopic.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubTopicCreateManyArgs>(args?: SelectSubset<T, SubTopicCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubTopics and returns the data saved in the database.
+     * @param {SubTopicCreateManyAndReturnArgs} args - Arguments to create many SubTopics.
+     * @example
+     * // Create many SubTopics
+     * const subTopic = await prisma.subTopic.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubTopics and only return the `id`
+     * const subTopicWithIdOnly = await prisma.subTopic.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubTopicCreateManyAndReturnArgs>(args?: SelectSubset<T, SubTopicCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubTopic.
+     * @param {SubTopicDeleteArgs} args - Arguments to delete one SubTopic.
+     * @example
+     * // Delete one SubTopic
+     * const SubTopic = await prisma.subTopic.delete({
+     *   where: {
+     *     // ... filter to delete one SubTopic
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubTopicDeleteArgs>(args: SelectSubset<T, SubTopicDeleteArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubTopic.
+     * @param {SubTopicUpdateArgs} args - Arguments to update one SubTopic.
+     * @example
+     * // Update one SubTopic
+     * const subTopic = await prisma.subTopic.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubTopicUpdateArgs>(args: SelectSubset<T, SubTopicUpdateArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubTopics.
+     * @param {SubTopicDeleteManyArgs} args - Arguments to filter SubTopics to delete.
+     * @example
+     * // Delete a few SubTopics
+     * const { count } = await prisma.subTopic.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubTopicDeleteManyArgs>(args?: SelectSubset<T, SubTopicDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubTopics
+     * const subTopic = await prisma.subTopic.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubTopicUpdateManyArgs>(args: SelectSubset<T, SubTopicUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubTopics and returns the data updated in the database.
+     * @param {SubTopicUpdateManyAndReturnArgs} args - Arguments to update many SubTopics.
+     * @example
+     * // Update many SubTopics
+     * const subTopic = await prisma.subTopic.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubTopics and only return the `id`
+     * const subTopicWithIdOnly = await prisma.subTopic.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubTopicUpdateManyAndReturnArgs>(args: SelectSubset<T, SubTopicUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubTopic.
+     * @param {SubTopicUpsertArgs} args - Arguments to update or create a SubTopic.
+     * @example
+     * // Update or create a SubTopic
+     * const subTopic = await prisma.subTopic.upsert({
+     *   create: {
+     *     // ... data to create a SubTopic
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubTopic we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubTopicUpsertArgs>(args: SelectSubset<T, SubTopicUpsertArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicCountArgs} args - Arguments to filter SubTopics to count.
+     * @example
+     * // Count the number of SubTopics
+     * const count = await prisma.subTopic.count({
+     *   where: {
+     *     // ... the filter for the SubTopics we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubTopicCountArgs>(
+      args?: Subset<T, SubTopicCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubTopicCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubTopic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubTopicAggregateArgs>(args: Subset<T, SubTopicAggregateArgs>): Prisma.PrismaPromise<GetSubTopicAggregateType<T>>
+
+    /**
+     * Group by SubTopic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubTopicGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubTopicGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubTopicGroupByArgs['orderBy'] }
+        : { orderBy?: SubTopicGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubTopicGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubTopicGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubTopic model
+   */
+  readonly fields: SubTopicFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubTopic.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubTopicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    topic<T extends TopicDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicDefaultArgs<ExtArgs>>): Prisma__TopicClient<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tests<T extends SubTopic$testsArgs<ExtArgs> = {}>(args?: Subset<T, SubTopic$testsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubTopic model
+   */
+  interface SubTopicFieldRefs {
+    readonly id: FieldRef<"SubTopic", 'String'>
+    readonly name: FieldRef<"SubTopic", 'String'>
+    readonly topicId: FieldRef<"SubTopic", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubTopic findUnique
+   */
+  export type SubTopicFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which SubTopic to fetch.
+     */
+    where: SubTopicWhereUniqueInput
+  }
+
+  /**
+   * SubTopic findUniqueOrThrow
+   */
+  export type SubTopicFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which SubTopic to fetch.
+     */
+    where: SubTopicWhereUniqueInput
+  }
+
+  /**
+   * SubTopic findFirst
+   */
+  export type SubTopicFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which SubTopic to fetch.
+     */
+    where?: SubTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubTopics to fetch.
+     */
+    orderBy?: SubTopicOrderByWithRelationInput | SubTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubTopics.
+     */
+    cursor?: SubTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubTopics.
+     */
+    distinct?: SubTopicScalarFieldEnum | SubTopicScalarFieldEnum[]
+  }
+
+  /**
+   * SubTopic findFirstOrThrow
+   */
+  export type SubTopicFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which SubTopic to fetch.
+     */
+    where?: SubTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubTopics to fetch.
+     */
+    orderBy?: SubTopicOrderByWithRelationInput | SubTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubTopics.
+     */
+    cursor?: SubTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubTopics.
+     */
+    distinct?: SubTopicScalarFieldEnum | SubTopicScalarFieldEnum[]
+  }
+
+  /**
+   * SubTopic findMany
+   */
+  export type SubTopicFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which SubTopics to fetch.
+     */
+    where?: SubTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubTopics to fetch.
+     */
+    orderBy?: SubTopicOrderByWithRelationInput | SubTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubTopics.
+     */
+    cursor?: SubTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubTopics.
+     */
+    skip?: number
+    distinct?: SubTopicScalarFieldEnum | SubTopicScalarFieldEnum[]
+  }
+
+  /**
+   * SubTopic create
+   */
+  export type SubTopicCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SubTopic.
+     */
+    data: XOR<SubTopicCreateInput, SubTopicUncheckedCreateInput>
+  }
+
+  /**
+   * SubTopic createMany
+   */
+  export type SubTopicCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubTopics.
+     */
+    data: SubTopicCreateManyInput | SubTopicCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SubTopic createManyAndReturn
+   */
+  export type SubTopicCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubTopics.
+     */
+    data: SubTopicCreateManyInput | SubTopicCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SubTopic update
+   */
+  export type SubTopicUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SubTopic.
+     */
+    data: XOR<SubTopicUpdateInput, SubTopicUncheckedUpdateInput>
+    /**
+     * Choose, which SubTopic to update.
+     */
+    where: SubTopicWhereUniqueInput
+  }
+
+  /**
+   * SubTopic updateMany
+   */
+  export type SubTopicUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubTopics.
+     */
+    data: XOR<SubTopicUpdateManyMutationInput, SubTopicUncheckedUpdateManyInput>
+    /**
+     * Filter which SubTopics to update
+     */
+    where?: SubTopicWhereInput
+    /**
+     * Limit how many SubTopics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubTopic updateManyAndReturn
+   */
+  export type SubTopicUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * The data used to update SubTopics.
+     */
+    data: XOR<SubTopicUpdateManyMutationInput, SubTopicUncheckedUpdateManyInput>
+    /**
+     * Filter which SubTopics to update
+     */
+    where?: SubTopicWhereInput
+    /**
+     * Limit how many SubTopics to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SubTopic upsert
+   */
+  export type SubTopicUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SubTopic to update in case it exists.
+     */
+    where: SubTopicWhereUniqueInput
+    /**
+     * In case the SubTopic found by the `where` argument doesn't exist, create a new SubTopic with this data.
+     */
+    create: XOR<SubTopicCreateInput, SubTopicUncheckedCreateInput>
+    /**
+     * In case the SubTopic was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubTopicUpdateInput, SubTopicUncheckedUpdateInput>
+  }
+
+  /**
+   * SubTopic delete
+   */
+  export type SubTopicDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    /**
+     * Filter which SubTopic to delete.
+     */
+    where: SubTopicWhereUniqueInput
+  }
+
+  /**
+   * SubTopic deleteMany
+   */
+  export type SubTopicDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubTopics to delete
+     */
+    where?: SubTopicWhereInput
+    /**
+     * Limit how many SubTopics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubTopic.tests
+   */
+  export type SubTopic$testsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Test
+     */
+    select?: TestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Test
+     */
+    omit?: TestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestInclude<ExtArgs> | null
+    where?: TestWhereInput
+    orderBy?: TestOrderByWithRelationInput | TestOrderByWithRelationInput[]
+    cursor?: TestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestScalarFieldEnum | TestScalarFieldEnum[]
+  }
+
+  /**
+   * SubTopic without action
+   */
+  export type SubTopicDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+  }
+
 
   /**
    * Model Teacher
@@ -4903,6 +8490,7 @@ export namespace Prisma {
     updatedAt: Date | null
     teacherId: string | null
     status: $Enums.TestStatus | null
+    subTopicId: string | null
   }
 
   export type TestMaxAggregateOutputType = {
@@ -4917,6 +8505,7 @@ export namespace Prisma {
     updatedAt: Date | null
     teacherId: string | null
     status: $Enums.TestStatus | null
+    subTopicId: string | null
   }
 
   export type TestCountAggregateOutputType = {
@@ -4931,6 +8520,7 @@ export namespace Prisma {
     updatedAt: number
     teacherId: number
     status: number
+    subTopicId: number
     _all: number
   }
 
@@ -4955,6 +8545,7 @@ export namespace Prisma {
     updatedAt?: true
     teacherId?: true
     status?: true
+    subTopicId?: true
   }
 
   export type TestMaxAggregateInputType = {
@@ -4969,6 +8560,7 @@ export namespace Prisma {
     updatedAt?: true
     teacherId?: true
     status?: true
+    subTopicId?: true
   }
 
   export type TestCountAggregateInputType = {
@@ -4983,6 +8575,7 @@ export namespace Prisma {
     updatedAt?: true
     teacherId?: true
     status?: true
+    subTopicId?: true
     _all?: true
   }
 
@@ -5074,8 +8667,8 @@ export namespace Prisma {
 
   export type TestGroupByOutputType = {
     id: string
-    title: string
-    timeLimit: number
+    title: string | null
+    timeLimit: number | null
     description: string | null
     score: string | null
     startTime: Date | null
@@ -5084,6 +8677,7 @@ export namespace Prisma {
     updatedAt: Date
     teacherId: string
     status: $Enums.TestStatus
+    subTopicId: string | null
     _count: TestCountAggregateOutputType | null
     _avg: TestAvgAggregateOutputType | null
     _sum: TestSumAggregateOutputType | null
@@ -5117,10 +8711,12 @@ export namespace Prisma {
     updatedAt?: boolean
     teacherId?: boolean
     status?: boolean
+    subTopicId?: boolean
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
     studentScores?: boolean | Test$studentScoresArgs<ExtArgs>
     assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
+    subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
@@ -5136,7 +8732,9 @@ export namespace Prisma {
     updatedAt?: boolean
     teacherId?: boolean
     status?: boolean
+    subTopicId?: boolean
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5151,7 +8749,9 @@ export namespace Prisma {
     updatedAt?: boolean
     teacherId?: boolean
     status?: boolean
+    subTopicId?: boolean
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectScalar = {
@@ -5166,21 +8766,25 @@ export namespace Prisma {
     updatedAt?: boolean
     teacherId?: boolean
     status?: boolean
+    subTopicId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "teacherId" | "status", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "teacherId" | "status" | "subTopicId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
     studentScores?: boolean | Test$studentScoresArgs<ExtArgs>
     assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
+    subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }
   export type TestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }
 
   export type $TestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5190,11 +8794,12 @@ export namespace Prisma {
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       studentScores: Prisma.$StudentScorePayload<ExtArgs>[]
       assignedTo: Prisma.$AssignedTestPayload<ExtArgs>[]
+      subTopic: Prisma.$SubTopicPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      title: string
-      timeLimit: number
+      title: string | null
+      timeLimit: number | null
       description: string | null
       score: string | null
       startTime: Date | null
@@ -5203,6 +8808,7 @@ export namespace Prisma {
       updatedAt: Date
       teacherId: string
       status: $Enums.TestStatus
+      subTopicId: string | null
     }, ExtArgs["result"]["test"]>
     composites: {}
   }
@@ -5601,6 +9207,7 @@ export namespace Prisma {
     tasks<T extends Test$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Test$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     studentScores<T extends Test$studentScoresArgs<ExtArgs> = {}>(args?: Subset<T, Test$studentScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assignedTo<T extends Test$assignedToArgs<ExtArgs> = {}>(args?: Subset<T, Test$assignedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    subTopic<T extends Test$subTopicArgs<ExtArgs> = {}>(args?: Subset<T, Test$subTopicArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5641,6 +9248,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
     readonly teacherId: FieldRef<"Test", 'String'>
     readonly status: FieldRef<"Test", 'TestStatus'>
+    readonly subTopicId: FieldRef<"Test", 'String'>
   }
     
 
@@ -6106,6 +9714,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AssignedTestScalarFieldEnum | AssignedTestScalarFieldEnum[]
+  }
+
+  /**
+   * Test.subTopic
+   */
+  export type Test$subTopicArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubTopic
+     */
+    select?: SubTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubTopic
+     */
+    omit?: SubTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubTopicInclude<ExtArgs> | null
+    where?: SubTopicWhereInput
   }
 
   /**
@@ -7353,7 +10980,7 @@ export namespace Prisma {
     userAnsewer: JsonValue | null
     pairs: JsonValue | null
     answers: JsonValue | null
-    testId: string
+    testId: string | null
     createdAt: Date
     updatedAt: Date
     _count: TaskCountAggregateOutputType | null
@@ -7388,7 +11015,7 @@ export namespace Prisma {
     testId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    test?: boolean | TestDefaultArgs<ExtArgs>
+    test?: boolean | Task$testArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7404,7 +11031,7 @@ export namespace Prisma {
     testId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    test?: boolean | TestDefaultArgs<ExtArgs>
+    test?: boolean | Task$testArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7420,7 +11047,7 @@ export namespace Prisma {
     testId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    test?: boolean | TestDefaultArgs<ExtArgs>
+    test?: boolean | Task$testArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
@@ -7440,19 +11067,19 @@ export namespace Prisma {
 
   export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "number" | "image" | "type" | "isSaved" | "userAnsewer" | "pairs" | "answers" | "testId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    test?: boolean | TestDefaultArgs<ExtArgs>
+    test?: boolean | Task$testArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    test?: boolean | TestDefaultArgs<ExtArgs>
+    test?: boolean | Task$testArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    test?: boolean | TestDefaultArgs<ExtArgs>
+    test?: boolean | Task$testArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Task"
     objects: {
-      test: Prisma.$TestPayload<ExtArgs>
+      test: Prisma.$TestPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7464,7 +11091,7 @@ export namespace Prisma {
       userAnsewer: Prisma.JsonValue | null
       pairs: Prisma.JsonValue | null
       answers: Prisma.JsonValue | null
-      testId: string
+      testId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["task"]>
@@ -7861,7 +11488,7 @@ export namespace Prisma {
    */
   export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    test<T extends TestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TestDefaultArgs<ExtArgs>>): Prisma__TestClient<$Result.GetResult<Prisma.$TestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    test<T extends Task$testArgs<ExtArgs> = {}>(args?: Subset<T, Task$testArgs<ExtArgs>>): Prisma__TestClient<$Result.GetResult<Prisma.$TestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8299,6 +11926,25 @@ export namespace Prisma {
   }
 
   /**
+   * Task.test
+   */
+  export type Task$testArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Test
+     */
+    select?: TestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Test
+     */
+    omit?: TestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestInclude<ExtArgs> | null
+    where?: TestWhereInput
+  }
+
+  /**
    * Task without action
    */
   export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8329,6 +11975,37 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const AdminScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    password: 'password',
+    status: 'status',
+    createdAt: 'createdAt'
+  };
+
+  export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+  export const TopicScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    adminId: 'adminId',
+    createdAt: 'createdAt'
+  };
+
+  export type TopicScalarFieldEnum = (typeof TopicScalarFieldEnum)[keyof typeof TopicScalarFieldEnum]
+
+
+  export const SubTopicScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    topicId: 'topicId'
+  };
+
+  export type SubTopicScalarFieldEnum = (typeof SubTopicScalarFieldEnum)[keyof typeof SubTopicScalarFieldEnum]
 
 
   export const TeacherScalarFieldEnum: {
@@ -8385,7 +12062,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     teacherId: 'teacherId',
-    status: 'status'
+    status: 'status',
+    subTopicId: 'subTopicId'
   };
 
   export type TestScalarFieldEnum = (typeof TestScalarFieldEnum)[keyof typeof TestScalarFieldEnum]
@@ -8480,20 +12158,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Status'
    */
   export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
@@ -8504,6 +12168,20 @@ export namespace Prisma {
    * Reference to a field of type 'Status[]'
    */
   export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -8572,6 +12250,167 @@ export namespace Prisma {
    * Deep Input Types
    */
 
+
+  export type AdminWhereInput = {
+    AND?: AdminWhereInput | AdminWhereInput[]
+    OR?: AdminWhereInput[]
+    NOT?: AdminWhereInput | AdminWhereInput[]
+    id?: StringFilter<"Admin"> | string
+    name?: StringFilter<"Admin"> | string
+    email?: StringFilter<"Admin"> | string
+    password?: StringFilter<"Admin"> | string
+    status?: EnumStatusFilter<"Admin"> | $Enums.Status
+    createdAt?: DateTimeFilter<"Admin"> | Date | string
+    topics?: TopicListRelationFilter
+  }
+
+  export type AdminOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    topics?: TopicOrderByRelationAggregateInput
+  }
+
+  export type AdminWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    email?: string
+    AND?: AdminWhereInput | AdminWhereInput[]
+    OR?: AdminWhereInput[]
+    NOT?: AdminWhereInput | AdminWhereInput[]
+    name?: StringFilter<"Admin"> | string
+    password?: StringFilter<"Admin"> | string
+    status?: EnumStatusFilter<"Admin"> | $Enums.Status
+    createdAt?: DateTimeFilter<"Admin"> | Date | string
+    topics?: TopicListRelationFilter
+  }, "id" | "email">
+
+  export type AdminOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    _count?: AdminCountOrderByAggregateInput
+    _max?: AdminMaxOrderByAggregateInput
+    _min?: AdminMinOrderByAggregateInput
+  }
+
+  export type AdminScalarWhereWithAggregatesInput = {
+    AND?: AdminScalarWhereWithAggregatesInput | AdminScalarWhereWithAggregatesInput[]
+    OR?: AdminScalarWhereWithAggregatesInput[]
+    NOT?: AdminScalarWhereWithAggregatesInput | AdminScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Admin"> | string
+    name?: StringWithAggregatesFilter<"Admin"> | string
+    email?: StringWithAggregatesFilter<"Admin"> | string
+    password?: StringWithAggregatesFilter<"Admin"> | string
+    status?: EnumStatusWithAggregatesFilter<"Admin"> | $Enums.Status
+    createdAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
+  }
+
+  export type TopicWhereInput = {
+    AND?: TopicWhereInput | TopicWhereInput[]
+    OR?: TopicWhereInput[]
+    NOT?: TopicWhereInput | TopicWhereInput[]
+    id?: StringFilter<"Topic"> | string
+    name?: StringFilter<"Topic"> | string
+    adminId?: StringFilter<"Topic"> | string
+    createdAt?: DateTimeFilter<"Topic"> | Date | string
+    admin?: XOR<AdminScalarRelationFilter, AdminWhereInput>
+    subTopics?: SubTopicListRelationFilter
+  }
+
+  export type TopicOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    adminId?: SortOrder
+    createdAt?: SortOrder
+    admin?: AdminOrderByWithRelationInput
+    subTopics?: SubTopicOrderByRelationAggregateInput
+  }
+
+  export type TopicWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TopicWhereInput | TopicWhereInput[]
+    OR?: TopicWhereInput[]
+    NOT?: TopicWhereInput | TopicWhereInput[]
+    name?: StringFilter<"Topic"> | string
+    adminId?: StringFilter<"Topic"> | string
+    createdAt?: DateTimeFilter<"Topic"> | Date | string
+    admin?: XOR<AdminScalarRelationFilter, AdminWhereInput>
+    subTopics?: SubTopicListRelationFilter
+  }, "id">
+
+  export type TopicOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    adminId?: SortOrder
+    createdAt?: SortOrder
+    _count?: TopicCountOrderByAggregateInput
+    _max?: TopicMaxOrderByAggregateInput
+    _min?: TopicMinOrderByAggregateInput
+  }
+
+  export type TopicScalarWhereWithAggregatesInput = {
+    AND?: TopicScalarWhereWithAggregatesInput | TopicScalarWhereWithAggregatesInput[]
+    OR?: TopicScalarWhereWithAggregatesInput[]
+    NOT?: TopicScalarWhereWithAggregatesInput | TopicScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Topic"> | string
+    name?: StringWithAggregatesFilter<"Topic"> | string
+    adminId?: StringWithAggregatesFilter<"Topic"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Topic"> | Date | string
+  }
+
+  export type SubTopicWhereInput = {
+    AND?: SubTopicWhereInput | SubTopicWhereInput[]
+    OR?: SubTopicWhereInput[]
+    NOT?: SubTopicWhereInput | SubTopicWhereInput[]
+    id?: StringFilter<"SubTopic"> | string
+    name?: StringFilter<"SubTopic"> | string
+    topicId?: StringFilter<"SubTopic"> | string
+    topic?: XOR<TopicScalarRelationFilter, TopicWhereInput>
+    tests?: TestListRelationFilter
+  }
+
+  export type SubTopicOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topicId?: SortOrder
+    topic?: TopicOrderByWithRelationInput
+    tests?: TestOrderByRelationAggregateInput
+  }
+
+  export type SubTopicWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubTopicWhereInput | SubTopicWhereInput[]
+    OR?: SubTopicWhereInput[]
+    NOT?: SubTopicWhereInput | SubTopicWhereInput[]
+    name?: StringFilter<"SubTopic"> | string
+    topicId?: StringFilter<"SubTopic"> | string
+    topic?: XOR<TopicScalarRelationFilter, TopicWhereInput>
+    tests?: TestListRelationFilter
+  }, "id">
+
+  export type SubTopicOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topicId?: SortOrder
+    _count?: SubTopicCountOrderByAggregateInput
+    _max?: SubTopicMaxOrderByAggregateInput
+    _min?: SubTopicMinOrderByAggregateInput
+  }
+
+  export type SubTopicScalarWhereWithAggregatesInput = {
+    AND?: SubTopicScalarWhereWithAggregatesInput | SubTopicScalarWhereWithAggregatesInput[]
+    OR?: SubTopicScalarWhereWithAggregatesInput[]
+    NOT?: SubTopicScalarWhereWithAggregatesInput | SubTopicScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubTopic"> | string
+    name?: StringWithAggregatesFilter<"SubTopic"> | string
+    topicId?: StringWithAggregatesFilter<"SubTopic"> | string
+  }
 
   export type TeacherWhereInput = {
     AND?: TeacherWhereInput | TeacherWhereInput[]
@@ -8801,8 +12640,8 @@ export namespace Prisma {
     OR?: TestWhereInput[]
     NOT?: TestWhereInput | TestWhereInput[]
     id?: StringFilter<"Test"> | string
-    title?: StringFilter<"Test"> | string
-    timeLimit?: IntFilter<"Test"> | number
+    title?: StringNullableFilter<"Test"> | string | null
+    timeLimit?: IntNullableFilter<"Test"> | number | null
     description?: StringNullableFilter<"Test"> | string | null
     score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
@@ -8811,16 +12650,18 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     teacherId?: StringFilter<"Test"> | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
+    subTopicId?: StringNullableFilter<"Test"> | string | null
     teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
     tasks?: TaskListRelationFilter
     studentScores?: StudentScoreListRelationFilter
     assignedTo?: AssignedTestListRelationFilter
+    subTopic?: XOR<SubTopicNullableScalarRelationFilter, SubTopicWhereInput> | null
   }
 
   export type TestOrderByWithRelationInput = {
     id?: SortOrder
-    title?: SortOrder
-    timeLimit?: SortOrder
+    title?: SortOrderInput | SortOrder
+    timeLimit?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     score?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
@@ -8829,10 +12670,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
+    subTopicId?: SortOrderInput | SortOrder
     teacher?: TeacherOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
     studentScores?: StudentScoreOrderByRelationAggregateInput
     assignedTo?: AssignedTestOrderByRelationAggregateInput
+    subTopic?: SubTopicOrderByWithRelationInput
   }
 
   export type TestWhereUniqueInput = Prisma.AtLeast<{
@@ -8840,8 +12683,8 @@ export namespace Prisma {
     AND?: TestWhereInput | TestWhereInput[]
     OR?: TestWhereInput[]
     NOT?: TestWhereInput | TestWhereInput[]
-    title?: StringFilter<"Test"> | string
-    timeLimit?: IntFilter<"Test"> | number
+    title?: StringNullableFilter<"Test"> | string | null
+    timeLimit?: IntNullableFilter<"Test"> | number | null
     description?: StringNullableFilter<"Test"> | string | null
     score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
@@ -8850,16 +12693,18 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     teacherId?: StringFilter<"Test"> | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
+    subTopicId?: StringNullableFilter<"Test"> | string | null
     teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
     tasks?: TaskListRelationFilter
     studentScores?: StudentScoreListRelationFilter
     assignedTo?: AssignedTestListRelationFilter
+    subTopic?: XOR<SubTopicNullableScalarRelationFilter, SubTopicWhereInput> | null
   }, "id">
 
   export type TestOrderByWithAggregationInput = {
     id?: SortOrder
-    title?: SortOrder
-    timeLimit?: SortOrder
+    title?: SortOrderInput | SortOrder
+    timeLimit?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     score?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
@@ -8868,6 +12713,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
+    subTopicId?: SortOrderInput | SortOrder
     _count?: TestCountOrderByAggregateInput
     _avg?: TestAvgOrderByAggregateInput
     _max?: TestMaxOrderByAggregateInput
@@ -8880,8 +12726,8 @@ export namespace Prisma {
     OR?: TestScalarWhereWithAggregatesInput[]
     NOT?: TestScalarWhereWithAggregatesInput | TestScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Test"> | string
-    title?: StringWithAggregatesFilter<"Test"> | string
-    timeLimit?: IntWithAggregatesFilter<"Test"> | number
+    title?: StringNullableWithAggregatesFilter<"Test"> | string | null
+    timeLimit?: IntNullableWithAggregatesFilter<"Test"> | number | null
     description?: StringNullableWithAggregatesFilter<"Test"> | string | null
     score?: StringNullableWithAggregatesFilter<"Test"> | string | null
     startTime?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
@@ -8890,6 +12736,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     teacherId?: StringWithAggregatesFilter<"Test"> | string
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
+    subTopicId?: StringNullableWithAggregatesFilter<"Test"> | string | null
   }
 
   export type AssignedTestWhereInput = {
@@ -8958,10 +12805,10 @@ export namespace Prisma {
     userAnsewer?: JsonNullableFilter<"Task">
     pairs?: JsonNullableFilter<"Task">
     answers?: JsonNullableFilter<"Task">
-    testId?: StringFilter<"Task"> | string
+    testId?: StringNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
-    test?: XOR<TestScalarRelationFilter, TestWhereInput>
+    test?: XOR<TestNullableScalarRelationFilter, TestWhereInput> | null
   }
 
   export type TaskOrderByWithRelationInput = {
@@ -8974,7 +12821,7 @@ export namespace Prisma {
     userAnsewer?: SortOrderInput | SortOrder
     pairs?: SortOrderInput | SortOrder
     answers?: SortOrderInput | SortOrder
-    testId?: SortOrder
+    testId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     test?: TestOrderByWithRelationInput
@@ -8993,10 +12840,10 @@ export namespace Prisma {
     userAnsewer?: JsonNullableFilter<"Task">
     pairs?: JsonNullableFilter<"Task">
     answers?: JsonNullableFilter<"Task">
-    testId?: StringFilter<"Task"> | string
+    testId?: StringNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
-    test?: XOR<TestScalarRelationFilter, TestWhereInput>
+    test?: XOR<TestNullableScalarRelationFilter, TestWhereInput> | null
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
@@ -9009,7 +12856,7 @@ export namespace Prisma {
     userAnsewer?: SortOrderInput | SortOrder
     pairs?: SortOrderInput | SortOrder
     answers?: SortOrderInput | SortOrder
-    testId?: SortOrder
+    testId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TaskCountOrderByAggregateInput
@@ -9030,9 +12877,173 @@ export namespace Prisma {
     userAnsewer?: JsonNullableWithAggregatesFilter<"Task">
     pairs?: JsonNullableWithAggregatesFilter<"Task">
     answers?: JsonNullableWithAggregatesFilter<"Task">
-    testId?: StringWithAggregatesFilter<"Task"> | string
+    testId?: StringNullableWithAggregatesFilter<"Task"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+  }
+
+  export type AdminCreateInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+    topics?: TopicCreateNestedManyWithoutAdminInput
+  }
+
+  export type AdminUncheckedCreateInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+    topics?: TopicUncheckedCreateNestedManyWithoutAdminInput
+  }
+
+  export type AdminUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    topics?: TopicUpdateManyWithoutAdminNestedInput
+  }
+
+  export type AdminUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    topics?: TopicUncheckedUpdateManyWithoutAdminNestedInput
+  }
+
+  export type AdminCreateManyInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+  }
+
+  export type AdminUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TopicCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    admin: AdminCreateNestedOneWithoutTopicsInput
+    subTopics?: SubTopicCreateNestedManyWithoutTopicInput
+  }
+
+  export type TopicUncheckedCreateInput = {
+    id?: string
+    name: string
+    adminId: string
+    createdAt?: Date | string
+    subTopics?: SubTopicUncheckedCreateNestedManyWithoutTopicInput
+  }
+
+  export type TopicUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    admin?: AdminUpdateOneRequiredWithoutTopicsNestedInput
+    subTopics?: SubTopicUpdateManyWithoutTopicNestedInput
+  }
+
+  export type TopicUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    adminId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subTopics?: SubTopicUncheckedUpdateManyWithoutTopicNestedInput
+  }
+
+  export type TopicCreateManyInput = {
+    id?: string
+    name: string
+    adminId: string
+    createdAt?: Date | string
+  }
+
+  export type TopicUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TopicUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    adminId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubTopicCreateInput = {
+    id?: string
+    name: string
+    topic: TopicCreateNestedOneWithoutSubTopicsInput
+    tests?: TestCreateNestedManyWithoutSubTopicInput
+  }
+
+  export type SubTopicUncheckedCreateInput = {
+    id?: string
+    name: string
+    topicId: string
+    tests?: TestUncheckedCreateNestedManyWithoutSubTopicInput
+  }
+
+  export type SubTopicUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: TopicUpdateOneRequiredWithoutSubTopicsNestedInput
+    tests?: TestUpdateManyWithoutSubTopicNestedInput
+  }
+
+  export type SubTopicUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
+    tests?: TestUncheckedUpdateManyWithoutSubTopicNestedInput
+  }
+
+  export type SubTopicCreateManyInput = {
+    id?: string
+    name: string
+    topicId: string
+  }
+
+  export type SubTopicUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubTopicUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TeacherCreateInput = {
@@ -9285,8 +13296,8 @@ export namespace Prisma {
 
   export type TestCreateInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -9298,12 +13309,13 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -9312,6 +13324,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId: string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -9319,8 +13332,8 @@ export namespace Prisma {
 
   export type TestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9332,12 +13345,13 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9346,6 +13360,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -9353,8 +13368,8 @@ export namespace Prisma {
 
   export type TestCreateManyInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -9363,12 +13378,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId: string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
   }
 
   export type TestUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9380,8 +13396,8 @@ export namespace Prisma {
 
   export type TestUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9390,6 +13406,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssignedTestCreateInput = {
@@ -9451,7 +13468,7 @@ export namespace Prisma {
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    test: TestCreateNestedOneWithoutTasksInput
+    test?: TestCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateInput = {
@@ -9464,7 +13481,7 @@ export namespace Prisma {
     userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
-    testId: string
+    testId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9481,7 +13498,7 @@ export namespace Prisma {
     answers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    test?: TestUpdateOneRequiredWithoutTasksNestedInput
+    test?: TestUpdateOneWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
@@ -9494,7 +13511,7 @@ export namespace Prisma {
     userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
-    testId?: StringFieldUpdateOperationsInput | string
+    testId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9509,7 +13526,7 @@ export namespace Prisma {
     userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
-    testId: string
+    testId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9538,7 +13555,7 @@ export namespace Prisma {
     userAnsewer?: NullableJsonNullValueInput | InputJsonValue
     pairs?: NullableJsonNullValueInput | InputJsonValue
     answers?: NullableJsonNullValueInput | InputJsonValue
-    testId?: StringFieldUpdateOperationsInput | string
+    testId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9558,6 +13575,13 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type EnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9569,11 +13593,124 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type EnumStatusFilter<$PrismaModel = never> = {
+  export type TopicListRelationFilter = {
+    every?: TopicWhereInput
+    some?: TopicWhereInput
+    none?: TopicWhereInput
+  }
+
+  export type TopicOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AdminCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
     in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type AdminScalarRelationFilter = {
+    is?: AdminWhereInput
+    isNot?: AdminWhereInput
+  }
+
+  export type SubTopicListRelationFilter = {
+    every?: SubTopicWhereInput
+    some?: SubTopicWhereInput
+    none?: SubTopicWhereInput
+  }
+
+  export type SubTopicOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TopicCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    adminId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TopicMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    adminId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TopicMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    adminId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TopicScalarRelationFilter = {
+    is?: TopicWhereInput
+    isNot?: TopicWhereInput
   }
 
   export type TestListRelationFilter = {
@@ -9584,6 +13721,24 @@ export namespace Prisma {
 
   export type TestOrderByRelationAggregateInput = {
     _count?: SortOrder
+  }
+
+  export type SubTopicCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type SubTopicMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type SubTopicMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topicId?: SortOrder
   }
 
   export type TeacherCountOrderByAggregateInput = {
@@ -9614,48 +13769,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusFilter<$PrismaModel>
-    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -9877,6 +13990,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -9906,6 +14030,11 @@ export namespace Prisma {
     none?: TaskWhereInput
   }
 
+  export type SubTopicNullableScalarRelationFilter = {
+    is?: SubTopicWhereInput | null
+    isNot?: SubTopicWhereInput | null
+  }
+
   export type TaskOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -9922,6 +14051,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
+    subTopicId?: SortOrder
   }
 
   export type TestAvgOrderByAggregateInput = {
@@ -9940,6 +14070,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
+    subTopicId?: SortOrder
   }
 
   export type TestMinOrderByAggregateInput = {
@@ -9954,6 +14085,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
+    subTopicId?: SortOrder
   }
 
   export type TestSumOrderByAggregateInput = {
@@ -9976,6 +14108,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10028,6 +14176,11 @@ export namespace Prisma {
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
+  export type TestNullableScalarRelationFilter = {
+    is?: TestWhereInput | null
+    isNot?: TestWhereInput | null
+  }
+
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -10075,6 +14228,172 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type TopicCreateNestedManyWithoutAdminInput = {
+    create?: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput> | TopicCreateWithoutAdminInput[] | TopicUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutAdminInput | TopicCreateOrConnectWithoutAdminInput[]
+    createMany?: TopicCreateManyAdminInputEnvelope
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+  }
+
+  export type TopicUncheckedCreateNestedManyWithoutAdminInput = {
+    create?: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput> | TopicCreateWithoutAdminInput[] | TopicUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutAdminInput | TopicCreateOrConnectWithoutAdminInput[]
+    createMany?: TopicCreateManyAdminInputEnvelope
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type EnumStatusFieldUpdateOperationsInput = {
+    set?: $Enums.Status
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type TopicUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput> | TopicCreateWithoutAdminInput[] | TopicUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutAdminInput | TopicCreateOrConnectWithoutAdminInput[]
+    upsert?: TopicUpsertWithWhereUniqueWithoutAdminInput | TopicUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: TopicCreateManyAdminInputEnvelope
+    set?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    disconnect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    delete?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    update?: TopicUpdateWithWhereUniqueWithoutAdminInput | TopicUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: TopicUpdateManyWithWhereWithoutAdminInput | TopicUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
+  }
+
+  export type TopicUncheckedUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput> | TopicCreateWithoutAdminInput[] | TopicUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TopicCreateOrConnectWithoutAdminInput | TopicCreateOrConnectWithoutAdminInput[]
+    upsert?: TopicUpsertWithWhereUniqueWithoutAdminInput | TopicUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: TopicCreateManyAdminInputEnvelope
+    set?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    disconnect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    delete?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+    update?: TopicUpdateWithWhereUniqueWithoutAdminInput | TopicUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: TopicUpdateManyWithWhereWithoutAdminInput | TopicUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
+  }
+
+  export type AdminCreateNestedOneWithoutTopicsInput = {
+    create?: XOR<AdminCreateWithoutTopicsInput, AdminUncheckedCreateWithoutTopicsInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutTopicsInput
+    connect?: AdminWhereUniqueInput
+  }
+
+  export type SubTopicCreateNestedManyWithoutTopicInput = {
+    create?: XOR<SubTopicCreateWithoutTopicInput, SubTopicUncheckedCreateWithoutTopicInput> | SubTopicCreateWithoutTopicInput[] | SubTopicUncheckedCreateWithoutTopicInput[]
+    connectOrCreate?: SubTopicCreateOrConnectWithoutTopicInput | SubTopicCreateOrConnectWithoutTopicInput[]
+    createMany?: SubTopicCreateManyTopicInputEnvelope
+    connect?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+  }
+
+  export type SubTopicUncheckedCreateNestedManyWithoutTopicInput = {
+    create?: XOR<SubTopicCreateWithoutTopicInput, SubTopicUncheckedCreateWithoutTopicInput> | SubTopicCreateWithoutTopicInput[] | SubTopicUncheckedCreateWithoutTopicInput[]
+    connectOrCreate?: SubTopicCreateOrConnectWithoutTopicInput | SubTopicCreateOrConnectWithoutTopicInput[]
+    createMany?: SubTopicCreateManyTopicInputEnvelope
+    connect?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+  }
+
+  export type AdminUpdateOneRequiredWithoutTopicsNestedInput = {
+    create?: XOR<AdminCreateWithoutTopicsInput, AdminUncheckedCreateWithoutTopicsInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutTopicsInput
+    upsert?: AdminUpsertWithoutTopicsInput
+    connect?: AdminWhereUniqueInput
+    update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutTopicsInput, AdminUpdateWithoutTopicsInput>, AdminUncheckedUpdateWithoutTopicsInput>
+  }
+
+  export type SubTopicUpdateManyWithoutTopicNestedInput = {
+    create?: XOR<SubTopicCreateWithoutTopicInput, SubTopicUncheckedCreateWithoutTopicInput> | SubTopicCreateWithoutTopicInput[] | SubTopicUncheckedCreateWithoutTopicInput[]
+    connectOrCreate?: SubTopicCreateOrConnectWithoutTopicInput | SubTopicCreateOrConnectWithoutTopicInput[]
+    upsert?: SubTopicUpsertWithWhereUniqueWithoutTopicInput | SubTopicUpsertWithWhereUniqueWithoutTopicInput[]
+    createMany?: SubTopicCreateManyTopicInputEnvelope
+    set?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    disconnect?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    delete?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    connect?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    update?: SubTopicUpdateWithWhereUniqueWithoutTopicInput | SubTopicUpdateWithWhereUniqueWithoutTopicInput[]
+    updateMany?: SubTopicUpdateManyWithWhereWithoutTopicInput | SubTopicUpdateManyWithWhereWithoutTopicInput[]
+    deleteMany?: SubTopicScalarWhereInput | SubTopicScalarWhereInput[]
+  }
+
+  export type SubTopicUncheckedUpdateManyWithoutTopicNestedInput = {
+    create?: XOR<SubTopicCreateWithoutTopicInput, SubTopicUncheckedCreateWithoutTopicInput> | SubTopicCreateWithoutTopicInput[] | SubTopicUncheckedCreateWithoutTopicInput[]
+    connectOrCreate?: SubTopicCreateOrConnectWithoutTopicInput | SubTopicCreateOrConnectWithoutTopicInput[]
+    upsert?: SubTopicUpsertWithWhereUniqueWithoutTopicInput | SubTopicUpsertWithWhereUniqueWithoutTopicInput[]
+    createMany?: SubTopicCreateManyTopicInputEnvelope
+    set?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    disconnect?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    delete?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    connect?: SubTopicWhereUniqueInput | SubTopicWhereUniqueInput[]
+    update?: SubTopicUpdateWithWhereUniqueWithoutTopicInput | SubTopicUpdateWithWhereUniqueWithoutTopicInput[]
+    updateMany?: SubTopicUpdateManyWithWhereWithoutTopicInput | SubTopicUpdateManyWithWhereWithoutTopicInput[]
+    deleteMany?: SubTopicScalarWhereInput | SubTopicScalarWhereInput[]
+  }
+
+  export type TopicCreateNestedOneWithoutSubTopicsInput = {
+    create?: XOR<TopicCreateWithoutSubTopicsInput, TopicUncheckedCreateWithoutSubTopicsInput>
+    connectOrCreate?: TopicCreateOrConnectWithoutSubTopicsInput
+    connect?: TopicWhereUniqueInput
+  }
+
+  export type TestCreateNestedManyWithoutSubTopicInput = {
+    create?: XOR<TestCreateWithoutSubTopicInput, TestUncheckedCreateWithoutSubTopicInput> | TestCreateWithoutSubTopicInput[] | TestUncheckedCreateWithoutSubTopicInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutSubTopicInput | TestCreateOrConnectWithoutSubTopicInput[]
+    createMany?: TestCreateManySubTopicInputEnvelope
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+  }
+
+  export type TestUncheckedCreateNestedManyWithoutSubTopicInput = {
+    create?: XOR<TestCreateWithoutSubTopicInput, TestUncheckedCreateWithoutSubTopicInput> | TestCreateWithoutSubTopicInput[] | TestUncheckedCreateWithoutSubTopicInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutSubTopicInput | TestCreateOrConnectWithoutSubTopicInput[]
+    createMany?: TestCreateManySubTopicInputEnvelope
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+  }
+
+  export type TopicUpdateOneRequiredWithoutSubTopicsNestedInput = {
+    create?: XOR<TopicCreateWithoutSubTopicsInput, TopicUncheckedCreateWithoutSubTopicsInput>
+    connectOrCreate?: TopicCreateOrConnectWithoutSubTopicsInput
+    upsert?: TopicUpsertWithoutSubTopicsInput
+    connect?: TopicWhereUniqueInput
+    update?: XOR<XOR<TopicUpdateToOneWithWhereWithoutSubTopicsInput, TopicUpdateWithoutSubTopicsInput>, TopicUncheckedUpdateWithoutSubTopicsInput>
+  }
+
+  export type TestUpdateManyWithoutSubTopicNestedInput = {
+    create?: XOR<TestCreateWithoutSubTopicInput, TestUncheckedCreateWithoutSubTopicInput> | TestCreateWithoutSubTopicInput[] | TestUncheckedCreateWithoutSubTopicInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutSubTopicInput | TestCreateOrConnectWithoutSubTopicInput[]
+    upsert?: TestUpsertWithWhereUniqueWithoutSubTopicInput | TestUpsertWithWhereUniqueWithoutSubTopicInput[]
+    createMany?: TestCreateManySubTopicInputEnvelope
+    set?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    disconnect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    delete?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    update?: TestUpdateWithWhereUniqueWithoutSubTopicInput | TestUpdateWithWhereUniqueWithoutSubTopicInput[]
+    updateMany?: TestUpdateManyWithWhereWithoutSubTopicInput | TestUpdateManyWithWhereWithoutSubTopicInput[]
+    deleteMany?: TestScalarWhereInput | TestScalarWhereInput[]
+  }
+
+  export type TestUncheckedUpdateManyWithoutSubTopicNestedInput = {
+    create?: XOR<TestCreateWithoutSubTopicInput, TestUncheckedCreateWithoutSubTopicInput> | TestCreateWithoutSubTopicInput[] | TestUncheckedCreateWithoutSubTopicInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutSubTopicInput | TestCreateOrConnectWithoutSubTopicInput[]
+    upsert?: TestUpsertWithWhereUniqueWithoutSubTopicInput | TestUpsertWithWhereUniqueWithoutSubTopicInput[]
+    createMany?: TestCreateManySubTopicInputEnvelope
+    set?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    disconnect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    delete?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    update?: TestUpdateWithWhereUniqueWithoutSubTopicInput | TestUpdateWithWhereUniqueWithoutSubTopicInput[]
+    updateMany?: TestUpdateManyWithWhereWithoutSubTopicInput | TestUpdateManyWithWhereWithoutSubTopicInput[]
+    deleteMany?: TestScalarWhereInput | TestScalarWhereInput[]
+  }
+
   export type TestCreateNestedManyWithoutTeacherInput = {
     create?: XOR<TestCreateWithoutTeacherInput, TestUncheckedCreateWithoutTeacherInput> | TestCreateWithoutTeacherInput[] | TestUncheckedCreateWithoutTeacherInput[]
     connectOrCreate?: TestCreateOrConnectWithoutTeacherInput | TestCreateOrConnectWithoutTeacherInput[]
@@ -10087,18 +14406,6 @@ export namespace Prisma {
     connectOrCreate?: TestCreateOrConnectWithoutTeacherInput | TestCreateOrConnectWithoutTeacherInput[]
     createMany?: TestCreateManyTeacherInputEnvelope
     connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type EnumStatusFieldUpdateOperationsInput = {
-    set?: $Enums.Status
   }
 
   export type TestUpdateManyWithoutTeacherNestedInput = {
@@ -10280,6 +14587,12 @@ export namespace Prisma {
     connect?: AssignedTestWhereUniqueInput | AssignedTestWhereUniqueInput[]
   }
 
+  export type SubTopicCreateNestedOneWithoutTestsInput = {
+    create?: XOR<SubTopicCreateWithoutTestsInput, SubTopicUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: SubTopicCreateOrConnectWithoutTestsInput
+    connect?: SubTopicWhereUniqueInput
+  }
+
   export type TaskUncheckedCreateNestedManyWithoutTestInput = {
     create?: XOR<TaskCreateWithoutTestInput, TaskUncheckedCreateWithoutTestInput> | TaskCreateWithoutTestInput[] | TaskUncheckedCreateWithoutTestInput[]
     connectOrCreate?: TaskCreateOrConnectWithoutTestInput | TaskCreateOrConnectWithoutTestInput[]
@@ -10303,6 +14616,14 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -10361,6 +14682,16 @@ export namespace Prisma {
     update?: AssignedTestUpdateWithWhereUniqueWithoutTestInput | AssignedTestUpdateWithWhereUniqueWithoutTestInput[]
     updateMany?: AssignedTestUpdateManyWithWhereWithoutTestInput | AssignedTestUpdateManyWithWhereWithoutTestInput[]
     deleteMany?: AssignedTestScalarWhereInput | AssignedTestScalarWhereInput[]
+  }
+
+  export type SubTopicUpdateOneWithoutTestsNestedInput = {
+    create?: XOR<SubTopicCreateWithoutTestsInput, SubTopicUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: SubTopicCreateOrConnectWithoutTestsInput
+    upsert?: SubTopicUpsertWithoutTestsInput
+    disconnect?: SubTopicWhereInput | boolean
+    delete?: SubTopicWhereInput | boolean
+    connect?: SubTopicWhereUniqueInput
+    update?: XOR<XOR<SubTopicUpdateToOneWithWhereWithoutTestsInput, SubTopicUpdateWithoutTestsInput>, SubTopicUncheckedUpdateWithoutTestsInput>
   }
 
   export type TaskUncheckedUpdateManyWithoutTestNestedInput = {
@@ -10443,10 +14774,12 @@ export namespace Prisma {
     set?: boolean | null
   }
 
-  export type TestUpdateOneRequiredWithoutTasksNestedInput = {
+  export type TestUpdateOneWithoutTasksNestedInput = {
     create?: XOR<TestCreateWithoutTasksInput, TestUncheckedCreateWithoutTasksInput>
     connectOrCreate?: TestCreateOrConnectWithoutTasksInput
     upsert?: TestUpsertWithoutTasksInput
+    disconnect?: TestWhereInput | boolean
+    delete?: TestWhereInput | boolean
     connect?: TestWhereUniqueInput
     update?: XOR<XOR<TestUpdateToOneWithWhereWithoutTasksInput, TestUpdateWithoutTasksInput>, TestUncheckedUpdateWithoutTasksInput>
   }
@@ -10465,6 +14798,13 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedEnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10474,13 +14814,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedEnumStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10511,6 +14844,16 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10523,16 +14866,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusFilter<$PrismaModel>
-    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -10658,6 +14991,33 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -10695,10 +15055,281 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type TopicCreateWithoutAdminInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    subTopics?: SubTopicCreateNestedManyWithoutTopicInput
+  }
+
+  export type TopicUncheckedCreateWithoutAdminInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    subTopics?: SubTopicUncheckedCreateNestedManyWithoutTopicInput
+  }
+
+  export type TopicCreateOrConnectWithoutAdminInput = {
+    where: TopicWhereUniqueInput
+    create: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput>
+  }
+
+  export type TopicCreateManyAdminInputEnvelope = {
+    data: TopicCreateManyAdminInput | TopicCreateManyAdminInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TopicUpsertWithWhereUniqueWithoutAdminInput = {
+    where: TopicWhereUniqueInput
+    update: XOR<TopicUpdateWithoutAdminInput, TopicUncheckedUpdateWithoutAdminInput>
+    create: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput>
+  }
+
+  export type TopicUpdateWithWhereUniqueWithoutAdminInput = {
+    where: TopicWhereUniqueInput
+    data: XOR<TopicUpdateWithoutAdminInput, TopicUncheckedUpdateWithoutAdminInput>
+  }
+
+  export type TopicUpdateManyWithWhereWithoutAdminInput = {
+    where: TopicScalarWhereInput
+    data: XOR<TopicUpdateManyMutationInput, TopicUncheckedUpdateManyWithoutAdminInput>
+  }
+
+  export type TopicScalarWhereInput = {
+    AND?: TopicScalarWhereInput | TopicScalarWhereInput[]
+    OR?: TopicScalarWhereInput[]
+    NOT?: TopicScalarWhereInput | TopicScalarWhereInput[]
+    id?: StringFilter<"Topic"> | string
+    name?: StringFilter<"Topic"> | string
+    adminId?: StringFilter<"Topic"> | string
+    createdAt?: DateTimeFilter<"Topic"> | Date | string
+  }
+
+  export type AdminCreateWithoutTopicsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+  }
+
+  export type AdminUncheckedCreateWithoutTopicsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+  }
+
+  export type AdminCreateOrConnectWithoutTopicsInput = {
+    where: AdminWhereUniqueInput
+    create: XOR<AdminCreateWithoutTopicsInput, AdminUncheckedCreateWithoutTopicsInput>
+  }
+
+  export type SubTopicCreateWithoutTopicInput = {
+    id?: string
+    name: string
+    tests?: TestCreateNestedManyWithoutSubTopicInput
+  }
+
+  export type SubTopicUncheckedCreateWithoutTopicInput = {
+    id?: string
+    name: string
+    tests?: TestUncheckedCreateNestedManyWithoutSubTopicInput
+  }
+
+  export type SubTopicCreateOrConnectWithoutTopicInput = {
+    where: SubTopicWhereUniqueInput
+    create: XOR<SubTopicCreateWithoutTopicInput, SubTopicUncheckedCreateWithoutTopicInput>
+  }
+
+  export type SubTopicCreateManyTopicInputEnvelope = {
+    data: SubTopicCreateManyTopicInput | SubTopicCreateManyTopicInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AdminUpsertWithoutTopicsInput = {
+    update: XOR<AdminUpdateWithoutTopicsInput, AdminUncheckedUpdateWithoutTopicsInput>
+    create: XOR<AdminCreateWithoutTopicsInput, AdminUncheckedCreateWithoutTopicsInput>
+    where?: AdminWhereInput
+  }
+
+  export type AdminUpdateToOneWithWhereWithoutTopicsInput = {
+    where?: AdminWhereInput
+    data: XOR<AdminUpdateWithoutTopicsInput, AdminUncheckedUpdateWithoutTopicsInput>
+  }
+
+  export type AdminUpdateWithoutTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminUncheckedUpdateWithoutTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubTopicUpsertWithWhereUniqueWithoutTopicInput = {
+    where: SubTopicWhereUniqueInput
+    update: XOR<SubTopicUpdateWithoutTopicInput, SubTopicUncheckedUpdateWithoutTopicInput>
+    create: XOR<SubTopicCreateWithoutTopicInput, SubTopicUncheckedCreateWithoutTopicInput>
+  }
+
+  export type SubTopicUpdateWithWhereUniqueWithoutTopicInput = {
+    where: SubTopicWhereUniqueInput
+    data: XOR<SubTopicUpdateWithoutTopicInput, SubTopicUncheckedUpdateWithoutTopicInput>
+  }
+
+  export type SubTopicUpdateManyWithWhereWithoutTopicInput = {
+    where: SubTopicScalarWhereInput
+    data: XOR<SubTopicUpdateManyMutationInput, SubTopicUncheckedUpdateManyWithoutTopicInput>
+  }
+
+  export type SubTopicScalarWhereInput = {
+    AND?: SubTopicScalarWhereInput | SubTopicScalarWhereInput[]
+    OR?: SubTopicScalarWhereInput[]
+    NOT?: SubTopicScalarWhereInput | SubTopicScalarWhereInput[]
+    id?: StringFilter<"SubTopic"> | string
+    name?: StringFilter<"SubTopic"> | string
+    topicId?: StringFilter<"SubTopic"> | string
+  }
+
+  export type TopicCreateWithoutSubTopicsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    admin: AdminCreateNestedOneWithoutTopicsInput
+  }
+
+  export type TopicUncheckedCreateWithoutSubTopicsInput = {
+    id?: string
+    name: string
+    adminId: string
+    createdAt?: Date | string
+  }
+
+  export type TopicCreateOrConnectWithoutSubTopicsInput = {
+    where: TopicWhereUniqueInput
+    create: XOR<TopicCreateWithoutSubTopicsInput, TopicUncheckedCreateWithoutSubTopicsInput>
+  }
+
+  export type TestCreateWithoutSubTopicInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.TestStatus
+    teacher: TeacherCreateNestedOneWithoutTestsInput
+    tasks?: TaskCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+  }
+
+  export type TestUncheckedCreateWithoutSubTopicInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: string
+    status?: $Enums.TestStatus
+    tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
+  }
+
+  export type TestCreateOrConnectWithoutSubTopicInput = {
+    where: TestWhereUniqueInput
+    create: XOR<TestCreateWithoutSubTopicInput, TestUncheckedCreateWithoutSubTopicInput>
+  }
+
+  export type TestCreateManySubTopicInputEnvelope = {
+    data: TestCreateManySubTopicInput | TestCreateManySubTopicInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TopicUpsertWithoutSubTopicsInput = {
+    update: XOR<TopicUpdateWithoutSubTopicsInput, TopicUncheckedUpdateWithoutSubTopicsInput>
+    create: XOR<TopicCreateWithoutSubTopicsInput, TopicUncheckedCreateWithoutSubTopicsInput>
+    where?: TopicWhereInput
+  }
+
+  export type TopicUpdateToOneWithWhereWithoutSubTopicsInput = {
+    where?: TopicWhereInput
+    data: XOR<TopicUpdateWithoutSubTopicsInput, TopicUncheckedUpdateWithoutSubTopicsInput>
+  }
+
+  export type TopicUpdateWithoutSubTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    admin?: AdminUpdateOneRequiredWithoutTopicsNestedInput
+  }
+
+  export type TopicUncheckedUpdateWithoutSubTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    adminId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestUpsertWithWhereUniqueWithoutSubTopicInput = {
+    where: TestWhereUniqueInput
+    update: XOR<TestUpdateWithoutSubTopicInput, TestUncheckedUpdateWithoutSubTopicInput>
+    create: XOR<TestCreateWithoutSubTopicInput, TestUncheckedCreateWithoutSubTopicInput>
+  }
+
+  export type TestUpdateWithWhereUniqueWithoutSubTopicInput = {
+    where: TestWhereUniqueInput
+    data: XOR<TestUpdateWithoutSubTopicInput, TestUncheckedUpdateWithoutSubTopicInput>
+  }
+
+  export type TestUpdateManyWithWhereWithoutSubTopicInput = {
+    where: TestScalarWhereInput
+    data: XOR<TestUpdateManyMutationInput, TestUncheckedUpdateManyWithoutSubTopicInput>
+  }
+
+  export type TestScalarWhereInput = {
+    AND?: TestScalarWhereInput | TestScalarWhereInput[]
+    OR?: TestScalarWhereInput[]
+    NOT?: TestScalarWhereInput | TestScalarWhereInput[]
+    id?: StringFilter<"Test"> | string
+    title?: StringNullableFilter<"Test"> | string | null
+    timeLimit?: IntNullableFilter<"Test"> | number | null
+    description?: StringNullableFilter<"Test"> | string | null
+    score?: StringNullableFilter<"Test"> | string | null
+    startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
+    createdAt?: DateTimeFilter<"Test"> | Date | string
+    updatedAt?: DateTimeFilter<"Test"> | Date | string
+    teacherId?: StringFilter<"Test"> | string
+    status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
+    subTopicId?: StringNullableFilter<"Test"> | string | null
+  }
+
   export type TestCreateWithoutTeacherInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -10709,12 +15340,13 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutTeacherInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -10722,6 +15354,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -10751,23 +15384,6 @@ export namespace Prisma {
   export type TestUpdateManyWithWhereWithoutTeacherInput = {
     where: TestScalarWhereInput
     data: XOR<TestUpdateManyMutationInput, TestUncheckedUpdateManyWithoutTeacherInput>
-  }
-
-  export type TestScalarWhereInput = {
-    AND?: TestScalarWhereInput | TestScalarWhereInput[]
-    OR?: TestScalarWhereInput[]
-    NOT?: TestScalarWhereInput | TestScalarWhereInput[]
-    id?: StringFilter<"Test"> | string
-    title?: StringFilter<"Test"> | string
-    timeLimit?: IntFilter<"Test"> | number
-    description?: StringNullableFilter<"Test"> | string | null
-    score?: StringNullableFilter<"Test"> | string | null
-    startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    createdAt?: DateTimeFilter<"Test"> | Date | string
-    updatedAt?: DateTimeFilter<"Test"> | Date | string
-    teacherId?: StringFilter<"Test"> | string
-    status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
   }
 
   export type StudentScoreCreateWithoutStudentInput = {
@@ -10915,8 +15531,8 @@ export namespace Prisma {
 
   export type TestCreateWithoutStudentScoresInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -10927,12 +15543,13 @@ export namespace Prisma {
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutStudentScoresInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -10941,6 +15558,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId: string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
@@ -10998,8 +15616,8 @@ export namespace Prisma {
 
   export type TestUpdateWithoutStudentScoresInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11010,12 +15628,13 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutStudentScoresInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11024,6 +15643,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
@@ -11147,6 +15767,23 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SubTopicCreateWithoutTestsInput = {
+    id?: string
+    name: string
+    topic: TopicCreateNestedOneWithoutSubTopicsInput
+  }
+
+  export type SubTopicUncheckedCreateWithoutTestsInput = {
+    id?: string
+    name: string
+    topicId: string
+  }
+
+  export type SubTopicCreateOrConnectWithoutTestsInput = {
+    where: SubTopicWhereUniqueInput
+    create: XOR<SubTopicCreateWithoutTestsInput, SubTopicUncheckedCreateWithoutTestsInput>
+  }
+
   export type TeacherUpsertWithoutTestsInput = {
     update: XOR<TeacherUpdateWithoutTestsInput, TeacherUncheckedUpdateWithoutTestsInput>
     create: XOR<TeacherCreateWithoutTestsInput, TeacherUncheckedCreateWithoutTestsInput>
@@ -11207,7 +15844,7 @@ export namespace Prisma {
     userAnsewer?: JsonNullableFilter<"Task">
     pairs?: JsonNullableFilter<"Task">
     answers?: JsonNullableFilter<"Task">
-    testId?: StringFilter<"Task"> | string
+    testId?: StringNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
   }
@@ -11244,6 +15881,29 @@ export namespace Prisma {
     data: XOR<AssignedTestUpdateManyMutationInput, AssignedTestUncheckedUpdateManyWithoutTestInput>
   }
 
+  export type SubTopicUpsertWithoutTestsInput = {
+    update: XOR<SubTopicUpdateWithoutTestsInput, SubTopicUncheckedUpdateWithoutTestsInput>
+    create: XOR<SubTopicCreateWithoutTestsInput, SubTopicUncheckedCreateWithoutTestsInput>
+    where?: SubTopicWhereInput
+  }
+
+  export type SubTopicUpdateToOneWithWhereWithoutTestsInput = {
+    where?: SubTopicWhereInput
+    data: XOR<SubTopicUpdateWithoutTestsInput, SubTopicUncheckedUpdateWithoutTestsInput>
+  }
+
+  export type SubTopicUpdateWithoutTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: TopicUpdateOneRequiredWithoutSubTopicsNestedInput
+  }
+
+  export type SubTopicUncheckedUpdateWithoutTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StudentCreateWithoutAssignedTestsInput = {
     id?: string
     name: string
@@ -11275,8 +15935,8 @@ export namespace Prisma {
 
   export type TestCreateWithoutAssignedToInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -11287,12 +15947,13 @@ export namespace Prisma {
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutAssignedToInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -11301,6 +15962,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId: string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
   }
@@ -11358,8 +16020,8 @@ export namespace Prisma {
 
   export type TestUpdateWithoutAssignedToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11370,12 +16032,13 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutAssignedToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11384,14 +16047,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
   }
 
   export type TestCreateWithoutTasksInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -11402,12 +16066,13 @@ export namespace Prisma {
     teacher: TeacherCreateNestedOneWithoutTestsInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutTasksInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -11416,6 +16081,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId: string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
@@ -11438,8 +16104,8 @@ export namespace Prisma {
 
   export type TestUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11450,12 +16116,13 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11464,14 +16131,125 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
 
+  export type TopicCreateManyAdminInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type TopicUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subTopics?: SubTopicUpdateManyWithoutTopicNestedInput
+  }
+
+  export type TopicUncheckedUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subTopics?: SubTopicUncheckedUpdateManyWithoutTopicNestedInput
+  }
+
+  export type TopicUncheckedUpdateManyWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubTopicCreateManyTopicInput = {
+    id?: string
+    name: string
+  }
+
+  export type SubTopicUpdateWithoutTopicInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tests?: TestUpdateManyWithoutSubTopicNestedInput
+  }
+
+  export type SubTopicUncheckedUpdateWithoutTopicInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tests?: TestUncheckedUpdateManyWithoutSubTopicNestedInput
+  }
+
+  export type SubTopicUncheckedUpdateManyWithoutTopicInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestCreateManySubTopicInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: string
+    status?: $Enums.TestStatus
+  }
+
+  export type TestUpdateWithoutSubTopicInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    tasks?: TaskUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateWithoutSubTopicInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateManyWithoutSubTopicInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+  }
+
   export type TestCreateManyTeacherInput = {
     id?: string
-    title: string
-    timeLimit: number
+    title?: string | null
+    timeLimit?: number | null
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
@@ -11479,12 +16257,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.TestStatus
+    subTopicId?: string | null
   }
 
   export type TestUpdateWithoutTeacherInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11495,12 +16274,13 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTeacherInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11508,6 +16288,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -11515,8 +16296,8 @@ export namespace Prisma {
 
   export type TestUncheckedUpdateManyWithoutTeacherInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    timeLimit?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11524,6 +16305,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StudentScoreCreateManyStudentInput = {

@@ -4,8 +4,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql"                             
   url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  status    Status   @default(Admin)
+  createdAt DateTime @default(now())
+  topics    Topic[]
+}
+
+model Topic {
+  id        String     @id @default(cuid())
+  name      String
+  adminId   String
+  admin     Admin      @relation(fields: [adminId], references: [id])
+  subTopics SubTopic[]
+  createdAt DateTime   @default(now())
+}
+
+model SubTopic {
+  id      String @id @default(cuid())
+  name    String
+  topicId String
+  topic   Topic  @relation(fields: [topicId], references: [id])
+  tests   Test[]
 }
 
 model Teacher {
@@ -54,8 +81,8 @@ model StudentScore {
 
 model Test {
   id          String   @id @default(cuid())
-  title       String
-  timeLimit   Int
+  title       String?
+  timeLimit   Int?
   description String?
   score       String?
   startTime   DateTime?
@@ -69,6 +96,8 @@ model Test {
   studentScores StudentScore[]
   status      TestStatus @default(PENDING)
   assignedTo  AssignedTest[]
+  subTopicId  String?
+  subTopic    SubTopic? @relation(fields: [subTopicId], references: [id])
 }
 
 model AssignedTest {
@@ -90,16 +119,17 @@ model Task {
   userAnsewer Json?
   pairs       Json?
   answers     Json?
-  testId      String
+  testId      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  test      Test @relation(fields: [testId], references: [id], onDelete: Cascade)
+  test        Test?     @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 enum Status {
   Teacher
   Student
+  Admin
 }
 
 enum TestStatus {

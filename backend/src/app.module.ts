@@ -7,9 +7,22 @@ import { LoginModule } from './login/login.module';
 import { StudentModule } from './student/student.module';
 import { TestModule } from './test/test.module';
 import { PerfomenceModule } from './perfomence/perfomence.module';
+import { AdminModule } from './admin/admin.module';
+import { TopicModule } from './topic/topic.module';
+import { SubtopicModule } from './subtopic/subtopic.module';
 
 @Module({
-  imports: [DatabaseModule, TeacherModule, LoginModule, StudentModule, TestModule, PerfomenceModule],
+  imports: [
+    DatabaseModule,
+    TeacherModule,
+    LoginModule,
+    StudentModule,
+    TestModule,
+    PerfomenceModule,
+    AdminModule,
+    TopicModule,
+    SubtopicModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

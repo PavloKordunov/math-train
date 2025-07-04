@@ -15,8 +15,6 @@ const CreateTestTask = ({
     setQuestion,
     toggleAnswerCorrect,
     handleSaveMatchingTask,
-    maxNumber,
-    setMaxNumber,
 }: any) => {
     const [base64, setBase64] = useState('')
 
@@ -67,14 +65,21 @@ const CreateTestTask = ({
         if (questionType === 'matching') {
             handleSaveMatchingTask()
         } else {
-            setTest((prev: any) => ({
-                ...prev,
-                tasks: [
-                    ...prev.tasks,
-                    { ...question, number: maxNumber, type: questionType },
-                ],
-            }))
-            setMaxNumber((prev: any) => prev + 1)
+            setTest((prev: any) => {
+                const newNumber = prev.tasks.length + 1
+
+                return {
+                    ...prev,
+                    tasks: [
+                        ...prev.tasks,
+                        {
+                            ...question,
+                            number: newNumber.toString(),
+                            type: questionType,
+                        },
+                    ],
+                }
+            })
             setQuestion({
                 title: '',
                 type: '',

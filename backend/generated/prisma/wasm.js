@@ -120,6 +120,28 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TopicScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  adminId: 'adminId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SubTopicScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  topicId: 'topicId'
+};
+
 exports.Prisma.TeacherScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -165,7 +187,8 @@ exports.Prisma.TestScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   teacherId: 'teacherId',
-  status: 'status'
+  status: 'status',
+  subTopicId: 'subTopicId'
 };
 
 exports.Prisma.AssignedTestScalarFieldEnum = {
@@ -217,7 +240,8 @@ exports.Prisma.NullsOrder = {
 };
 exports.Status = exports.$Enums.Status = {
   Teacher: 'Teacher',
-  Student: 'Student'
+  Student: 'Student',
+  Admin: 'Admin'
 };
 
 exports.TestStatus = exports.$Enums.TestStatus = {
@@ -227,6 +251,9 @@ exports.TestStatus = exports.$Enums.TestStatus = {
 };
 
 exports.Prisma.ModelName = {
+  Admin: 'Admin',
+  Topic: 'Topic',
+  SubTopic: 'SubTopic',
   Teacher: 'Teacher',
   Student: 'Student',
   StudentScore: 'StudentScore',
