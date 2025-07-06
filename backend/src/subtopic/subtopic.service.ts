@@ -24,6 +24,7 @@ export class SubtopicService {
                 data: {
                     name: createSubtopicDto.name,
                     topicId: createSubtopicDto.topicId,
+                    number: createSubtopicDto.number,
                 },
             })
         } catch (error) {
@@ -32,6 +33,16 @@ export class SubtopicService {
             }
             console.error('Failed to create SubTopic:', error)
             throw new InternalServerErrorException('Failed to create SubTopic')
+        }
+    }
+
+    async getSubTopicByTopicId(topicId: string) {
+        try {
+            return await this.databaseService.subTopic.findMany({
+                where: { topicId },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to get SubTopic')
         }
     }
 }

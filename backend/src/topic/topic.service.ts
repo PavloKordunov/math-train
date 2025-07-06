@@ -31,6 +31,16 @@ export class TopicService {
         }
     }
 
+    async getAllTopicsBySubject(subject: string) {
+        try {
+            return await this.databaseService.topic.findMany({
+                where: { subjectType: subject },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to get topics')
+        }
+    }
+
     async createTopic(createTopicDto: CreateTopicDto) {
         try {
             const existAdmin = await this.databaseService.admin.findUnique({
@@ -45,6 +55,8 @@ export class TopicService {
                 data: {
                     name: createTopicDto.name,
                     adminId: createTopicDto.adminId,
+                    number: createTopicDto.number,
+                    subjectType: createTopicDto.subjectType,
                 },
                 include: {
                     admin: {

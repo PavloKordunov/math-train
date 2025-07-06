@@ -371,7 +371,6 @@ const TestPage = () => {
                                             task={task}
                                             isSaved={isSaved}
                                             onSave={(userAnswers: any) => {
-                                                // Оновлюємо savedAnswers
                                                 const updatedAnswers = {
                                                     ...savedAnswers,
                                                     matching: {
@@ -381,14 +380,12 @@ const TestPage = () => {
                                                 }
                                                 setSavedAnswers(updatedAnswers)
 
-                                                // Оновлюємо answers для localStorage
                                                 handleAnswer(
                                                     task.id,
                                                     userAnswers,
                                                     task.type
                                                 )
                                             }}
-                                            // Важливо: передаємо оновлені відповіді назад у компонент
                                             savedMatches={
                                                 savedAnswers.matching[
                                                     task.id

@@ -126,12 +126,15 @@ exports.Prisma.AdminScalarFieldEnum = {
   email: 'email',
   password: 'password',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TopicScalarFieldEnum = {
   id: 'id',
+  subjectType: 'subjectType',
   name: 'name',
+  number: 'number',
   adminId: 'adminId',
   createdAt: 'createdAt'
 };
@@ -139,6 +142,7 @@ exports.Prisma.TopicScalarFieldEnum = {
 exports.Prisma.SubTopicScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  number: 'number',
   topicId: 'topicId'
 };
 
@@ -186,6 +190,7 @@ exports.Prisma.TestScalarFieldEnum = {
   endTime: 'endTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  testTYpe: 'testTYpe',
   teacherId: 'teacherId',
   status: 'status',
   subTopicId: 'subTopicId'

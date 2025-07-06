@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import { SubtopicService } from './subtopic.service'
 import { CreateSubtopicDto } from './dto/subtopicDto'
 
@@ -9,5 +9,10 @@ export class SubtopicController {
     @Post()
     createSubtopic(@Body() createSubtopicDto: CreateSubtopicDto) {
         return this.subtopicService.createSubtopic(createSubtopicDto)
+    }
+
+    @Get(':topicId')
+    getSubTopicByTopicId(@Param('topicId') topicId: string) {
+        return this.subtopicService.getSubTopicByTopicId(topicId)
     }
 }

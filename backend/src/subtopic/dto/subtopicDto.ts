@@ -8,4 +8,8 @@ export class CreateSubtopicDto {
     @IsUUID()
     @IsNotEmpty()
     topicId: string
+
+    @IsString()
+    @IsNotEmpty()
+    number: string
 }

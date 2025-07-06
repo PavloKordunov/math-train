@@ -1857,6 +1857,7 @@ export namespace Prisma {
     password: string | null
     status: $Enums.Status | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type AdminMaxAggregateOutputType = {
@@ -1866,6 +1867,7 @@ export namespace Prisma {
     password: string | null
     status: $Enums.Status | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type AdminCountAggregateOutputType = {
@@ -1875,6 +1877,7 @@ export namespace Prisma {
     password: number
     status: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -1886,6 +1889,7 @@ export namespace Prisma {
     password?: true
     status?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type AdminMaxAggregateInputType = {
@@ -1895,6 +1899,7 @@ export namespace Prisma {
     password?: true
     status?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type AdminCountAggregateInputType = {
@@ -1904,6 +1909,7 @@ export namespace Prisma {
     password?: true
     status?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -1986,6 +1992,7 @@ export namespace Prisma {
     password: string
     status: $Enums.Status
     createdAt: Date
+    updatedAt: Date
     _count: AdminCountAggregateOutputType | null
     _min: AdminMinAggregateOutputType | null
     _max: AdminMaxAggregateOutputType | null
@@ -2012,6 +2019,7 @@ export namespace Prisma {
     password?: boolean
     status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     topics?: boolean | Admin$topicsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["admin"]>
@@ -2023,6 +2031,7 @@ export namespace Prisma {
     password?: boolean
     status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["admin"]>
 
   export type AdminSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2032,6 +2041,7 @@ export namespace Prisma {
     password?: boolean
     status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["admin"]>
 
   export type AdminSelectScalar = {
@@ -2041,9 +2051,10 @@ export namespace Prisma {
     password?: boolean
     status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "status" | "createdAt", ExtArgs["result"]["admin"]>
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topics?: boolean | Admin$topicsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
@@ -2063,6 +2074,7 @@ export namespace Prisma {
       password: string
       status: $Enums.Status
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["admin"]>
     composites: {}
   }
@@ -2493,6 +2505,7 @@ export namespace Prisma {
     readonly password: FieldRef<"Admin", 'String'>
     readonly status: FieldRef<"Admin", 'Status'>
     readonly createdAt: FieldRef<"Admin", 'DateTime'>
+    readonly updatedAt: FieldRef<"Admin", 'DateTime'>
   }
     
 
@@ -2935,21 +2948,27 @@ export namespace Prisma {
 
   export type TopicMinAggregateOutputType = {
     id: string | null
+    subjectType: string | null
     name: string | null
+    number: string | null
     adminId: string | null
     createdAt: Date | null
   }
 
   export type TopicMaxAggregateOutputType = {
     id: string | null
+    subjectType: string | null
     name: string | null
+    number: string | null
     adminId: string | null
     createdAt: Date | null
   }
 
   export type TopicCountAggregateOutputType = {
     id: number
+    subjectType: number
     name: number
+    number: number
     adminId: number
     createdAt: number
     _all: number
@@ -2958,21 +2977,27 @@ export namespace Prisma {
 
   export type TopicMinAggregateInputType = {
     id?: true
+    subjectType?: true
     name?: true
+    number?: true
     adminId?: true
     createdAt?: true
   }
 
   export type TopicMaxAggregateInputType = {
     id?: true
+    subjectType?: true
     name?: true
+    number?: true
     adminId?: true
     createdAt?: true
   }
 
   export type TopicCountAggregateInputType = {
     id?: true
+    subjectType?: true
     name?: true
+    number?: true
     adminId?: true
     createdAt?: true
     _all?: true
@@ -3052,7 +3077,9 @@ export namespace Prisma {
 
   export type TopicGroupByOutputType = {
     id: string
+    subjectType: string
     name: string
+    number: string
     adminId: string
     createdAt: Date
     _count: TopicCountAggregateOutputType | null
@@ -3076,7 +3103,9 @@ export namespace Prisma {
 
   export type TopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    subjectType?: boolean
     name?: boolean
+    number?: boolean
     adminId?: boolean
     createdAt?: boolean
     admin?: boolean | AdminDefaultArgs<ExtArgs>
@@ -3086,7 +3115,9 @@ export namespace Prisma {
 
   export type TopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    subjectType?: boolean
     name?: boolean
+    number?: boolean
     adminId?: boolean
     createdAt?: boolean
     admin?: boolean | AdminDefaultArgs<ExtArgs>
@@ -3094,7 +3125,9 @@ export namespace Prisma {
 
   export type TopicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    subjectType?: boolean
     name?: boolean
+    number?: boolean
     adminId?: boolean
     createdAt?: boolean
     admin?: boolean | AdminDefaultArgs<ExtArgs>
@@ -3102,12 +3135,14 @@ export namespace Prisma {
 
   export type TopicSelectScalar = {
     id?: boolean
+    subjectType?: boolean
     name?: boolean
+    number?: boolean
     adminId?: boolean
     createdAt?: boolean
   }
 
-  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "adminId" | "createdAt", ExtArgs["result"]["topic"]>
+  export type TopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "subjectType" | "name" | "number" | "adminId" | "createdAt", ExtArgs["result"]["topic"]>
   export type TopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | AdminDefaultArgs<ExtArgs>
     subTopics?: boolean | Topic$subTopicsArgs<ExtArgs>
@@ -3128,7 +3163,9 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      subjectType: string
       name: string
+      number: string
       adminId: string
       createdAt: Date
     }, ExtArgs["result"]["topic"]>
@@ -3557,7 +3594,9 @@ export namespace Prisma {
    */
   interface TopicFieldRefs {
     readonly id: FieldRef<"Topic", 'String'>
+    readonly subjectType: FieldRef<"Topic", 'String'>
     readonly name: FieldRef<"Topic", 'String'>
+    readonly number: FieldRef<"Topic", 'String'>
     readonly adminId: FieldRef<"Topic", 'String'>
     readonly createdAt: FieldRef<"Topic", 'DateTime'>
   }
@@ -4011,18 +4050,21 @@ export namespace Prisma {
   export type SubTopicMinAggregateOutputType = {
     id: string | null
     name: string | null
+    number: string | null
     topicId: string | null
   }
 
   export type SubTopicMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    number: string | null
     topicId: string | null
   }
 
   export type SubTopicCountAggregateOutputType = {
     id: number
     name: number
+    number: number
     topicId: number
     _all: number
   }
@@ -4031,18 +4073,21 @@ export namespace Prisma {
   export type SubTopicMinAggregateInputType = {
     id?: true
     name?: true
+    number?: true
     topicId?: true
   }
 
   export type SubTopicMaxAggregateInputType = {
     id?: true
     name?: true
+    number?: true
     topicId?: true
   }
 
   export type SubTopicCountAggregateInputType = {
     id?: true
     name?: true
+    number?: true
     topicId?: true
     _all?: true
   }
@@ -4122,6 +4167,7 @@ export namespace Prisma {
   export type SubTopicGroupByOutputType = {
     id: string
     name: string
+    number: string
     topicId: string
     _count: SubTopicCountAggregateOutputType | null
     _min: SubTopicMinAggregateOutputType | null
@@ -4145,6 +4191,7 @@ export namespace Prisma {
   export type SubTopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    number?: boolean
     topicId?: boolean
     topic?: boolean | TopicDefaultArgs<ExtArgs>
     tests?: boolean | SubTopic$testsArgs<ExtArgs>
@@ -4154,6 +4201,7 @@ export namespace Prisma {
   export type SubTopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    number?: boolean
     topicId?: boolean
     topic?: boolean | TopicDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subTopic"]>
@@ -4161,6 +4209,7 @@ export namespace Prisma {
   export type SubTopicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    number?: boolean
     topicId?: boolean
     topic?: boolean | TopicDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subTopic"]>
@@ -4168,10 +4217,11 @@ export namespace Prisma {
   export type SubTopicSelectScalar = {
     id?: boolean
     name?: boolean
+    number?: boolean
     topicId?: boolean
   }
 
-  export type SubTopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "topicId", ExtArgs["result"]["subTopic"]>
+  export type SubTopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "number" | "topicId", ExtArgs["result"]["subTopic"]>
   export type SubTopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topic?: boolean | TopicDefaultArgs<ExtArgs>
     tests?: boolean | SubTopic$testsArgs<ExtArgs>
@@ -4193,6 +4243,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      number: string
       topicId: string
     }, ExtArgs["result"]["subTopic"]>
     composites: {}
@@ -4621,6 +4672,7 @@ export namespace Prisma {
   interface SubTopicFieldRefs {
     readonly id: FieldRef<"SubTopic", 'String'>
     readonly name: FieldRef<"SubTopic", 'String'>
+    readonly number: FieldRef<"SubTopic", 'String'>
     readonly topicId: FieldRef<"SubTopic", 'String'>
   }
     
@@ -8488,6 +8540,7 @@ export namespace Prisma {
     endTime: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    testTYpe: string | null
     teacherId: string | null
     status: $Enums.TestStatus | null
     subTopicId: string | null
@@ -8503,6 +8556,7 @@ export namespace Prisma {
     endTime: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    testTYpe: string | null
     teacherId: string | null
     status: $Enums.TestStatus | null
     subTopicId: string | null
@@ -8518,6 +8572,7 @@ export namespace Prisma {
     endTime: number
     createdAt: number
     updatedAt: number
+    testTYpe: number
     teacherId: number
     status: number
     subTopicId: number
@@ -8543,6 +8598,7 @@ export namespace Prisma {
     endTime?: true
     createdAt?: true
     updatedAt?: true
+    testTYpe?: true
     teacherId?: true
     status?: true
     subTopicId?: true
@@ -8558,6 +8614,7 @@ export namespace Prisma {
     endTime?: true
     createdAt?: true
     updatedAt?: true
+    testTYpe?: true
     teacherId?: true
     status?: true
     subTopicId?: true
@@ -8573,6 +8630,7 @@ export namespace Prisma {
     endTime?: true
     createdAt?: true
     updatedAt?: true
+    testTYpe?: true
     teacherId?: true
     status?: true
     subTopicId?: true
@@ -8675,6 +8733,7 @@ export namespace Prisma {
     endTime: Date | null
     createdAt: Date
     updatedAt: Date
+    testTYpe: string | null
     teacherId: string
     status: $Enums.TestStatus
     subTopicId: string | null
@@ -8709,6 +8768,7 @@ export namespace Prisma {
     endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    testTYpe?: boolean
     teacherId?: boolean
     status?: boolean
     subTopicId?: boolean
@@ -8730,6 +8790,7 @@ export namespace Prisma {
     endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    testTYpe?: boolean
     teacherId?: boolean
     status?: boolean
     subTopicId?: boolean
@@ -8747,6 +8808,7 @@ export namespace Prisma {
     endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    testTYpe?: boolean
     teacherId?: boolean
     status?: boolean
     subTopicId?: boolean
@@ -8764,12 +8826,13 @@ export namespace Prisma {
     endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    testTYpe?: boolean
     teacherId?: boolean
     status?: boolean
     subTopicId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "teacherId" | "status" | "subTopicId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "testTYpe" | "teacherId" | "status" | "subTopicId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | TeacherDefaultArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
@@ -8806,6 +8869,7 @@ export namespace Prisma {
       endTime: Date | null
       createdAt: Date
       updatedAt: Date
+      testTYpe: string | null
       teacherId: string
       status: $Enums.TestStatus
       subTopicId: string | null
@@ -9246,6 +9310,7 @@ export namespace Prisma {
     readonly endTime: FieldRef<"Test", 'DateTime'>
     readonly createdAt: FieldRef<"Test", 'DateTime'>
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
+    readonly testTYpe: FieldRef<"Test", 'String'>
     readonly teacherId: FieldRef<"Test", 'String'>
     readonly status: FieldRef<"Test", 'TestStatus'>
     readonly subTopicId: FieldRef<"Test", 'String'>
@@ -11983,7 +12048,8 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     status: 'status',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
@@ -11991,7 +12057,9 @@ export namespace Prisma {
 
   export const TopicScalarFieldEnum: {
     id: 'id',
+    subjectType: 'subjectType',
     name: 'name',
+    number: 'number',
     adminId: 'adminId',
     createdAt: 'createdAt'
   };
@@ -12002,6 +12070,7 @@ export namespace Prisma {
   export const SubTopicScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    number: 'number',
     topicId: 'topicId'
   };
 
@@ -12061,6 +12130,7 @@ export namespace Prisma {
     endTime: 'endTime',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    testTYpe: 'testTYpe',
     teacherId: 'teacherId',
     status: 'status',
     subTopicId: 'subTopicId'
@@ -12261,6 +12331,7 @@ export namespace Prisma {
     password?: StringFilter<"Admin"> | string
     status?: EnumStatusFilter<"Admin"> | $Enums.Status
     createdAt?: DateTimeFilter<"Admin"> | Date | string
+    updatedAt?: DateTimeFilter<"Admin"> | Date | string
     topics?: TopicListRelationFilter
   }
 
@@ -12271,6 +12342,7 @@ export namespace Prisma {
     password?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     topics?: TopicOrderByRelationAggregateInput
   }
 
@@ -12284,6 +12356,7 @@ export namespace Prisma {
     password?: StringFilter<"Admin"> | string
     status?: EnumStatusFilter<"Admin"> | $Enums.Status
     createdAt?: DateTimeFilter<"Admin"> | Date | string
+    updatedAt?: DateTimeFilter<"Admin"> | Date | string
     topics?: TopicListRelationFilter
   }, "id" | "email">
 
@@ -12294,6 +12367,7 @@ export namespace Prisma {
     password?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: AdminCountOrderByAggregateInput
     _max?: AdminMaxOrderByAggregateInput
     _min?: AdminMinOrderByAggregateInput
@@ -12309,6 +12383,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"Admin"> | string
     status?: EnumStatusWithAggregatesFilter<"Admin"> | $Enums.Status
     createdAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
   }
 
   export type TopicWhereInput = {
@@ -12316,7 +12391,9 @@ export namespace Prisma {
     OR?: TopicWhereInput[]
     NOT?: TopicWhereInput | TopicWhereInput[]
     id?: StringFilter<"Topic"> | string
+    subjectType?: StringFilter<"Topic"> | string
     name?: StringFilter<"Topic"> | string
+    number?: StringFilter<"Topic"> | string
     adminId?: StringFilter<"Topic"> | string
     createdAt?: DateTimeFilter<"Topic"> | Date | string
     admin?: XOR<AdminScalarRelationFilter, AdminWhereInput>
@@ -12325,7 +12402,9 @@ export namespace Prisma {
 
   export type TopicOrderByWithRelationInput = {
     id?: SortOrder
+    subjectType?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
     admin?: AdminOrderByWithRelationInput
@@ -12337,7 +12416,9 @@ export namespace Prisma {
     AND?: TopicWhereInput | TopicWhereInput[]
     OR?: TopicWhereInput[]
     NOT?: TopicWhereInput | TopicWhereInput[]
+    subjectType?: StringFilter<"Topic"> | string
     name?: StringFilter<"Topic"> | string
+    number?: StringFilter<"Topic"> | string
     adminId?: StringFilter<"Topic"> | string
     createdAt?: DateTimeFilter<"Topic"> | Date | string
     admin?: XOR<AdminScalarRelationFilter, AdminWhereInput>
@@ -12346,7 +12427,9 @@ export namespace Prisma {
 
   export type TopicOrderByWithAggregationInput = {
     id?: SortOrder
+    subjectType?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
     _count?: TopicCountOrderByAggregateInput
@@ -12359,7 +12442,9 @@ export namespace Prisma {
     OR?: TopicScalarWhereWithAggregatesInput[]
     NOT?: TopicScalarWhereWithAggregatesInput | TopicScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Topic"> | string
+    subjectType?: StringWithAggregatesFilter<"Topic"> | string
     name?: StringWithAggregatesFilter<"Topic"> | string
+    number?: StringWithAggregatesFilter<"Topic"> | string
     adminId?: StringWithAggregatesFilter<"Topic"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Topic"> | Date | string
   }
@@ -12370,6 +12455,7 @@ export namespace Prisma {
     NOT?: SubTopicWhereInput | SubTopicWhereInput[]
     id?: StringFilter<"SubTopic"> | string
     name?: StringFilter<"SubTopic"> | string
+    number?: StringFilter<"SubTopic"> | string
     topicId?: StringFilter<"SubTopic"> | string
     topic?: XOR<TopicScalarRelationFilter, TopicWhereInput>
     tests?: TestListRelationFilter
@@ -12378,6 +12464,7 @@ export namespace Prisma {
   export type SubTopicOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     topicId?: SortOrder
     topic?: TopicOrderByWithRelationInput
     tests?: TestOrderByRelationAggregateInput
@@ -12389,6 +12476,7 @@ export namespace Prisma {
     OR?: SubTopicWhereInput[]
     NOT?: SubTopicWhereInput | SubTopicWhereInput[]
     name?: StringFilter<"SubTopic"> | string
+    number?: StringFilter<"SubTopic"> | string
     topicId?: StringFilter<"SubTopic"> | string
     topic?: XOR<TopicScalarRelationFilter, TopicWhereInput>
     tests?: TestListRelationFilter
@@ -12397,6 +12485,7 @@ export namespace Prisma {
   export type SubTopicOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     topicId?: SortOrder
     _count?: SubTopicCountOrderByAggregateInput
     _max?: SubTopicMaxOrderByAggregateInput
@@ -12409,6 +12498,7 @@ export namespace Prisma {
     NOT?: SubTopicScalarWhereWithAggregatesInput | SubTopicScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"SubTopic"> | string
     name?: StringWithAggregatesFilter<"SubTopic"> | string
+    number?: StringWithAggregatesFilter<"SubTopic"> | string
     topicId?: StringWithAggregatesFilter<"SubTopic"> | string
   }
 
@@ -12648,6 +12738,7 @@ export namespace Prisma {
     endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
+    testTYpe?: StringNullableFilter<"Test"> | string | null
     teacherId?: StringFilter<"Test"> | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
@@ -12668,6 +12759,7 @@ export namespace Prisma {
     endTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    testTYpe?: SortOrderInput | SortOrder
     teacherId?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrderInput | SortOrder
@@ -12691,6 +12783,7 @@ export namespace Prisma {
     endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
+    testTYpe?: StringNullableFilter<"Test"> | string | null
     teacherId?: StringFilter<"Test"> | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
@@ -12711,6 +12804,7 @@ export namespace Prisma {
     endTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    testTYpe?: SortOrderInput | SortOrder
     teacherId?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrderInput | SortOrder
@@ -12734,6 +12828,7 @@ export namespace Prisma {
     endTime?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
+    testTYpe?: StringNullableWithAggregatesFilter<"Test"> | string | null
     teacherId?: StringWithAggregatesFilter<"Test"> | string
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableWithAggregatesFilter<"Test"> | string | null
@@ -12889,6 +12984,7 @@ export namespace Prisma {
     password: string
     status?: $Enums.Status
     createdAt?: Date | string
+    updatedAt?: Date | string
     topics?: TopicCreateNestedManyWithoutAdminInput
   }
 
@@ -12899,6 +12995,7 @@ export namespace Prisma {
     password: string
     status?: $Enums.Status
     createdAt?: Date | string
+    updatedAt?: Date | string
     topics?: TopicUncheckedCreateNestedManyWithoutAdminInput
   }
 
@@ -12909,6 +13006,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     topics?: TopicUpdateManyWithoutAdminNestedInput
   }
 
@@ -12919,6 +13017,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     topics?: TopicUncheckedUpdateManyWithoutAdminNestedInput
   }
 
@@ -12929,6 +13028,7 @@ export namespace Prisma {
     password: string
     status?: $Enums.Status
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AdminUpdateManyMutationInput = {
@@ -12938,6 +13038,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AdminUncheckedUpdateManyInput = {
@@ -12947,11 +13048,14 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopicCreateInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     createdAt?: Date | string
     admin: AdminCreateNestedOneWithoutTopicsInput
     subTopics?: SubTopicCreateNestedManyWithoutTopicInput
@@ -12959,7 +13063,9 @@ export namespace Prisma {
 
   export type TopicUncheckedCreateInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     adminId: string
     createdAt?: Date | string
     subTopics?: SubTopicUncheckedCreateNestedManyWithoutTopicInput
@@ -12967,7 +13073,9 @@ export namespace Prisma {
 
   export type TopicUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: AdminUpdateOneRequiredWithoutTopicsNestedInput
     subTopics?: SubTopicUpdateManyWithoutTopicNestedInput
@@ -12975,7 +13083,9 @@ export namespace Prisma {
 
   export type TopicUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subTopics?: SubTopicUncheckedUpdateManyWithoutTopicNestedInput
@@ -12983,20 +13093,26 @@ export namespace Prisma {
 
   export type TopicCreateManyInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     adminId: string
     createdAt?: Date | string
   }
 
   export type TopicUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopicUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13004,6 +13120,7 @@ export namespace Prisma {
   export type SubTopicCreateInput = {
     id?: string
     name: string
+    number: string
     topic: TopicCreateNestedOneWithoutSubTopicsInput
     tests?: TestCreateNestedManyWithoutSubTopicInput
   }
@@ -13011,6 +13128,7 @@ export namespace Prisma {
   export type SubTopicUncheckedCreateInput = {
     id?: string
     name: string
+    number: string
     topicId: string
     tests?: TestUncheckedCreateNestedManyWithoutSubTopicInput
   }
@@ -13018,6 +13136,7 @@ export namespace Prisma {
   export type SubTopicUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     topic?: TopicUpdateOneRequiredWithoutSubTopicsNestedInput
     tests?: TestUpdateManyWithoutSubTopicNestedInput
   }
@@ -13025,6 +13144,7 @@ export namespace Prisma {
   export type SubTopicUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     topicId?: StringFieldUpdateOperationsInput | string
     tests?: TestUncheckedUpdateManyWithoutSubTopicNestedInput
   }
@@ -13032,17 +13152,20 @@ export namespace Prisma {
   export type SubTopicCreateManyInput = {
     id?: string
     name: string
+    number: string
     topicId: string
   }
 
   export type SubTopicUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubTopicUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     topicId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13304,6 +13427,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
@@ -13322,6 +13446,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
     subTopicId?: string | null
@@ -13340,6 +13465,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
@@ -13358,6 +13484,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13376,6 +13503,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
     subTopicId?: string | null
@@ -13391,6 +13519,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
   }
 
@@ -13404,6 +13533,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13610,6 +13740,7 @@ export namespace Prisma {
     password?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AdminMaxOrderByAggregateInput = {
@@ -13619,6 +13750,7 @@ export namespace Prisma {
     password?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AdminMinOrderByAggregateInput = {
@@ -13628,6 +13760,7 @@ export namespace Prisma {
     password?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13689,21 +13822,27 @@ export namespace Prisma {
 
   export type TopicCountOrderByAggregateInput = {
     id?: SortOrder
+    subjectType?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type TopicMaxOrderByAggregateInput = {
     id?: SortOrder
+    subjectType?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type TopicMinOrderByAggregateInput = {
     id?: SortOrder
+    subjectType?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
   }
@@ -13726,18 +13865,21 @@ export namespace Prisma {
   export type SubTopicCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     topicId?: SortOrder
   }
 
   export type SubTopicMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     topicId?: SortOrder
   }
 
   export type SubTopicMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    number?: SortOrder
     topicId?: SortOrder
   }
 
@@ -14049,6 +14191,7 @@ export namespace Prisma {
     endTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    testTYpe?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
@@ -14068,6 +14211,7 @@ export namespace Prisma {
     endTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    testTYpe?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
@@ -14083,6 +14227,7 @@ export namespace Prisma {
     endTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    testTYpe?: SortOrder
     teacherId?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
@@ -15057,14 +15202,18 @@ export namespace Prisma {
 
   export type TopicCreateWithoutAdminInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     createdAt?: Date | string
     subTopics?: SubTopicCreateNestedManyWithoutTopicInput
   }
 
   export type TopicUncheckedCreateWithoutAdminInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     createdAt?: Date | string
     subTopics?: SubTopicUncheckedCreateNestedManyWithoutTopicInput
   }
@@ -15100,7 +15249,9 @@ export namespace Prisma {
     OR?: TopicScalarWhereInput[]
     NOT?: TopicScalarWhereInput | TopicScalarWhereInput[]
     id?: StringFilter<"Topic"> | string
+    subjectType?: StringFilter<"Topic"> | string
     name?: StringFilter<"Topic"> | string
+    number?: StringFilter<"Topic"> | string
     adminId?: StringFilter<"Topic"> | string
     createdAt?: DateTimeFilter<"Topic"> | Date | string
   }
@@ -15112,6 +15263,7 @@ export namespace Prisma {
     password: string
     status?: $Enums.Status
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AdminUncheckedCreateWithoutTopicsInput = {
@@ -15121,6 +15273,7 @@ export namespace Prisma {
     password: string
     status?: $Enums.Status
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AdminCreateOrConnectWithoutTopicsInput = {
@@ -15131,12 +15284,14 @@ export namespace Prisma {
   export type SubTopicCreateWithoutTopicInput = {
     id?: string
     name: string
+    number: string
     tests?: TestCreateNestedManyWithoutSubTopicInput
   }
 
   export type SubTopicUncheckedCreateWithoutTopicInput = {
     id?: string
     name: string
+    number: string
     tests?: TestUncheckedCreateNestedManyWithoutSubTopicInput
   }
 
@@ -15168,6 +15323,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AdminUncheckedUpdateWithoutTopicsInput = {
@@ -15177,6 +15333,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubTopicUpsertWithWhereUniqueWithoutTopicInput = {
@@ -15201,19 +15358,24 @@ export namespace Prisma {
     NOT?: SubTopicScalarWhereInput | SubTopicScalarWhereInput[]
     id?: StringFilter<"SubTopic"> | string
     name?: StringFilter<"SubTopic"> | string
+    number?: StringFilter<"SubTopic"> | string
     topicId?: StringFilter<"SubTopic"> | string
   }
 
   export type TopicCreateWithoutSubTopicsInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     createdAt?: Date | string
     admin: AdminCreateNestedOneWithoutTopicsInput
   }
 
   export type TopicUncheckedCreateWithoutSubTopicsInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     adminId: string
     createdAt?: Date | string
   }
@@ -15233,6 +15395,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
@@ -15250,6 +15413,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
@@ -15280,14 +15444,18 @@ export namespace Prisma {
 
   export type TopicUpdateWithoutSubTopicsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: AdminUpdateOneRequiredWithoutTopicsNestedInput
   }
 
   export type TopicUncheckedUpdateWithoutSubTopicsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15321,6 +15489,7 @@ export namespace Prisma {
     endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
+    testTYpe?: StringNullableFilter<"Test"> | string | null
     teacherId?: StringFilter<"Test"> | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
@@ -15336,6 +15505,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
@@ -15353,6 +15523,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
@@ -15539,6 +15710,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
@@ -15556,6 +15728,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
     subTopicId?: string | null
@@ -15624,6 +15797,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
@@ -15641,6 +15815,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15770,12 +15945,14 @@ export namespace Prisma {
   export type SubTopicCreateWithoutTestsInput = {
     id?: string
     name: string
+    number: string
     topic: TopicCreateNestedOneWithoutSubTopicsInput
   }
 
   export type SubTopicUncheckedCreateWithoutTestsInput = {
     id?: string
     name: string
+    number: string
     topicId: string
   }
 
@@ -15895,12 +16072,14 @@ export namespace Prisma {
   export type SubTopicUpdateWithoutTestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     topic?: TopicUpdateOneRequiredWithoutSubTopicsNestedInput
   }
 
   export type SubTopicUncheckedUpdateWithoutTestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     topicId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -15943,6 +16122,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
@@ -15960,6 +16140,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
     subTopicId?: string | null
@@ -16028,6 +16209,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
@@ -16045,6 +16227,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16062,6 +16245,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     teacher: TeacherCreateNestedOneWithoutTestsInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
@@ -16079,6 +16263,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
     subTopicId?: string | null
@@ -16112,6 +16297,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
@@ -16129,6 +16315,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16138,50 +16325,62 @@ export namespace Prisma {
 
   export type TopicCreateManyAdminInput = {
     id?: string
+    subjectType: string
     name: string
+    number: string
     createdAt?: Date | string
   }
 
   export type TopicUpdateWithoutAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subTopics?: SubTopicUpdateManyWithoutTopicNestedInput
   }
 
   export type TopicUncheckedUpdateWithoutAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subTopics?: SubTopicUncheckedUpdateManyWithoutTopicNestedInput
   }
 
   export type TopicUncheckedUpdateManyWithoutAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subjectType?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubTopicCreateManyTopicInput = {
     id?: string
     name: string
+    number: string
   }
 
   export type SubTopicUpdateWithoutTopicInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     tests?: TestUpdateManyWithoutSubTopicNestedInput
   }
 
   export type SubTopicUncheckedUpdateWithoutTopicInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
     tests?: TestUncheckedUpdateManyWithoutSubTopicNestedInput
   }
 
   export type SubTopicUncheckedUpdateManyWithoutTopicInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
   }
 
   export type TestCreateManySubTopicInput = {
@@ -16194,6 +16393,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     teacherId: string
     status?: $Enums.TestStatus
   }
@@ -16208,6 +16408,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
@@ -16225,6 +16426,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
@@ -16242,6 +16444,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: StringFieldUpdateOperationsInput | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
   }
@@ -16256,6 +16459,7 @@ export namespace Prisma {
     endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    testTYpe?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
   }
@@ -16270,6 +16474,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
@@ -16287,6 +16492,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
@@ -16304,6 +16510,7 @@ export namespace Prisma {
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
   }

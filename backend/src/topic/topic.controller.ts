@@ -8,8 +8,13 @@ export class TopicController {
     constructor(private readonly topicService: TopicService) {}
 
     @Get()
-    detAAllTopics() {
+    getAllTopics() {
         return this.topicService.getAllTopics()
+    }
+
+    @Get(':subject')
+    getAllTopicsBySubject(@Param('subject') subject: string) {
+        return this.topicService.getAllTopicsBySubject(subject)
     }
 
     @Post()

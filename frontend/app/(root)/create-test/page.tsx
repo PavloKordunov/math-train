@@ -270,8 +270,6 @@ const CreateTest = () => {
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
-                // maxNumber={maxNumber}
-                // setMaxNumber={setMaxNumber}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button

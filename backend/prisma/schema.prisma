@@ -15,21 +15,25 @@ model Admin {
   password  String
   status    Status   @default(Admin)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   topics    Topic[]
 }
 
 model Topic {
-  id        String     @id @default(cuid())
-  name      String
-  adminId   String
-  admin     Admin      @relation(fields: [adminId], references: [id])
-  subTopics SubTopic[]
-  createdAt DateTime   @default(now())
+  id          String     @id @default(cuid())
+  subjectType String
+  name        String
+  number      String
+  adminId     String
+  admin       Admin      @relation(fields: [adminId], references: [id])
+  subTopics   SubTopic[]
+  createdAt   DateTime   @default(now())
 }
 
 model SubTopic {
   id      String @id @default(cuid())
   name    String
+  number  String
   topicId String
   topic   Topic  @relation(fields: [topicId], references: [id])
   tests   Test[]
@@ -89,6 +93,7 @@ model Test {
   endTime     DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  testTYpe    String?
 
   teacherId   String
   teacher     Teacher @relation(fields: [teacherId], references: [id])

@@ -26,11 +26,11 @@ const NavBar = () => {
         if (user?.status === 'Student') {
             if (pathname === '/home') return 'home'
             if (pathname === '/perfomence') return 'map'
-        } else {
+        } else if (user?.status === 'Teacher') {
             if (pathname === '/teacher') return 'home'
             if (pathname === '/teacher-performance') return 'map'
+            if (pathname === '/topic-tests') return 'tests'
         }
-        if (pathname === '/topic-tests') return 'tests'
         return ''
     }
 

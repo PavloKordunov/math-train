@@ -9,4 +9,12 @@ export class CreateTopicDto {
     @IsString()
     @IsNotEmpty()
     adminId
+
+    @IsString()
+    @IsNotEmpty()
+    number
+
+    @IsString()
+    @IsNotEmpty()
+    subjectType
 }
