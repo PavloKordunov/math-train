@@ -17,6 +17,7 @@ model Admin {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   topics    Topic[]
+  tests     Test[]
 }
 
 model Topic {
@@ -95,8 +96,10 @@ model Test {
   updatedAt   DateTime @updatedAt
   testTYpe    String?
 
-  teacherId   String
-  teacher     Teacher @relation(fields: [teacherId], references: [id])
+  teacherId   String?
+  teacher     Teacher? @relation(fields: [teacherId], references: [id])
+  adminID     String?
+  admin       Admin?   @relation(fields: [adminID], references: [id])
   tasks       Task[]  
   studentScores StudentScore[]
   status      TestStatus @default(PENDING)

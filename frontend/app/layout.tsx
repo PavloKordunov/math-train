@@ -1,40 +1,40 @@
 'use client'
 
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import "mathlive";
+import { Geist, Geist_Mono } from 'next/font/google'
+import './globals.css'
+import 'mathlive'
 
-import { SessionProvider } from "next-auth/react";
-import { UserProvider} from "@/hooks/useUser";
-import MathJaxProvider from "@/helpers/MathJaxProvider";
+import { SessionProvider } from 'next-auth/react'
+import { UserProvider } from '@/hooks/useUser'
+import MathJaxProvider from '@/helpers/MathJaxProvider'
+import { SubTopicProvider } from '@/helpers/getSubTopicId'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
+})
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <SessionProvider>
-          <UserProvider>
-              {children}
-          </UserProvider>
-        </SessionProvider>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                <SessionProvider>
+                    <SubTopicProvider>
+                        <UserProvider>{children}</UserProvider>
+                    </SubTopicProvider>
+                </SessionProvider>
+            </body>
+        </html>
+    )
 }

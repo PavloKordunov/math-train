@@ -1,25 +1,28 @@
-import { IsArray, IsDateString, IsInt, IsString } from 'class-validator';
-import { CreateTaskDto } from './createTaskDto';
+import { IsArray, IsDateString, IsInt, IsString } from 'class-validator'
+import { CreateTaskDto } from './createTaskDto'
 
 export class CreateTestDto {
-  @IsString()
-  title: string;
+    @IsString()
+    title: string
 
-  @IsInt()
-  timeLimit: number;
+    @IsInt()
+    timeLimit: number
 
-  @IsString()
-  description: string;
+    @IsString()
+    description: string
 
-  @IsDateString()
-  startTime: string;
+    @IsDateString()
+    startTime: string
 
-  @IsDateString()
-  endTime: string;
+    @IsDateString()
+    endTime: string
 
-  @IsString()
-  teacherId: string;
+    @IsString()
+    teacherId: string
 
-  @IsArray()
-  tasks: CreateTaskDto[];
+    @IsString()
+    adminID: string
+
+    @IsArray()
+    tasks: CreateTaskDto[]
 }

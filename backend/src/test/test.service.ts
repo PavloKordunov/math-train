@@ -24,6 +24,22 @@ export class TestService {
         }
     }
 
+    async getTopicTest(topicId: string) {
+        try {
+            return this.databaseService.test.findMany({
+                where: {
+                    adminID: {
+                        not: null,
+                    },
+                    subTopicId: topicId,
+                },
+                include: { tasks: true },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
+
     async getTestId(id: string) {
         try {
             const test: any = await this.databaseService.test.findUnique({
@@ -71,19 +87,33 @@ export class TestService {
 
     async createTest(createTestDto: CreateTestDto) {
         try {
-            const { tasks, ...testData } = createTestDto
+            const { tasks, teacherId, endTime, ...rest } = createTestDto
 
-            const teacher = await this.databaseService.teacher.findUnique({
-                where: { id: testData.teacherId },
-            })
+            let adminID: string | null = null
 
-            if (!teacher) {
-                throw new NotFoundException('User not found')
+            if (teacherId) {
+                const teacher = await this.databaseService.teacher.findUnique({
+                    where: { id: teacherId },
+                })
+                if (!teacher) throw new NotFoundException('Teacher not found')
+            } else if (rest.adminID) {
+                const admin = await this.databaseService.admin.findUnique({
+                    where: { id: rest.adminID },
+                })
+                if (!admin) throw new NotFoundException('Admin not found')
+                adminID = admin.id
+            } else {
+                throw new BadRequestException(
+                    'Either teacherId or adminID must be provided'
+                )
             }
 
             return this.databaseService.test.create({
                 data: {
-                    ...testData,
+                    ...rest,
+                    ...(teacherId ? { teacherId } : {}),
+                    ...(endTime ? { endTime: new Date(endTime) } : {}),
+                    adminID,
                     tasks: {
                         create: tasks.map((t, index) => ({
                             title: t.title ?? 'Untitled Task',
@@ -250,6 +280,16 @@ export class TestService {
             if (!currentTest) {
                 throw new NotFoundException(`Test with ID ${id} not found`)
             }
+
+            await this.databaseService.test.update({
+                where: { id },
+                data: {
+                    ...testData,
+                    ...(testData.endTime
+                        ? { endTime: new Date(testData.endTime) }
+                        : {}),
+                },
+            })
 
             const currentTaskIds = currentTest.tasks.map((task) => task.id)
             const incomingTaskIds = tasks.filter((t) => !!t.id).map((t) => t.id)

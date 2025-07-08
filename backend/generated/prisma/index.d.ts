@@ -1629,10 +1629,12 @@ export namespace Prisma {
 
   export type AdminCountOutputType = {
     topics: number
+    tests: number
   }
 
   export type AdminCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topics?: boolean | AdminCountOutputTypeCountTopicsArgs
+    tests?: boolean | AdminCountOutputTypeCountTestsArgs
   }
 
   // Custom InputTypes
@@ -1651,6 +1653,13 @@ export namespace Prisma {
    */
   export type AdminCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TopicWhereInput
+  }
+
+  /**
+   * AdminCountOutputType without action
+   */
+  export type AdminCountOutputTypeCountTestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestWhereInput
   }
 
 
@@ -2021,6 +2030,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     topics?: boolean | Admin$topicsArgs<ExtArgs>
+    tests?: boolean | Admin$testsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["admin"]>
 
@@ -2057,6 +2067,7 @@ export namespace Prisma {
   export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topics?: boolean | Admin$topicsArgs<ExtArgs>
+    tests?: boolean | Admin$testsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AdminIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2066,6 +2077,7 @@ export namespace Prisma {
     name: "Admin"
     objects: {
       topics: Prisma.$TopicPayload<ExtArgs>[]
+      tests: Prisma.$TestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2470,6 +2482,7 @@ export namespace Prisma {
   export interface Prisma__AdminClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     topics<T extends Admin$topicsArgs<ExtArgs> = {}>(args?: Subset<T, Admin$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tests<T extends Admin$testsArgs<ExtArgs> = {}>(args?: Subset<T, Admin$testsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2915,6 +2928,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TopicScalarFieldEnum | TopicScalarFieldEnum[]
+  }
+
+  /**
+   * Admin.tests
+   */
+  export type Admin$testsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Test
+     */
+    select?: TestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Test
+     */
+    omit?: TestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestInclude<ExtArgs> | null
+    where?: TestWhereInput
+    orderBy?: TestOrderByWithRelationInput | TestOrderByWithRelationInput[]
+    cursor?: TestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestScalarFieldEnum | TestScalarFieldEnum[]
   }
 
   /**
@@ -8542,6 +8579,7 @@ export namespace Prisma {
     updatedAt: Date | null
     testTYpe: string | null
     teacherId: string | null
+    adminID: string | null
     status: $Enums.TestStatus | null
     subTopicId: string | null
   }
@@ -8558,6 +8596,7 @@ export namespace Prisma {
     updatedAt: Date | null
     testTYpe: string | null
     teacherId: string | null
+    adminID: string | null
     status: $Enums.TestStatus | null
     subTopicId: string | null
   }
@@ -8574,6 +8613,7 @@ export namespace Prisma {
     updatedAt: number
     testTYpe: number
     teacherId: number
+    adminID: number
     status: number
     subTopicId: number
     _all: number
@@ -8600,6 +8640,7 @@ export namespace Prisma {
     updatedAt?: true
     testTYpe?: true
     teacherId?: true
+    adminID?: true
     status?: true
     subTopicId?: true
   }
@@ -8616,6 +8657,7 @@ export namespace Prisma {
     updatedAt?: true
     testTYpe?: true
     teacherId?: true
+    adminID?: true
     status?: true
     subTopicId?: true
   }
@@ -8632,6 +8674,7 @@ export namespace Prisma {
     updatedAt?: true
     testTYpe?: true
     teacherId?: true
+    adminID?: true
     status?: true
     subTopicId?: true
     _all?: true
@@ -8734,7 +8777,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     testTYpe: string | null
-    teacherId: string
+    teacherId: string | null
+    adminID: string | null
     status: $Enums.TestStatus
     subTopicId: string | null
     _count: TestCountAggregateOutputType | null
@@ -8770,9 +8814,11 @@ export namespace Prisma {
     updatedAt?: boolean
     testTYpe?: boolean
     teacherId?: boolean
+    adminID?: boolean
     status?: boolean
     subTopicId?: boolean
-    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    teacher?: boolean | Test$teacherArgs<ExtArgs>
+    admin?: boolean | Test$adminArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
     studentScores?: boolean | Test$studentScoresArgs<ExtArgs>
     assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
@@ -8792,9 +8838,11 @@ export namespace Prisma {
     updatedAt?: boolean
     testTYpe?: boolean
     teacherId?: boolean
+    adminID?: boolean
     status?: boolean
     subTopicId?: boolean
-    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    teacher?: boolean | Test$teacherArgs<ExtArgs>
+    admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
@@ -8810,9 +8858,11 @@ export namespace Prisma {
     updatedAt?: boolean
     testTYpe?: boolean
     teacherId?: boolean
+    adminID?: boolean
     status?: boolean
     subTopicId?: boolean
-    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    teacher?: boolean | Test$teacherArgs<ExtArgs>
+    admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
@@ -8828,13 +8878,15 @@ export namespace Prisma {
     updatedAt?: boolean
     testTYpe?: boolean
     teacherId?: boolean
+    adminID?: boolean
     status?: boolean
     subTopicId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "testTYpe" | "teacherId" | "status" | "subTopicId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "testTYpe" | "teacherId" | "adminID" | "status" | "subTopicId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    teacher?: boolean | Test$teacherArgs<ExtArgs>
+    admin?: boolean | Test$adminArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
     studentScores?: boolean | Test$studentScoresArgs<ExtArgs>
     assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
@@ -8842,18 +8894,21 @@ export namespace Prisma {
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    teacher?: boolean | Test$teacherArgs<ExtArgs>
+    admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }
   export type TestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    teacher?: boolean | Test$teacherArgs<ExtArgs>
+    admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
   }
 
   export type $TestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Test"
     objects: {
-      teacher: Prisma.$TeacherPayload<ExtArgs>
+      teacher: Prisma.$TeacherPayload<ExtArgs> | null
+      admin: Prisma.$AdminPayload<ExtArgs> | null
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       studentScores: Prisma.$StudentScorePayload<ExtArgs>[]
       assignedTo: Prisma.$AssignedTestPayload<ExtArgs>[]
@@ -8870,7 +8925,8 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       testTYpe: string | null
-      teacherId: string
+      teacherId: string | null
+      adminID: string | null
       status: $Enums.TestStatus
       subTopicId: string | null
     }, ExtArgs["result"]["test"]>
@@ -9267,7 +9323,8 @@ export namespace Prisma {
    */
   export interface Prisma__TestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    teacher<T extends TeacherDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeacherDefaultArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    teacher<T extends Test$teacherArgs<ExtArgs> = {}>(args?: Subset<T, Test$teacherArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    admin<T extends Test$adminArgs<ExtArgs> = {}>(args?: Subset<T, Test$adminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tasks<T extends Test$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Test$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     studentScores<T extends Test$studentScoresArgs<ExtArgs> = {}>(args?: Subset<T, Test$studentScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assignedTo<T extends Test$assignedToArgs<ExtArgs> = {}>(args?: Subset<T, Test$assignedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9312,6 +9369,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
     readonly testTYpe: FieldRef<"Test", 'String'>
     readonly teacherId: FieldRef<"Test", 'String'>
+    readonly adminID: FieldRef<"Test", 'String'>
     readonly status: FieldRef<"Test", 'TestStatus'>
     readonly subTopicId: FieldRef<"Test", 'String'>
   }
@@ -9707,6 +9765,44 @@ export namespace Prisma {
      * Limit how many Tests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Test.teacher
+   */
+  export type Test$teacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Teacher
+     */
+    select?: TeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Teacher
+     */
+    omit?: TeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherInclude<ExtArgs> | null
+    where?: TeacherWhereInput
+  }
+
+  /**
+   * Test.admin
+   */
+  export type Test$adminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    where?: AdminWhereInput
   }
 
   /**
@@ -12132,6 +12228,7 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     testTYpe: 'testTYpe',
     teacherId: 'teacherId',
+    adminID: 'adminID',
     status: 'status',
     subTopicId: 'subTopicId'
   };
@@ -12333,6 +12430,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     topics?: TopicListRelationFilter
+    tests?: TestListRelationFilter
   }
 
   export type AdminOrderByWithRelationInput = {
@@ -12344,6 +12442,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     topics?: TopicOrderByRelationAggregateInput
+    tests?: TestOrderByRelationAggregateInput
   }
 
   export type AdminWhereUniqueInput = Prisma.AtLeast<{
@@ -12358,6 +12457,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     topics?: TopicListRelationFilter
+    tests?: TestListRelationFilter
   }, "id" | "email">
 
   export type AdminOrderByWithAggregationInput = {
@@ -12739,10 +12839,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
-    teacherId?: StringFilter<"Test"> | string
+    teacherId?: StringNullableFilter<"Test"> | string | null
+    adminID?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
-    teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
+    teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
+    admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     tasks?: TaskListRelationFilter
     studentScores?: StudentScoreListRelationFilter
     assignedTo?: AssignedTestListRelationFilter
@@ -12760,10 +12862,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrderInput | SortOrder
-    teacherId?: SortOrder
+    teacherId?: SortOrderInput | SortOrder
+    adminID?: SortOrderInput | SortOrder
     status?: SortOrder
     subTopicId?: SortOrderInput | SortOrder
     teacher?: TeacherOrderByWithRelationInput
+    admin?: AdminOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
     studentScores?: StudentScoreOrderByRelationAggregateInput
     assignedTo?: AssignedTestOrderByRelationAggregateInput
@@ -12784,10 +12888,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
-    teacherId?: StringFilter<"Test"> | string
+    teacherId?: StringNullableFilter<"Test"> | string | null
+    adminID?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
-    teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
+    teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
+    admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     tasks?: TaskListRelationFilter
     studentScores?: StudentScoreListRelationFilter
     assignedTo?: AssignedTestListRelationFilter
@@ -12805,7 +12911,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrderInput | SortOrder
-    teacherId?: SortOrder
+    teacherId?: SortOrderInput | SortOrder
+    adminID?: SortOrderInput | SortOrder
     status?: SortOrder
     subTopicId?: SortOrderInput | SortOrder
     _count?: TestCountOrderByAggregateInput
@@ -12829,7 +12936,8 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     testTYpe?: StringNullableWithAggregatesFilter<"Test"> | string | null
-    teacherId?: StringWithAggregatesFilter<"Test"> | string
+    teacherId?: StringNullableWithAggregatesFilter<"Test"> | string | null
+    adminID?: StringNullableWithAggregatesFilter<"Test"> | string | null
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableWithAggregatesFilter<"Test"> | string | null
   }
@@ -12986,6 +13094,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     topics?: TopicCreateNestedManyWithoutAdminInput
+    tests?: TestCreateNestedManyWithoutAdminInput
   }
 
   export type AdminUncheckedCreateInput = {
@@ -12997,6 +13106,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     topics?: TopicUncheckedCreateNestedManyWithoutAdminInput
+    tests?: TestUncheckedCreateNestedManyWithoutAdminInput
   }
 
   export type AdminUpdateInput = {
@@ -13008,6 +13118,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     topics?: TopicUpdateManyWithoutAdminNestedInput
+    tests?: TestUpdateManyWithoutAdminNestedInput
   }
 
   export type AdminUncheckedUpdateInput = {
@@ -13019,6 +13130,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     topics?: TopicUncheckedUpdateManyWithoutAdminNestedInput
+    tests?: TestUncheckedUpdateManyWithoutAdminNestedInput
   }
 
   export type AdminCreateManyInput = {
@@ -13429,7 +13541,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     testTYpe?: string | null
     status?: $Enums.TestStatus
-    teacher: TeacherCreateNestedOneWithoutTestsInput
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    admin?: AdminCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
@@ -13447,7 +13560,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
@@ -13467,7 +13581,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
-    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    admin?: AdminUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
@@ -13485,7 +13600,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
@@ -13504,7 +13620,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
   }
@@ -13534,7 +13651,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -13729,7 +13847,17 @@ export namespace Prisma {
     none?: TopicWhereInput
   }
 
+  export type TestListRelationFilter = {
+    every?: TestWhereInput
+    some?: TestWhereInput
+    none?: TestWhereInput
+  }
+
   export type TopicOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13850,16 +13978,6 @@ export namespace Prisma {
   export type TopicScalarRelationFilter = {
     is?: TopicWhereInput
     isNot?: TopicWhereInput
-  }
-
-  export type TestListRelationFilter = {
-    every?: TestWhereInput
-    some?: TestWhereInput
-    none?: TestWhereInput
-  }
-
-  export type TestOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type SubTopicCountOrderByAggregateInput = {
@@ -14161,9 +14279,14 @@ export namespace Prisma {
     not?: NestedEnumTestStatusFilter<$PrismaModel> | $Enums.TestStatus
   }
 
-  export type TeacherScalarRelationFilter = {
-    is?: TeacherWhereInput
-    isNot?: TeacherWhereInput
+  export type TeacherNullableScalarRelationFilter = {
+    is?: TeacherWhereInput | null
+    isNot?: TeacherWhereInput | null
+  }
+
+  export type AdminNullableScalarRelationFilter = {
+    is?: AdminWhereInput | null
+    isNot?: AdminWhereInput | null
   }
 
   export type TaskListRelationFilter = {
@@ -14193,6 +14316,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     testTYpe?: SortOrder
     teacherId?: SortOrder
+    adminID?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
   }
@@ -14213,6 +14337,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     testTYpe?: SortOrder
     teacherId?: SortOrder
+    adminID?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
   }
@@ -14229,6 +14354,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     testTYpe?: SortOrder
     teacherId?: SortOrder
+    adminID?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
   }
@@ -14380,11 +14506,25 @@ export namespace Prisma {
     connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
   }
 
+  export type TestCreateNestedManyWithoutAdminInput = {
+    create?: XOR<TestCreateWithoutAdminInput, TestUncheckedCreateWithoutAdminInput> | TestCreateWithoutAdminInput[] | TestUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutAdminInput | TestCreateOrConnectWithoutAdminInput[]
+    createMany?: TestCreateManyAdminInputEnvelope
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+  }
+
   export type TopicUncheckedCreateNestedManyWithoutAdminInput = {
     create?: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput> | TopicCreateWithoutAdminInput[] | TopicUncheckedCreateWithoutAdminInput[]
     connectOrCreate?: TopicCreateOrConnectWithoutAdminInput | TopicCreateOrConnectWithoutAdminInput[]
     createMany?: TopicCreateManyAdminInputEnvelope
     connect?: TopicWhereUniqueInput | TopicWhereUniqueInput[]
+  }
+
+  export type TestUncheckedCreateNestedManyWithoutAdminInput = {
+    create?: XOR<TestCreateWithoutAdminInput, TestUncheckedCreateWithoutAdminInput> | TestCreateWithoutAdminInput[] | TestUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutAdminInput | TestCreateOrConnectWithoutAdminInput[]
+    createMany?: TestCreateManyAdminInputEnvelope
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -14413,6 +14553,20 @@ export namespace Prisma {
     deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
   }
 
+  export type TestUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<TestCreateWithoutAdminInput, TestUncheckedCreateWithoutAdminInput> | TestCreateWithoutAdminInput[] | TestUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutAdminInput | TestCreateOrConnectWithoutAdminInput[]
+    upsert?: TestUpsertWithWhereUniqueWithoutAdminInput | TestUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: TestCreateManyAdminInputEnvelope
+    set?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    disconnect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    delete?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    update?: TestUpdateWithWhereUniqueWithoutAdminInput | TestUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: TestUpdateManyWithWhereWithoutAdminInput | TestUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: TestScalarWhereInput | TestScalarWhereInput[]
+  }
+
   export type TopicUncheckedUpdateManyWithoutAdminNestedInput = {
     create?: XOR<TopicCreateWithoutAdminInput, TopicUncheckedCreateWithoutAdminInput> | TopicCreateWithoutAdminInput[] | TopicUncheckedCreateWithoutAdminInput[]
     connectOrCreate?: TopicCreateOrConnectWithoutAdminInput | TopicCreateOrConnectWithoutAdminInput[]
@@ -14425,6 +14579,20 @@ export namespace Prisma {
     update?: TopicUpdateWithWhereUniqueWithoutAdminInput | TopicUpdateWithWhereUniqueWithoutAdminInput[]
     updateMany?: TopicUpdateManyWithWhereWithoutAdminInput | TopicUpdateManyWithWhereWithoutAdminInput[]
     deleteMany?: TopicScalarWhereInput | TopicScalarWhereInput[]
+  }
+
+  export type TestUncheckedUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<TestCreateWithoutAdminInput, TestUncheckedCreateWithoutAdminInput> | TestCreateWithoutAdminInput[] | TestUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutAdminInput | TestCreateOrConnectWithoutAdminInput[]
+    upsert?: TestUpsertWithWhereUniqueWithoutAdminInput | TestUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: TestCreateManyAdminInputEnvelope
+    set?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    disconnect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    delete?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    update?: TestUpdateWithWhereUniqueWithoutAdminInput | TestUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: TestUpdateManyWithWhereWithoutAdminInput | TestUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: TestScalarWhereInput | TestScalarWhereInput[]
   }
 
   export type AdminCreateNestedOneWithoutTopicsInput = {
@@ -14711,6 +14879,12 @@ export namespace Prisma {
     connect?: TeacherWhereUniqueInput
   }
 
+  export type AdminCreateNestedOneWithoutTestsInput = {
+    create?: XOR<AdminCreateWithoutTestsInput, AdminUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutTestsInput
+    connect?: AdminWhereUniqueInput
+  }
+
   export type TaskCreateNestedManyWithoutTestInput = {
     create?: XOR<TaskCreateWithoutTestInput, TaskUncheckedCreateWithoutTestInput> | TaskCreateWithoutTestInput[] | TaskUncheckedCreateWithoutTestInput[]
     connectOrCreate?: TaskCreateOrConnectWithoutTestInput | TaskCreateOrConnectWithoutTestInput[]
@@ -14779,12 +14953,24 @@ export namespace Prisma {
     set?: $Enums.TestStatus
   }
 
-  export type TeacherUpdateOneRequiredWithoutTestsNestedInput = {
+  export type TeacherUpdateOneWithoutTestsNestedInput = {
     create?: XOR<TeacherCreateWithoutTestsInput, TeacherUncheckedCreateWithoutTestsInput>
     connectOrCreate?: TeacherCreateOrConnectWithoutTestsInput
     upsert?: TeacherUpsertWithoutTestsInput
+    disconnect?: TeacherWhereInput | boolean
+    delete?: TeacherWhereInput | boolean
     connect?: TeacherWhereUniqueInput
     update?: XOR<XOR<TeacherUpdateToOneWithWhereWithoutTestsInput, TeacherUpdateWithoutTestsInput>, TeacherUncheckedUpdateWithoutTestsInput>
+  }
+
+  export type AdminUpdateOneWithoutTestsNestedInput = {
+    create?: XOR<AdminCreateWithoutTestsInput, AdminUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutTestsInput
+    upsert?: AdminUpsertWithoutTestsInput
+    disconnect?: AdminWhereInput | boolean
+    delete?: AdminWhereInput | boolean
+    connect?: AdminWhereUniqueInput
+    update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutTestsInput, AdminUpdateWithoutTestsInput>, AdminUncheckedUpdateWithoutTestsInput>
   }
 
   export type TaskUpdateManyWithoutTestNestedInput = {
@@ -15228,6 +15414,54 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TestCreateWithoutAdminInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testTYpe?: string | null
+    status?: $Enums.TestStatus
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    tasks?: TaskCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
+  }
+
+  export type TestUncheckedCreateWithoutAdminInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testTYpe?: string | null
+    teacherId?: string | null
+    status?: $Enums.TestStatus
+    subTopicId?: string | null
+    tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
+  }
+
+  export type TestCreateOrConnectWithoutAdminInput = {
+    where: TestWhereUniqueInput
+    create: XOR<TestCreateWithoutAdminInput, TestUncheckedCreateWithoutAdminInput>
+  }
+
+  export type TestCreateManyAdminInputEnvelope = {
+    data: TestCreateManyAdminInput | TestCreateManyAdminInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TopicUpsertWithWhereUniqueWithoutAdminInput = {
     where: TopicWhereUniqueInput
     update: XOR<TopicUpdateWithoutAdminInput, TopicUncheckedUpdateWithoutAdminInput>
@@ -15256,6 +15490,42 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Topic"> | Date | string
   }
 
+  export type TestUpsertWithWhereUniqueWithoutAdminInput = {
+    where: TestWhereUniqueInput
+    update: XOR<TestUpdateWithoutAdminInput, TestUncheckedUpdateWithoutAdminInput>
+    create: XOR<TestCreateWithoutAdminInput, TestUncheckedCreateWithoutAdminInput>
+  }
+
+  export type TestUpdateWithWhereUniqueWithoutAdminInput = {
+    where: TestWhereUniqueInput
+    data: XOR<TestUpdateWithoutAdminInput, TestUncheckedUpdateWithoutAdminInput>
+  }
+
+  export type TestUpdateManyWithWhereWithoutAdminInput = {
+    where: TestScalarWhereInput
+    data: XOR<TestUpdateManyMutationInput, TestUncheckedUpdateManyWithoutAdminInput>
+  }
+
+  export type TestScalarWhereInput = {
+    AND?: TestScalarWhereInput | TestScalarWhereInput[]
+    OR?: TestScalarWhereInput[]
+    NOT?: TestScalarWhereInput | TestScalarWhereInput[]
+    id?: StringFilter<"Test"> | string
+    title?: StringNullableFilter<"Test"> | string | null
+    timeLimit?: IntNullableFilter<"Test"> | number | null
+    description?: StringNullableFilter<"Test"> | string | null
+    score?: StringNullableFilter<"Test"> | string | null
+    startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
+    createdAt?: DateTimeFilter<"Test"> | Date | string
+    updatedAt?: DateTimeFilter<"Test"> | Date | string
+    testTYpe?: StringNullableFilter<"Test"> | string | null
+    teacherId?: StringNullableFilter<"Test"> | string | null
+    adminID?: StringNullableFilter<"Test"> | string | null
+    status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
+    subTopicId?: StringNullableFilter<"Test"> | string | null
+  }
+
   export type AdminCreateWithoutTopicsInput = {
     id?: string
     name: string
@@ -15264,6 +15534,7 @@ export namespace Prisma {
     status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
+    tests?: TestCreateNestedManyWithoutAdminInput
   }
 
   export type AdminUncheckedCreateWithoutTopicsInput = {
@@ -15274,6 +15545,7 @@ export namespace Prisma {
     status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
+    tests?: TestUncheckedCreateNestedManyWithoutAdminInput
   }
 
   export type AdminCreateOrConnectWithoutTopicsInput = {
@@ -15324,6 +15596,7 @@ export namespace Prisma {
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tests?: TestUpdateManyWithoutAdminNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutTopicsInput = {
@@ -15334,6 +15607,7 @@ export namespace Prisma {
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tests?: TestUncheckedUpdateManyWithoutAdminNestedInput
   }
 
   export type SubTopicUpsertWithWhereUniqueWithoutTopicInput = {
@@ -15397,7 +15671,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     testTYpe?: string | null
     status?: $Enums.TestStatus
-    teacher: TeacherCreateNestedOneWithoutTestsInput
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    admin?: AdminCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
@@ -15414,7 +15689,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
@@ -15476,25 +15752,6 @@ export namespace Prisma {
     data: XOR<TestUpdateManyMutationInput, TestUncheckedUpdateManyWithoutSubTopicInput>
   }
 
-  export type TestScalarWhereInput = {
-    AND?: TestScalarWhereInput | TestScalarWhereInput[]
-    OR?: TestScalarWhereInput[]
-    NOT?: TestScalarWhereInput | TestScalarWhereInput[]
-    id?: StringFilter<"Test"> | string
-    title?: StringNullableFilter<"Test"> | string | null
-    timeLimit?: IntNullableFilter<"Test"> | number | null
-    description?: StringNullableFilter<"Test"> | string | null
-    score?: StringNullableFilter<"Test"> | string | null
-    startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    createdAt?: DateTimeFilter<"Test"> | Date | string
-    updatedAt?: DateTimeFilter<"Test"> | Date | string
-    testTYpe?: StringNullableFilter<"Test"> | string | null
-    teacherId?: StringFilter<"Test"> | string
-    status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
-    subTopicId?: StringNullableFilter<"Test"> | string | null
-  }
-
   export type TestCreateWithoutTeacherInput = {
     id?: string
     title?: string | null
@@ -15507,6 +15764,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     testTYpe?: string | null
     status?: $Enums.TestStatus
+    admin?: AdminCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
@@ -15524,6 +15782,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
@@ -15712,7 +15971,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     testTYpe?: string | null
     status?: $Enums.TestStatus
-    teacher: TeacherCreateNestedOneWithoutTestsInput
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    admin?: AdminCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
@@ -15729,7 +15989,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
@@ -15799,7 +16060,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
-    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    admin?: AdminUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
@@ -15816,7 +16078,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
@@ -15846,6 +16109,33 @@ export namespace Prisma {
   export type TeacherCreateOrConnectWithoutTestsInput = {
     where: TeacherWhereUniqueInput
     create: XOR<TeacherCreateWithoutTestsInput, TeacherUncheckedCreateWithoutTestsInput>
+  }
+
+  export type AdminCreateWithoutTestsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    topics?: TopicCreateNestedManyWithoutAdminInput
+  }
+
+  export type AdminUncheckedCreateWithoutTestsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    status?: $Enums.Status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    topics?: TopicUncheckedCreateNestedManyWithoutAdminInput
+  }
+
+  export type AdminCreateOrConnectWithoutTestsInput = {
+    where: AdminWhereUniqueInput
+    create: XOR<AdminCreateWithoutTestsInput, AdminUncheckedCreateWithoutTestsInput>
   }
 
   export type TaskCreateWithoutTestInput = {
@@ -15992,6 +16282,39 @@ export namespace Prisma {
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
   }
 
+  export type AdminUpsertWithoutTestsInput = {
+    update: XOR<AdminUpdateWithoutTestsInput, AdminUncheckedUpdateWithoutTestsInput>
+    create: XOR<AdminCreateWithoutTestsInput, AdminUncheckedCreateWithoutTestsInput>
+    where?: AdminWhereInput
+  }
+
+  export type AdminUpdateToOneWithWhereWithoutTestsInput = {
+    where?: AdminWhereInput
+    data: XOR<AdminUpdateWithoutTestsInput, AdminUncheckedUpdateWithoutTestsInput>
+  }
+
+  export type AdminUpdateWithoutTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    topics?: TopicUpdateManyWithoutAdminNestedInput
+  }
+
+  export type AdminUncheckedUpdateWithoutTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    topics?: TopicUncheckedUpdateManyWithoutAdminNestedInput
+  }
+
   export type TaskUpsertWithWhereUniqueWithoutTestInput = {
     where: TaskWhereUniqueInput
     update: XOR<TaskUpdateWithoutTestInput, TaskUncheckedUpdateWithoutTestInput>
@@ -16124,7 +16447,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     testTYpe?: string | null
     status?: $Enums.TestStatus
-    teacher: TeacherCreateNestedOneWithoutTestsInput
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    admin?: AdminCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
@@ -16141,7 +16465,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
@@ -16211,7 +16536,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
-    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    admin?: AdminUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
@@ -16228,7 +16554,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
@@ -16247,7 +16574,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     testTYpe?: string | null
     status?: $Enums.TestStatus
-    teacher: TeacherCreateNestedOneWithoutTestsInput
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    admin?: AdminCreateNestedOneWithoutTestsInput
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
@@ -16264,7 +16592,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
@@ -16299,7 +16628,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
-    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    admin?: AdminUpdateOneWithoutTestsNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
@@ -16316,7 +16646,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
@@ -16329,6 +16660,22 @@ export namespace Prisma {
     name: string
     number: string
     createdAt?: Date | string
+  }
+
+  export type TestCreateManyAdminInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testTYpe?: string | null
+    teacherId?: string | null
+    status?: $Enums.TestStatus
+    subTopicId?: string | null
   }
 
   export type TopicUpdateWithoutAdminInput = {
@@ -16355,6 +16702,60 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    tasks?: TaskUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
+  }
+
+  export type TestUncheckedUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
+    tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateManyWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubTopicCreateManyTopicInput = {
@@ -16394,7 +16795,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
-    teacherId: string
+    teacherId?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
   }
 
@@ -16410,7 +16812,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
-    teacher?: TeacherUpdateOneRequiredWithoutTestsNestedInput
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    admin?: AdminUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
@@ -16427,7 +16830,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
@@ -16445,7 +16849,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
-    teacherId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
   }
 
@@ -16460,6 +16865,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
   }
@@ -16476,6 +16882,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    admin?: AdminUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
@@ -16493,6 +16900,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
@@ -16511,6 +16919,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
   }

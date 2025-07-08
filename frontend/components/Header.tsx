@@ -29,7 +29,7 @@ const NavBar = () => {
         } else if (user?.status === 'Teacher') {
             if (pathname === '/teacher') return 'home'
             if (pathname === '/teacher-performance') return 'map'
-            if (pathname === '/topic-tests') return 'tests'
+            if (pathname === '/topic-tests/mathematics') return 'tests'
         }
         return ''
     }
@@ -82,7 +82,7 @@ const NavBar = () => {
                     )}
                 </Link>
                 <Link
-                    href={`/topic-tests`}
+                    href={`/topic-tests/mathematics`}
                     className={`text-[20px] cursor-pointer relative transition duration-200 ${
                         activeTab === 'tests'
                             ? 'text-[#FA8E66] font-bold'

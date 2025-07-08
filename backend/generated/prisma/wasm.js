@@ -192,6 +192,7 @@ exports.Prisma.TestScalarFieldEnum = {
   updatedAt: 'updatedAt',
   testTYpe: 'testTYpe',
   teacherId: 'teacherId',
+  adminID: 'adminID',
   status: 'status',
   subTopicId: 'subTopicId'
 };

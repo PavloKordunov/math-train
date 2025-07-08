@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common'
 import { DatabaseService } from 'src/database/database.service'
 import { CreateSubtopicDto } from './dto/subtopicDto'
+import { UpdateSubTopicDto } from './dto/updateSubTopic'
 
 @Injectable()
 export class SubtopicService {
@@ -43,6 +44,47 @@ export class SubtopicService {
             })
         } catch (error) {
             throw new InternalServerErrorException('Failed to get SubTopic')
+        }
+    }
+
+    async updateSubTopic(id: string, updateSubTopicDto: UpdateSubTopicDto) {
+        try {
+            const subtopic = await this.databaseService.subTopic.findUnique({
+                where: { id },
+            })
+
+            if (!subtopic) {
+                throw new NotFoundException('Topic not found')
+            }
+
+            return await this.databaseService.subTopic.update({
+                where: { id },
+                data: updateSubTopicDto,
+            })
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to update SubTopic')
+        }
+    }
+
+    async deleteSubTopic(id: string) {
+        try {
+            const subtopic = await this.databaseService.subTopic.findUnique({
+                where: { id },
+            })
+
+            if (!subtopic) {
+                throw new NotFoundException('Topic not found')
+            }
+
+            await this.databaseService.test.deleteMany({
+                where: { subTopicId: id },
+            })
+
+            return await this.databaseService.subTopic.delete({
+                where: { id },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to update SubTopic')
         }
     }
 }

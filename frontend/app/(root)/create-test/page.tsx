@@ -9,18 +9,23 @@ import CreateTestTask from '@/components/testComponents/CreateTestTask'
 import TestBasicInfo from '@/components/testComponents/TestBasicInfo'
 import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
+import { useSubTopicContext } from '@/helpers/getSubTopicId'
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
     const { user } = useUser()
+    const { subTopicId } = useSubTopicContext()
+
     const [test, setTest] = useState({
         title: '',
         description: '',
         timeLimit: 0,
         endTime: '',
-        teacherId: user?.id,
+        teacherId: user?.status === 'Teacher' ? user?.id : '',
+        adminID: user?.status === 'Admin' ? user?.id : '',
         tasks: [],
+        subTopicId: subTopicId ?? null,
     })
     const [question, setQuestion] = useState<any>({
         title: '',
@@ -30,11 +35,7 @@ const CreateTest = () => {
         image: '',
         number: 0,
     })
-    // const [maxNumber, setMaxNumber] = useState(
-    //     test.tasks.length > 0
-    //         ? Math.max(...test.tasks.map((t: any) => parseInt(t.number)))
-    //         : 1
-    // )
+
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -52,7 +53,9 @@ const CreateTest = () => {
 
             const data = await res.json()
             localStorage.removeItem('test')
-            router.push('/teacher')
+            user?.status === 'Teacher'
+                ? router.push('/teacher')
+                : router.push('/admin')
         } catch (error) {
             console.error(error)
         }

@@ -35,6 +35,7 @@ export class TopicService {
         try {
             return await this.databaseService.topic.findMany({
                 where: { subjectType: subject },
+                include: { subTopics: true },
             })
         } catch (error) {
             throw new InternalServerErrorException('Failed to get topics')
@@ -114,6 +115,27 @@ export class TopicService {
                 throw error
             }
             throw new InternalServerErrorException('Failed to update topic')
+        }
+    }
+
+    async deleteTopic(id: string) {
+        try {
+            await this.databaseService.subTopic.deleteMany({
+                where: { topicId: id },
+            })
+
+            await this.databaseService.test.deleteMany({
+                where: { adminID: id },
+            })
+
+            const deletedTopic = await this.databaseService.topic.delete({
+                where: { id },
+            })
+
+            return deletedTopic
+        } catch (error) {
+            console.error(error)
+            throw new InternalServerErrorException('Failed to delete topic')
         }
     }
 }
