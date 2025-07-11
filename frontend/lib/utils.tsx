@@ -1,21 +1,27 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL
-
-export const getAllStudents = async () => {
+export const getAllStudentsByTeacherID = async (id: string) => {
     try {
-        const res = await fetch(`${API_URL}/api/student`, {
+        const res = await fetch(`${API_URL}/api/student/teacher/${id}`, {
             cache: 'no-store',
             headers: {
-                'Cache-Control': 'no-cache',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
                 Pragma: 'no-cache',
+                Expires: '0',
+            },
+            next: {
+                tags: ['students'],
             },
         })
 
-        const data = await res.json()
-        console.log(data)
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`)
+        }
 
+        const data = await res.json()
         return data
     } catch (error) {
-        console.log(error)
+        console.error('Error fetching students:', error)
+        return []
     }
 }
 
@@ -24,17 +30,24 @@ export const getAllTest = async (teacherId: string) => {
         const res = await fetch(`${API_URL}/api/test/teacher/${teacherId}`, {
             cache: 'no-store',
             headers: {
-                'Cache-Control': 'no-cache',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
                 Pragma: 'no-cache',
+                Expires: '0',
+            },
+            next: {
+                tags: ['tests'],
             },
         })
 
-        const data = await res.json()
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`)
+        }
 
-        console.log(data)
+        const data = await res.json()
         return data
     } catch (error) {
-        console.log(error)
+        console.error('Error fetching tests:', error)
+        return []
     }
 }
 

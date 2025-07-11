@@ -1,7 +1,7 @@
-import { IsEmail, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator'
 
 export class createStudentDto {
-    @IsEmail({}, {message: "Invalid Email format"})
+    @IsEmail({}, { message: 'Invalid Email format' })
     email: string
 
     @IsString()
@@ -9,6 +9,9 @@ export class createStudentDto {
     name: string
 
     @IsString()
-    @MinLength(6, {message: "Password must be at least 6 characters"})
+    @MinLength(6, { message: 'Password must be at least 6 characters' })
     password: string
+
+    @IsString()
+    teacherId: string
 }

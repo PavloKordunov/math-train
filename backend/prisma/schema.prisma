@@ -49,6 +49,7 @@ model Teacher {
   updatedAt DateTime @updatedAt
   tests     Test[]
   status    Status   @default(Teacher)
+  students  Student[]
 }
 
 model Student {
@@ -63,6 +64,8 @@ model Student {
 
   scores    StudentScore[]
   assignedTests AssignedTest[]
+  teacherId String
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
 }
 
 model StudentScore {

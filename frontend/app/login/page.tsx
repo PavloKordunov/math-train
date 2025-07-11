@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
 import { ClipLoader } from 'react-spinners'
 import toast, { Toaster } from 'react-hot-toast'
+import { setCookie } from 'cookies-next'
 
 export default function LoginPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -52,6 +53,12 @@ export default function LoginPage() {
             }
 
             setUser(data.user)
+            setCookie('user', JSON.stringify(data.user), {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+            })
             toast.success('Успішно! Ви увійшли у свій аккаунт')
 
             if (data.user.status === 'Teacher') {

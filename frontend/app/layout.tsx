@@ -38,3 +38,5 @@ export default function RootLayout({
         </html>
     )
 }
+
+// "dev":"next dev -H 0.0.0.0",

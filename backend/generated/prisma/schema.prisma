@@ -41,14 +41,15 @@ model SubTopic {
 }
 
 model Teacher {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String
-  email     String   @unique
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   tests     Test[]
-  status    Status   @default(Teacher)
+  status    Status    @default(Teacher)
+  students  Student[]
 }
 
 model Student {
@@ -63,6 +64,8 @@ model Student {
 
   scores        StudentScore[]
   assignedTests AssignedTest[]
+  teacherId     String
+  teacher       Teacher        @relation(fields: [teacherId], references: [id])
 }
 
 model StudentScore {

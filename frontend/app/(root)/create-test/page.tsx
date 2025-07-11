@@ -25,7 +25,7 @@ const CreateTest = () => {
         teacherId: user?.status === 'Teacher' ? user?.id : '',
         adminID: user?.status === 'Admin' ? user?.id : '',
         tasks: [],
-        subTopicId: subTopicId ?? null,
+        subTopicId: subTopicId || undefined,
     })
     const [question, setQuestion] = useState<any>({
         title: '',

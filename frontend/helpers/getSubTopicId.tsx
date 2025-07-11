@@ -11,7 +11,7 @@ const SubTopicContext = createContext<
 >(undefined)
 
 export const SubTopicProvider = ({ children }: any) => {
-    const [subTopicId, setSubTopicId] = useState('')
+    const [subTopicId, setSubTopicId] = useState<any>(null)
 
     return (
         <SubTopicContext.Provider value={{ subTopicId, setSubTopicId }}>

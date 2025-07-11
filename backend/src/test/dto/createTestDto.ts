@@ -1,4 +1,10 @@
-import { IsArray, IsDateString, IsInt, IsString } from 'class-validator'
+import {
+    IsArray,
+    IsDateString,
+    IsInt,
+    IsOptional,
+    IsString,
+} from 'class-validator'
 import { CreateTaskDto } from './createTaskDto'
 
 export class CreateTestDto {
@@ -22,6 +28,10 @@ export class CreateTestDto {
 
     @IsString()
     adminID: string
+
+    @IsOptional()
+    @IsString()
+    subTopicId?: string
 
     @IsArray()
     tasks: CreateTaskDto[]
