@@ -73,7 +73,7 @@ const TeacherPage = () => {
                         href="/create-test"
                         className="bg-[#CA193A] px-4 py-2 text-white text-sm sm:text-lg rounded-md font-semibold uppercase"
                     >
-                        Додати тест
+                        Створити тест
                     </Link>
                     <AddStudent />
                 </div>

@@ -16,7 +16,6 @@ const TestItem = ({ test }: { test: any }) => {
 
     function formatDateToUkrainian(dateString: string): string {
         const date = new Date(dateString)
-
         const day = date.getDate()
         const monthIndex = date.getMonth()
         const hours = date.getHours().toString().padStart(2, '0')
@@ -49,23 +48,34 @@ const TestItem = ({ test }: { test: any }) => {
     }, [])
 
     return (
-        <div className="flex items-stretch w-fit h-fit mb-8">
-            <div className="px-20 py-8 bg-[#FFECE7]">
-                <Image src="/mathItemImg.png" alt="" width={100} height={100} />
-            </div>
-            <div className="px-10 border-[2px] border-[#CDC8C8] border-l-0 flex items-center justify-between min-w-[900px] gap-10">
-                <p className="font-bold text-[18px] uppercase">
-                    Тест, {test.test.title}, час завершення:{' '}
-                    {formatDateToUkrainian(test.test.endTime)}
-                </p>
-                {user?.status === 'Student' && (
-                    <button
-                        className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase"
-                        onClick={toggleModal}
-                    >
-                        Перейти до тесту
-                    </button>
-                )}
+        <div className="w-full max-w-5xl mx-auto">
+            <div className="flex flex-col md:flex-row bg-[#FFECE7] shadow-md rounded-lg overflow-hidden">
+                <div className="p-6 flex justify-center items-center bg-[#FFECE7] md:w-1/4">
+                    <Image
+                        src="/mathItemImg.png"
+                        alt="Math"
+                        width={100}
+                        height={100}
+                        className="object-contain"
+                    />
+                </div>
+
+                <div className="flex flex-col justify-between p-6 gap-4 md:w-3/4 bg-white border-l-2 border-[#CDC8C8]">
+                    <div>
+                        <p className="font-bold text-lg uppercase mb-4">
+                            Тест: {test.title} —{' '}
+                            {formatDateToUkrainian(test.endTime)}
+                        </p>
+                        {user?.status === 'Student' && (
+                            <button
+                                className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase"
+                                onClick={toggleModal}
+                            >
+                                Перейти до тесту
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
             {isOpen && (
                 <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center">

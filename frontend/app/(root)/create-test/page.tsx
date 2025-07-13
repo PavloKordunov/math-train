@@ -282,7 +282,9 @@ const CreateTest = () => {
                     Створити тест
                 </button>
             </div>
-            <FormulaHints />
+            <div className="hidden [@media(min-width:1440px)]:block">
+                <FormulaHints />
+            </div>
             {modalOpen && (
                 <CreateTaskModal
                     handleSelect={handleSelect}

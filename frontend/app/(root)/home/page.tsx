@@ -29,7 +29,7 @@ const Home = () => {
     }, [user])
 
     return (
-        <div className="flex flex-col py-2">
+        <div className="w-full max-w-5xl mx-auto flex flex-col py-2">
             {/* <div className="w-full py-10 flex gap-2 items-center justify-center mb-2">
                 <input
                     type="text"
