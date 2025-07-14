@@ -14,6 +14,7 @@ interface User {
     email?: string
     name?: string
     status: string
+    subject?: string
 }
 
 interface UserContextType {
@@ -28,7 +29,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [initialized, setInitialized] = useState(false)
 
     useEffect(() => {
-        // Читаємо з cookies замість localStorage
         const userCookie = getCookie('user')
         if (userCookie) {
             try {

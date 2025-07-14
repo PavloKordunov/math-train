@@ -21,7 +21,6 @@ const CreateTest = () => {
         title: '',
         description: '',
         timeLimit: 0,
-        endTime: '',
         teacherId: user?.status === 'Teacher' ? user?.id : '',
         adminID: user?.status === 'Admin' ? user?.id : '',
         tasks: [],
@@ -170,14 +169,6 @@ const CreateTest = () => {
         }))
     }, [])
 
-    const formatDateForInput = useCallback((isoString: string) => {
-        if (!isoString) return ''
-        const date = new Date(isoString)
-        if (isNaN(date.getTime())) return ''
-        const offset = date.getTimezoneOffset() * 60000
-        return new Date(date.getTime() - offset).toISOString().slice(0, 16)
-    }, [])
-
     const handleSaveMatchingTask = useCallback(() => {
         const validPairs = question.pairs.filter(
             (pair: any) => pair.left?.text?.trim() && pair.right?.text?.trim()
@@ -249,11 +240,7 @@ const CreateTest = () => {
             <h1 className="text-[36px] mb-4 font-bold text-center">
                 Створення нового тесту
             </h1>
-            <TestBasicInfo
-                test={test}
-                setTest={setTest}
-                formatDateForInput={formatDateForInput}
-            />
+            <TestBasicInfo test={test} setTest={setTest} />
             <MemoizedTestTasks
                 test={test}
                 updateTask={updateTask}
@@ -282,9 +269,11 @@ const CreateTest = () => {
                     Створити тест
                 </button>
             </div>
-            <div className="hidden [@media(min-width:1440px)]:block">
-                <FormulaHints />
-            </div>
+            {user?.subject === 'Mathematics' && (
+                <div className="hidden [@media(min-width:1440px)]:block">
+                    <FormulaHints />
+                </div>
+            )}
             {modalOpen && (
                 <CreateTaskModal
                     handleSelect={handleSelect}

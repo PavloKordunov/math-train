@@ -150,7 +150,9 @@ exports.Prisma.TeacherScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  phone: 'phone',
   password: 'password',
+  subject: 'subject',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   status: 'status'
@@ -188,7 +190,6 @@ exports.Prisma.TestScalarFieldEnum = {
   description: 'description',
   score: 'score',
   startTime: 'startTime',
-  endTime: 'endTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   testTYpe: 'testTYpe',
@@ -202,7 +203,8 @@ exports.Prisma.AssignedTestScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
   testId: 'testId',
-  assignedAt: 'assignedAt'
+  assignedAt: 'assignedAt',
+  endTime: 'endTime'
 };
 
 exports.Prisma.TaskScalarFieldEnum = {
@@ -249,6 +251,13 @@ exports.Status = exports.$Enums.Status = {
   Teacher: 'Teacher',
   Student: 'Student',
   Admin: 'Admin'
+};
+
+exports.Subject = exports.$Enums.Subject = {
+  Mathematics: 'Mathematics',
+  Ukrainian: 'Ukrainian',
+  English: 'English',
+  History: 'History'
 };
 
 exports.TestStatus = exports.$Enums.TestStatus = {

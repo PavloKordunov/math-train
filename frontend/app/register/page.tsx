@@ -4,9 +4,15 @@ import Image from 'next/image'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
+import {
+    FaCalculator,
+    FaPenFancy,
+    FaBookOpen,
+    FaFeatherAlt,
+} from 'react-icons/fa'
 
 export default function RegisterPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -15,15 +21,19 @@ export default function RegisterPage() {
         email: '',
         password: '',
         name: '',
+        phone: '',
     })
 
+    const [openSubjectModal, setOpenSubjectModal] = useState(false)
+
     const router = useRouter()
+    const [repeatPassword, setRepeatPassword] = useState('')
+    const [correct, setCorrect] = useState(false)
     const { user, setUser } = useUser()
 
-    const handleRegister = async (e: any) => {
-        e.preventDefault()
+    const handleRegister = async (subject: string) => {
         try {
-            const res = await fetch(`${API_URL}/api/student/register`, {
+            const res = await fetch(`${API_URL}/api/teacher/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,6 +42,8 @@ export default function RegisterPage() {
                     email: registerData.email,
                     name: registerData.name,
                     password: registerData.password,
+                    phone: registerData.phone,
+                    subject: subject,
                 }),
             })
 
@@ -48,6 +60,43 @@ export default function RegisterPage() {
         }
         router.push('/home')
     }
+
+    useEffect(() => {
+        if (repeatPassword !== '' && repeatPassword === registerData.password) {
+            setCorrect(true)
+        } else if (repeatPassword !== registerData.password) {
+            setCorrect(false)
+        }
+        console.log(repeatPassword)
+        console.log(correct)
+    }, [repeatPassword, registerData.password, correct])
+
+    const subjects = [
+        {
+            name: 'Математика',
+            value: 'Mathematics',
+            color: '#FDCB6E',
+            icon: <FaCalculator size={28} />,
+        },
+        {
+            name: 'Українська мова',
+            value: 'Ukrainian',
+            color: '#A29BFE',
+            icon: <FaPenFancy size={28} />,
+        },
+        {
+            name: 'Англійська мова',
+            value: 'English',
+            color: '#74B9FF',
+            icon: <FaBookOpen size={28} />,
+        },
+        {
+            name: 'Історія України',
+            value: 'History',
+            color: '#55EFC4',
+            icon: <FaFeatherAlt size={28} />,
+        },
+    ]
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">
@@ -106,6 +155,24 @@ export default function RegisterPage() {
                     <div className="text-left">
                         <label className="text-sm text-[#000] font-medium mb-1 block">
                             {' '}
+                            📱 phone
+                        </label>
+                        <input
+                            type="tel"
+                            value={registerData.phone}
+                            onChange={(e) =>
+                                setRegisterData((prev) => ({
+                                    ...prev,
+                                    phone: e.target.value,
+                                }))
+                            }
+                            className="w-full text-[#000] px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 focus:ring-[#1565C0]"
+                            placeholder="0987654321"
+                        />
+                    </div>
+                    <div className="text-left">
+                        <label className="text-sm text-[#000] font-medium mb-1 block">
+                            {' '}
                             🔑 Password
                         </label>
                         <input
@@ -127,10 +194,17 @@ export default function RegisterPage() {
                             🔑 Confirm password
                         </label>
                         <input
+                            value={repeatPassword}
+                            onChange={(e) => setRepeatPassword(e.target.value)}
                             type="password"
                             className="w-full text-[#000] px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 focus:ring-[#1565C0]"
                             placeholder="********"
                         />
+                        {repeatPassword !== '' && correct === false && (
+                            <p className="text-[12px] text-red-400 mt-1">
+                                Пароль не сходиться
+                            </p>
+                        )}
                     </div>
                     <p className="text-sm text-gray-500 text-left">
                         Do you already have an account?
@@ -144,10 +218,13 @@ export default function RegisterPage() {
                     </p>
 
                     <button
-                        onClick={handleRegister}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            setOpenSubjectModal(true)
+                        }}
                         className="px-8 py-3 rounded-[16px] bg-[#1565C0] text-white font-semibold text-[16px] shadow-md  transition"
                     >
-                        Register
+                        Зареєструватись
                     </button>
                 </form>
 
@@ -160,6 +237,43 @@ export default function RegisterPage() {
                     </button>
                 </div>
             </div>
+            {openSubjectModal && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4">
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-[600px] shadow-xl">
+                        <h3 className="text-lg md:text-xl font-semibold mb-4 text-gray-800">
+                            Оберіть Ваш предмет
+                        </h3>
+                        <div className="flex flex-col gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {subjects.map((subject) => (
+                                    <button
+                                        key={subject.value}
+                                        onClick={() => {
+                                            handleRegister(subject.value)
+                                        }}
+                                        style={{
+                                            backgroundColor: subject.color,
+                                        }}
+                                        className="flex flex-col items-center justify-center gap-2 py-4 px-4 text-white rounded-xl shadow-md hover:scale-105 hover:brightness-95 transition-all duration-200"
+                                    >
+                                        <div>{subject.icon}</div>
+                                        <span className="text-sm sm:text-base font-medium">
+                                            {subject.name}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => setOpenSubjectModal(false)}
+                                className="mt-2 sm:mt-4 text-xs sm:text-sm text-gray-500 hover:underline text-center"
+                            >
+                                Скасувати
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -47,8 +47,11 @@ export class TestController {
     }
 
     @Post(':id/assign')
-    assignTest(@Param('id') id: string, @Body() dto: { studentId: string }) {
-        return this.testService.assign(id, dto.studentId)
+    assignTest(
+        @Param('id') id: string,
+        @Body() dto: { studentId: string; endTime: string }
+    ) {
+        return this.testService.assign(id, dto.studentId, dto.endTime)
     }
 
     @Post(':id/check/:userId')

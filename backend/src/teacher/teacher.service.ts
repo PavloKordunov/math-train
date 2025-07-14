@@ -1,89 +1,101 @@
 import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
-import { createTeacherDto } from './dto/createTeacherDto';
-import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+    ConflictException,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+} from '@nestjs/common'
+import { DatabaseService } from 'src/database/database.service'
+import { createTeacherDto } from './dto/createTeacherDto'
+import { JwtService } from '@nestjs/jwt'
+import * as bcrypt from 'bcrypt'
+import { Subject } from 'generated/prisma'
 
 @Injectable()
 export class TeacherService {
-  constructor(
-    private readonly databaseServise: DatabaseService,
-    private jwtService: JwtService,
-  ) {}
+    constructor(
+        private readonly databaseServise: DatabaseService,
+        private jwtService: JwtService
+    ) {}
 
-  async getAllTeachers() {
-    return this.databaseServise.teacher.findMany();
-  }
-
-  async register(createTeacherDto: createTeacherDto) {
-    const existingUser = await this.databaseServise.teacher.findUnique({
-      where: { email: createTeacherDto.email },
-    });
-
-    if (existingUser) {
-      throw new ConflictException('Email is already in use');
+    async getAllTeachers() {
+        return this.databaseServise.teacher.findMany()
     }
 
-    const hashedPassword = await bcrypt.hash(createTeacherDto.password, 10);
+    async register(createTeacherDto: createTeacherDto) {
+        const existingUser = await this.databaseServise.teacher.findUnique({
+            where: { email: createTeacherDto.email },
+        })
 
-    const user = await this.databaseServise.teacher.create({
-      data: { ...createTeacherDto, password: hashedPassword },
-    });
+        if (existingUser) {
+            throw new ConflictException('Email is already in use')
+        }
 
-    const token = await this.generateToken(user);
+        const hashedPassword = await bcrypt.hash(createTeacherDto.password, 10)
 
-    return {
-      accessToken: token,
-      user: {
-        id: user.id,
-        email: user.email,
-        status: user.status,
-      },
-    };
-  }
+        const user = await this.databaseServise.teacher.create({
+            data: {
+                email: createTeacherDto.email,
+                phone: createTeacherDto.phone,
+                name: createTeacherDto.name,
+                subject:
+                    Subject[createTeacherDto.subject as keyof typeof Subject],
+                password: hashedPassword,
+            },
+        })
 
-  async getTeacherById(id: string) {
-    try {
-      const teacher = await this.databaseServise.teacher.findUnique({
-        where: { id },
-      });
+        const token = await this.generateToken(user)
 
-      if (!teacher) {
-        throw new NotFoundException('User not found');
-      }
-
-      return teacher;
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
+        return {
+            accessToken: token,
+            user: {
+                id: user.id,
+                email: user.email,
+                status: user.status,
+                Subject: user.subject,
+            },
+        }
     }
-  }
 
-  async delete(id: string) {
-    try {
-      const user = await this.databaseServise.teacher.findUnique({
-        where: { id },
-      });
+    async getTeacherById(id: string) {
+        try {
+            const teacher = await this.databaseServise.teacher.findUnique({
+                where: { id },
+            })
 
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
+            if (!teacher) {
+                throw new NotFoundException('User not found')
+            }
 
-      return await this.databaseServise.teacher.delete({
-        where: { id },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
+            return teacher
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
     }
-  }
 
-  async generateToken(user: any) {
-    return {
-      access_token: this.jwtService.sign({ id: user.id, email: user.email }),
-    };
-  }
+    async delete(id: string) {
+        try {
+            const user = await this.databaseServise.teacher.findUnique({
+                where: { id },
+            })
+
+            if (!user) {
+                throw new NotFoundException('User not found')
+            }
+
+            return await this.databaseServise.teacher.delete({
+                where: { id },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
+
+    async generateToken(user: any) {
+        return {
+            access_token: this.jwtService.sign({
+                id: user.id,
+                email: user.email,
+            }),
+        }
+    }
 }

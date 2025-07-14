@@ -72,6 +72,16 @@ export namespace $Enums {
 export type Status = (typeof Status)[keyof typeof Status]
 
 
+export const Subject: {
+  Mathematics: 'Mathematics',
+  Ukrainian: 'Ukrainian',
+  English: 'English',
+  History: 'History'
+};
+
+export type Subject = (typeof Subject)[keyof typeof Subject]
+
+
 export const TestStatus: {
   PENDING: 'PENDING',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -85,6 +95,10 @@ export type TestStatus = (typeof TestStatus)[keyof typeof TestStatus]
 export type Status = $Enums.Status
 
 export const Status: typeof $Enums.Status
+
+export type Subject = $Enums.Subject
+
+export const Subject: typeof $Enums.Subject
 
 export type TestStatus = $Enums.TestStatus
 
@@ -5172,7 +5186,9 @@ export namespace Prisma {
     id: string | null
     name: string | null
     email: string | null
+    phone: string | null
     password: string | null
+    subject: $Enums.Subject | null
     createdAt: Date | null
     updatedAt: Date | null
     status: $Enums.Status | null
@@ -5182,7 +5198,9 @@ export namespace Prisma {
     id: string | null
     name: string | null
     email: string | null
+    phone: string | null
     password: string | null
+    subject: $Enums.Subject | null
     createdAt: Date | null
     updatedAt: Date | null
     status: $Enums.Status | null
@@ -5192,7 +5210,9 @@ export namespace Prisma {
     id: number
     name: number
     email: number
+    phone: number
     password: number
+    subject: number
     createdAt: number
     updatedAt: number
     status: number
@@ -5204,7 +5224,9 @@ export namespace Prisma {
     id?: true
     name?: true
     email?: true
+    phone?: true
     password?: true
+    subject?: true
     createdAt?: true
     updatedAt?: true
     status?: true
@@ -5214,7 +5236,9 @@ export namespace Prisma {
     id?: true
     name?: true
     email?: true
+    phone?: true
     password?: true
+    subject?: true
     createdAt?: true
     updatedAt?: true
     status?: true
@@ -5224,7 +5248,9 @@ export namespace Prisma {
     id?: true
     name?: true
     email?: true
+    phone?: true
     password?: true
+    subject?: true
     createdAt?: true
     updatedAt?: true
     status?: true
@@ -5307,7 +5333,9 @@ export namespace Prisma {
     id: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt: Date
     updatedAt: Date
     status: $Enums.Status
@@ -5334,7 +5362,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    phone?: boolean
     password?: boolean
+    subject?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
@@ -5347,7 +5377,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    phone?: boolean
     password?: boolean
+    subject?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
@@ -5357,7 +5389,9 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    phone?: boolean
     password?: boolean
+    subject?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
@@ -5367,13 +5401,15 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    phone?: boolean
     password?: boolean
+    subject?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
   }
 
-  export type TeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["teacher"]>
+  export type TeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "password" | "subject" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["teacher"]>
   export type TeacherInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tests?: boolean | Teacher$testsArgs<ExtArgs>
     students?: boolean | Teacher$studentsArgs<ExtArgs>
@@ -5392,7 +5428,9 @@ export namespace Prisma {
       id: string
       name: string
       email: string
+      phone: string
       password: string
+      subject: $Enums.Subject
       createdAt: Date
       updatedAt: Date
       status: $Enums.Status
@@ -5824,7 +5862,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Teacher", 'String'>
     readonly name: FieldRef<"Teacher", 'String'>
     readonly email: FieldRef<"Teacher", 'String'>
+    readonly phone: FieldRef<"Teacher", 'String'>
     readonly password: FieldRef<"Teacher", 'String'>
+    readonly subject: FieldRef<"Teacher", 'Subject'>
     readonly createdAt: FieldRef<"Teacher", 'DateTime'>
     readonly updatedAt: FieldRef<"Teacher", 'DateTime'>
     readonly status: FieldRef<"Teacher", 'Status'>
@@ -8642,7 +8682,6 @@ export namespace Prisma {
     description: string | null
     score: string | null
     startTime: Date | null
-    endTime: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     testTYpe: string | null
@@ -8659,7 +8698,6 @@ export namespace Prisma {
     description: string | null
     score: string | null
     startTime: Date | null
-    endTime: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     testTYpe: string | null
@@ -8676,7 +8714,6 @@ export namespace Prisma {
     description: number
     score: number
     startTime: number
-    endTime: number
     createdAt: number
     updatedAt: number
     testTYpe: number
@@ -8703,7 +8740,6 @@ export namespace Prisma {
     description?: true
     score?: true
     startTime?: true
-    endTime?: true
     createdAt?: true
     updatedAt?: true
     testTYpe?: true
@@ -8720,7 +8756,6 @@ export namespace Prisma {
     description?: true
     score?: true
     startTime?: true
-    endTime?: true
     createdAt?: true
     updatedAt?: true
     testTYpe?: true
@@ -8737,7 +8772,6 @@ export namespace Prisma {
     description?: true
     score?: true
     startTime?: true
-    endTime?: true
     createdAt?: true
     updatedAt?: true
     testTYpe?: true
@@ -8841,7 +8875,6 @@ export namespace Prisma {
     description: string | null
     score: string | null
     startTime: Date | null
-    endTime: Date | null
     createdAt: Date
     updatedAt: Date
     testTYpe: string | null
@@ -8877,7 +8910,6 @@ export namespace Prisma {
     description?: boolean
     score?: boolean
     startTime?: boolean
-    endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
@@ -8901,7 +8933,6 @@ export namespace Prisma {
     description?: boolean
     score?: boolean
     startTime?: boolean
-    endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
@@ -8921,7 +8952,6 @@ export namespace Prisma {
     description?: boolean
     score?: boolean
     startTime?: boolean
-    endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
@@ -8941,7 +8971,6 @@ export namespace Prisma {
     description?: boolean
     score?: boolean
     startTime?: boolean
-    endTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
@@ -8951,7 +8980,7 @@ export namespace Prisma {
     subTopicId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "testTYpe" | "teacherId" | "adminID" | "status" | "subTopicId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "createdAt" | "updatedAt" | "testTYpe" | "teacherId" | "adminID" | "status" | "subTopicId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Test$teacherArgs<ExtArgs>
     admin?: boolean | Test$adminArgs<ExtArgs>
@@ -8989,7 +9018,6 @@ export namespace Prisma {
       description: string | null
       score: string | null
       startTime: Date | null
-      endTime: Date | null
       createdAt: Date
       updatedAt: Date
       testTYpe: string | null
@@ -9432,7 +9460,6 @@ export namespace Prisma {
     readonly description: FieldRef<"Test", 'String'>
     readonly score: FieldRef<"Test", 'String'>
     readonly startTime: FieldRef<"Test", 'DateTime'>
-    readonly endTime: FieldRef<"Test", 'DateTime'>
     readonly createdAt: FieldRef<"Test", 'DateTime'>
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
     readonly testTYpe: FieldRef<"Test", 'String'>
@@ -9998,6 +10025,7 @@ export namespace Prisma {
     studentId: string | null
     testId: string | null
     assignedAt: Date | null
+    endTime: Date | null
   }
 
   export type AssignedTestMaxAggregateOutputType = {
@@ -10005,6 +10033,7 @@ export namespace Prisma {
     studentId: string | null
     testId: string | null
     assignedAt: Date | null
+    endTime: Date | null
   }
 
   export type AssignedTestCountAggregateOutputType = {
@@ -10012,6 +10041,7 @@ export namespace Prisma {
     studentId: number
     testId: number
     assignedAt: number
+    endTime: number
     _all: number
   }
 
@@ -10021,6 +10051,7 @@ export namespace Prisma {
     studentId?: true
     testId?: true
     assignedAt?: true
+    endTime?: true
   }
 
   export type AssignedTestMaxAggregateInputType = {
@@ -10028,6 +10059,7 @@ export namespace Prisma {
     studentId?: true
     testId?: true
     assignedAt?: true
+    endTime?: true
   }
 
   export type AssignedTestCountAggregateInputType = {
@@ -10035,6 +10067,7 @@ export namespace Prisma {
     studentId?: true
     testId?: true
     assignedAt?: true
+    endTime?: true
     _all?: true
   }
 
@@ -10115,6 +10148,7 @@ export namespace Prisma {
     studentId: string
     testId: string
     assignedAt: Date
+    endTime: Date | null
     _count: AssignedTestCountAggregateOutputType | null
     _min: AssignedTestMinAggregateOutputType | null
     _max: AssignedTestMaxAggregateOutputType | null
@@ -10139,6 +10173,7 @@ export namespace Prisma {
     studentId?: boolean
     testId?: boolean
     assignedAt?: boolean
+    endTime?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
     test?: boolean | TestDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignedTest"]>
@@ -10148,6 +10183,7 @@ export namespace Prisma {
     studentId?: boolean
     testId?: boolean
     assignedAt?: boolean
+    endTime?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
     test?: boolean | TestDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignedTest"]>
@@ -10157,6 +10193,7 @@ export namespace Prisma {
     studentId?: boolean
     testId?: boolean
     assignedAt?: boolean
+    endTime?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
     test?: boolean | TestDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignedTest"]>
@@ -10166,9 +10203,10 @@ export namespace Prisma {
     studentId?: boolean
     testId?: boolean
     assignedAt?: boolean
+    endTime?: boolean
   }
 
-  export type AssignedTestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "testId" | "assignedAt", ExtArgs["result"]["assignedTest"]>
+  export type AssignedTestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "testId" | "assignedAt" | "endTime", ExtArgs["result"]["assignedTest"]>
   export type AssignedTestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
     test?: boolean | TestDefaultArgs<ExtArgs>
@@ -10193,6 +10231,7 @@ export namespace Prisma {
       studentId: string
       testId: string
       assignedAt: Date
+      endTime: Date | null
     }, ExtArgs["result"]["assignedTest"]>
     composites: {}
   }
@@ -10622,6 +10661,7 @@ export namespace Prisma {
     readonly studentId: FieldRef<"AssignedTest", 'String'>
     readonly testId: FieldRef<"AssignedTest", 'String'>
     readonly assignedAt: FieldRef<"AssignedTest", 'DateTime'>
+    readonly endTime: FieldRef<"AssignedTest", 'DateTime'>
   }
     
 
@@ -12245,7 +12285,9 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     email: 'email',
+    phone: 'phone',
     password: 'password',
+    subject: 'subject',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     status: 'status'
@@ -12292,7 +12334,6 @@ export namespace Prisma {
     description: 'description',
     score: 'score',
     startTime: 'startTime',
-    endTime: 'endTime',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     testTYpe: 'testTYpe',
@@ -12309,7 +12350,8 @@ export namespace Prisma {
     id: 'id',
     studentId: 'studentId',
     testId: 'testId',
-    assignedAt: 'assignedAt'
+    assignedAt: 'assignedAt',
+    endTime: 'endTime'
   };
 
   export type AssignedTestScalarFieldEnum = (typeof AssignedTestScalarFieldEnum)[keyof typeof AssignedTestScalarFieldEnum]
@@ -12418,6 +12460,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Subject'
+   */
+  export type EnumSubjectFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subject'>
+    
+
+
+  /**
+   * Reference to a field of type 'Subject[]'
+   */
+  export type ListEnumSubjectFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subject[]'>
     
 
 
@@ -12678,7 +12734,9 @@ export namespace Prisma {
     id?: StringFilter<"Teacher"> | string
     name?: StringFilter<"Teacher"> | string
     email?: StringFilter<"Teacher"> | string
+    phone?: StringFilter<"Teacher"> | string
     password?: StringFilter<"Teacher"> | string
+    subject?: EnumSubjectFilter<"Teacher"> | $Enums.Subject
     createdAt?: DateTimeFilter<"Teacher"> | Date | string
     updatedAt?: DateTimeFilter<"Teacher"> | Date | string
     status?: EnumStatusFilter<"Teacher"> | $Enums.Status
@@ -12690,7 +12748,9 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    phone?: SortOrder
     password?: SortOrder
+    subject?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -12701,23 +12761,27 @@ export namespace Prisma {
   export type TeacherWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    phone?: string
     AND?: TeacherWhereInput | TeacherWhereInput[]
     OR?: TeacherWhereInput[]
     NOT?: TeacherWhereInput | TeacherWhereInput[]
     name?: StringFilter<"Teacher"> | string
     password?: StringFilter<"Teacher"> | string
+    subject?: EnumSubjectFilter<"Teacher"> | $Enums.Subject
     createdAt?: DateTimeFilter<"Teacher"> | Date | string
     updatedAt?: DateTimeFilter<"Teacher"> | Date | string
     status?: EnumStatusFilter<"Teacher"> | $Enums.Status
     tests?: TestListRelationFilter
     students?: StudentListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "phone">
 
   export type TeacherOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    phone?: SortOrder
     password?: SortOrder
+    subject?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -12733,7 +12797,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Teacher"> | string
     name?: StringWithAggregatesFilter<"Teacher"> | string
     email?: StringWithAggregatesFilter<"Teacher"> | string
+    phone?: StringWithAggregatesFilter<"Teacher"> | string
     password?: StringWithAggregatesFilter<"Teacher"> | string
+    subject?: EnumSubjectWithAggregatesFilter<"Teacher"> | $Enums.Subject
     createdAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
     status?: EnumStatusWithAggregatesFilter<"Teacher"> | $Enums.Status
@@ -12915,7 +12981,6 @@ export namespace Prisma {
     description?: StringNullableFilter<"Test"> | string | null
     score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
@@ -12938,7 +13003,6 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     score?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
-    endTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrderInput | SortOrder
@@ -12964,7 +13028,6 @@ export namespace Prisma {
     description?: StringNullableFilter<"Test"> | string | null
     score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
@@ -12987,7 +13050,6 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     score?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
-    endTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrderInput | SortOrder
@@ -13012,7 +13074,6 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Test"> | string | null
     score?: StringNullableWithAggregatesFilter<"Test"> | string | null
     startTime?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
-    endTime?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     testTYpe?: StringNullableWithAggregatesFilter<"Test"> | string | null
@@ -13030,6 +13091,7 @@ export namespace Prisma {
     studentId?: StringFilter<"AssignedTest"> | string
     testId?: StringFilter<"AssignedTest"> | string
     assignedAt?: DateTimeFilter<"AssignedTest"> | Date | string
+    endTime?: DateTimeNullableFilter<"AssignedTest"> | Date | string | null
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     test?: XOR<TestScalarRelationFilter, TestWhereInput>
   }
@@ -13039,6 +13101,7 @@ export namespace Prisma {
     studentId?: SortOrder
     testId?: SortOrder
     assignedAt?: SortOrder
+    endTime?: SortOrderInput | SortOrder
     student?: StudentOrderByWithRelationInput
     test?: TestOrderByWithRelationInput
   }
@@ -13051,6 +13114,7 @@ export namespace Prisma {
     studentId?: StringFilter<"AssignedTest"> | string
     testId?: StringFilter<"AssignedTest"> | string
     assignedAt?: DateTimeFilter<"AssignedTest"> | Date | string
+    endTime?: DateTimeNullableFilter<"AssignedTest"> | Date | string | null
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     test?: XOR<TestScalarRelationFilter, TestWhereInput>
   }, "id">
@@ -13060,6 +13124,7 @@ export namespace Prisma {
     studentId?: SortOrder
     testId?: SortOrder
     assignedAt?: SortOrder
+    endTime?: SortOrderInput | SortOrder
     _count?: AssignedTestCountOrderByAggregateInput
     _max?: AssignedTestMaxOrderByAggregateInput
     _min?: AssignedTestMinOrderByAggregateInput
@@ -13073,6 +13138,7 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"AssignedTest"> | string
     testId?: StringWithAggregatesFilter<"AssignedTest"> | string
     assignedAt?: DateTimeWithAggregatesFilter<"AssignedTest"> | Date | string
+    endTime?: DateTimeNullableWithAggregatesFilter<"AssignedTest"> | Date | string | null
   }
 
   export type TaskWhereInput = {
@@ -13365,7 +13431,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -13377,7 +13445,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -13389,7 +13459,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -13401,7 +13473,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -13413,7 +13487,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -13423,7 +13499,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -13433,7 +13511,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -13626,7 +13706,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -13646,7 +13725,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -13666,7 +13744,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13686,7 +13763,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13706,7 +13782,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -13723,7 +13798,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13737,7 +13811,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13750,6 +13823,7 @@ export namespace Prisma {
   export type AssignedTestCreateInput = {
     id?: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
     student: StudentCreateNestedOneWithoutAssignedTestsInput
     test: TestCreateNestedOneWithoutAssignedToInput
   }
@@ -13759,11 +13833,13 @@ export namespace Prisma {
     studentId: string
     testId: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
   }
 
   export type AssignedTestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     student?: StudentUpdateOneRequiredWithoutAssignedTestsNestedInput
     test?: TestUpdateOneRequiredWithoutAssignedToNestedInput
   }
@@ -13773,6 +13849,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     testId?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssignedTestCreateManyInput = {
@@ -13780,11 +13857,13 @@ export namespace Prisma {
     studentId: string
     testId: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
   }
 
   export type AssignedTestUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssignedTestUncheckedUpdateManyInput = {
@@ -13792,6 +13871,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     testId?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TaskCreateInput = {
@@ -14091,6 +14171,13 @@ export namespace Prisma {
     topicId?: SortOrder
   }
 
+  export type EnumSubjectFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subject | EnumSubjectFieldRefInput<$PrismaModel>
+    in?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubjectFilter<$PrismaModel> | $Enums.Subject
+  }
+
   export type StudentListRelationFilter = {
     every?: StudentWhereInput
     some?: StudentWhereInput
@@ -14105,7 +14192,9 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    phone?: SortOrder
     password?: SortOrder
+    subject?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -14115,7 +14204,9 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    phone?: SortOrder
     password?: SortOrder
+    subject?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -14125,10 +14216,22 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    phone?: SortOrder
     password?: SortOrder
+    subject?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+  }
+
+  export type EnumSubjectWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subject | EnumSubjectFieldRefInput<$PrismaModel>
+    in?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubjectWithAggregatesFilter<$PrismaModel> | $Enums.Subject
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubjectFilter<$PrismaModel>
+    _max?: NestedEnumSubjectFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -14419,7 +14522,6 @@ export namespace Prisma {
     description?: SortOrder
     score?: SortOrder
     startTime?: SortOrder
-    endTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrder
@@ -14440,7 +14542,6 @@ export namespace Prisma {
     description?: SortOrder
     score?: SortOrder
     startTime?: SortOrder
-    endTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrder
@@ -14457,7 +14558,6 @@ export namespace Prisma {
     description?: SortOrder
     score?: SortOrder
     startTime?: SortOrder
-    endTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrder
@@ -14534,6 +14634,7 @@ export namespace Prisma {
     studentId?: SortOrder
     testId?: SortOrder
     assignedAt?: SortOrder
+    endTime?: SortOrder
   }
 
   export type AssignedTestMaxOrderByAggregateInput = {
@@ -14541,6 +14642,7 @@ export namespace Prisma {
     studentId?: SortOrder
     testId?: SortOrder
     assignedAt?: SortOrder
+    endTime?: SortOrder
   }
 
   export type AssignedTestMinOrderByAggregateInput = {
@@ -14548,6 +14650,7 @@ export namespace Prisma {
     studentId?: SortOrder
     testId?: SortOrder
     assignedAt?: SortOrder
+    endTime?: SortOrder
   }
 
   export type BoolNullableFilter<$PrismaModel = never> = {
@@ -14841,6 +14944,10 @@ export namespace Prisma {
     connectOrCreate?: StudentCreateOrConnectWithoutTeacherInput | StudentCreateOrConnectWithoutTeacherInput[]
     createMany?: StudentCreateManyTeacherInputEnvelope
     connect?: StudentWhereUniqueInput | StudentWhereUniqueInput[]
+  }
+
+  export type EnumSubjectFieldUpdateOperationsInput = {
+    set?: $Enums.Subject
   }
 
   export type TestUpdateManyWithoutTeacherNestedInput = {
@@ -15363,6 +15470,23 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumSubjectFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subject | EnumSubjectFieldRefInput<$PrismaModel>
+    in?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubjectFilter<$PrismaModel> | $Enums.Subject
+  }
+
+  export type NestedEnumSubjectWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subject | EnumSubjectFieldRefInput<$PrismaModel>
+    in?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subject[] | ListEnumSubjectFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubjectWithAggregatesFilter<$PrismaModel> | $Enums.Subject
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubjectFilter<$PrismaModel>
+    _max?: NestedEnumSubjectFilter<$PrismaModel>
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -15585,7 +15709,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -15604,7 +15727,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -15680,7 +15802,6 @@ export namespace Prisma {
     description?: StringNullableFilter<"Test"> | string | null
     score?: StringNullableFilter<"Test"> | string | null
     startTime?: DateTimeNullableFilter<"Test"> | Date | string | null
-    endTime?: DateTimeNullableFilter<"Test"> | Date | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
@@ -15830,7 +15951,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -15849,7 +15969,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -15923,7 +16042,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -15942,7 +16060,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16084,6 +16201,7 @@ export namespace Prisma {
   export type AssignedTestCreateWithoutStudentInput = {
     id?: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
     test: TestCreateNestedOneWithoutAssignedToInput
   }
 
@@ -16091,6 +16209,7 @@ export namespace Prisma {
     id?: string
     testId: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
   }
 
   export type AssignedTestCreateOrConnectWithoutStudentInput = {
@@ -16107,7 +16226,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -16118,7 +16239,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -16186,6 +16309,7 @@ export namespace Prisma {
     studentId?: StringFilter<"AssignedTest"> | string
     testId?: StringFilter<"AssignedTest"> | string
     assignedAt?: DateTimeFilter<"AssignedTest"> | Date | string
+    endTime?: DateTimeNullableFilter<"AssignedTest"> | Date | string | null
   }
 
   export type TeacherUpsertWithoutStudentsInput = {
@@ -16203,7 +16327,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -16214,7 +16340,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -16259,7 +16387,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16278,7 +16405,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16350,7 +16476,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16369,7 +16494,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16385,7 +16509,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -16396,7 +16522,9 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
+    phone: string
     password: string
+    subject: $Enums.Subject
     createdAt?: Date | string
     updatedAt?: Date | string
     status?: $Enums.Status
@@ -16510,6 +16638,7 @@ export namespace Prisma {
   export type AssignedTestCreateWithoutTestInput = {
     id?: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
     student: StudentCreateNestedOneWithoutAssignedTestsInput
   }
 
@@ -16517,6 +16646,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
   }
 
   export type AssignedTestCreateOrConnectWithoutTestInput = {
@@ -16563,7 +16693,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -16574,7 +16706,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
@@ -16743,7 +16877,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16762,7 +16895,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16834,7 +16966,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16853,7 +16984,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16872,7 +17002,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16891,7 +17020,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -16926,7 +17054,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16945,7 +17072,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16972,7 +17098,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -17014,7 +17139,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17033,7 +17157,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17052,7 +17175,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17094,7 +17216,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -17110,7 +17231,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17129,7 +17249,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17148,7 +17267,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17164,7 +17282,6 @@ export namespace Prisma {
     description?: string | null
     score?: string | null
     startTime?: Date | string | null
-    endTime?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
@@ -17191,7 +17308,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17210,7 +17326,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17229,7 +17344,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17291,6 +17405,7 @@ export namespace Prisma {
     id?: string
     testId: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
   }
 
   export type StudentScoreUpdateWithoutStudentInput = {
@@ -17332,6 +17447,7 @@ export namespace Prisma {
   export type AssignedTestUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     test?: TestUpdateOneRequiredWithoutAssignedToNestedInput
   }
 
@@ -17339,12 +17455,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     testId?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssignedTestUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     testId?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TaskCreateManyTestInput = {
@@ -17377,6 +17495,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     assignedAt?: Date | string
+    endTime?: Date | string | null
   }
 
   export type TaskUpdateWithoutTestInput = {
@@ -17460,6 +17579,7 @@ export namespace Prisma {
   export type AssignedTestUpdateWithoutTestInput = {
     id?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     student?: StudentUpdateOneRequiredWithoutAssignedTestsNestedInput
   }
 
@@ -17467,12 +17587,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssignedTestUncheckedUpdateManyWithoutTestInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

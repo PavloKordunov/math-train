@@ -6,8 +6,8 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { DatabaseService } from 'src/database/database.service'
-import { OAuthDto } from './dto/OAuthDto'
 import { NativeAuthDto } from './dto/nativeAuthDto'
+import { Teacher, Student, Admin } from 'generated/prisma'
 
 @Injectable()
 export class LoginService {
@@ -18,11 +18,12 @@ export class LoginService {
 
     async oauth(email: string) {
         try {
-            let user = await this.databaseService.teacher.findUnique({
-                where: { email },
-            })
+            let user: Teacher | Student | Admin | null = null
             let role: 'teacher' | 'student' | 'admin' | null = null
 
+            user = await this.databaseService.teacher.findUnique({
+                where: { email },
+            })
             if (user) {
                 role = 'teacher'
             } else {
@@ -52,8 +53,9 @@ export class LoginService {
                 user: {
                     id: user.id,
                     email: user.email,
-                    status: user.status,
                     name: user.name,
+                    status: user.status,
+                    ...('subject' in user && { subject: user.subject }),
                 },
             }
         } catch (error) {
@@ -65,11 +67,12 @@ export class LoginService {
 
     async native(nativeAuthDto: NativeAuthDto) {
         try {
-            let user = await this.databaseService.teacher.findUnique({
-                where: { email: nativeAuthDto.email },
-            })
+            let user: Teacher | Student | Admin | null = null
             let role: 'teacher' | 'student' | 'admin' | null = null
 
+            user = await this.databaseService.teacher.findUnique({
+                where: { email: nativeAuthDto.email },
+            })
             if (user) {
                 role = 'teacher'
             } else {

@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-const TestBasicInfo = ({ test, setTest, formatDateForInput }: any) => {
+const TestBasicInfo = ({ test, setTest }: any) => {
     return (
         <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
             <div className="mb-4">
@@ -42,21 +42,6 @@ const TestBasicInfo = ({ test, setTest, formatDateForInput }: any) => {
                     onChange={(e) =>
                         setTest({ ...test, timeLimit: Number(e.target.value) })
                     }
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                />
-            </div>
-
-            <div>
-                <label className="block text-gray-700 font-medium mb-1">
-                    Крайній термін проходження
-                </label>
-                <input
-                    type="datetime-local"
-                    value={formatDateForInput(test.endTime)}
-                    onChange={(e) => {
-                        const isoDate = new Date(e.target.value).toISOString()
-                        setTest({ ...test, endTime: isoDate })
-                    }}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                 />
             </div>

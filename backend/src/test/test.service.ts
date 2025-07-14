@@ -79,6 +79,7 @@ export class TestService {
         try {
             return this.databaseService.test.findMany({
                 where: { teacherId: id },
+                include: { tasks: true },
             })
         } catch (error) {
             throw new InternalServerErrorException(error.message)
@@ -132,12 +133,13 @@ export class TestService {
         }
     }
 
-    async assign(id: string, studentId: string) {
+    async assign(id: string, studentId: string, endTime: string) {
         try {
             return await this.databaseService.assignedTest.create({
                 data: {
                     testId: id,
                     studentId,
+                    endTime,
                 },
             })
         } catch (error) {
