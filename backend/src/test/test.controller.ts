@@ -24,6 +24,11 @@ export class TestController {
         return this.testService.getAllTests(Number(page))
     }
 
+    @Get('topic')
+    getAllTopicTest() {
+        return this.testService.getAllTopicTests()
+    }
+
     @Get('topic/:topicId')
     getTopicTest(
         @Param('topicId') topicId: string,

@@ -63,6 +63,7 @@ model Student {
   updatedAt DateTime @updatedAt
   status    Status   @default(Student)
   viewAccess  Boolean  @default(false)
+  subject   Subject?
 
   scores    StudentScore[]
   assignedTests AssignedTest[]

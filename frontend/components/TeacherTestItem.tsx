@@ -114,8 +114,7 @@ const TeacherTestItem = ({ students, test }: { students: any; test: any }) => {
                 <div className="flex flex-col justify-between p-6 gap-4 md:w-3/4 bg-white border-l-2 border-[#CDC8C8]">
                     <div>
                         <p className="font-bold text-lg uppercase mb-4">
-                            Тест: {test.title} —{' '}
-                            {formatDateToUkrainian(test.endTime)}
+                            Тест: {test.title}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3">
                             <Link

@@ -62,14 +62,14 @@ const TestResults = ({ test, student }: { test: any; student: any }) => {
                         student?.viewAccess === false ? (
                             <div
                                 onClick={onErrorClick}
-                                className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase cursor-pointer"
+                                className="bg-[#CA193A] px-4 py-2 text-white w-fit rounded-md font-semibold uppercase cursor-pointer"
                             >
                                 Переглянути тест
                             </div>
                         ) : (
                             <Link
                                 href={`/perfomence/${test.id}`}
-                                className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase"
+                                className="bg-[#CA193A] px-4 py-2 w-fit text-white rounded-md font-semibold uppercase"
                             >
                                 Переглянути тест
                             </Link>

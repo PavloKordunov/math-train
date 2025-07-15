@@ -113,6 +113,7 @@ export class LoginService {
                     email: user.email,
                     name: user.name,
                     status: user.status,
+                    ...('subject' in user && { subject: user.subject }),
                 },
             }
         } catch (error) {

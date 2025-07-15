@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common'
 import { StudentService } from './student.service'
 import { createStudentDto } from './dto/CreateStudentDto'
 
@@ -34,5 +34,10 @@ export class StudentController {
     @Post('register')
     create(@Body() createStudentDto: createStudentDto) {
         return this.studentService.create(createStudentDto)
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: string) {
+        return this.studentService.delete(id)
     }
 }

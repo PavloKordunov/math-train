@@ -131,7 +131,11 @@ export class StudentService {
             )
 
             const user = await this.databaseService.student.create({
-                data: { ...createStudentDto, password: hashedPassword },
+                data: {
+                    ...createStudentDto,
+                    password: hashedPassword,
+                    subject: existTeacher.subject,
+                },
             })
 
             const token = await this.generateToken(user)
@@ -142,6 +146,7 @@ export class StudentService {
                     id: user.id,
                     email: user.email,
                     status: user.status,
+                    subject: user.subject,
                 },
             }
         } catch (error) {
@@ -157,6 +162,26 @@ export class StudentService {
                 id: user.id,
                 email: user.email,
             }),
+        }
+    }
+
+    async delete(id: string) {
+        try {
+            const user = await this.databaseService.student.delete({
+                where: { id },
+            })
+
+            if (!user) {
+                throw new NotFoundException('Student not found')
+            }
+
+            return await this.databaseService.student.delete({
+                where: { id },
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(
+                `Failed to delete user: ${error.message}`
+            )
         }
     }
 }

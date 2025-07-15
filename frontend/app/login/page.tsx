@@ -20,6 +20,10 @@ export default function LoginPage() {
         password: '',
     })
 
+    useEffect(() => {
+        console.log(API_URL)
+    }, [])
+
     const router = useRouter()
     const { user, setUser } = useUser()
     const [isLoading, setIsLoading] = useState(false)
