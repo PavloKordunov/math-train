@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, } from '@nestjs/common';
 import { TeacherService } from './teacher.service';
 import { createTeacherDto } from './dto/createTeacherDto';
 
@@ -7,8 +7,10 @@ export class TeacherController {
     constructor(private readonly teacherServise: TeacherService) {}
 
     @Get()
-    getAllTeachers(){
-        return this.teacherServise.getAllTeachers()
+    getAllTeachers(
+        @Query("page") page: string
+    ){
+        return this.teacherServise.getAllTeachers(Number(page))
     }
 
     @Get(':id')

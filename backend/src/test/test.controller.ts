@@ -6,6 +6,7 @@ import {
     Param,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common'
 import { TestService } from './test.service'
 import { CreateTestDto } from './dto/createTestDto'
@@ -17,28 +18,42 @@ export class TestController {
     constructor(private readonly testService: TestService) {}
 
     @Get()
-    getAllTests() {
-        return this.testService.getAllTests()
+    getAllTests(
+        @Query('page') page: string
+    ) {
+        return this.testService.getAllTests(Number(page))
     }
 
     @Get('topic/:topicId')
-    getTopicTest(@Param('topicId') topicId: string) {
-        return this.testService.getTopicTest(topicId)
+    getTopicTest(
+        @Param('topicId') topicId: string,
+        @Query('page') page: string
+    ) {
+        return this.testService.getTopicTest(topicId, Number(page))
     }
 
     @Get('task/:id')
-    getTestTask(@Param('id') id: string) {
-        return this.testService.getTestTask(id)
+    getTestTask(
+        @Param('id') id: string,
+        @Query('page') page: string
+    ) {
+        return this.testService.getTestTask(id, Number(page))
     }
 
     @Get('teacher/:id')
-    getAllTestByTeacher(@Param('id') id: string) {
-        return this.testService.getAllTestByTeacher(id)
+    getAllTestByTeacher(
+        @Param('id') id: string,
+        @Query('page') page: string
+    ) {
+        return this.testService.getAllTestByTeacher(id, Number(page))
     }
 
     @Get('assign/:id')
-    getAssignedTest(@Param('id') id: string) {
-        return this.testService.getAssignedTest(id)
+    getAssignedTest(
+        @Param('id') id: string,
+        @Query('page') page:string
+    ) {
+        return this.testService.getAssignedTest(id, Number(page))
     }
 
     @Post()

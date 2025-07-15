@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Query } from '@nestjs/common';
 import { PerfomenceService } from './perfomence.service';
 
 @Controller('perfomence')
@@ -6,13 +6,18 @@ export class PerfomenceController {
     constructor(private readonly perfomenceService: PerfomenceService) {}
 
     @Get('student')
-    getAllStudentPerfomence() {
-        return this.perfomenceService.getAllStudentPerfomence()
+    getAllStudentPerfomence(
+        @Query('page') page: string = '1'
+    ) {
+        return this.perfomenceService.getAllStudentPerfomence(Number(page))
     }
 
     @Get('one/student/:id')
-    getAllStudentPerfomenceById(@Param('id') id: string) {
-        return this.perfomenceService.getAllStudentPerfomenceById(id)
+    getAllStudentPerfomenceById(
+        @Param('id') id: string,
+        @Query('page') page: string = '1'
+    ) {
+        return this.perfomenceService.getAllStudentPerfomenceById(id, Number(page))
     }
 
     @Get('student/:id')

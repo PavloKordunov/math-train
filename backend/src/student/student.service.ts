@@ -16,8 +16,31 @@ export class StudentService {
         private jwtService: JwtService
     ) {}
 
-    async findAllStudents() {
-        return this.databaseService.student.findMany()
+    async findAllStudents(page: number = 1) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+
+        try {
+            const [items, total] = await Promise.all([
+                this.databaseService.student.findMany({
+                    skip,
+                    take: pageSize,
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.student.count()
+            ]);
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
+        } catch (error) {
+            throw new InternalServerErrorException("Failed to get students")
+        }
     }
 
     async findStudentById(id: string) {
@@ -36,16 +59,32 @@ export class StudentService {
         }
     }
 
-    async getStudentByTeacherId(id: string) {
+    async getStudentByTeacherId(id: string, page: number = 1) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            const students = await this.databaseService.student.findMany({
-                where: { teacherId: id },
-            })
-            if (!students) {
+            const [items, total] = await Promise.all([
+                this.databaseService.student.findMany({
+                    skip,
+                    take: pageSize,
+                    where: {teacherId: id},
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.studentScore.count()
+            ]);
+            if (!items) {
                 throw new NotFoundException('Students not found')
             }
-
-            return students
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(`${error.message}`)
         }

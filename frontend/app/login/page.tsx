@@ -23,7 +23,9 @@ export default function LoginPage() {
     const router = useRouter()
     const { user, setUser } = useUser()
     const [isLoading, setIsLoading] = useState(false)
-
+    useEffect(() => {
+        console.log(API_URL)
+    }, [])
     const handleLogin = async () => {
         setIsLoading(true)
         try {

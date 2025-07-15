@@ -16,9 +16,28 @@ export class AdminService {
         private jwtService: JwtService
     ) {}
 
-    async getAll() {
+    async getAll(page: number = 1) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+
         try {
-            return this.databaseService.admin.findMany()
+            const [items, total] = await Promise.all([
+                this.databaseService.admin.findMany({
+                    skip,              
+                    take: pageSize,    
+                    orderBy: {
+                        id: 'asc',       
+                    },
+                }),
+                this.databaseService.admin.count() 
+            ]);
+            return {
+                data: items,                             
+                total,                                   
+                page,                                    
+                pageSize,                                
+                totalPages: Math.ceil(total / pageSize), 
+            };
         } catch (error) {
             throw new InternalServerErrorException('Failed to get users')
         }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { StudentService } from './student.service'
 import { createStudentDto } from './dto/CreateStudentDto'
 
@@ -7,8 +7,10 @@ export class StudentController {
     constructor(private readonly studentService: StudentService) {}
 
     @Get()
-    findAllStudents() {
-        return this.studentService.findAllStudents()
+    findAllStudents(
+        @Query('page') page: string = '1'
+    ) {
+        return this.studentService.findAllStudents(Number(page))
     }
 
     @Get(':id')
@@ -17,8 +19,11 @@ export class StudentController {
     }
 
     @Get('teacher/:id')
-    getStudentByTeacherId(@Param('id') id: string) {
-        return this.studentService.getStudentByTeacherId(id)
+    getStudentByTeacherId(
+        @Param('id') id: string,
+        @Query('page') page: string = '1'
+    ) {
+        return this.studentService.getStudentByTeacherId(id, Number(page))
     }
 
     @Post('access/:id')
