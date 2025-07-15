@@ -24,6 +24,31 @@ export class TestService {
         }
     }
 
+    async getAllTopicTests() {
+        try {
+            const tests = await this.databaseService.test.findMany({
+                where: {
+                    adminID: {
+                        not: null,
+                    },
+                },
+                include: {
+                    tasks: true,
+                },
+            })
+
+            if (!tests || tests.length === 0) {
+                return []
+            }
+
+            return tests
+        } catch (error) {
+            throw new InternalServerErrorException(
+                `Failed to fetch topic tests: ${error.message}`
+            )
+        }
+    }
+
     async getTopicTest(topicId: string) {
         try {
             return this.databaseService.test.findMany({
