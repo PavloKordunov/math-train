@@ -47,24 +47,47 @@ export class TestService {
         }
     }
 
-    async getAllTopicTests() {
+    async getAllTopicTests(page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            const tests = await this.databaseService.test.findMany({
-                where: {
-                    adminID: {
-                        not: null,
+            const [items, total] = await Promise.all([
+                this.databaseService.test.findMany({
+                    skip,
+                    take: pageSize,
+                    where: {
+                        adminID: {
+                            not: null,
+                        },
                     },
-                },
-                include: {
-                    tasks: true,
-                },
-            })
+                    include: {
+                        tasks: true,
+                    },
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.test.count({
+                    where: {
+                        adminID: {
+                            not: null,
+                        },
+                    },
+                })
+            ]);
 
-            if (!tests || tests.length === 0) {
+            if (!items || items.length === 0) {
                 return []
             }
 
-            return tests
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(
                 `Failed to fetch topic tests: ${error.message}`
