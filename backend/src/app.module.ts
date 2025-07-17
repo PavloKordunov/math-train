@@ -10,6 +10,7 @@ import { PerfomenceModule } from './perfomence/perfomence.module';
 import { AdminModule } from './admin/admin.module';
 import { TopicModule } from './topic/topic.module';
 import { SubtopicModule } from './subtopic/subtopic.module';
+import { S3Module } from './s3/s3.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SubtopicModule } from './subtopic/subtopic.module';
     AdminModule,
     TopicModule,
     SubtopicModule,
+    S3Module
   ],
   controllers: [AppController],
   providers: [AppService],
