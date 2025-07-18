@@ -18,7 +18,7 @@ export const getAllStudentsByTeacherID = async (id: string) => {
         }
 
         const data = await res.json()
-        return data
+        return data.data
     } catch (error) {
         console.error('Error fetching students:', error)
         return []
@@ -99,7 +99,7 @@ export const getAllStudentPerfomenceById = async (studentId: any) => {
         const data = await res.json()
 
         console.log(data)
-        return data
+        return data.data
     } catch (error) {
         console.log(error)
     }
@@ -110,7 +110,7 @@ export const getAssignedTests = async (studentId: any) => {
         const res = await fetch(`${API_URL}/api/test/assign/${studentId}`)
 
         const data = await res.json()
-        return data
+        return data.data
     } catch (error) {
         console.log(error)
     }

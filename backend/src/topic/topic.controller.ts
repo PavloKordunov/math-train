@@ -1,9 +1,11 @@
 import {
     Body,
     Controller,
+    DefaultValuePipe,
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
     Query,
@@ -18,7 +20,7 @@ export class TopicController {
 
     @Get()
     getAllTopics(
-        @Query('page') page: string
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
     ) {
         return this.topicService.getAllTopics(Number(page))
     }
@@ -26,7 +28,7 @@ export class TopicController {
     @Get(':subject')
     getAllTopicsBySubject(
         @Param('subject') subject: string,
-        @Query('page') page: string
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
     ) {
         return this.topicService.getAllTopicsBySubject(subject, Number(page))
     }

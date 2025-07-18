@@ -1,9 +1,11 @@
 import {
     Body,
     Controller,
+    DefaultValuePipe,
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
     Query,
@@ -19,7 +21,7 @@ export class SubtopicController {
     @Get(':topicId')
     getSubTopicByTopicId(
         @Param('topicId') topicId: string,
-        @Query('page') page: string
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
     ) {
         return this.subtopicService.getSubTopicByTopicId(topicId, Number(page))
     }

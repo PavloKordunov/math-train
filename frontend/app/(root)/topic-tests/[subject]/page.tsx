@@ -21,7 +21,7 @@ const TopicTestPage = () => {
             try {
                 const res = await fetch(`${API_URL}/api/topic/${subjectName}`)
                 const data = await res.json()
-                setTopics(data)
+                setTopics(data.data)
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -39,7 +39,7 @@ const TopicTestPage = () => {
                 const data = await res.json()
                 console.log(data)
 
-                setStudents(data)
+                setStudents(data.data)
             } catch (error) {
                 console.log(error)
             }

@@ -12,8 +12,8 @@ export class TopicService {
     constructor(private readonly databaseService: DatabaseService) {}
 
     async getAllTopics(page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
 
         try {
             const [items, total] = await Promise.all([
@@ -30,20 +30,20 @@ export class TopicService {
                         },
                         subTopics: true,
                     },
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
-                this.databaseService.topic.count()
-            ]);
-            
+                this.databaseService.topic.count(),
+            ])
+
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             console.error('Failed to get topics:', error)
             throw new InternalServerErrorException('Failed to get topics')
@@ -51,9 +51,9 @@ export class TopicService {
     }
 
     async getAllTopicsBySubject(subject: string, page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
+
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.topic.findMany({
@@ -61,20 +61,22 @@ export class TopicService {
                     take: pageSize,
                     where: { subjectType: subject },
                     include: { subTopics: true },
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
-                this.databaseService.topic.count({where: { subjectType: subject },})
-            ]);
-            
+                this.databaseService.topic.count({
+                    where: { subjectType: subject },
+                }),
+            ])
+
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             throw new InternalServerErrorException('Failed to get topics')
         }

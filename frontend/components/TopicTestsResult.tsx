@@ -29,7 +29,8 @@ const TopicTestsResult = ({
         try {
             const res = await fetch(`${API_URL}/api/test/topic/${subtopicId}`)
             const data = await res.json()
-            setTests(data)
+            console.log('WQEQWEQEQ', data)
+            setTests(data.data)
         } catch (error) {
             console.error('Error fetching tests:', error)
         }

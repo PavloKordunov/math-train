@@ -27,7 +27,7 @@ const StudentResults = ({
             try {
                 const res = await fetch(`${API_URL}/api/test/topic`)
                 const data = await res.json()
-                setTopicTest(data)
+                setTopicTest(data.data)
             } catch (error) {
                 console.log(error)
             }
@@ -38,7 +38,7 @@ const StudentResults = ({
 
     useEffect(() => {
         console.log(topicTests)
-        console.log(testResuls)
+        console.log('filtredTests:', testResuls)
     }, [topicTests])
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const StudentResults = ({
                     `${API_URL}/api/topic/${user?.subject?.toLowerCase()}`
                 )
                 const data = await res.json()
-                setTopics(data)
+                setTopics(data.data)
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -200,7 +200,7 @@ const StudentResults = ({
                     )}
                     {active === 'activeTests' && (
                         <div>
-                            {assignedTests.length > 0 ? (
+                            {assignedTests?.length > 0 ? (
                                 assignedTests.map((test: any) => (
                                     <TestItem key={test.id} test={test} />
                                 ))

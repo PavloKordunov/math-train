@@ -52,8 +52,8 @@ const TeacherPage = () => {
                     studentsRes.json(),
                 ])
 
-                setTests(testsData)
-                setStudents(studentsData)
+                setTests(testsData.data)
+                setStudents(studentsData.data)
             } catch (error) {
                 console.error('Error fetching data:', error)
                 setError(

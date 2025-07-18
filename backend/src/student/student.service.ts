@@ -18,29 +18,29 @@ export class StudentService {
     ) {}
 
     async findAllStudents(page: number = 1) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
 
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.student.findMany({
                     skip,
                     take: pageSize,
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
-                this.databaseService.student.count()
-            ]);
+                this.databaseService.student.count(),
+            ])
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
-            throw new InternalServerErrorException("Failed to get students")
+            throw new InternalServerErrorException('Failed to get students')
         }
     }
 
@@ -61,21 +61,21 @@ export class StudentService {
     }
 
     async getStudentByTeacherId(id: string, page: number = 1) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
+
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.student.findMany({
                     skip,
                     take: pageSize,
-                    where: {teacherId: id},
-                    orderBy:{
-                        id: "asc",
+                    where: { teacherId: id },
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
-                this.databaseService.studentScore.count()
-            ]);
+                this.databaseService.student.count(),
+            ])
             if (!items) {
                 throw new NotFoundException('Students not found')
             }
@@ -85,7 +85,7 @@ export class StudentService {
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             throw new InternalServerErrorException(`${error.message}`)
         }

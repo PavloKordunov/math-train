@@ -1,9 +1,11 @@
 import {
     Body,
     Controller,
+    DefaultValuePipe,
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
     Query,
@@ -18,47 +20,37 @@ export class TestController {
     constructor(private readonly testService: TestService) {}
 
     @Get()
-    getAllTests(
-        @Query('page') page: string
-    ) {
+    getAllTests(@Query('page') page: string) {
         return this.testService.getAllTests(Number(page))
     }
 
     @Get('topic')
-    getAllTopicTest(
-        @Query('page') page: string
-    ) {
+    getAllTopicTest(@Query('page') page: string) {
         return this.testService.getAllTopicTests(Number(page))
     }
 
     @Get('topic/:topicId')
     getTopicTest(
         @Param('topicId') topicId: string,
-        @Query('page') page: string
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
     ) {
         return this.testService.getTopicTest(topicId, Number(page))
     }
 
     @Get('task/:id')
-    getTestTask(
-        @Param('id') id: string,
-        @Query('page') page: string
-    ) {
+    getTestTask(@Param('id') id: string, @Query('page') page: string) {
         return this.testService.getTestTask(id, Number(page))
     }
 
     @Get('teacher/:id')
-    getAllTestByTeacher(
-        @Param('id') id: string,
-        @Query('page') page: string
-    ) {
+    getAllTestByTeacher(@Param('id') id: string, @Query('page') page: string) {
         return this.testService.getAllTestByTeacher(id, Number(page))
     }
 
     @Get('assign/:id')
     getAssignedTest(
         @Param('id') id: string,
-        @Query('page') page:string
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
     ) {
         return this.testService.getAssignedTest(id, Number(page))
     }

@@ -205,7 +205,7 @@ const CreateSubjectTopic = () => {
             try {
                 const res = await fetch(`${API_URL}/api/topic/${subjectName}`)
                 const data = await res.json()
-                setTopics(data)
+                setTopics(data.data)
             } catch (error) {
                 console.log(error)
             }
@@ -219,7 +219,7 @@ const CreateSubjectTopic = () => {
             const res = await fetch(`${API_URL}/api/subtopic/${topicId}`)
             const data = await res.json()
             console.log(data)
-            setSubTopics(data)
+            setSubTopics(data.data)
         } catch (error) {
             console.log(error)
         }
@@ -230,7 +230,7 @@ const CreateSubjectTopic = () => {
             const res = await fetch(`${API_URL}/api/test/topic/${subtopicId}`)
             const data = await res.json()
             console.log(data)
-            setTests(data)
+            setTests(data.data)
         } catch (error) {
             console.log(error)
         }

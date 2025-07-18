@@ -15,7 +15,7 @@ const TopicTests = ({ topics, toggleModal, setSelectedTest }: any) => {
             const res = await fetch(`${API_URL}/api/test/topic/${subtopicId}`)
             const data = await res.json()
             console.log(data)
-            setTests(data)
+            setTests(data.data)
         } catch (error) {
             console.log(error)
         }
@@ -28,7 +28,7 @@ const TopicTests = ({ topics, toggleModal, setSelectedTest }: any) => {
     return (
         <>
             {topics &&
-                topics.map((topic: any, topicNum: any) => (
+                topics?.map((topic: any, topicNum: any) => (
                     <div key={topic.id}>
                         <h2 className="text-[28px] font-semibold mb-6">
                             {topicNum + 1}. {topic.name}

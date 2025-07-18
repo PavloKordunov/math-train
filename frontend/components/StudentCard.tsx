@@ -27,7 +27,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     },
 }))
 
-const StudentCard = ({ student, students, setStudents }: any) => {
+const StudentCard = ({ student, setStudents }: any) => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const isActive = false
     const { user } = useUser()
@@ -75,7 +75,7 @@ const StudentCard = ({ student, students, setStudents }: any) => {
                     `${API_URL}/api/test/teacher/${user?.id}`
                 )
                 const data = await res.json()
-                setTests(data)
+                setTests(data.data)
             } catch (error) {
                 console.log(error)
             }
@@ -88,7 +88,7 @@ const StudentCard = ({ student, students, setStudents }: any) => {
                 const data = await res.json()
 
                 console.log(data)
-                setStudentPerformance(data)
+                setStudentPerformance(data.data)
             } catch (error) {
                 console.log(error)
             }
@@ -101,7 +101,7 @@ const StudentCard = ({ student, students, setStudents }: any) => {
                 )
 
                 const data = await res.json()
-                setActiveTests(data.length)
+                setActiveTests(data.data)
             } catch (error) {
                 console.log(error)
             }
@@ -257,7 +257,7 @@ const StudentCard = ({ student, students, setStudents }: any) => {
 
                     <ul className="text-sm text-gray-600 space-y-1 mt-2">
                         <li>✅ {studentPerformance?.length} Пройдених тести</li>
-                        <li>📚 {activeTests} Активні</li>
+                        <li>📚 {activeTests?.length} Активні</li>
                     </ul>
 
                     <div className="flex items-center mt-3 text-sm text-gray-600">

@@ -13,33 +13,41 @@ const StudentsSearchClient = ({ initialStudentsPromise }: any) => {
 
     const initialStudents = use(initialStudentsPromise)
 
-    const fetchStudents = async (search: string) => {
-        try {
-            const res = await fetch(`/api/students?search=${search}`, {
-                cache: 'no-store',
-            })
-            const data = await res.json()
-            setStudents(data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const fetchStudents = async (search: string) => {
+    //     try {
+    //         const res = await fetch(`/api/students?search=${search}`, {
+    //             cache: 'no-store',
+    //         })
+    //         const data = await res.json()
+    //         setStudents(data)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-    const debouncedSearch = debounce((value: string) => {
-        startTransition(() => {
-            fetchStudents(value)
-        })
-    }, 300)
+    // const debouncedSearch = debounce((value: string) => {
+    //     startTransition(() => {
+    //         fetchStudents(value)
+    //     })
+    // }, 300)
+
+    // useEffect(() => {
+    //     if (query.trim() !== '') {
+    //         debouncedSearch(query)
+    //     } else {
+    //         setStudents(initialStudents as any[])
+    //     }
+
+    //     return () => debouncedSearch.cancel()
+    // }, [query])
 
     useEffect(() => {
-        if (query.trim() !== '') {
-            debouncedSearch(query)
-        } else {
-            setStudents(initialStudents as any[])
-        }
+        setStudents(initialStudents as any[])
+    }, [])
 
-        return () => debouncedSearch.cancel()
-    }, [query])
+    useEffect(() => {
+        console.log(students)
+    }, [students])
 
     return (
         <div className="max-w-6xl py-8 mx-auto ">
@@ -64,7 +72,7 @@ const StudentsSearchClient = ({ initialStudentsPromise }: any) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
                     {students?.map((student) => (
                         <StudentCard
-                            key={student.id}
+                            key={student?.id}
                             student={student}
                             students={students}
                             setStudents={setStudents}

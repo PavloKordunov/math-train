@@ -18,7 +18,7 @@ const Home = () => {
                 )
 
                 const data = await res.json()
-                setTests(data)
+                setTests(data.data)
                 console.log(data)
             } catch (error) {
                 console.log(error)

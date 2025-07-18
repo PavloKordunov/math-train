@@ -2,6 +2,7 @@ import {
     BadRequestException,
     Injectable,
     InternalServerErrorException,
+    Logger,
     NotFoundException,
 } from '@nestjs/common'
 import { DatabaseService } from 'src/database/database.service'
@@ -15,95 +16,96 @@ export class TestService {
     constructor(private readonly databaseService: DatabaseService) {}
 
     async getAllTests(page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
+
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.test.findMany({
                     skip,
                     take: pageSize,
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                     include: {
                         tasks: true,
                         _count: {
-                            select: { tasks: true }
-                        }
-                    }
+                            select: { tasks: true },
+                        },
+                    },
                 }),
-                this.databaseService.test.count()
-            ]);
+                this.databaseService.test.count(),
+            ])
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
     }
 
-    async getAllTopicTests(page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
+    async getAllTopicTests(page: number = 1) {
+        const DEFAULT_PAGE_SIZE = 10
+        const validatedPage = Math.max(1, isNaN(page) ? 1 : page)
+        const skip = (validatedPage - 1) * DEFAULT_PAGE_SIZE
+
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.test.findMany({
                     skip,
-                    take: pageSize,
+                    take: DEFAULT_PAGE_SIZE,
                     where: {
-                        adminID: {
-                            not: null,
-                        },
+                        adminID: { not: null },
                     },
                     include: {
                         tasks: true,
                     },
-                    orderBy:{
-                        id: "asc",
-                    },
+                    orderBy: { id: 'asc' },
                 }),
                 this.databaseService.test.count({
                     where: {
-                        adminID: {
-                            not: null,
-                        },
+                        adminID: { not: null },
                     },
-                })
-            ]);
+                }),
+            ])
 
             if (!items || items.length === 0) {
-                return []
+                return {
+                    data: [],
+                    total: 0,
+                    page: validatedPage,
+                    pageSize: DEFAULT_PAGE_SIZE,
+                    totalPages: 0,
+                }
             }
 
             return {
                 data: items,
                 total,
-                page,
-                pageSize,
-                totalPages: Math.ceil(total / pageSize),
-            };
+                page: validatedPage,
+                pageSize: DEFAULT_PAGE_SIZE,
+                totalPages: Math.ceil(total / DEFAULT_PAGE_SIZE),
+            }
         } catch (error) {
+            console.error('Failed to fetch topic tests:', error)
             throw new InternalServerErrorException(
-                `Failed to fetch topic tests: ${error.message}`
+                'Failed to fetch topic tests'
             )
         }
     }
 
+    async getTopicTest(topicId: string, page: number = 1) {
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
 
-    async getTopicTest(topicId: string, page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.test.findMany({
-                    skip,
+                    skip: skip,
                     take: pageSize,
                     where: {
                         adminID: {
@@ -111,9 +113,9 @@ export class TestService {
                         },
                         subTopicId: topicId,
                     },
-                    include: {tasks:true},
-                    orderBy:{
-                        id: "asc",
+                    include: { tasks: true },
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
                 this.databaseService.test.count({
@@ -123,16 +125,16 @@ export class TestService {
                         },
                         subTopicId: topicId,
                     },
-                })
-            ]);
-            
+                }),
+            ])
+
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
@@ -155,40 +157,40 @@ export class TestService {
         }
     }
 
-    async getAssignedTest(id: string, page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
+    async getAssignedTest(id: string, page: number = 1) {
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
+
         try {
             const [items, total] = await Promise.all([
                 this.databaseService.assignedTest.findMany({
-                    skip,
+                    skip: skip,
                     take: pageSize,
                     where: { studentId: id },
                     include: { test: true },
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
                 this.databaseService.assignedTest.count({
-                    where: { studentId: id }
-                })
-            ]);
+                    where: { studentId: id },
+                }),
+            ])
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
-            throw new InternalServerErrorException('Failed to get SubTopic')
+            throw new InternalServerErrorException('Failed to get tests')
         }
     }
 
     async getTestTask(id: string, page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
 
         try {
             const [items, total] = await Promise.all([
@@ -197,54 +199,59 @@ export class TestService {
                     take: pageSize,
                     where: { id },
                     include: { tasks: true },
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
                 this.databaseService.test.count({
-                    where: { id }
-                })
-            ]);
-            
+                    where: { id },
+                }),
+            ])
+
             return {
                 data: items,
                 total,
                 page,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
     }
 
-    async getAllTestByTeacher(id: string, page: number) {
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        
+    async getAllTestByTeacher(id: string, page: any = 1) {
+        const pageSize = 10
+        const validatedPage = Math.max(1, Number(page) || 1)
+        const skip = (validatedPage - 1) * pageSize
+
         try {
+            if (!id) {
+                throw new BadRequestException('Teacher ID is required')
+            }
+
             const [items, total] = await Promise.all([
                 this.databaseService.test.findMany({
                     skip,
                     take: pageSize,
                     where: { teacherId: id },
                     include: { tasks: true },
-                    orderBy:{
-                        id: "asc",
+                    orderBy: {
+                        id: 'asc',
                     },
                 }),
                 this.databaseService.test.count({
-                    where: { teacherId: id }
-                })
-            ]);
-            
+                    where: { teacherId: id },
+                }),
+            ])
+
             return {
                 data: items,
                 total,
-                page,
+                page: validatedPage,
                 pageSize,
                 totalPages: Math.ceil(total / pageSize),
-            };
+            }
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

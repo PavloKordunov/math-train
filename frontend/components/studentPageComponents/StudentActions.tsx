@@ -52,7 +52,7 @@ const StudentActions = ({ studentPromise, studentId }: any) => {
                 }
 
                 const data = await res.json()
-                setTests(data)
+                setTests(data.data)
             } catch (error) {
                 console.error('Error fetching tests:', error)
                 return []
