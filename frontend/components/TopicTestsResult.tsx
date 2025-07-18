@@ -5,12 +5,25 @@ import { useEffect, useState } from 'react'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
 import toast, { Toaster } from 'react-hot-toast'
 import { FiChevronRight } from 'react-icons/fi'
+import AssignTestModal from './AssignTestModal'
 
-const TopicTestsResult = ({ topics, testResults, user, student }: any) => {
+const TopicTestsResult = ({
+    topics,
+    testResults,
+    user,
+    student,
+    assignedTests,
+}: any) => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [openSubTopicId, setOpenSubTopicId] = useState<string | null>(null)
     const [tests, setTests] = useState<any[]>([])
+    const [selectedTest, setSelectedTest] = useState<any>(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen)
+    }
 
     const getTestBySubTopicId = async (subtopicId: string) => {
         try {
@@ -24,6 +37,9 @@ const TopicTestsResult = ({ topics, testResults, user, student }: any) => {
 
     const getTestResult = (testId: string) => {
         return testResults.find((result: any) => result.testId === testId)
+    }
+    const getAssignedTest = (testId: string) => {
+        return assignedTests.find((result: any) => result.testId === testId)
     }
 
     const calculateScorePercentage = (result: any) => {
@@ -81,6 +97,9 @@ const TopicTestsResult = ({ topics, testResults, user, student }: any) => {
                                 >
                                     {tests?.map((test) => {
                                         const result = getTestResult(test.id)
+                                        const isAssigned = getAssignedTest(
+                                            test.id
+                                        )
                                         const percentage =
                                             calculateScorePercentage(result)
 
@@ -150,9 +169,25 @@ const TopicTestsResult = ({ topics, testResults, user, student }: any) => {
                                                         </>
                                                     ) : user?.status ===
                                                       'Teacher' ? (
-                                                        <button className="bg-[#4CAF50] px-4 h-10 text-white flex items-center rounded-md font-semibold uppercase">
-                                                            Призначити
-                                                        </button>
+                                                        <>
+                                                            {isAssigned ? (
+                                                                <button className="rounded-[16px] border-[2px] border-gray-300 text-black px-4 h-10 flex items-center rounded-md font-semibold uppercase">
+                                                                    Назначено
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setSelectedTest(
+                                                                            test
+                                                                        )
+                                                                        toggleModal()
+                                                                    }}
+                                                                    className="bg-[#4CAF50] px-4 h-10 text-white flex items-center rounded-md font-semibold uppercase"
+                                                                >
+                                                                    Призначити
+                                                                </button>
+                                                            )}
+                                                        </>
                                                     ) : (
                                                         <span className="text-gray-500">
                                                             Не пройдено
@@ -170,6 +205,13 @@ const TopicTestsResult = ({ topics, testResults, user, student }: any) => {
                     )}
                 </div>
             ))}
+            {isModalOpen && (
+                <AssignTestModal
+                    test={selectedTest}
+                    student={student}
+                    toggleModal={toggleModal}
+                />
+            )}
         </>
     )
 }

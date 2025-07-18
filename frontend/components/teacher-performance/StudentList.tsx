@@ -2,10 +2,9 @@
 
 import { use, useEffect, useState, useTransition } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import Image from 'next/image'
-import Link from 'next/link'
 import debounce from 'lodash.debounce'
 import { ClipLoader } from 'react-spinners'
+import StudentCard from '../StudentCard'
 
 const StudentsSearchClient = ({ initialStudentsPromise }: any) => {
     const [query, setQuery] = useState('')
@@ -43,44 +42,33 @@ const StudentsSearchClient = ({ initialStudentsPromise }: any) => {
     }, [query])
 
     return (
-        <div className="max-w-5xl py-8 mx-auto ">
-            <div className="flex relative w-fit mb-10">
-                <input
-                    type="text"
-                    placeholder="Пошук студента..."
-                    className="w-100 text-[20px] px-6 py-2 bg-[#F2F2F8] shadow-md rounded-2xl"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-                <button className="absolute right-4 top-3">
-                    <FaSearch size={20} />
-                </button>
+        <div className="max-w-6xl py-8 mx-auto ">
+            <div className="flex justify-center">
+                <div className="flex relative w-fit mb-10">
+                    <input
+                        type="text"
+                        placeholder="Пошук студента..."
+                        className="w-100 text-[20px] px-6 py-2 bg-[#F2F2F8] shadow-md rounded-2xl"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <button className="absolute right-4 top-3">
+                        <FaSearch size={20} />
+                    </button>
+                </div>
             </div>
 
             {isPending ? (
                 <ClipLoader color="#36d7b7" size={40} />
             ) : (
-                <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
                     {students?.map((student) => (
-                        <Link
+                        <StudentCard
                             key={student.id}
-                            href={`/student/${student.id}`}
-                            className="flex w-fit p-2 px-4 bg-[#F2F2F8] items-center shadow-md rounded-2xl mb-2"
-                        >
-                            <Image
-                                src="/person.png"
-                                alt=""
-                                width={60}
-                                height={60}
-                                className="mr-8"
-                            />
-                            <div className="flex-col h-fit items-center">
-                                <p className="font-semibold text-[20px]/6">
-                                    {student.name}
-                                </p>
-                                <p className="text-gray-400">{student.email}</p>
-                            </div>
-                        </Link>
+                            student={student}
+                            students={students}
+                            setStudents={setStudents}
+                        />
                     ))}
                 </div>
             )}

@@ -47,6 +47,10 @@ const TestItem = ({ test }: { test: any }) => {
         }
     }, [])
 
+    useEffect(() => {
+        console.log('TestItem:', test)
+    }, [])
+
     return (
         <div className="w-full max-w-5xl mx-auto mb-6">
             <div className="flex flex-col md:flex-row bg-[#FFECE7] shadow-md rounded-lg overflow-hidden">
@@ -63,7 +67,7 @@ const TestItem = ({ test }: { test: any }) => {
                 <div className="flex flex-col justify-between p-6 gap-4 md:w-3/4 bg-white border-l-2 border-[#CDC8C8]">
                     <div>
                         <p className="font-bold text-lg uppercase mb-4">
-                            Тест: {test.title} —{' '}
+                            Тест: {test.test.title} —{' '}
                             {formatDateToUkrainian(test.endTime)}
                         </p>
                         {user?.status === 'Student' && (
@@ -82,7 +86,7 @@ const TestItem = ({ test }: { test: any }) => {
                     <Toaster position="bottom-center" />
                     <div className="bg-[#F0F4F8] px-10 py-6 rounded-[31px] w-fit">
                         <h1 className="font-bold text-[24px] uppercase">
-                            Тест, {test.test.title}, час завершення:{' '}
+                            Тест, {test.title}, час завершення:{' '}
                             {formatDateToUkrainian(test.test.endTime)}
                         </h1>
                         <p className="mb-10 font-medium text-[18px]">

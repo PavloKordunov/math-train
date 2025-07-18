@@ -12,7 +12,7 @@ const TeacherPerformance = async () => {
     const userCookie = cookieStore.get('user')?.value
     const userData = userCookie ? JSON.parse(userCookie) : null
 
-    const initialStudentsPromise = getAllStudentsByTeacherID(userData.id)
+    const initialStudentsPromise = getAllStudentsByTeacherID(userData?.id)
 
     return (
         <div>

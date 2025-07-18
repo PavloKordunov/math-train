@@ -5,7 +5,6 @@ import StudentProgressChart from '../StudentProgressChart'
 import TestResults from '../TestResults'
 import { useUser } from '@/hooks/useUser'
 import TestItem from '../TestItem'
-import TopicTests from '../TopicTests'
 import TopicTestsResult from '../TopicTestsResult'
 
 const StudentResults = ({
@@ -195,6 +194,7 @@ const StudentResults = ({
                                 testResults={testResuls}
                                 user={user}
                                 student={student}
+                                assignedTests={assignedTests}
                             />
                         </div>
                     )}

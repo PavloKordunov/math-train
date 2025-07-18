@@ -114,12 +114,12 @@ model Test {
 }
 
 model AssignedTest {
-  id        String    @id @default(uuid())
-  student   Student   @relation(fields: [studentId], references: [id])
-  studentId String
-  test      Test      @relation(fields: [testId], references: [id])
-  testId    String
-  assignedAt DateTime @default(now())
+  id          String    @id @default(uuid())
+  student     Student   @relation(fields: [studentId], references: [id])
+  studentId   String
+  test        Test      @relation(fields: [testId], references: [id])
+  testId      String
+  assignedAt  DateTime @default(now())
   endTime     DateTime?
 }
 

@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt'
 import { DatabaseService } from 'src/database/database.service'
 import { createStudentDto } from './dto/CreateStudentDto'
 import * as bcrypt from 'bcrypt'
+import { UpdateStudentDto } from './dto/UpdateStudentDto'
 
 @Injectable()
 export class StudentService {
@@ -126,9 +127,30 @@ export class StudentService {
         }
     }
 
+    async updateStudent(id: string, updateStudentDto: UpdateStudentDto) {
+        try {
+            const user = await this.databaseService.student.findUnique({
+                where: { id },
+            })
+
+            if (!user) {
+                throw new NotFoundException('Student not found')
+            }
+
+            return await this.databaseService.student.update({
+                where: { id },
+                data: updateStudentDto,
+            })
+        } catch (error) {
+            throw new InternalServerErrorException(
+                `Failed to update user: ${error.message}`
+            )
+        }
+    }
+
     async delete(id: string) {
         try {
-            const user = await this.databaseService.student.delete({
+            const user = await this.databaseService.student.findUnique({
                 where: { id },
             })
 

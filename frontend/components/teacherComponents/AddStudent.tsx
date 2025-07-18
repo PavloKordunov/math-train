@@ -42,9 +42,10 @@ const AddStudent = () => {
         <>
             <button
                 onClick={() => setIsOpenModal(true)}
-                className="bg-[#CA193A] px-4 py-2 text-white text-sm sm:text-xl rounded-md font-semibold uppercase"
+                className="flex items-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 px-5 py-3 text-gray-700 text-sm sm:text-lg rounded-lg font-semibold transition"
             >
-                Добавити учня
+                <img src="/icon_teacher_3.png" alt="Plus" className="w-5 h-5" />
+                Додати учня
             </button>
             {isOpenModal && (
                 <div className="fixed inset-0 bg-black/40  flex items-center justify-center z-1000">
