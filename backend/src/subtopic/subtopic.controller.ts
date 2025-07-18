@@ -6,6 +6,7 @@ import {
     Param,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common'
 import { SubtopicService } from './subtopic.service'
 import { CreateSubtopicDto } from './dto/subtopicDto'
@@ -16,8 +17,11 @@ export class SubtopicController {
     constructor(private readonly subtopicService: SubtopicService) {}
 
     @Get(':topicId')
-    getSubTopicByTopicId(@Param('topicId') topicId: string) {
-        return this.subtopicService.getSubTopicByTopicId(topicId)
+    getSubTopicByTopicId(
+        @Param('topicId') topicId: string,
+        @Query('page') page: string
+    ) {
+        return this.subtopicService.getSubTopicByTopicId(topicId, Number(page))
     }
 
     @Post()

@@ -9,15 +9,56 @@ import { DatabaseService } from 'src/database/database.service';
 export class PerfomenceService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async getAllStudentPerfomence() {
-    return this.databaseService.studentScore.findMany();
+  async getAllStudentPerfomence(page: number = 1) {
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
+
+    try{
+      const [items, total] = await Promise.all([
+        this.databaseService.studentScore.findMany({
+          skip,
+          take: pageSize,
+          orderBy:{
+            id: "asc",
+          },
+        }),
+        this.databaseService.studentScore.count()
+      ]);
+      return {
+        data: items,
+        total,
+        page,
+        pageSize,
+        totalPages: Math.ceil(total / pageSize),
+      };
+    }catch(error){
+      throw new InternalServerErrorException("Failed to get perfomences all students")
+    }
   }
 
-  async getAllStudentPerfomenceById(id) {
+  async getAllStudentPerfomenceById(id: string, page: number = 1) {
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
+    
     try {
-      return this.databaseService.studentScore.findMany({
-        where: { studentId: id },
-      });
+      const [items, total] = await Promise.all([
+        this.databaseService.studentScore.findMany({
+          skip,
+          take: pageSize,
+          where: {studentId: id},
+          orderBy:{
+            id: "asc",
+          },
+        }),
+        this.databaseService.studentScore.count({where: {studentId:id}})
+      ]);
+      return {
+        data: items,
+        total,
+        page,
+        pageSize,
+        totalPages: Math.ceil(total / pageSize),
+      };
     } catch (error) {
       throw new InternalServerErrorException('Failed to get test review');
     }

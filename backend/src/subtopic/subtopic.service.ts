@@ -37,11 +37,29 @@ export class SubtopicService {
         }
     }
 
-    async getSubTopicByTopicId(topicId: string) {
+    async getSubTopicByTopicId(topicId: string, page: number = 1) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            return await this.databaseService.subTopic.findMany({
-                where: { topicId },
-            })
+            const [items, total] = await Promise.all([
+                this.databaseService.subTopic.findMany({
+                    skip,
+                    take: pageSize,
+                    where: {topicId: topicId},
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.subTopic.count({where: {topicId: topicId}})
+            ]);
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException('Failed to get SubTopic')
         }

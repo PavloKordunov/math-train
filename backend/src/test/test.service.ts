@@ -14,34 +14,80 @@ import { Prisma } from 'generated/prisma'
 export class TestService {
     constructor(private readonly databaseService: DatabaseService) {}
 
-    async getAllTests() {
+    async getAllTests(page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            return this.databaseService.test.findMany({
-                include: { tasks: true },
-            })
+            const [items, total] = await Promise.all([
+                this.databaseService.test.findMany({
+                    skip,
+                    take: pageSize,
+                    orderBy:{
+                        id: "asc",
+                    },
+                    include: {
+                        tasks: true,
+                        _count: {
+                            select: { tasks: true }
+                        }
+                    }
+                }),
+                this.databaseService.test.count()
+            ]);
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
     }
 
-    async getAllTopicTests() {
+    async getAllTopicTests(page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            const tests = await this.databaseService.test.findMany({
-                where: {
-                    adminID: {
-                        not: null,
+            const [items, total] = await Promise.all([
+                this.databaseService.test.findMany({
+                    skip,
+                    take: pageSize,
+                    where: {
+                        adminID: {
+                            not: null,
+                        },
                     },
-                },
-                include: {
-                    tasks: true,
-                },
-            })
+                    include: {
+                        tasks: true,
+                    },
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.test.count({
+                    where: {
+                        adminID: {
+                            not: null,
+                        },
+                    },
+                })
+            ]);
 
-            if (!tests || tests.length === 0) {
+            if (!items || items.length === 0) {
                 return []
             }
 
-            return tests
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(
                 `Failed to fetch topic tests: ${error.message}`
@@ -49,17 +95,44 @@ export class TestService {
         }
     }
 
-    async getTopicTest(topicId: string) {
+
+    async getTopicTest(topicId: string, page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            return this.databaseService.test.findMany({
-                where: {
-                    adminID: {
-                        not: null,
+            const [items, total] = await Promise.all([
+                this.databaseService.test.findMany({
+                    skip,
+                    take: pageSize,
+                    where: {
+                        adminID: {
+                            not: null,
+                        },
+                        subTopicId: topicId,
                     },
-                    subTopicId: topicId,
-                },
-                include: { tasks: true },
-            })
+                    include: {tasks:true},
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.test.count({
+                    where: {
+                        adminID: {
+                            not: null,
+                        },
+                        subTopicId: topicId,
+                    },
+                })
+            ]);
+            
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
@@ -82,30 +155,96 @@ export class TestService {
         }
     }
 
-    async getAssignedTest(id: string) {
-        return this.databaseService.assignedTest.findMany({
-            where: { studentId: id },
-            include: { test: true },
-        })
+    async getAssignedTest(id: string, page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
+        try {
+            const [items, total] = await Promise.all([
+                this.databaseService.assignedTest.findMany({
+                    skip,
+                    take: pageSize,
+                    where: { studentId: id },
+                    include: { test: true },
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.assignedTest.count({
+                    where: { studentId: id }
+                })
+            ]);
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to get SubTopic')
+        }
     }
 
-    async getTestTask(id: string) {
+    async getTestTask(id: string, page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+
         try {
-            return this.databaseService.test.findMany({
-                where: { id },
-                include: { tasks: true },
-            })
+            const [items, total] = await Promise.all([
+                this.databaseService.test.findMany({
+                    skip,
+                    take: pageSize,
+                    where: { id },
+                    include: { tasks: true },
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.test.count({
+                    where: { id }
+                })
+            ]);
+            
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }
     }
 
-    async getAllTestByTeacher(id: string) {
+    async getAllTestByTeacher(id: string, page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            return this.databaseService.test.findMany({
-                where: { teacherId: id },
-                include: { tasks: true },
-            })
+            const [items, total] = await Promise.all([
+                this.databaseService.test.findMany({
+                    skip,
+                    take: pageSize,
+                    where: { teacherId: id },
+                    include: { tasks: true },
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.test.count({
+                    where: { teacherId: id }
+                })
+            ]);
+            
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

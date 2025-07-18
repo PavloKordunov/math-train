@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common'
 import { AdminService } from './admin.service'
 import { CreateAdminDto } from './dto/CteateAdminDto'
 
@@ -7,8 +7,10 @@ export class AdminController {
     constructor(private readonly adminService: AdminService) {}
 
     @Get()
-    getAll() {
-        return this.adminService.getAll()
+    getAll(
+        @Query('page') page: string = '1'
+    ) {
+        return this.adminService.getAll(Number(page))
     }
 
     @Post('register')

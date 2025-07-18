@@ -17,8 +17,31 @@ export class TeacherService {
         private jwtService: JwtService
     ) {}
 
-    async getAllTeachers() {
-        return this.databaseServise.teacher.findMany()
+    async getAllTeachers(page: number = 1) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+
+        try{
+            const [items, total] = await Promise.all([
+                this.databaseServise.teacher.findMany({
+                    skip,
+                    take: pageSize,
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseServise.teacher.count()
+            ]);
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to get teachers')
+        }
     }
 
     async register(createTeacherDto: createTeacherDto) {

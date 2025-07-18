@@ -11,32 +11,70 @@ import { UpdateTopicDto } from './dto/UpdateTopicDto'
 export class TopicService {
     constructor(private readonly databaseService: DatabaseService) {}
 
-    async getAllTopics() {
+    async getAllTopics(page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+
         try {
-            return await this.databaseService.topic.findMany({
-                include: {
-                    admin: {
-                        select: {
-                            id: true,
-                            name: true,
-                            email: true,
+            const [items, total] = await Promise.all([
+                this.databaseService.topic.findMany({
+                    skip,
+                    take: pageSize,
+                    include: {
+                        admin: {
+                            select: {
+                                id: true,
+                                name: true,
+                                email: true,
+                            },
                         },
+                        subTopics: true,
                     },
-                    subTopics: true,
-                },
-            })
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.topic.count()
+            ]);
+            
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             console.error('Failed to get topics:', error)
             throw new InternalServerErrorException('Failed to get topics')
         }
     }
 
-    async getAllTopicsBySubject(subject: string) {
+    async getAllTopicsBySubject(subject: string, page: number) {
+        const pageSize = 10;
+        const skip = (page - 1) * pageSize;
+        
         try {
-            return await this.databaseService.topic.findMany({
-                where: { subjectType: subject },
-                include: { subTopics: true },
-            })
+            const [items, total] = await Promise.all([
+                this.databaseService.topic.findMany({
+                    skip,
+                    take: pageSize,
+                    where: { subjectType: subject },
+                    include: { subTopics: true },
+                    orderBy:{
+                        id: "asc",
+                    },
+                }),
+                this.databaseService.topic.count({where: { subjectType: subject },})
+            ]);
+            
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            };
         } catch (error) {
             throw new InternalServerErrorException('Failed to get topics')
         }

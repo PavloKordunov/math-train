@@ -6,6 +6,7 @@ import {
     Param,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common'
 import { TopicService } from './topic.service'
 import { CreateTopicDto } from './dto/createTopicDto'
@@ -16,13 +17,18 @@ export class TopicController {
     constructor(private readonly topicService: TopicService) {}
 
     @Get()
-    getAllTopics() {
-        return this.topicService.getAllTopics()
+    getAllTopics(
+        @Query('page') page: string
+    ) {
+        return this.topicService.getAllTopics(Number(page))
     }
 
     @Get(':subject')
-    getAllTopicsBySubject(@Param('subject') subject: string) {
-        return this.topicService.getAllTopicsBySubject(subject)
+    getAllTopicsBySubject(
+        @Param('subject') subject: string,
+        @Query('page') page: string
+    ) {
+        return this.topicService.getAllTopicsBySubject(subject, Number(page))
     }
 
     @Post()
