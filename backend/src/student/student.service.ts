@@ -162,6 +162,7 @@ export class StudentService {
             access_token: this.jwtService.sign({
                 id: user.id,
                 email: user.email,
+                role: user.status,
             }),
         }
     }

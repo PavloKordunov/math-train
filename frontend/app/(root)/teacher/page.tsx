@@ -13,7 +13,6 @@ import {
     MdLibraryBooks,
     MdOutlineAssignment,
     MdPeople,
-    MdQuiz,
     MdSchool,
 } from 'react-icons/md'
 

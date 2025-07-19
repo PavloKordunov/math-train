@@ -30,6 +30,10 @@ const NavBar = () => {
                 path: '/',
                 secure: process.env.NODE_ENV === 'production',
             })
+            deleteCookie('token', {
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+            })
 
             setUser(null)
             router.push('/login')

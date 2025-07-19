@@ -11,26 +11,31 @@ import { useUser } from '@/hooks/useUser'
 import { ClipLoader } from 'react-spinners'
 import toast, { Toaster } from 'react-hot-toast'
 import { setCookie } from 'cookies-next'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { LoginSchema, LoginFormData } from '@/lib/validation'
 
 export default function LoginPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const router = useRouter()
+    const { setUser } = useUser()
+    const [isLoading, setIsLoading] = useState(false)
+    const { data: session, status } = useSession()
 
-    const [loginData, setLoginData] = useState({
-        email: '',
-        password: '',
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<LoginFormData>({
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        },
     })
 
-    useEffect(() => {
-        console.log(API_URL)
-    }, [])
-
-    const router = useRouter()
-    const { user, setUser } = useUser()
-    const [isLoading, setIsLoading] = useState(false)
-    useEffect(() => {
-        console.log(API_URL)
-    }, [])
-    const handleLogin = async () => {
+    const handleLogin = async (data: LoginFormData) => {
         setIsLoading(true)
         try {
             const res = await fetch(`${API_URL}/api/login/native`, {
@@ -38,68 +43,73 @@ export default function LoginPage() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    email: loginData.email,
-                    password: loginData.password,
-                }),
+                body: JSON.stringify(data),
             })
-
-            const data = await res.json()
 
             if (!res.ok) {
                 toast.error(
                     'Сталась помилка! Не вірний пароль або електронна адресса'
                 )
-                setLoginData(() => ({
-                    email: '',
-                    password: '',
-                }))
+                reset()
                 setIsLoading(false)
                 return
             }
 
-            setUser(data.user)
-            setCookie('user', JSON.stringify(data.user), {
+            const responseData = await res.json()
+            const token = responseData.accessToken
+
+            if (!token) {
+                throw new Error('Token not received in response')
+            }
+
+            setCookie('token', token, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
             })
-            toast.success('Успішно! Ви увійшли у свій аккаунт')
 
-            if (data.user.status === 'Teacher') {
-                router.push('/teacher')
-            } else if (data.user.status === 'Student') {
-                router.push('/home')
-            } else if (data.user.status === 'Admin') {
-                router.push('/admin')
-            }
-        } catch (error) {
-            console.log(error)
+            setUser(responseData.user)
+            setCookie('user', JSON.stringify(responseData.user), {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+            })
+
+            toast.success('Успішний вхід!')
+            router.refresh()
             setIsLoading(false)
-            toast.error(
-                'Сталась помилка! Не вірний пароль або електронна адресса '
-            )
+        } catch (error: any) {
+            console.error(error)
+            toast.error('Невірний email або пароль')
+            reset()
         } finally {
             setIsLoading(false)
         }
     }
 
-    const { data: session, status } = useSession()
+    // const redirectUser = (role: string) => {
+    //     switch (role) {
+    //         case 'Teacher':
+    //             router.push('/teacher')
+    //             break
+    //         case 'Student':
+    //             router.push('/home')
+    //             break
+    //         case 'Admin':
+    //             router.push('/admin')
+    //             break
+    //         default:
+    //             router.push('/')
+    //     }
+    // }
 
-    useEffect(() => {
-        if (status === 'authenticated') {
-            const role = session?.user?.status
-
-            if (role === 'Teacher') {
-                router.push('/teacher')
-            } else if (role === 'Student') {
-                router.push('/home')
-            } else if (role === 'Student') {
-                router.push('/home')
-            }
-        }
-    }, [session, status, router, user])
+    // useEffect(() => {
+    //     if (status === 'authenticated' && session?.user?.status) {
+    //         redirectUser(session.user.status)
+    //     }
+    // }, [session, status, router])
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">
@@ -110,75 +120,81 @@ export default function LoginPage() {
                         src="/logo.png"
                         alt=""
                         fill
-                        className="object-contein"
+                        className="object-contain"
                     />
                 </div>
             </div>
 
             <div className="bg-[#FFFFFF] rounded-[32px] shadow-md w-full max-w-md py-12 px-10 text-center z-10">
                 <h1 className="text-2xl md:text-3xl text-[#000] font-bold mb-8 flex items-center justify-center gap-2">
-                    Log in to the platform
+                    Вхід до платформи
                 </h1>
 
-                <form className="space-y-6">
+                <form
+                    onSubmit={handleSubmit(handleLogin)}
+                    className="space-y-6"
+                >
                     <div className="text-left">
                         <label className="text-sm text-[#000] font-medium mb-1 block">
-                            {' '}
-                            📧 E-mail
+                            📧 Електронна пошта
                         </label>
                         <input
-                            value={loginData?.email}
-                            onChange={(e) =>
-                                setLoginData((prev: any) => ({
-                                    ...prev,
-                                    email: e.target.value,
-                                }))
-                            }
+                            {...register('email')}
                             type="email"
-                            className="w-full px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 focus:ring-[#4CAF50] text-[#000]"
+                            className={`w-full px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 ${
+                                errors.email
+                                    ? 'focus:ring-red-500'
+                                    : 'focus:ring-[#4CAF50]'
+                            } text-[#000]`}
                             placeholder="you@example.com"
                         />
+                        {errors.email && (
+                            <p className="text-red-500 text-xs mt-1 text-left">
+                                {errors.email.message}
+                            </p>
+                        )}
                     </div>
+
                     <div className="text-left">
                         <label className="text-sm text-[#000] font-medium mb-1 block">
-                            {' '}
-                            🔑 Password
+                            🔑 Пароль
                         </label>
                         <input
-                            value={loginData?.password}
-                            onChange={(e) =>
-                                setLoginData((prev: any) => ({
-                                    ...prev,
-                                    password: e.target.value,
-                                }))
-                            }
+                            {...register('password')}
                             type="password"
-                            className="w-full text-[#000] px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 focus:ring-[#1565C0]"
+                            className={`w-full text-[#000] px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 ${
+                                errors.password
+                                    ? 'focus:ring-red-500'
+                                    : 'focus:ring-[#1565C0]'
+                            }`}
                             placeholder="********"
                         />
+                        {errors.password && (
+                            <p className="text-red-500 text-xs mt-1 text-left">
+                                {errors.password.message}
+                            </p>
+                        )}
                     </div>
+
                     <p className="text-sm text-gray-500 text-left">
-                        Don't have an account?{' '}
+                        Немає акаунту?{' '}
                         <Link
                             href="/register"
                             className="text-[#4CAF50] cursor-pointer hover:underline"
                         >
-                            Sign up →
+                            Зареєструватись →
                         </Link>
                     </p>
 
                     <button
-                        onClick={(e) => {
-                            e.preventDefault()
-                            handleLogin()
-                        }}
+                        type="submit"
                         disabled={isLoading}
-                        className="px-8 py-3 rounded-[16px] bg-[#1565C0] text-white font-semibold text-[16px] shadow-md transition"
+                        className="px-8 py-3 rounded-[16px] bg-[#1565C0] text-white font-semibold text-[16px] shadow-md transition hover:bg-[#0d47a1] disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isLoading ? (
-                            <ClipLoader color="#36d7b7" size={20} />
+                            <ClipLoader color="#ffffff" size={20} />
                         ) : (
-                            'Log In'
+                            'Увійти'
                         )}
                     </button>
                 </form>
@@ -186,13 +202,15 @@ export default function LoginPage() {
                 <div className="flex items-center gap-4 mt-8 justify-center">
                     <button
                         onClick={() => signIn('google')}
-                        className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg border hover:bg-gray-50 transition"
+                        className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg hover:bg-gray-50 transition"
+                        disabled={isLoading}
                     >
                         <FcGoogle size={24} />
                     </button>
                     <button
                         onClick={() => signIn('github')}
-                        className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg border hover:bg-gray-50 transition"
+                        className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg hover:bg-gray-50 transition"
+                        disabled={isLoading}
                     >
                         <FaGithub size={24} color="black" />
                     </button>
