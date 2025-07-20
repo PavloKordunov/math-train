@@ -6,12 +6,15 @@ import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect, useState } from 'react'
 import { setCookie } from 'cookies-next'
 import { ClipLoader } from 'react-spinners'
+import { usePing } from '@/hooks/usePing'
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
     const { data: session, status } = useSession()
     const { user, setUser } = useUser()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const [loading, setLoading] = useState(false)
+
+    usePing()
 
     useEffect(() => {
         const handleOAuthLogin = async () => {

@@ -34,6 +34,20 @@ export class StudentController {
         return this.studentService.getStudentByTeacherId(id, Number(page))
     }
 
+    @Get(':id/status')
+    async getStatus(@Param('id') id: string) {
+        const isOnline = await this.studentService.isUserOnline(id)
+        const lastActivity = await this.studentService.getLastActivity(id)
+
+        return { isOnline, lastActivity }
+    }
+
+    @Post(':id/ping')
+    async ping(@Param('id') id: string) {
+        await this.studentService.updateLastActivity(id)
+        return { success: true }
+    }
+
     @Post('access/:id')
     giveStudentFullAccess(@Param('id') id: string) {
         return this.studentService.giveStudentFullAccess(id)

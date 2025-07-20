@@ -67,6 +67,8 @@ const StudentCard = ({ student, setStudents }: any) => {
             toast.error('Помилка: тест не призначено')
         }
     }
+    const [isOnline, setIsOnline] = useState()
+    const [lastActivity, setLastActivity] = useState('')
 
     useEffect(() => {
         const getTests = async () => {
@@ -80,6 +82,21 @@ const StudentCard = ({ student, setStudents }: any) => {
                 console.log(error)
             }
         }
+
+        const getUserOnline = async () => {
+            try {
+                const res = await fetch(
+                    `${API_URL}/api/student/${student.id}/status`
+                )
+                const data = await res.json()
+                console.log('ONLINE: ', data)
+                setIsOnline(data.isOnline)
+                setLastActivity(data.lastActivity)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         const getAllStudentPerfomenceById = async () => {
             try {
                 const res = await fetch(
@@ -108,6 +125,7 @@ const StudentCard = ({ student, setStudents }: any) => {
         }
 
         getAllStudentPerfomenceById()
+        getUserOnline()
         getAssignedTests()
         getTests()
     }, [])
@@ -234,13 +252,15 @@ const StudentCard = ({ student, setStudents }: any) => {
                         <span
                             className={clsx(
                                 'w-3 h-3 rounded-full',
-                                isActive ? 'bg-green-500' : 'bg-orange-400'
+                                isOnline ? 'bg-green-500' : 'bg-orange-400'
                             )}
                         />
                         <p className="text-sm font-medium text-gray-600">
-                            {isActive
+                            {isOnline
                                 ? 'Активний'
-                                : 'Останній вхід: 14.07.2025'}
+                                : `Останній вхід: ${formatDateToUkrainian(
+                                      lastActivity
+                                  )}`}
                         </p>
                     </div>
                 </div>

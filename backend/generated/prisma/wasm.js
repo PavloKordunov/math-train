@@ -168,6 +168,7 @@ exports.Prisma.StudentScalarFieldEnum = {
   status: 'status',
   viewAccess: 'viewAccess',
   subject: 'subject',
+  lastActivity: 'lastActivity',
   teacherId: 'teacherId'
 };
 

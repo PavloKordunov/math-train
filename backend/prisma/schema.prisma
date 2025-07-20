@@ -55,15 +55,16 @@ model Teacher {
 }
 
 model Student {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status    Status   @default(Student)
-  viewAccess  Boolean  @default(false)
-  subject   Subject?
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  password      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  status        Status   @default(Student)
+  viewAccess    Boolean  @default(false)
+  subject       Subject?
+  lastActivity  DateTime? @default(now())
 
   scores    StudentScore[]
   assignedTests AssignedTest[]

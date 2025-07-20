@@ -86,8 +86,9 @@ const TestItem = ({ test }: { test: any }) => {
                     <Toaster position="bottom-center" />
                     <div className="bg-[#F0F4F8] px-10 py-6 rounded-[31px] w-fit">
                         <h1 className="font-bold text-[24px] uppercase">
-                            Тест, {test.title}, час завершення:{' '}
-                            {formatDateToUkrainian(test.test.endTime)}
+                            Тест, {test.title}
+                            {/* , час завершення:{' '}
+                            {formatDateToUkrainian(test.test.endTime)} */}
                         </h1>
                         <p className="mb-10 font-medium text-[18px]">
                             Тест обмежений часом на {test.test.timeLimit} хвилин

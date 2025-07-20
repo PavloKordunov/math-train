@@ -91,6 +91,32 @@ export class StudentService {
         }
     }
 
+    async isUserOnline(id: string) {
+        const user = await this.databaseService.student.findUnique({
+            where: { id },
+            select: { lastActivity: true },
+        })
+
+        if (!user?.lastActivity) return false
+        const diffMs = Date.now() - new Date(user.lastActivity).getTime()
+        return diffMs < 40000
+    }
+
+    async getLastActivity(userId: string) {
+        const user = await this.databaseService.student.findUnique({
+            where: { id: userId },
+            select: { lastActivity: true },
+        })
+        return user?.lastActivity
+    }
+
+    async updateLastActivity(id: string) {
+        await this.databaseService.student.update({
+            where: { id },
+            data: { lastActivity: new Date() },
+        })
+    }
+
     async giveStudentFullAccess(id: string) {
         try {
             const student = await this.databaseService.student.findUnique({
