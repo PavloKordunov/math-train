@@ -157,7 +157,7 @@ export class TestService {
         }
     }
 
-    async getAssignedTest(id: string, page: number = 1) {
+    async getAssignedTestByStudent(id: string, page: number = 1) {
         const pageSize = 10
         const skip = (page - 1) * pageSize
 
@@ -174,6 +174,45 @@ export class TestService {
                 }),
                 this.databaseService.assignedTest.count({
                     where: { studentId: id },
+                }),
+            ])
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            }
+        } catch (error) {
+            throw new InternalServerErrorException('Failed to get tests')
+        }
+    }
+
+    async getAssignedTestByTeacher(id: string, page: number = 1) {
+        const pageSize = 10
+        const skip = (page - 1) * pageSize
+
+        try {
+            const [items, total] = await Promise.all([
+                this.databaseService.assignedTest.findMany({
+                    skip: skip,
+                    take: pageSize,
+                    where: {
+                        student:{
+                            teacherId: id
+                        } 
+                    },
+                    include: { test: true },
+                    orderBy: {
+                        id: 'asc',
+                    },
+                }),
+                this.databaseService.assignedTest.count({
+                    where: {
+                        student:{
+                            teacherId: id
+                        } 
+                    },
                 }),
             ])
             return {

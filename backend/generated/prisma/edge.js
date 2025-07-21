@@ -262,7 +262,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/pavlo/Documents/GitHub/math-train/backend/generated/prisma",
+      "value": "D:\\math-train\\backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -271,12 +271,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/pavlo/Documents/GitHub/math-train/backend/prisma/schema.prisma",
+    "sourceFilePath": "D:\\math-train\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

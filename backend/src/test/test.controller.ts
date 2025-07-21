@@ -47,12 +47,20 @@ export class TestController {
         return this.testService.getAllTestByTeacher(id, Number(page))
     }
 
-    @Get('assign/:id')
-    getAssignedTest(
+    @Get('assign/student/:id')
+    getAssignedTestByStudent(
         @Param('id') id: string,
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
     ) {
-        return this.testService.getAssignedTest(id, Number(page))
+        return this.testService.getAssignedTestByStudent(id, Number(page))
+    }
+
+    @Get('assign/teacher/:id')
+    getAssignedTestByTeacher(
+        @Param('id') id: string,
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
+    ) {
+        return this.testService.getAssignedTestByTeacher(id, Number(page))
     }
 
     @Post()
