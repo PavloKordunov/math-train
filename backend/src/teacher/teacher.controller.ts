@@ -18,6 +18,11 @@ export class TeacherController {
         return this.teacherServise.getTeacherById(id)
     }
 
+    @Get('main/:id')
+    getTeacherMainById(@Param('id') id: string){
+        return this.teacherServise.getTeacherMainById(id)
+    }
+
     @Post('register')
     register(@Body() createTeacherDto: createTeacherDto) {
         return this.teacherServise.register(createTeacherDto)
