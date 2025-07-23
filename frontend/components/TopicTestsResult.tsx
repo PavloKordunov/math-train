@@ -37,10 +37,10 @@ const TopicTestsResult = ({
     }
 
     const getTestResult = (testId: string) => {
-        return testResults.find((result: any) => result.testId === testId)
+        return testResults?.find((result: any) => result.testId === testId)
     }
     const getAssignedTest = (testId: string) => {
-        return assignedTests.find((result: any) => result.testId === testId)
+        return assignedTests?.find((result: any) => result.testId === testId)
     }
 
     const calculateScorePercentage = (result: any) => {

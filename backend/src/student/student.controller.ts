@@ -7,6 +7,7 @@ import {
     Post,
     Query,
     Patch,
+    InternalServerErrorException,
 } from '@nestjs/common'
 import { StudentService } from './student.service'
 import { createStudentDto } from './dto/CreateStudentDto'
@@ -49,19 +50,25 @@ export class StudentController {
     }
 
     @Get('card/:id')
-    async getStudentCard(@Param('id') id: string){
-        const studentPerfomence = await this.perfomenceService.getAllStudentPerfomenceById(id)
-        const isOnline = await this.studentService.isUserOnline(id)
-        const lastActivity = await this.studentService.getLastActivity(id)
-        const assignedTest = await this.testService.getAssignedTestByStudent(id)
+    async getStudentCard(@Param('id') id: string) {
+        try {
+            const [studentPerfomence, isOnline, lastActivity, assignedTest] =
+                await Promise.all([
+                    this.perfomenceService.getAllStudentPerfomenceById(id),
+                    this.studentService.isUserOnline(id),
+                    this.studentService.getLastActivity(id),
+                    this.testService.getAssignedTestByStudent(id),
+                ])
 
-        return {
-            isOnline,
-            lastActivity,
-            studentPerfomence,
-            assignedTest
+            return {
+                isOnline,
+                lastActivity,
+                studentPerfomence,
+                assignedTest,
+            }
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
         }
-
     }
 
     @Post(':id/ping')

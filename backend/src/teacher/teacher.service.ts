@@ -97,33 +97,32 @@ export class TeacherService {
 
     async getTeacherMainById(id: string) {
         try {
-            const students = await this.databaseServise.student.findMany({
-                where: { teacherId: id },
-            });
-
-            const assignedTestCount = await this.databaseServise.assignedTest.count({
-                where: {
-                    student: {
-                        teacherId: id
-                    }
-                }
-            });
-
-            const tests = await this.databaseServise.test.findMany({
-                where: { teacherId: id },
-                include: { tasks: true },
-            });
+            const [students, assignedTestCount, tests] = await Promise.all([
+                this.databaseServise.student.findMany({
+                    where: { teacherId: id },
+                }),
+                this.databaseServise.assignedTest.count({
+                    where: {
+                        student: {
+                            teacherId: id,
+                        },
+                    },
+                }),
+                this.databaseServise.test.findMany({
+                    where: { teacherId: id },
+                    include: { tasks: true },
+                }),
+            ])
 
             return {
                 students,
                 assignedTestCount,
-                tests
-            };
+                tests,
+            }
         } catch (error) {
-            throw new InternalServerErrorException(error.message);
+            throw new InternalServerErrorException(error.message)
         }
     }
-
 
     async delete(id: string) {
         try {

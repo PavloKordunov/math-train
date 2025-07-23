@@ -71,63 +71,35 @@ const StudentCard = ({ student, setStudents }: any) => {
     const [lastActivity, setLastActivity] = useState('')
 
     useEffect(() => {
-        const getTests = async () => {
+        const getAllStudentData = async () => {
             try {
-                const res = await fetch(
-                    `${API_URL}/api/test/teacher/${user?.id}`
-                )
-                const data = await res.json()
-                setTests(data.data)
+                const [testsRes, studentsRes] = await Promise.all([
+                    fetch(`${API_URL}/api/test/teacher/${user?.id}`),
+                    fetch(`${API_URL}/api/student/card/${student.id}`),
+                ])
+
+                if (!testsRes.ok || !studentsRes.ok) {
+                    throw new Error('Failed to fetch data')
+                }
+
+                const [testsData, studentsData] = await Promise.all([
+                    testsRes.json(),
+                    studentsRes.json(),
+                ])
+
+                console.log(studentsData)
+
+                setActiveTests(studentsData.assignedTest.data)
+                setIsOnline(studentsData.isOnline)
+                setLastActivity(studentsData.lastActivity)
+                setStudentPerformance(studentsData.studentPerfomence.data)
+                setTests(testsData.data)
             } catch (error) {
-                console.log(error)
+                console.error('Error loading student data:', error)
             }
         }
 
-        const getUserOnline = async () => {
-            try {
-                const res = await fetch(
-                    `${API_URL}/api/student/${student.id}/status`
-                )
-                const data = await res.json()
-                console.log('ONLINE: ', data)
-                setIsOnline(data.isOnline)
-                setLastActivity(data.lastActivity)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        const getAllStudentPerfomenceById = async () => {
-            try {
-                const res = await fetch(
-                    `${API_URL}/api/perfomence/one/student/${student.id}`
-                )
-                const data = await res.json()
-
-                console.log(data)
-                setStudentPerformance(data.data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        const getAssignedTests = async () => {
-            try {
-                const res = await fetch(
-                    `${API_URL}/api/test/assign/student/${student.id}`
-                )
-
-                const data = await res.json()
-                setActiveTests(data.data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        getAllStudentPerfomenceById()
-        getUserOnline()
-        getAssignedTests()
-        getTests()
+        getAllStudentData()
     }, [])
 
     const formatDateForInput = useCallback((isoString: string) => {

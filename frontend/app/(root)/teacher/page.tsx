@@ -34,31 +34,21 @@ const TeacherPage = () => {
                 setLoading(true)
                 setError(null)
 
-                const [testsRes, studentsRes, assignTestRes] = await Promise.all([
-                    fetch(`${API_URL}/api/test/teacher/${user.id}`, {
-                        cache: 'no-store',
-                    }),
-                    fetch(`${API_URL}/api/student/teacher/${user.id}`, {
-                        cache: 'no-store',
-                    }),
-                    fetch(`${API_URL}/api/test/assign/teacher/${user.id}`, {
-                        cache: 'no-store',
-                    }),
-                ])
+                const res = await fetch(
+                    `${API_URL}/api/teacher/main/${user.id}`
+                )
 
-                if (!testsRes.ok || !studentsRes.ok || !assignTestRes.ok) {
+                if (!res.ok) {
                     throw new Error('Failed to fetch data')
                 }
 
-                const [testsData, studentsData, assignTestData] = await Promise.all([
-                    testsRes.json(),
-                    studentsRes.json(),
-                    assignTestRes.json(),
-                ])
+                const data = await res.json()
 
-                setTests(testsData.data)
-                setStudents(studentsData.data)
-                setAssignTests(assignTestData.data)
+                console.log(data)
+
+                setTests(data.tests)
+                setStudents(data.students)
+                setAssignTests(data.assignedTestCount)
             } catch (error) {
                 console.error('Error fetching data:', error)
                 setError(
@@ -95,11 +85,6 @@ const TeacherPage = () => {
             </div>
         )
     }
-
-    const assignedTestsCount = tests.reduce(
-        (acc, test) => acc + (test.assignedStudents?.length || 0),
-        0
-    )
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
@@ -166,7 +151,7 @@ const TeacherPage = () => {
                         <div>
                             <p className="text-gray-500 text-sm">Призначено</p>
                             <p className="text-2xl font-bold text-gray-900">
-                                {assignTests.length}
+                                {assignTests}
                             </p>
                         </div>
                     </div>
