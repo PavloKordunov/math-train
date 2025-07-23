@@ -114,7 +114,7 @@ const StudentCard = ({ student, setStudents }: any) => {
         const getAssignedTests = async () => {
             try {
                 const res = await fetch(
-                    `${API_URL}/api/test/assign/${student.id}`
+                    `${API_URL}/api/test/assign/student/${student.id}`
                 )
 
                 const data = await res.json()

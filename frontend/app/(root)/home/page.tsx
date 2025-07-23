@@ -14,7 +14,7 @@ const Home = () => {
         const getAssignedTests = async () => {
             try {
                 const res = await fetch(
-                    `${API_URL}/api/test/assign/${user?.id}`
+                    `${API_URL}/api/test/assign/student/${user?.id}`
                 )
 
                 const data = await res.json()

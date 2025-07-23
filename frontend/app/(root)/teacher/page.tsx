@@ -22,6 +22,7 @@ const TeacherPage = () => {
     const { user } = useUser()
     const [tests, setTests] = useState<any[]>([])
     const [students, setStudents] = useState<any[]>([])
+    const [assignTests, setAssignTests] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -33,26 +34,31 @@ const TeacherPage = () => {
                 setLoading(true)
                 setError(null)
 
-                const [testsRes, studentsRes] = await Promise.all([
+                const [testsRes, studentsRes, assignTestRes] = await Promise.all([
                     fetch(`${API_URL}/api/test/teacher/${user.id}`, {
                         cache: 'no-store',
                     }),
                     fetch(`${API_URL}/api/student/teacher/${user.id}`, {
                         cache: 'no-store',
                     }),
+                    fetch(`${API_URL}/api/test/assign/teacher/${user.id}`, {
+                        cache: 'no-store',
+                    }),
                 ])
 
-                if (!testsRes.ok || !studentsRes.ok) {
+                if (!testsRes.ok || !studentsRes.ok || !assignTestRes.ok) {
                     throw new Error('Failed to fetch data')
                 }
 
-                const [testsData, studentsData] = await Promise.all([
+                const [testsData, studentsData, assignTestData] = await Promise.all([
                     testsRes.json(),
                     studentsRes.json(),
+                    assignTestRes.json(),
                 ])
 
                 setTests(testsData.data)
                 setStudents(studentsData.data)
+                setAssignTests(assignTestData.data)
             } catch (error) {
                 console.error('Error fetching data:', error)
                 setError(
@@ -160,7 +166,7 @@ const TeacherPage = () => {
                         <div>
                             <p className="text-gray-500 text-sm">Призначено</p>
                             <p className="text-2xl font-bold text-gray-900">
-                                {assignedTestsCount}
+                                {assignTests.length}
                             </p>
                         </div>
                     </div>

@@ -95,6 +95,36 @@ export class TeacherService {
         }
     }
 
+    async getTeacherMainById(id: string) {
+        try {
+            const students = await this.databaseServise.student.findMany({
+                where: { teacherId: id },
+            });
+
+            const assignedTestCount = await this.databaseServise.assignedTest.count({
+                where: {
+                    student: {
+                        teacherId: id
+                    }
+                }
+            });
+
+            const tests = await this.databaseServise.test.findMany({
+                where: { teacherId: id },
+                include: { tasks: true },
+            });
+
+            return {
+                students,
+                assignedTestCount,
+                tests
+            };
+        } catch (error) {
+            throw new InternalServerErrorException(error.message);
+        }
+    }
+
+
     async delete(id: string) {
         try {
             const user = await this.databaseServise.teacher.findUnique({
