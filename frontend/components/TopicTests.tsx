@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
 import { FiChevronRight } from 'react-icons/fi'
@@ -79,29 +80,12 @@ const TopicTests = ({ topics, toggleModal, setSelectedTest }: any) => {
                                                             {test.tasks.length})
                                                         </p>
                                                         <div className="flex gap-4 items-center">
-                                                            <div
-                                                                style={{
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                }}
+                                                            <Link
+                                                                href={`/view-topic-test/${test.id}`}
+                                                                className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 font-semibold uppercase text-center"
                                                             >
-                                                                <CircularProgressbar
-                                                                    value={21}
-                                                                    text={`${21}%`}
-                                                                    styles={buildStyles(
-                                                                        {
-                                                                            textSize:
-                                                                                '28px',
-                                                                            pathColor:
-                                                                                '#d0002d',
-                                                                            textColor:
-                                                                                '#000',
-                                                                            trailColor:
-                                                                                '#eee',
-                                                                        }
-                                                                    )}
-                                                                />
-                                                            </div>
+                                                                Переглянути
+                                                            </Link>
                                                             <button
                                                                 onClick={() => {
                                                                     toggleModal()

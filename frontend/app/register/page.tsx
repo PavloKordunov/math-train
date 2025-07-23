@@ -12,6 +12,7 @@ import { RegisterSchema } from '@/lib/validation'
 import { toast } from 'react-hot-toast'
 import { z } from 'zod'
 import { setCookie } from 'cookies-next'
+import PlansPage from '@/components/PlansPage'
 
 export default function RegisterPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -27,6 +28,7 @@ export default function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const { setUser } = useUser()
+    const [openPlans, setOpenPlans] = useState(false)
 
     const validateForm = () => {
         try {
@@ -84,26 +86,27 @@ export default function RegisterPage() {
                 throw new Error(data.message || 'Помилка реєстрації')
             }
 
-            setUser(data.user)
-            setCookie('user', JSON.stringify(data.user), {
-                maxAge: 30 * 24 * 60 * 60,
-                path: '/',
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-            })
-            setCookie('token', data.accessToken, {
-                maxAge: 30 * 24 * 60 * 60,
-                path: '/',
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-            })
-            toast.success('Реєстрація успішна!')
+            // setUser(data.user)
+            // setCookie('user', JSON.stringify(data.user), {
+            //     maxAge: 30 * 24 * 60 * 60,
+            //     path: '/',
+            //     secure: process.env.NODE_ENV === 'production',
+            //     sameSite: 'strict',
+            // })
+            // setCookie('token', data.accessToken, {
+            //     maxAge: 30 * 24 * 60 * 60,
+            //     path: '/',
+            //     secure: process.env.NODE_ENV === 'production',
+            //     sameSite: 'strict',
+            // })
+            // toast.success('Реєстрація успішна!')
 
-            if (data.user.status === 'Student') {
-                router.push('/home')
-            } else if (data.user.status === 'Teacher') {
-                router.push('/teacher')
-            }
+            // if (data.user.status === 'Student') {
+            //     router.push('/home')
+            // } else if (data.user.status === 'Teacher') {
+            //     router.push('/teacher')
+            // }
+            setOpenSubjectModal(false)
             setIsLoading(false)
         } catch (error: any) {
             console.error(error)
@@ -318,9 +321,10 @@ export default function RegisterPage() {
                                 {subjects.map((subject) => (
                                     <button
                                         key={subject.value}
-                                        onClick={() =>
+                                        onClick={() => {
                                             handleRegister(subject.value)
-                                        }
+                                            setOpenPlans(true)
+                                        }}
                                         style={{
                                             backgroundColor: subject.color,
                                         }}
@@ -343,6 +347,7 @@ export default function RegisterPage() {
                     </div>
                 </div>
             )}
+            {openPlans && <PlansPage />}
         </div>
     )
 }

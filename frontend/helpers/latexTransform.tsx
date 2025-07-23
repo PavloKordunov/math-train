@@ -1,27 +1,26 @@
 // components/math/LatexTransform.tsx
 
-'use client';
+'use client'
 
-import React from 'react';
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
+import React from 'react'
+import { MathJax, MathJaxContext } from 'better-react-mathjax'
 
 const LatexTransform = ({
     content,
     className = '',
 }: {
-    content: string;
-    className?: string;
+    content: string
+    className?: string
 }) => {
     const config = {
         loader: { load: ['input/asciimath', '[tex]/ams'] },
         asciimath: {
-             delimiters: [['`', '`']]
+            delimiters: [['`', '`']],
         },
         svg: {
             fontCache: 'global',
         },
-    };
-
+    }
     return (
         <MathJaxContext config={config}>
             <div className={`${className} break-words whitespace-pre-wrap`}>
@@ -30,7 +29,7 @@ const LatexTransform = ({
                 </MathJax>
             </div>
         </MathJaxContext>
-    );
-};
+    )
+}
 
-export default LatexTransform;
+export default LatexTransform

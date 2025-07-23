@@ -146,7 +146,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
     }
 
-    // Обробка захищених маршрутів
     const nextAuthSession = (await getToken({
         req: request,
         secret: process.env.NEXTAUTH_SECRET!,

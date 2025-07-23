@@ -258,9 +258,11 @@ const StudentCard = ({ student, setStudents }: any) => {
                         <p className="text-sm font-medium text-gray-600">
                             {isOnline
                                 ? 'Активний'
-                                : `Останній вхід: ${formatDateToUkrainian(
+                                : `Останній вхід: ${
                                       lastActivity
-                                  )}`}
+                                          ? formatDateToUkrainian(lastActivity)
+                                          : ''
+                                  }`}
                         </p>
                     </div>
                 </div>

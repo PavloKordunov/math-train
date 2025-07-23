@@ -1,22 +1,18 @@
 'use client'
 
-import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import 'mathlive'
 
 import { SessionProvider } from 'next-auth/react'
 import { UserProvider } from '@/hooks/useUser'
-import MathJaxProvider from '@/helpers/MathJaxProvider'
 import { SubTopicProvider } from '@/helpers/getSubTopicId'
 
-const geistSans = Geist({
-    variable: '--font-geist-sans',
-    subsets: ['latin'],
-})
+import { Roboto } from 'next/font/google'
 
-const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
+const roboto = Roboto({
+    weight: ['400', '500', '600', '700'],
     subsets: ['latin'],
+    variable: '--font-roboto',
 })
 
 export default function RootLayout({
@@ -26,9 +22,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            >
+            <body className={`${roboto.variable} font-sans`}>
                 <SessionProvider>
                     <SubTopicProvider>
                         <UserProvider>{children}</UserProvider>

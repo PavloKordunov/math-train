@@ -11,6 +11,7 @@ import { AdminModule } from './admin/admin.module';
 import { TopicModule } from './topic/topic.module';
 import { SubtopicModule } from './subtopic/subtopic.module';
 import { S3Module } from './s3/s3.module';
+import { LiqpayModule } from './liqpay/liqpay.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { S3Module } from './s3/s3.module';
     AdminModule,
     TopicModule,
     SubtopicModule,
-    S3Module
+    S3Module,
+    LiqpayModule
   ],
   controllers: [AppController],
   providers: [AppService],
