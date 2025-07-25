@@ -224,6 +224,18 @@ exports.Prisma.TaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ScheduleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  dayOfWeek: 'dayOfWeek',
+  hours: 'hours',
+  minutes: 'minutes',
+  duration: 'duration',
+  weeks: 'weeks',
+  teacherId: 'teacherId',
+  exceptions: 'exceptions'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -277,7 +289,8 @@ exports.Prisma.ModelName = {
   StudentScore: 'StudentScore',
   Test: 'Test',
   AssignedTest: 'AssignedTest',
-  Task: 'Task'
+  Task: 'Task',
+  Schedule: 'Schedule'
 };
 
 /**

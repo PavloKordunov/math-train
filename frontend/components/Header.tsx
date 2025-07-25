@@ -51,6 +51,7 @@ const NavBar = () => {
         } else if (user?.status === 'Teacher') {
             if (pathname === '/teacher') return 'home'
             if (pathname === `/teacher-performance`) return 'map'
+            if (pathname === `/schedule`) return 'schedule'
             if (pathname === '/topic-tests/mathematics') return 'tests'
         }
         return ''
@@ -71,6 +72,11 @@ const NavBar = () => {
                     ? '/perfomence'
                     : `/teacher-performance`,
             key: 'map',
+        },
+        {
+            label: 'Розклад',
+            href: '/schedule',
+            key: 'schedule',
         },
         {
             label: 'Тести',
@@ -164,7 +170,6 @@ const NavBar = () => {
                 </div>
             </div>
 
-            {/* Мобільне меню */}
             {isMobileMenuOpen && (
                 <div className="flex flex-col mt-4 gap-3 md:hidden">
                     {navItems.map((item) => (
