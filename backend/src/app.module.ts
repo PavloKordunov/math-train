@@ -13,6 +13,7 @@ import { SubtopicModule } from './subtopic/subtopic.module'
 import { S3Module } from './s3/s3.module'
 import { LiqpayModule } from './liqpay/liqpay.module'
 import { ScheduleModule } from './schedule/schedule.module'
+import { GroupModule } from './group/group.module';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { ScheduleModule } from './schedule/schedule.module'
         S3Module,
         LiqpayModule,
         ScheduleModule,
+        GroupModule,
     ],
     controllers: [AppController],
     providers: [AppService],

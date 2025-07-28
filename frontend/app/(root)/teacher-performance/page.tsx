@@ -1,23 +1,42 @@
+'use client'
+
 import StudentsList from '@/components/teacher-performance/StudentList'
-import { getAllStudentsByTeacherID } from '@/lib/utils'
-import { Suspense } from 'react'
+import { useUser } from '@/hooks/useUser'
+import { Suspense, useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
-import { cookies } from 'next/headers'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+const TeacherPerformance = () => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { user } = useUser()
+    const [students, setStudents] = useState<any>([])
 
-const TeacherPerformance = async () => {
-    const cookieStore = await cookies()
-    const userCookie = cookieStore.get('user')?.value
-    const userData = userCookie ? JSON.parse(userCookie) : null
+    useEffect(() => {
+        const getAllStudentsByTeacherID = async () => {
+            try {
+                const res = await fetch(
+                    `${API_URL}/api/student/teacher/${user?.id}`
+                )
 
-    const initialStudentsPromise = getAllStudentsByTeacherID(userData?.id)
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`)
+                }
+
+                const data = await res.json()
+                console.log(data.data)
+                setStudents(data.data)
+            } catch (error) {
+                console.error('Error fetching students:', error)
+                return []
+            }
+        }
+
+        getAllStudentsByTeacherID()
+    }, [])
 
     return (
         <div>
             <Suspense fallback={<ClipLoader color="#36d7b7" size={40} />}>
-                <StudentsList initialStudentsPromise={initialStudentsPromise} />
+                <StudentsList initialStudents={students} />
             </Suspense>
         </div>
     )

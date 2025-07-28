@@ -169,7 +169,8 @@ exports.Prisma.StudentScalarFieldEnum = {
   viewAccess: 'viewAccess',
   subject: 'subject',
   lastActivity: 'lastActivity',
-  teacherId: 'teacherId'
+  teacherId: 'teacherId',
+  groupId: 'groupId'
 };
 
 exports.Prisma.StudentScoreScalarFieldEnum = {
@@ -198,12 +199,14 @@ exports.Prisma.TestScalarFieldEnum = {
   teacherId: 'teacherId',
   adminID: 'adminID',
   status: 'status',
-  subTopicId: 'subTopicId'
+  subTopicId: 'subTopicId',
+  groupId: 'groupId'
 };
 
 exports.Prisma.AssignedTestScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
+  groupId: 'groupId',
   testId: 'testId',
   assignedAt: 'assignedAt',
   endTime: 'endTime'
@@ -234,6 +237,12 @@ exports.Prisma.ScheduleScalarFieldEnum = {
   weeks: 'weeks',
   teacherId: 'teacherId',
   exceptions: 'exceptions'
+};
+
+exports.Prisma.GroupScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  teacherId: 'teacherId'
 };
 
 exports.Prisma.SortOrder = {
@@ -290,7 +299,8 @@ exports.Prisma.ModelName = {
   Test: 'Test',
   AssignedTest: 'AssignedTest',
   Task: 'Task',
-  Schedule: 'Schedule'
+  Schedule: 'Schedule',
+  Group: 'Group'
 };
 
 /**

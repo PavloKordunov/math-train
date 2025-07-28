@@ -188,6 +188,50 @@ export class TestService {
         }
     }
 
+    async getAssignedTestByGroup(id: string, page: number = 1) {
+        try {
+            const pageSize = 10
+            const skip = (page - 1) * pageSize
+
+            const [items, total] = await Promise.all([
+                this.databaseService.assignedTest.findMany({
+                    skip: skip,
+                    take: pageSize,
+                    where: {
+                        student: {
+                            groupId: id,
+                        },
+                    },
+                    include: {
+                        test: {
+                            select: { title: true },
+                        },
+                    },
+                    orderBy: {
+                        assignedAt: 'asc',
+                    },
+                }),
+                this.databaseService.assignedTest.count({
+                    where: {
+                        student: {
+                            groupId: id,
+                        },
+                    },
+                }),
+            ])
+
+            return {
+                data: items,
+                total,
+                page,
+                pageSize,
+                totalPages: Math.ceil(total / pageSize),
+            }
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
+
     async getAssignedTestByTeacher(id: string, page: number = 1) {
         const pageSize = 10
         const skip = (page - 1) * pageSize
@@ -198,9 +242,9 @@ export class TestService {
                     skip: skip,
                     take: pageSize,
                     where: {
-                        student:{
-                            teacherId: id
-                        } 
+                        student: {
+                            teacherId: id,
+                        },
                     },
                     include: { test: true },
                     orderBy: {
@@ -209,9 +253,9 @@ export class TestService {
                 }),
                 this.databaseService.assignedTest.count({
                     where: {
-                        student:{
-                            teacherId: id
-                        } 
+                        student: {
+                            teacherId: id,
+                        },
                     },
                 }),
             ])
@@ -352,6 +396,18 @@ export class TestService {
                     endTime,
                 },
             })
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
+
+    async assignGroupTests(id: string, students: any[], endTime: string) {
+        try {
+            const assigned = await Promise.all(
+                students.map((student) => this.assign(id, student.id, endTime))
+            )
+
+            return assigned
         } catch (error) {
             throw new InternalServerErrorException(error.message)
         }

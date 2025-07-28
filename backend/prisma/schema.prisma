@@ -53,6 +53,7 @@ model Teacher {
   status    Status   @default(Teacher)
   students  Student[]
   schedule  Schedule[]
+  groups    Group[]
 }
 
 model Student {
@@ -71,6 +72,8 @@ model Student {
   assignedTests AssignedTest[]
   teacherId String
   teacher   Teacher  @relation(fields: [teacherId], references: [id])
+  groupId   String?
+  group     Group?   @relation(fields: [groupId], references: [id])
 }
 
 model StudentScore {
@@ -113,12 +116,16 @@ model Test {
   assignedTo  AssignedTest[]
   subTopicId  String?
   subTopic    SubTopic? @relation(fields: [subTopicId], references: [id])
+  groupId     String?
+  group       Group? @relation(fields: [groupId], references: [id])
 }
 
 model AssignedTest {
   id          String    @id @default(uuid())
-  student     Student   @relation(fields: [studentId], references: [id])
-  studentId   String
+  student     Student?   @relation(fields: [studentId], references: [id])
+  studentId   String?
+  group       Group?   @relation(fields: [groupId], references: [id])
+  groupId     String?
   test        Test      @relation(fields: [testId], references: [id])
   testId      String
   assignedAt  DateTime @default(now())
@@ -153,6 +160,16 @@ model Schedule {
   teacherId       String
   teacher         Teacher  @relation(fields: [teacherId], references: [id])
   exceptions      Json?    @default("{}")
+}
+
+model Group {
+  id              String  @id @default(cuid())
+  title           String
+  teacherId       String
+  teacher         Teacher @relation(fields: [teacherId], references: [id])
+  students        Student[]
+  tests           Test[]
+  assignedTests   AssignedTest[]
 }
 
 enum Status {

@@ -55,6 +55,14 @@ export class TestController {
         return this.testService.getAssignedTestByStudent(id, Number(page))
     }
 
+    @Get('assign/group/:id')
+    getAssignedTestByGroup(
+        @Param('id') id: string,
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: string
+    ) {
+        return this.testService.getAssignedTestByGroup(id, Number(page))
+    }
+
     @Get('assign/teacher/:id')
     getAssignedTestByTeacher(
         @Param('id') id: string,
@@ -74,6 +82,14 @@ export class TestController {
         @Body() dto: { studentId: string; endTime: string }
     ) {
         return this.testService.assign(id, dto.studentId, dto.endTime)
+    }
+
+    @Post(':id/group/assign')
+    assignGroupTests(
+        @Param('id') id: string,
+        @Body() dto: { students: any[]; endTime: string }
+    ) {
+        return this.testService.assignGroupTests(id, dto.students, dto.endTime)
     }
 
     @Post(':id/check/:userId')
