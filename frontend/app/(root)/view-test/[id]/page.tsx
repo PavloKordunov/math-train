@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useParams, useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -9,6 +9,7 @@ import CreateTestTask from '@/components/testComponents/CreateTestTask'
 import TestBasicInfo from '@/components/testComponents/TestBasicInfo'
 import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
+import { MathInputHandle } from '@/components/MathInput'
 
 const ViewTest = () => {
     const params = useParams()
@@ -16,6 +17,8 @@ const ViewTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
     const { user, setUser } = useUser()
+    const answerRefs = useRef<Record<string, MathInputHandle | null>>({})
+    const titleRef = useRef<MathInputHandle>(null)
     const [test, setTest] = useState({
         title: '',
         description: '',
@@ -254,6 +257,8 @@ const ViewTest = () => {
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
+                answerRefs={answerRefs}
+                titleRef={titleRef}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
