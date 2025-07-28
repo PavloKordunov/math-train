@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { nanoid } from 'nanoid'
 import MathInput from '../MathInput'
 import { MdDelete } from 'react-icons/md'
@@ -10,6 +10,10 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
     const [editedTask, setEditedTask] = useState(
         JSON.parse(JSON.stringify(task))
     )
+
+    const titleRef = useRef<any>(null)
+    const answerRefs = useRef<Array<any>>([])
+    const pairRefs = useRef<Array<{ left: any; right: any }>>([])
 
     useEffect(() => {
         setEditedTask(JSON.parse(JSON.stringify(task)))
@@ -69,7 +73,38 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        onSave(editedTask)
+
+        const updated = { ...editedTask }
+
+        updated.title =
+            titleRef.current?.getTextWithFormulas?.() || editedTask.title
+
+        if (editedTask.type === 'written' || editedTask.type === 'multiple') {
+            updated.answers = editedTask.answers.map((a: any, i: number) => ({
+                ...a,
+                text: answerRefs.current[i]?.getTextWithFormulas?.() || a.text,
+            }))
+        }
+
+        if (editedTask.type === 'matching') {
+            updated.pairs = editedTask.pairs.map((pair: any, i: number) => ({
+                ...pair,
+                left: {
+                    ...pair.left,
+                    text:
+                        pairRefs.current[i]?.left?.getTextWithFormulas?.() ||
+                        pair.left.text,
+                },
+                right: {
+                    ...pair.right,
+                    text:
+                        pairRefs.current[i]?.right?.getTextWithFormulas?.() ||
+                        pair.right.text,
+                },
+            }))
+        }
+
+        onSave(updated)
     }
 
     const [base64, setBase64] = useState('')
@@ -100,11 +135,6 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
         }
     }, [base64])
 
-    useEffect(() => {
-        console.log(editedTask)
-        console.log(task)
-    }, [editedTask, task])
-
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
             <div className="bg-white rounded-[31px] p-6 w-full max-w-200 max-h-[90vh] overflow-y-auto">
@@ -123,13 +153,15 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                         <label className="block text-gray-700 mb-2">
                             Заголовок:
                         </label>
-                        <div className="w-full">
-                            <MathInput
-                                value={editedTask.title}
-                                onChange={(val) => handleTitleChange(val)}
-                                className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
-                            />
-                        </div>
+                        <MathInput
+                            ref={titleRef}
+                            value={editedTask.title}
+                            onChange={(val) => handleTitleChange(val)}
+                            className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                            inputId={`title`}
+                            inputType="textarea"
+                        />
+
                         {editedTask.image ? (
                             <div className="relative w-fit">
                                 <Image
@@ -188,6 +220,9 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                             }
                                         />
                                         <MathInput
+                                            ref={(el) => {
+                                                answerRefs.current[index] = el
+                                            }}
                                             value={answer.text}
                                             onChange={(val: string) => {
                                                 handleAnswerTextChange(
@@ -196,6 +231,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                                 )
                                             }}
                                             className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                            inputId={`answer-${index}`}
                                         />
                                     </div>
                                 )
@@ -215,16 +251,35 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                 >
                                     <div className="flex-1 max-w-50">
                                         <MathInput
+                                            ref={(el) => {
+                                                if (!pairRefs.current[index])
+                                                    pairRefs.current[index] = {
+                                                        left: null,
+                                                        right: null,
+                                                    }
+                                                pairRefs.current[index].left =
+                                                    el
+                                            }}
                                             value={pair.left.text}
                                             onChange={(val: string) => {
                                                 handlePairLeftChange(index, val)
                                             }}
                                             className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                            inputId={`left-${pair.left.id}`}
                                         />
                                     </div>
                                     <span className="text-gray-500">—</span>
                                     <div className="flex-1 max-w-50">
                                         <MathInput
+                                            ref={(el) => {
+                                                if (!pairRefs.current[index])
+                                                    pairRefs.current[index] = {
+                                                        left: null,
+                                                        right: null,
+                                                    }
+                                                pairRefs.current[index].right =
+                                                    el
+                                            }}
                                             value={pair.right.text}
                                             onChange={(val: string) => {
                                                 handlePairRightChange(
@@ -233,6 +288,7 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                                 )
                                             }}
                                             className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                            inputId={`left-${pair.right.id}`}
                                         />
                                     </div>
                                     <button
@@ -260,11 +316,15 @@ const EditTaskModal = ({ task, onSave, onClose }: any) => {
                                 Відповідь:
                             </h3>
                             <MathInput
+                                ref={(el) => {
+                                    answerRefs.current[0] = el
+                                }}
                                 value={editedTask.answers[0]?.text || ''}
                                 onChange={(val: string) => {
                                     handleAnswerTextChange(0, val)
                                 }}
                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                inputId={`answer-${0}`}
                             />
                         </div>
                     )}

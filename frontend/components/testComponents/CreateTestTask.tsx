@@ -4,7 +4,7 @@ import ImageUpload from './create-test-task/ImageUpload'
 import AnswerInput from './create-test-task/AnswerInput'
 import ActionButtons from './create-test-task/ActionButtons'
 import PairInput from './create-test-task/PairInput'
-import MathInput from '../MathInput'
+import MathInput, { MathInputHandle } from '../MathInput'
 
 const CreateTestTask = ({
     questionType,
@@ -15,8 +15,17 @@ const CreateTestTask = ({
     setQuestion,
     toggleAnswerCorrect,
     handleSaveMatchingTask,
+    answerRefs,
+    titleRef,
 }: any) => {
+    console.log('[CreateTestTask] received props.answerRefs:', answerRefs)
+    console.log(
+        '[CreateTestTask] received props.answerRefs.current:',
+        answerRefs?.current
+    )
+
     const [base64, setBase64] = useState('')
+    const mathInputRef = useRef<MathInputHandle>(null)
 
     const questionRef = useRef(question)
     questionRef.current = question
@@ -68,6 +77,24 @@ const CreateTestTask = ({
     }
 
     const handleSaveTask = () => {
+        const textWithFormulas = mathInputRef.current?.getTextWithFormulas()
+
+        console.log('[handleSaveTask] answerRefs:', answerRefs)
+        console.log('[handleSaveTask] answerRefs.current:', answerRefs?.current)
+
+        const updatedAnswers = question.answers.map((ans: any) => {
+            // Ключ - id відповіді
+            const ref = answerRefs.current[ans.id]
+
+            if (ref && typeof ref.getTextWithFormulas === 'function') {
+                return {
+                    ...ans,
+                    text: ref.getTextWithFormulas(),
+                }
+            }
+            return ans
+        })
+
         if (questionType === 'matching') {
             handleSaveMatchingTask()
         } else {
@@ -80,12 +107,15 @@ const CreateTestTask = ({
                         ...prev.tasks,
                         {
                             ...question,
+                            title: textWithFormulas || question.title,
+                            answers: updatedAnswers,
                             number: newNumber.toString(),
                             type: questionType,
                         },
                     ],
                 }
             })
+
             setQuestion({
                 title: '',
                 type: '',
@@ -102,8 +132,10 @@ const CreateTestTask = ({
                 pairs: [],
                 image: '',
             })
+
             setQuestionType('')
         }
+
         setBase64('')
     }
 
@@ -126,9 +158,12 @@ const CreateTestTask = ({
                         Умова завдання
                     </label>
                     <MathInput
+                        ref={mathInputRef}
                         value={question.title}
                         onChange={handleTitleChange}
                         className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
+                        inputId={`question-title-multiple`}
+                        inputType="textarea"
                     />
                     <ImageUpload
                         base64={base64}
@@ -142,6 +177,15 @@ const CreateTestTask = ({
                             answer={answer}
                             toggleAnswerCorrect={toggleAnswerCorrect}
                             handleAnswerChange={handleAnswerChange}
+                            mathInputRef={(el: MathInputHandle) => {
+                                console.log(
+                                    '[AnswerInput] registering answer ref:',
+                                    answer.id,
+                                    el
+                                )
+                                answerRefs.current[answer.id] = el
+                            }}
+                            inputId={`answer-${index}`}
                         />
                     ))}
                     <ActionButtons
@@ -157,9 +201,12 @@ const CreateTestTask = ({
                         Умова завдання
                     </label>
                     <MathInput
+                        ref={titleRef}
                         value={question.title}
                         onChange={handleTitleChange}
                         className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
+                        inputId={`question-title-matching`}
+                        inputType="textarea"
                     />
                     <ImageUpload
                         base64={base64}
@@ -173,6 +220,7 @@ const CreateTestTask = ({
                             pair={pair}
                             handlePairChange={handlePairChange}
                             handleRemovePair={handleRemovePair}
+                            answerRefs={answerRefs}
                         />
                     ))}
                     <button
@@ -194,9 +242,12 @@ const CreateTestTask = ({
                         Умова завдання
                     </label>
                     <MathInput
+                        ref={mathInputRef}
                         value={question.title}
                         onChange={handleTitleChange}
                         className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
+                        inputId={`question-title-written`}
+                        inputType="textarea"
                     />
                     <ImageUpload
                         base64={base64}
@@ -214,6 +265,12 @@ const CreateTestTask = ({
                                 })
                             }
                             className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                            ref={(el: MathInputHandle) => {
+                                answerRefs.current[
+                                    question.answers[0]?.id || '0'
+                                ] = el
+                            }}
+                            inputId={`answer-${0}`}
                         />
                     </div>
                     <ActionButtons

@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -10,12 +10,16 @@ import TestBasicInfo from '@/components/testComponents/TestBasicInfo'
 import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
 import { useSubTopicContext } from '@/helpers/getSubTopicId'
+import { MathInputHandle } from '@/components/MathInput'
+import { title } from 'process'
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
     const { user } = useUser()
     const { subTopicId } = useSubTopicContext()
+    const answerRefs = useRef<Record<string, MathInputHandle | null>>({})
+    const titleRef = useRef<MathInputHandle>(null)
 
     const [test, setTest] = useState({
         title: '',
@@ -169,55 +173,86 @@ const CreateTest = () => {
         }))
     }, [])
 
-    const handleSaveMatchingTask = useCallback(() => {
-        const validPairs = question.pairs.filter(
-            (pair: any) => pair.left?.text?.trim() && pair.right?.text?.trim()
-        )
+    const handleSaveMatchingTask = useCallback(
+        (
+            answerRefs: React.RefObject<Record<string, MathInputHandle | null>>,
+            titleWithFormulas: string
+        ) => {
+            // Оновити пари з текстом з MathInput через рефи
+            const updatedPairs = question.pairs.map((pair: any) => {
+                const leftRef = answerRefs.current[pair.left.id]
+                const rightRef = answerRefs.current[pair.right.id]
 
-        const answers = validPairs.map((pair: any) => ({
-            left: {
-                rightId: pair.right.id,
-                rightText: pair.right.text,
-                leftId: pair.left.id,
-                leftText: pair.left.text,
-            },
-        }))
+                return {
+                    ...pair,
+                    left: {
+                        ...pair.left,
+                        text: leftRef?.getTextWithFormulas
+                            ? leftRef.getTextWithFormulas()
+                            : pair.left.text,
+                    },
+                    right: {
+                        ...pair.right,
+                        text: rightRef?.getTextWithFormulas
+                            ? rightRef.getTextWithFormulas()
+                            : pair.right.text,
+                    },
+                }
+            })
 
-        setTest((prev: any) => {
-            const newNumber = prev.tasks.length + 1
+            // Фільтруємо пари з непорожнім текстом
+            const validPairs = updatedPairs.filter(
+                (pair: any) =>
+                    pair.left?.text?.trim() && pair.right?.text?.trim()
+            )
 
-            const taskToSave = {
-                ...question,
-                type: questionType,
-                answers: answers,
-                pairs: question.pairs.map((pair: any) => ({
-                    left: { id: pair.left.id, text: pair.left.text },
-                    right: { id: pair.right.id, text: pair.right.text },
-                })),
-                number: newNumber.toString(),
-            }
-
-            return {
-                ...prev,
-                tasks: [...prev.tasks, taskToSave],
-            }
-        })
-
-        setQuestion({
-            id: '',
-            title: '',
-            type: '',
-            answers: [],
-            pairs: [
-                {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
-                    id: nanoid(),
+            const answers = validPairs.map((pair: any) => ({
+                left: {
+                    rightId: pair.right.id,
+                    rightText: pair.right.text,
+                    leftId: pair.left.id,
+                    leftText: pair.left.text,
                 },
-            ],
-        })
-        setQuestionType('')
-    }, [question, questionType])
+            }))
+
+            setTest((prev: any) => {
+                const newNumber = prev.tasks.length + 1
+
+                const taskToSave = {
+                    ...question,
+                    title: titleWithFormulas || question.title,
+                    type: questionType,
+                    answers: answers,
+                    pairs: updatedPairs.map((pair: any) => ({
+                        left: { id: pair.left.id, text: pair.left.text },
+                        right: { id: pair.right.id, text: pair.right.text },
+                    })),
+                    number: newNumber.toString(),
+                }
+
+                return {
+                    ...prev,
+                    tasks: [...prev.tasks, taskToSave],
+                }
+            })
+
+            setQuestion({
+                id: '',
+                title: '',
+                type: '',
+                answers: [],
+                pairs: [
+                    {
+                        left: { id: nanoid(), text: '' },
+                        right: { id: nanoid(), text: '' },
+                        id: nanoid(),
+                    },
+                ],
+            })
+            setQuestionType('')
+        },
+        [question, questionType]
+    )
 
     const updateTask = useCallback((updatedTask: any) => {
         setTest((prev: any) => ({
@@ -259,7 +294,13 @@ const CreateTest = () => {
                 setQuestion={setQuestion}
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 updateAnswerText={updateAnswerText}
-                handleSaveMatchingTask={handleSaveMatchingTask}
+                handleSaveMatchingTask={() => {
+                    const titleWithFormulas =
+                        titleRef.current?.getTextWithFormulas() || ''
+                    handleSaveMatchingTask(answerRefs, titleWithFormulas)
+                }}
+                answerRefs={answerRefs}
+                titleRef={titleRef}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
