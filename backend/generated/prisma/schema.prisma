@@ -41,17 +41,18 @@ model SubTopic {
 }
 
 model Teacher {
-  id        String    @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  email     String    @unique
-  phone     String    @unique
+  email     String     @unique
+  phone     String     @unique
   password  String
   subject   Subject
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   tests     Test[]
-  status    Status    @default(Teacher)
+  status    Status     @default(Teacher)
   students  Student[]
+  schedule  Schedule[]
 }
 
 model Student {
@@ -139,6 +140,19 @@ model Task {
   updatedAt   DateTime @updatedAt
 
   test Test? @relation(fields: [testId], references: [id], onDelete: Cascade)
+}
+
+model Schedule {
+  id         String  @id @default(cuid())
+  title      String
+  dayOfWeek  Int
+  hours      Int
+  minutes    Int
+  duration   Int
+  weeks      Int?
+  teacherId  String
+  teacher    Teacher @relation(fields: [teacherId], references: [id])
+  exceptions Json?   @default("{}")
 }
 
 enum Status {

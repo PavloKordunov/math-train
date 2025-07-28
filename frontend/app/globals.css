@@ -22,10 +22,189 @@
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: Roboto, sans-serif;
+    font-family: 'Inter', 'Roboto', sans-serif;
 }
 
 .katex {
     white-space: normal !important;
     word-wrap: break-word !important;
+}
+
+/* ===== TOOLBAR ===== */
+.rbc-toolbar {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+}
+
+.rbc-btn-group:first-child {
+    display: none !important;
+}
+
+.rbc-toolbar-label {
+    display: none;
+}
+
+.rbc-toolbar-label {
+    text-align: right !important;
+    padding: 0px 20px !important;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.rbc-btn-group:last-child {
+    font-size: 14px !important;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.rbc-btn-group:last-child button {
+    border: none !important;
+    background-color: #f1f0ff !important;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    color: #333;
+    font-weight: 500;
+}
+
+.rbc-toolbar button.rbc-active {
+    background-color: #dbdafe !important;
+    box-shadow: none !important;
+}
+
+.rbc-timeslot-group {
+    min-height: 60px !important;
+    background-color: #f9fcff !important;
+}
+
+/* ===== TIMELINE ===== */
+.rbc-time-view {
+    border-color: #eee !important;
+    font-size: 13px;
+}
+
+.rbc-time-content {
+    border: none !important;
+}
+
+.rbc-time-gutter.rbc-time-column {
+    font-size: 12px !important;
+    color: #666;
+}
+
+.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
+    padding: 0px 16px !important;
+}
+
+/* ===== CELLS ===== */
+.rbc-timeslot-group {
+    background-color: #f9fcff !important;
+}
+
+.rbc-allday-cell {
+    display: none !important;
+}
+
+.rbc-day-slot {
+    font-size: 14px !important;
+}
+
+/* ===== EVENTS ===== */
+.rbc-event {
+    border: none !important;
+    color: #111 !important;
+    padding: 10px 12px !important;
+    margin: 0px !important;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    white-space: normal !important;
+    word-break: break-word;
+    width: 100% !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* background-color: #c1b6d6; */
+    box-sizing: border-box;
+}
+
+.rbc-event.event-status-completed {
+    background-color: #4ade80; /* Зелений */
+}
+
+.rbc-event.event-status-postponed {
+    background-color: #fbbf24; /* Жовтий */
+}
+
+.rbc-event.event-status-canceled {
+    background-color: #f87171; /* Червоний */
+}
+
+.rbc-event.event-status-default {
+    background-color: #c1b6d6; /* Фіолетовий (запланований) */
+}
+
+.rbc-event:nth-child(1) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+.rbc-event:nth-child(2) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+.rbc-event:nth-child(3) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+.rbc-event:nth-child(4) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+
+.rbc-event:nth-child(5) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+.rbc-event:nth-child(6) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+.rbc-event:nth-child(7) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+.rbc-event:nth-child(8) {
+    /* background-color: #c1b6d6 !important; */
+    color: #fff !important;
+}
+
+.rbc-day-slot .rbc-event-container {
+    padding: 2px 6px !important;
+}
+
+.rbc-time-slot {
+    height: 35px !important;
+}
+
+.rbc-events-container {
+    margin-right: 1 !important;
+}
+/* ===== HEADERS ===== */
+.rbc-header {
+    padding: 12px 0;
+    font-weight: 600;
+    background: #f8f9fb;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 14px;
+    color: #222;
+    text-align: center;
+}
+
+/* ===== CURRENT TIME INDICATOR ===== */
+.rbc-current-time-indicator {
+    background-color: red;
+    height: 2px;
 }

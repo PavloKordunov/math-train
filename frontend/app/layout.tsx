@@ -1,6 +1,7 @@
 'use client'
 
 import './globals.css'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'mathlive'
 
 import { SessionProvider } from 'next-auth/react'
