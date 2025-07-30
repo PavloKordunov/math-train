@@ -178,7 +178,6 @@ const CreateTest = () => {
             answerRefs: React.RefObject<Record<string, MathInputHandle | null>>,
             titleWithFormulas: string
         ) => {
-            // Оновити пари з текстом з MathInput через рефи
             const updatedPairs = question.pairs.map((pair: any) => {
                 const leftRef = answerRefs.current[pair.left.id]
                 const rightRef = answerRefs.current[pair.right.id]
@@ -200,7 +199,6 @@ const CreateTest = () => {
                 }
             })
 
-            // Фільтруємо пари з непорожнім текстом
             const validPairs = updatedPairs.filter(
                 (pair: any) =>
                     pair.left?.text?.trim() && pair.right?.text?.trim()

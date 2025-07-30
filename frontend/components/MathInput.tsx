@@ -18,6 +18,8 @@ const LatexTransform = ({
     content: string
     className?: string
 }) => {
+    if (!content?.trim()) return null
+
     const config = {
         loader: { load: ['input/asciimath', '[tex]/ams'] },
         asciimath: {
@@ -31,7 +33,7 @@ const LatexTransform = ({
     return (
         <MathJaxContext config={config}>
             <div className={`${className} break-words whitespace-pre-wrap`}>
-                <MathJax dynamic>
+                <MathJax dynamic key={content}>
                     <span>{content}</span>
                 </MathJax>
             </div>
