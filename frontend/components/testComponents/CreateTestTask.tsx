@@ -18,12 +18,6 @@ const CreateTestTask = ({
     answerRefs,
     titleRef,
 }: any) => {
-    console.log('[CreateTestTask] received props.answerRefs:', answerRefs)
-    console.log(
-        '[CreateTestTask] received props.answerRefs.current:',
-        answerRefs?.current
-    )
-
     const [base64, setBase64] = useState('')
     const mathInputRef = useRef<MathInputHandle>(null)
 
@@ -79,11 +73,7 @@ const CreateTestTask = ({
     const handleSaveTask = () => {
         const textWithFormulas = mathInputRef.current?.getTextWithFormulas()
 
-        console.log('[handleSaveTask] answerRefs:', answerRefs)
-        console.log('[handleSaveTask] answerRefs.current:', answerRefs?.current)
-
         const updatedAnswers = question.answers.map((ans: any) => {
-            // Ключ - id відповіді
             const ref = answerRefs.current[ans.id]
 
             if (ref && typeof ref.getTextWithFormulas === 'function') {
@@ -178,11 +168,6 @@ const CreateTestTask = ({
                             toggleAnswerCorrect={toggleAnswerCorrect}
                             handleAnswerChange={handleAnswerChange}
                             mathInputRef={(el: MathInputHandle) => {
-                                console.log(
-                                    '[AnswerInput] registering answer ref:',
-                                    answer.id,
-                                    el
-                                )
                                 answerRefs.current[answer.id] = el
                             }}
                             inputId={`answer-${index}`}
