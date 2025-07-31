@@ -1,12 +1,13 @@
 import { nanoid } from 'nanoid'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import ImageUpload from './create-test-task/ImageUpload'
 import AnswerInput from './create-test-task/AnswerInput'
 import ActionButtons from './create-test-task/ActionButtons'
 import PairInput from './create-test-task/PairInput'
-import MathInput, { MathInputHandle } from '../MathInput'
+import MathInput from '../MathInput'
 
 const CreateTestTask = ({
+    subject,
     questionType,
     setQuestionType,
     setTest,
@@ -15,11 +16,14 @@ const CreateTestTask = ({
     setQuestion,
     toggleAnswerCorrect,
     handleSaveMatchingTask,
-    answerRefs,
-    titleRef,
+    value,
 }: any) => {
     const [base64, setBase64] = useState('')
-    const mathInputRef = useRef<MathInputHandle>(null)
+    const [internalValue, setInternalValue] = useState(value)
+
+    useEffect(() => {
+        setInternalValue(value)
+    }, [value])
 
     const questionRef = useRef(question)
     questionRef.current = question
@@ -71,20 +75,6 @@ const CreateTestTask = ({
     }
 
     const handleSaveTask = () => {
-        const textWithFormulas = mathInputRef.current?.getTextWithFormulas()
-
-        const updatedAnswers = question.answers.map((ans: any) => {
-            const ref = answerRefs.current[ans.id]
-
-            if (ref && typeof ref.getTextWithFormulas === 'function') {
-                return {
-                    ...ans,
-                    text: ref.getTextWithFormulas(),
-                }
-            }
-            return ans
-        })
-
         if (questionType === 'matching') {
             handleSaveMatchingTask()
         } else {
@@ -97,8 +87,6 @@ const CreateTestTask = ({
                         ...prev.tasks,
                         {
                             ...question,
-                            title: textWithFormulas || question.title,
-                            answers: updatedAnswers,
                             number: newNumber.toString(),
                             type: questionType,
                         },
@@ -129,6 +117,29 @@ const CreateTestTask = ({
         setBase64('')
     }
 
+    const renderTitleInput = () => {
+        if (subject === 'Mathematics') {
+            return (
+                <MathInput
+                    value={question.title}
+                    onChange={handleTitleChange}
+                    className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
+                    inputType="textarea"
+                />
+            )
+        }
+        return (
+            <textarea
+                value={question.title}
+                onChange={(e) => handleTitleChange(e.target.value)}
+                className="flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
+                placeholder="Введіть текст"
+                style={{ fontFamily: 'monospace', lineHeight: '1.5' }}
+                rows={3}
+            />
+        )
+    }
+
     return (
         <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
             {questionType === '' && (
@@ -147,14 +158,8 @@ const CreateTestTask = ({
                     <label className="block text-gray-700 font-medium mb-1">
                         Умова завдання
                     </label>
-                    <MathInput
-                        ref={mathInputRef}
-                        value={question.title}
-                        onChange={handleTitleChange}
-                        className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
-                        inputId={`question-title-multiple`}
-                        inputType="textarea"
-                    />
+                    {renderTitleInput()}
+
                     <ImageUpload
                         base64={base64}
                         setBase64={setBase64}
@@ -167,10 +172,7 @@ const CreateTestTask = ({
                             answer={answer}
                             toggleAnswerCorrect={toggleAnswerCorrect}
                             handleAnswerChange={handleAnswerChange}
-                            mathInputRef={(el: MathInputHandle) => {
-                                answerRefs.current[answer.id] = el
-                            }}
-                            inputId={`answer-${index}`}
+                            subject={subject}
                         />
                     ))}
                     <ActionButtons
@@ -185,14 +187,7 @@ const CreateTestTask = ({
                     <label className="block text-gray-700 font-medium mb-1">
                         Умова завдання
                     </label>
-                    <MathInput
-                        ref={titleRef}
-                        value={question.title}
-                        onChange={handleTitleChange}
-                        className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
-                        inputId={`question-title-matching`}
-                        inputType="textarea"
-                    />
+                    {renderTitleInput()}
                     <ImageUpload
                         base64={base64}
                         setBase64={setBase64}
@@ -205,7 +200,7 @@ const CreateTestTask = ({
                             pair={pair}
                             handlePairChange={handlePairChange}
                             handleRemovePair={handleRemovePair}
-                            answerRefs={answerRefs}
+                            subject={subject}
                         />
                     ))}
                     <button
@@ -226,14 +221,7 @@ const CreateTestTask = ({
                     <label className="block text-gray-700 font-medium mb-1">
                         Умова завдання
                     </label>
-                    <MathInput
-                        ref={mathInputRef}
-                        value={question.title}
-                        onChange={handleTitleChange}
-                        className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
-                        inputId={`question-title-written`}
-                        inputType="textarea"
-                    />
+                    {renderTitleInput()}
                     <ImageUpload
                         base64={base64}
                         setBase64={setBase64}
@@ -241,22 +229,39 @@ const CreateTestTask = ({
                     />
                     <div className="flex items-center gap-4 mt-4">
                         <p>Введіть відповідь: </p>
-                        <MathInput
-                            value={question.answers[0]?.text || ''}
-                            onChange={(val) =>
-                                setQuestion({
-                                    ...question,
-                                    answers: [{ text: val, id: nanoid() }],
-                                })
-                            }
-                            className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
-                            ref={(el: MathInputHandle) => {
-                                answerRefs.current[
-                                    question.answers[0]?.id || '0'
-                                ] = el
-                            }}
-                            inputId={`answer-${0}`}
-                        />
+                        {subject === 'Mathematics' ? (
+                            <MathInput
+                                value={question.answers[0]?.text || ''}
+                                onChange={(val) =>
+                                    setQuestion({
+                                        ...question,
+                                        answers: [{ text: val, id: nanoid() }],
+                                    })
+                                }
+                                className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                            />
+                        ) : (
+                            <input
+                                value={question.answers[0]?.text}
+                                onChange={(e) =>
+                                    setQuestion({
+                                        ...question,
+                                        answers: [
+                                            {
+                                                text: e.target.value,
+                                                id: nanoid(),
+                                            },
+                                        ],
+                                    })
+                                }
+                                className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
+                                placeholder={'Введіть текст'}
+                                style={{
+                                    fontFamily: 'monospace',
+                                    lineHeight: '1.5',
+                                }}
+                            />
+                        )}
                     </div>
                     <ActionButtons
                         onCancel={() => setQuestionType('')}

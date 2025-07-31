@@ -8,7 +8,13 @@ import Image from 'next/image'
 import { MathJaxContext } from 'better-react-mathjax'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 
-const TestTasks = ({ test, updateTask, deleteTask, updateTest }: any) => {
+const TestTasks = ({
+    test,
+    updateTask,
+    deleteTask,
+    updateTest,
+    subject,
+}: any) => {
     const [editingTask, setEditingTask] = useState(null)
 
     const handleEditClick = (task: any) => {
@@ -94,27 +100,27 @@ const TestTasks = ({ test, updateTask, deleteTask, updateTest }: any) => {
         updateTest({ ...test, tasks: sortedTasks })
     }
 
-    const config = {
-        loader: { load: ['input/asciimath', 'input/tex', '[tex]/ams'] },
-        asciimath: {},
-        tex: {
-            inlineMath: [
-                ['$', '$'],
-                ['\\(', '\\)'],
-            ],
-            displayMath: [
-                ['$$', '$$'],
-                ['\\[', '\\]'],
-            ],
-            packages: { '[+]': ['ams'] },
-        },
-        svg: {
-            fontCache: 'global',
-        },
-    }
+    // const config = {
+    //     loader: { load: ['input/asciimath', 'input/tex', '[tex]/ams'] },
+    //     asciimath: {},
+    //     tex: {
+    //         inlineMath: [
+    //             ['$', '$'],
+    //             ['\\(', '\\)'],
+    //         ],
+    //         displayMath: [
+    //             ['$$', '$$'],
+    //             ['\\[', '\\]'],
+    //         ],
+    //         packages: { '[+]': ['ams'] },
+    //     },
+    //     svg: {
+    //         fontCache: 'global',
+    //     },
+    // }
 
     return (
-        <MathJaxContext config={config}>
+        <div>
             {test.tasks.length > 0 &&
                 test.tasks.map((task: any, index: any) => (
                     <div key={task.id || index}>
@@ -343,9 +349,10 @@ const TestTasks = ({ test, updateTask, deleteTask, updateTest }: any) => {
                     task={editingTask}
                     onSave={handleSave}
                     onClose={() => setEditingTask(null)}
+                    subject={subject}
                 />
             )}
-        </MathJaxContext>
+        </div>
     )
 }
 

@@ -1,7 +1,13 @@
+// components/LatexTransform.tsx
 'use client'
 
-import React from 'react'
-import { MathJax, MathJaxContext } from 'better-react-mathjax'
+import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+
+const MathJax = dynamic(
+    () => import('better-react-mathjax').then((mod) => mod.MathJax),
+    { ssr: false }
+)
 
 const LatexTransform = ({
     content,
@@ -10,23 +16,21 @@ const LatexTransform = ({
     content: string
     className?: string
 }) => {
-    const config = {
-        loader: { load: ['input/asciimath', '[tex]/ams'] },
-        asciimath: {
-            delimiters: [['`', '`']],
-        },
-        svg: {
-            fontCache: 'global',
-        },
-    }
+    const [ready, setReady] = useState(false)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setReady(true), 0)
+        return () => clearTimeout(timeout)
+    }, [content])
+
+    if (!content?.trim() || !ready) return null
+
     return (
-        <MathJaxContext config={config}>
-            <div className={`${className} break-words whitespace-pre-wrap`}>
-                <MathJax dynamic>
-                    <span>{content}</span>
-                </MathJax>
-            </div>
-        </MathJaxContext>
+        <div className={`${className} break-words whitespace-pre-wrap`}>
+            <MathJax dynamic>
+                <span>{content}</span>
+            </MathJax>
+        </div>
     )
 }
 

@@ -7,6 +7,7 @@ import 'mathlive'
 import { SessionProvider } from 'next-auth/react'
 import { UserProvider } from '@/hooks/useUser'
 import { SubTopicProvider } from '@/helpers/getSubTopicId'
+import { MathJaxContext } from 'better-react-mathjax'
 
 import { Roboto } from 'next/font/google'
 
@@ -21,12 +22,21 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const config = {
+        loader: { load: ['input/asciimath', '[tex]/ams'] },
+        asciimath: { delimiters: [['`', '`']] },
+    }
+
     return (
         <html lang="en">
             <body className={`${roboto.variable} font-sans`}>
                 <SessionProvider>
                     <SubTopicProvider>
-                        <UserProvider>{children}</UserProvider>
+                        <UserProvider>
+                            <MathJaxContext config={config}>
+                                {children}
+                            </MathJaxContext>
+                        </UserProvider>
                     </SubTopicProvider>
                 </SessionProvider>
             </body>
