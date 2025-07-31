@@ -220,7 +220,7 @@ const GroupCard = ({ group, setGroups, students }: any) => {
         <>
             <Toaster position="bottom-center" />
             <Link
-                href={``}
+                href={`/group/${group.id}`}
                 className="w-full max-w-[420px] bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 p-5 flex flex-col items-center space-y-4"
             >
                 <div className="w-fit h-fit p-5 rounded-full bg-cyan-500">

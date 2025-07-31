@@ -71,6 +71,7 @@ export class GroupService {
         try {
             return await this.databaseService.group.findUnique({
                 where: { id },
+                include: { students: true },
             })
         } catch (error) {
             throw new InternalServerErrorException(error.message)
