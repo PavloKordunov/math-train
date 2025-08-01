@@ -9,7 +9,6 @@ import CreateTestTask from '@/components/testComponents/CreateTestTask'
 import TestBasicInfo from '@/components/testComponents/TestBasicInfo'
 import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
-import { MathInputHandle } from '@/components/MathInput'
 
 const ViewTest = () => {
     const params = useParams()
@@ -17,8 +16,6 @@ const ViewTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
     const { user, setUser } = useUser()
-    const answerRefs = useRef<Record<string, MathInputHandle | null>>({})
-    const titleRef = useRef<MathInputHandle>(null)
     const [test, setTest] = useState({
         title: '',
         description: '',
@@ -158,84 +155,50 @@ const ViewTest = () => {
         return new Date(date.getTime() - offset).toISOString().slice(0, 16)
     }
 
-    const handleSaveMatchingTask = useCallback(
-        (
-            answerRefs: React.RefObject<Record<string, MathInputHandle | null>>,
-            titleWithFormulas: string
-        ) => {
-            const updatedPairs = question.pairs.map((pair: any) => {
-                const leftRef = answerRefs.current[pair.left.id]
-                const rightRef = answerRefs.current[pair.right.id]
+    const handleSaveMatchingTask = () => {
+        const validPairs = question.pairs.filter(
+            (pair: any) => pair.left?.text?.trim() && pair.right?.text?.trim()
+        )
 
-                return {
-                    ...pair,
-                    left: {
-                        ...pair.left,
-                        text: leftRef?.getTextWithFormulas
-                            ? leftRef.getTextWithFormulas()
-                            : pair.left.text,
-                    },
-                    right: {
-                        ...pair.right,
-                        text: rightRef?.getTextWithFormulas
-                            ? rightRef.getTextWithFormulas()
-                            : pair.right.text,
-                    },
-                }
-            })
+        const answers = validPairs.map((pair: any) => ({
+            left: {
+                rightId: pair.right.id,
+                rightText: pair.right.text,
+                leftId: pair.left.id,
+                leftText: pair.left.text,
+            },
+        }))
 
-            const validPairs = updatedPairs.filter(
-                (pair: any) =>
-                    pair.left?.text?.trim() && pair.right?.text?.trim()
-            )
+        const taskToSave = {
+            ...question,
+            type: questionType,
+            answers: answers,
+            pairs: question.pairs.map((pair: any) => ({
+                left: { id: pair.left.id, text: pair.left.text },
+                right: { id: pair.right.id, text: pair.right.text },
+            })),
+        }
 
-            const answers = validPairs.map((pair: any) => ({
-                left: {
-                    rightId: pair.right.id,
-                    rightText: pair.right.text,
-                    leftId: pair.left.id,
-                    leftText: pair.left.text,
+        setTest((prev: any) => ({
+            ...prev,
+            tasks: [...prev.tasks, taskToSave],
+        }))
+
+        setQuestion({
+            id: '',
+            title: '',
+            type: '',
+            answers: [],
+            pairs: [
+                {
+                    left: { id: nanoid(), text: '' },
+                    right: { id: nanoid(), text: '' },
+                    id: nanoid(),
                 },
-            }))
-
-            setTest((prev: any) => {
-                const newNumber = prev.tasks.length + 1
-
-                const taskToSave = {
-                    ...question,
-                    title: titleWithFormulas || question.title,
-                    type: questionType,
-                    answers: answers,
-                    pairs: updatedPairs.map((pair: any) => ({
-                        left: { id: pair.left.id, text: pair.left.text },
-                        right: { id: pair.right.id, text: pair.right.text },
-                    })),
-                    number: newNumber.toString(),
-                }
-
-                return {
-                    ...prev,
-                    tasks: [...prev.tasks, taskToSave],
-                }
-            })
-
-            setQuestion({
-                id: '',
-                title: '',
-                type: '',
-                answers: [],
-                pairs: [
-                    {
-                        left: { id: nanoid(), text: '' },
-                        right: { id: nanoid(), text: '' },
-                        id: nanoid(),
-                    },
-                ],
-            })
-            setQuestionType('')
-        },
-        [question, questionType]
-    )
+            ],
+        })
+        setQuestionType('')
+    }
 
     useEffect(() => {
         console.log(question)
@@ -279,8 +242,10 @@ const ViewTest = () => {
                 updateTask={updateTask}
                 deleteTask={deleteTask}
                 updateTest={updateTest}
+                subject={user?.subject}
             />
             <CreateTestTask
+                subject={user?.subject}
                 questionType={questionType}
                 setQuestionType={setQuestionType}
                 test={test}
@@ -290,13 +255,7 @@ const ViewTest = () => {
                 setQuestion={setQuestion}
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 updateAnswerText={updateAnswerText}
-                handleSaveMatchingTask={() => {
-                    const titleWithFormulas =
-                        titleRef.current?.getTextWithFormulas() || ''
-                    handleSaveMatchingTask(answerRefs, titleWithFormulas)
-                }}
-                answerRefs={answerRefs}
-                titleRef={titleRef}
+                handleSaveMatchingTask={handleSaveMatchingTask}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
