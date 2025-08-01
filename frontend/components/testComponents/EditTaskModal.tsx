@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid'
 import MathInput from '../MathInput'
 import { MdDelete } from 'react-icons/md'
 import Image from 'next/image'
+import BoldTextInput from '../BoldTextInput'
 
 const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
     const [editedTask, setEditedTask] = useState(
@@ -130,18 +131,11 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                 inputType="textarea"
                             />
                         ) : (
-                            <textarea
+                            <BoldTextInput
                                 value={editedTask.title}
-                                onChange={(e) =>
-                                    handleTitleChange(e.target.value)
-                                }
-                                className="flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
-                                placeholder="Введіть текст"
-                                style={{
-                                    fontFamily: 'monospace',
-                                    lineHeight: '1.5',
-                                }}
-                                rows={3}
+                                onChange={handleTitleChange}
+                                placeholder="Введіть відповідь"
+                                inputType="textarea"
                             />
                         )}
 
@@ -214,20 +208,15 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                                             />
                                         ) : (
-                                            <input
+                                            <BoldTextInput
                                                 value={answer.text}
-                                                onChange={(e) =>
+                                                onChange={(val: string) => {
                                                     handleAnswerTextChange(
                                                         index,
-                                                        e.target.value
+                                                        val
                                                     )
-                                                }
-                                                className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
-                                                placeholder={'Введіть текст'}
-                                                style={{
-                                                    fontFamily: 'monospace',
-                                                    lineHeight: '1.5',
                                                 }}
+                                                placeholder="Введіть відповідь"
                                             />
                                         )}
                                     </div>
@@ -259,20 +248,15 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                                             />
                                         ) : (
-                                            <input
+                                            <BoldTextInput
                                                 value={pair.left.text}
-                                                onChange={(e) =>
+                                                onChange={(val: string) => {
                                                     handlePairLeftChange(
                                                         index,
-                                                        e.target.value
+                                                        val
                                                     )
-                                                }
-                                                className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
-                                                placeholder={'Введіть текст'}
-                                                style={{
-                                                    fontFamily: 'monospace',
-                                                    lineHeight: '1.5',
                                                 }}
+                                                placeholder="Введіть відповідь"
                                             />
                                         )}
                                     </div>
@@ -290,20 +274,15 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                                             />
                                         ) : (
-                                            <input
+                                            <BoldTextInput
                                                 value={pair.right.text}
-                                                onChange={(e) =>
+                                                onChange={(val: string) => {
                                                     handlePairRightChange(
                                                         index,
-                                                        e.target.value
+                                                        val
                                                     )
-                                                }
-                                                className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
-                                                placeholder={'Введіть текст'}
-                                                style={{
-                                                    fontFamily: 'monospace',
-                                                    lineHeight: '1.5',
                                                 }}
+                                                placeholder="Введіть відповідь"
                                             />
                                         )}
                                     </div>
@@ -340,20 +319,12 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                     className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                                 />
                             ) : (
-                                <input
+                                <BoldTextInput
                                     value={editedTask.answers[0]?.text}
-                                    onChange={(e) =>
-                                        handleAnswerTextChange(
-                                            0,
-                                            e.target.value
-                                        )
-                                    }
-                                    className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
-                                    placeholder={'Введіть текст'}
-                                    style={{
-                                        fontFamily: 'monospace',
-                                        lineHeight: '1.5',
+                                    onChange={(val: string) => {
+                                        handleAnswerTextChange(0, val)
                                     }}
+                                    placeholder="Введіть відповідь"
                                 />
                             )}
                         </div>

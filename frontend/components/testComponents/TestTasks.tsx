@@ -7,6 +7,7 @@ import LatextTranform from '@/helpers/latexTransform'
 import Image from 'next/image'
 import { MathJaxContext } from 'better-react-mathjax'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
+import renderBoldText from '@/helpers/renderBoldText'
 
 const TestTasks = ({
     test,
@@ -165,10 +166,15 @@ const TestTasks = ({
                                         </button>
                                     </div>
                                 </div>
-                                <LatextTranform
-                                    content={task.title}
-                                    className="text-xl font-semibold mb-4 max-w-full"
-                                />
+                                {subject === 'Mathematics' ? (
+                                    <LatextTranform
+                                        content={task.title}
+                                        className="text-xl font-semibold mb-4 max-w-full"
+                                    />
+                                ) : (
+                                    renderBoldText(task.title)
+                                )}
+
                                 {task.image && (
                                     <div className="w-full h-fit overflow-hidden rounded-[21px]">
                                         <Image
@@ -190,7 +196,13 @@ const TestTasks = ({
                                             checked={answer.isCorrect}
                                             readOnly
                                         />
-                                        <LatextTranform content={answer.text} />
+                                        {subject === 'Mathematics' ? (
+                                            <LatextTranform
+                                                content={answer.text}
+                                            />
+                                        ) : (
+                                            renderBoldText(answer.text)
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -237,10 +249,14 @@ const TestTasks = ({
                                         </button>
                                     </div>
                                 </div>
-                                <LatextTranform
-                                    content={task.title}
-                                    className="text-xl font-semibold mb-4"
-                                />
+                                {subject === 'Mathematics' ? (
+                                    <LatextTranform
+                                        content={task.title}
+                                        className="text-xl font-semibold mb-4"
+                                    />
+                                ) : (
+                                    renderBoldText(task.title)
+                                )}
                                 {task.image && (
                                     <div className="w-full h-fit overflow-hidden rounded-[21px]">
                                         <Image
@@ -261,14 +277,22 @@ const TestTasks = ({
                                             <p className="font-medium">
                                                 {idx + 1}.
                                             </p>
-                                            <LatextTranform
-                                                content={pair.left.text}
-                                            />
+                                            {subject === 'Mathematics' ? (
+                                                <LatextTranform
+                                                    content={pair.left.text}
+                                                />
+                                            ) : (
+                                                renderBoldText(pair.left.text)
+                                            )}
                                         </div>
                                         <span className="text-gray-500">—</span>
-                                        <LatextTranform
-                                            content={pair.right.text}
-                                        />
+                                        {subject === 'Mathematics' ? (
+                                            <LatextTranform
+                                                content={pair.right.text}
+                                            />
+                                        ) : (
+                                            renderBoldText(pair.right.text)
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -315,10 +339,15 @@ const TestTasks = ({
                                         </button>
                                     </div>
                                 </div>
-                                <LatextTranform
-                                    content={task.title}
-                                    className="text-xl font-semibold mb-4"
-                                />
+                                {subject === 'Mathematics' ? (
+                                    <LatextTranform
+                                        content={task.title}
+                                        className="text-xl font-semibold mb-4"
+                                    />
+                                ) : (
+                                    renderBoldText(task.title)
+                                )}
+
                                 {task.image && (
                                     <div className="w-full h-fit overflow-hidden rounded-[21px]">
                                         <Image
@@ -332,12 +361,16 @@ const TestTasks = ({
                                 )}
                                 <div className="flex items-center gap-4 mt-4">
                                     <p className="font-medium">Відповідь: </p>
-                                    <LatextTranform
-                                        content={
-                                            task.answers?.[0]?.text ||
-                                            'Немає відповіді'
-                                        }
-                                    />
+                                    {subject === 'Mathematics' ? (
+                                        <LatextTranform
+                                            content={
+                                                task.answers?.[0]?.text ||
+                                                'Немає відповіді'
+                                            }
+                                        />
+                                    ) : (
+                                        renderBoldText(task.answers?.[0]?.text)
+                                    )}
                                 </div>
                             </div>
                         )}

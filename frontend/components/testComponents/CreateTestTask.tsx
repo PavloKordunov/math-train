@@ -5,6 +5,7 @@ import AnswerInput from './create-test-task/AnswerInput'
 import ActionButtons from './create-test-task/ActionButtons'
 import PairInput from './create-test-task/PairInput'
 import MathInput from '../MathInput'
+import BoldTextInput from '../BoldTextInput'
 
 const CreateTestTask = ({
     subject,
@@ -129,13 +130,11 @@ const CreateTestTask = ({
             )
         }
         return (
-            <textarea
+            <BoldTextInput
                 value={question.title}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                className="flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
-                placeholder="Введіть текст"
-                style={{ fontFamily: 'monospace', lineHeight: '1.5' }}
-                rows={3}
+                onChange={handleTitleChange}
+                placeholder="Введіть питання"
+                inputType="textarea"
             />
         )
     }
@@ -241,25 +240,15 @@ const CreateTestTask = ({
                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                             />
                         ) : (
-                            <input
+                            <BoldTextInput
                                 value={question.answers[0]?.text}
-                                onChange={(e) =>
+                                onChange={(val) =>
                                     setQuestion({
                                         ...question,
-                                        answers: [
-                                            {
-                                                text: e.target.value,
-                                                id: nanoid(),
-                                            },
-                                        ],
+                                        answers: [{ text: val, id: nanoid() }],
                                     })
                                 }
-                                className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
-                                placeholder={'Введіть текст'}
-                                style={{
-                                    fontFamily: 'monospace',
-                                    lineHeight: '1.5',
-                                }}
+                                placeholder="Введіть відповідь"
                             />
                         )}
                     </div>
