@@ -14,12 +14,14 @@ import { setCookie } from 'cookies-next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { LoginSchema, LoginFormData } from '@/lib/validation'
+import PlansPage from '@/components/PlansPage'
 
 export default function LoginPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const router = useRouter()
     const { setUser } = useUser()
     const [isLoading, setIsLoading] = useState(false)
+    const [openPlans, setOpenPlans] = useState(false)
     const { data: session, status } = useSession()
 
     const {
@@ -47,6 +49,13 @@ export default function LoginPage() {
             })
 
             if (!res.ok) {
+                const errorData = await res.json()
+
+                if (errorData.message === 'User not have permission') {
+                    toast.error('У вас немає активної підписки')
+                    setOpenPlans(true)
+                    return
+                }
                 toast.error(
                     'Сталась помилка! Не вірний пароль або електронна адресса'
                 )
@@ -216,6 +225,7 @@ export default function LoginPage() {
                     </button>
                 </div>
             </div>
+            {openPlans && <PlansPage />}
         </div>
     )
 }

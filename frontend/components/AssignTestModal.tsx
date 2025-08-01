@@ -60,7 +60,7 @@ const AssignTestModal = ({ test, students, student, toggleModal }: any) => {
     }, [])
 
     return (
-        <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center px-4">
+        <div className="fixed inset-0 bg-black/40 z-[1000] flex items-center justify-center px-4">
             <Toaster position="bottom-center" />
             <div className="bg-[#F0F4F8] w-full max-w-xl p-6 rounded-2xl flex items-center gap-3 relative">
                 <div className="flex justify-center md:w-1/3">

@@ -46,6 +46,14 @@ export class LoginService {
                 throw new UnauthorizedException('User not found')
             }
 
+            if (
+                role === 'teacher' &&
+                'subscriptionTime' in user &&
+                user.subscriptionTime === null
+            ) {
+                throw new UnauthorizedException('User not have permission')
+            }
+
             const token = await this.generateToken(user)
 
             return {
@@ -56,6 +64,10 @@ export class LoginService {
                     name: user.name,
                     status: user.status,
                     ...('subject' in user && { subject: user.subject }),
+                    ...('plan' in user && { plan: user.plan }),
+                    ...('subscriptionTime' in user && {
+                        subscriptionTime: user.subscriptionTime,
+                    }),
                 },
             }
         } catch (error) {
@@ -95,6 +107,14 @@ export class LoginService {
                 throw new UnauthorizedException('User not found')
             }
 
+            if (
+                role === 'teacher' &&
+                'subscriptionTime' in user &&
+                user.subscriptionTime === null
+            ) {
+                throw new UnauthorizedException('User not have permission')
+            }
+
             const isValidPassword = await bcrypt.compare(
                 nativeAuthDto.password,
                 user?.password
@@ -114,12 +134,14 @@ export class LoginService {
                     name: user.name,
                     status: user.status,
                     ...('subject' in user && { subject: user.subject }),
+                    ...('plan' in user && { plan: user.plan }),
+                    ...('subscriptionTime' in user && {
+                        subscriptionTime: user.subscriptionTime,
+                    }),
                 },
             }
         } catch (error) {
-            throw new InternalServerErrorException(
-                `Failed to login: ${error.message}`
-            )
+            throw new InternalServerErrorException(`${error.message}`)
         }
     }
 

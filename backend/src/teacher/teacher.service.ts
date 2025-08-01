@@ -9,6 +9,7 @@ import { createTeacherDto } from './dto/createTeacherDto'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { Subject } from 'generated/prisma'
+import { UpdateTeacherDto } from './dto/updateTeacherDto'
 
 @Injectable()
 export class TeacherService {
@@ -45,14 +46,23 @@ export class TeacherService {
     }
 
     async register(createTeacherDto: createTeacherDto) {
-        const existingUser = await this.databaseServise.teacher.findUnique({
+        const existingByEmail = await this.databaseServise.teacher.findUnique({
             where: { email: createTeacherDto.email },
         })
 
-        if (existingUser) {
-            throw new ConflictException('Email is already in use')
+        if (existingByEmail) {
+            throw new ConflictException('Цей email вже використовується')
         }
 
+        const existingByPhone = await this.databaseServise.teacher.findUnique({
+            where: { phone: createTeacherDto.phone },
+        })
+
+        if (existingByPhone) {
+            throw new ConflictException(
+                'Цей номер телефону вже використовується'
+            )
+        }
         const hashedPassword = await bcrypt.hash(createTeacherDto.password, 10)
 
         const user = await this.databaseServise.teacher.create({
@@ -121,6 +131,25 @@ export class TeacherService {
             }
         } catch (error) {
             throw new InternalServerErrorException(error.message)
+        }
+    }
+
+    async updateTeacher(updateTeacherDto: UpdateTeacherDto, email: string) {
+        try {
+            const teacher = await this.databaseServise.teacher.findUnique({
+                where: { email },
+            })
+
+            if (!teacher) {
+                throw new NotFoundException('teacher not found')
+            }
+
+            return await this.databaseServise.teacher.update({
+                where: { email },
+                data: updateTeacherDto,
+            })
+        } catch (error) {
+            console.log(error.message)
         }
     }
 

@@ -83,7 +83,7 @@ export default function RegisterPage() {
             const data = await res.json()
 
             if (!res.ok) {
-                throw new Error(data.message || 'Помилка реєстрації')
+                toast.error(data.message || 'Помилка реєстрації')
             }
 
             // setUser(data.user)
@@ -107,6 +107,7 @@ export default function RegisterPage() {
             //     router.push('/teacher')
             // }
             setOpenSubjectModal(false)
+            setOpenPlans(true)
             setIsLoading(false)
         } catch (error: any) {
             console.error(error)
@@ -323,7 +324,6 @@ export default function RegisterPage() {
                                         key={subject.value}
                                         onClick={() => {
                                             handleRegister(subject.value)
-                                            setOpenPlans(true)
                                         }}
                                         style={{
                                             backgroundColor: subject.color,

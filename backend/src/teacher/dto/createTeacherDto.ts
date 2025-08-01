@@ -17,7 +17,14 @@ export class createTeacherDto {
     @IsOptional()
     name: string
 
-    subject: string
+    @IsOptional()
+    plan: string
+
+    @IsOptional()
+    subscriptionTime: string
+
+    @IsOptional()
+    subject: any
 
     @IsString()
     @MinLength(6, { message: 'Password must be at least 6 characters' })

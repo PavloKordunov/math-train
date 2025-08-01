@@ -41,19 +41,21 @@ model SubTopic {
 }
 
 model Teacher {
-  id        String     @id @default(cuid())
-  name      String
-  email     String     @unique
-  phone     String     @unique
-  password  String
-  subject   Subject
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  tests     Test[]
-  status    Status     @default(Teacher)
-  students  Student[]
-  schedule  Schedule[]
-  groups    Group[]
+  id               String     @id @default(cuid())
+  name             String
+  email            String     @unique
+  phone            String     @unique
+  password         String
+  subject          Subject
+  plan             String?
+  subscriptionTime String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  tests            Test[]
+  status           Status     @default(Teacher)
+  students         Student[]
+  schedule         Schedule[]
+  groups           Group[]
 }
 
 model Student {

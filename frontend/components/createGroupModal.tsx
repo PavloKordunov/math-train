@@ -81,7 +81,7 @@ const CreateGroupModal = ({ toggleModal, students, setGroups }: any) => {
                 toggleModal()
             }
 
-            const data = await res.json
+            const data = await res.json()
             console.log(data)
 
             setGroups((prev: any) => [...prev, data])

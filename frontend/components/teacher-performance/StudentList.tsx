@@ -125,17 +125,17 @@ const StudentsSearchClient = ({ initialStudents }: any) => {
                         ))
                     ) : (
                         <>
-                            {groups.length > 0 ? (
+                            {groups?.length > 0 ? (
                                 groups?.map((group) => (
                                     <GroupCard
-                                        key={group.id}
+                                        key={group?.id ?? group.title}
                                         group={group}
                                         students={students}
                                         setGroups={setGroups}
                                     />
                                 ))
                             ) : (
-                                <div className="flex flex-col items-center justify-center gap-6 py-12">
+                                <div className="col-span-full flex flex-col items-center justify-center gap-6 py-12">
                                     <div className="text-gray-500 text-center max-w-md">
                                         <p className="text-lg mb-4">
                                             Ще не створено жодної групи

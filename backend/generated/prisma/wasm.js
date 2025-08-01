@@ -153,6 +153,8 @@ exports.Prisma.TeacherScalarFieldEnum = {
   phone: 'phone',
   password: 'password',
   subject: 'subject',
+  plan: 'plan',
+  subscriptionTime: 'subscriptionTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   status: 'status'

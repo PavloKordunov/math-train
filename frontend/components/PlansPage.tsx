@@ -1,13 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { HiOutlineBookOpen } from 'react-icons/hi2'
 import { PiChalkboardTeacherLight } from 'react-icons/pi'
-import { FaSchool, FaCheck } from 'react-icons/fa'
+import { FaSchool, FaCheck, FaSpinner } from 'react-icons/fa'
 import { GiBrain } from 'react-icons/gi'
-import { divide } from 'lodash'
+import { useRouter } from 'next/navigation'
 
 const PlansPage = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(2)
     const [period, setPeriod] = useState('month')
+    const [openModalAlert, setOpenModalAlert] = useState(false)
+    const [showProcessingModal, setShowProcessingModal] = useState(false)
+    const [selectedPlan, setSelectedPlan] = useState<any>(null)
+    const router = useRouter()
+
+    const handlePlanSelect = (plan: any) => {
+        setSelectedPlan(plan)
+        setOpenModalAlert(true)
+    }
 
     const periods = {
         month: '1 місяць',
@@ -200,16 +209,16 @@ const PlansPage = () => {
                                                 : 'opacity-0'
                                         }`}
                                     >
-                                        <a
-                                            href="https://send.monobank.ua/jar/4xM1w9u7kH"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                        <button
+                                            onClick={() =>
+                                                handlePlanSelect(plan)
+                                            }
                                             className={`px-20 py-2 bg-cyan-400 text-white text-xl font-semibold rounded-full shadow-md flex text-center ${
                                                 isHovered ? 'block' : 'hidden'
                                             }`}
                                         >
                                             Вибрати
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -217,6 +226,121 @@ const PlansPage = () => {
                     )
                 })}
             </div>
+
+            {openModalAlert && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4 overflow-y-auto backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+                        <div className="p-6 space-y-4">
+                            <h3 className="text-2xl font-bold text-gray-800">
+                                Підтвердження оплати
+                            </h3>
+                            <div className="space-y-2">
+                                <p className="text-gray-600">
+                                    Для завершення підписки на тариф{' '}
+                                    <span className="font-semibold">
+                                        {selectedPlan?.name}
+                                    </span>{' '}
+                                    будь ласка:
+                                </p>
+                                <ol className="list-decimal list-inside text-gray-600 space-y-1">
+                                    <li>
+                                        Введіть{' '}
+                                        <span className="font-semibold">
+                                            точну суму{' '}
+                                            {priceMap[selectedPlan?.id][period]}
+                                            ₴
+                                        </span>
+                                    </li>
+                                    <li>
+                                        У коментарі обов'язково вкажіть:
+                                        <ul className="list-disc list-inside ml-4">
+                                            <li>Вашу електронну пошту</li>
+                                            <li>Ім'я та прізвище</li>
+                                            <li>
+                                                Обраний тариф:{' '}
+                                                {selectedPlan?.name}
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                                <p className="text-sm text-gray-500 mt-2">
+                                    Після оплати ми активуємо ваш доступ
+                                    протягом 24 годин.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="bg-gray-50 px-6 py-4 flex justify-between">
+                            <button
+                                onClick={() => setOpenModalAlert(false)}
+                                className="px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg shadow transition-colors"
+                            >
+                                Назад
+                            </button>
+                            <a
+                                href={`https://send.monobank.ua/jar/4xM1w9u7kH`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow transition-colors text-center inline-flex items-center"
+                                onClick={() => {
+                                    setOpenModalAlert(false)
+                                    setShowProcessingModal(true)
+                                }}
+                            >
+                                Перейти до оплати
+                                <svg
+                                    className="w-4 h-4 ml-2"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showProcessingModal && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4 overflow-y-auto backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+                        <div className="p-8 text-center">
+                            <div className="flex justify-center mb-6">
+                                <FaSpinner
+                                    className="animate-spin text-blue-500"
+                                    size={48}
+                                />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                                Ваша заявка обробляється
+                            </h3>
+                            <p className="text-gray-600 mb-6">
+                                Ми отримали ваш платіж і обробляємо ваш запит на
+                                підписку. Це може зайняти до 4 годин.
+                            </p>
+                            <p className="text-gray-500 text-sm">
+                                На вказану вами електронну пошту буде надіслано
+                                підтвердження активації підписки.
+                            </p>
+                            <button
+                                onClick={() => {
+                                    setShowProcessingModal(false)
+                                    router.push('/login')
+                                }}
+                                className="mt-8 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow transition-colors"
+                            >
+                                Зрозуміло
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

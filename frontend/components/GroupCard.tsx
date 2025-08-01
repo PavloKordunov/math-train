@@ -46,7 +46,7 @@ const GroupCard = ({ group, setGroups, students }: any) => {
     const [selectedStudents, setSelectedStudents] = useState<any>([])
 
     useEffect(() => {
-        const initialStudents = group.students.map((student: any) => ({
+        const initialStudents = group?.students?.map((student: any) => ({
             value: student.id,
             label: student.name,
         }))
@@ -232,7 +232,7 @@ const GroupCard = ({ group, setGroups, students }: any) => {
                         Група: {group.title}
                     </h2>
                     <p className="text-sm text-gray-500">
-                        {group.students.length} учнів
+                        {group?.students?.length} учнів
                     </p>
 
                     {/* <div className="flex items-center justify-center mt-2 gap-2">
