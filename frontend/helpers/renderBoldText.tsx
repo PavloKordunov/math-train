@@ -1,5 +1,4 @@
 function renderBoldText(text: string) {
-    // Розбиває на куски, замінюючи **bold** на <strong>
     const parts: React.ReactNode[] = []
     const regex = /\*\*(.+?)\*\*/g
     let lastIndex = 0
