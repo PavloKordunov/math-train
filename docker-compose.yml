@@ -7,6 +7,8 @@ services:
         container_name: frontend
         ports:
             - '3000:3000'
+        env_file:
+            - ./frontend/.env.local
         restart: unless-stopped
         networks:
             - app-network
