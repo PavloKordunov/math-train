@@ -4,8 +4,8 @@ import Image from 'next/image'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { useState } from 'react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
 import { ClipLoader } from 'react-spinners'
@@ -22,7 +22,6 @@ export default function LoginPage() {
     const { setUser } = useUser()
     const [isLoading, setIsLoading] = useState(false)
     const [openPlans, setOpenPlans] = useState(false)
-    const { data: session, status } = useSession()
 
     const {
         register,
@@ -74,7 +73,8 @@ export default function LoginPage() {
             setCookie('token', token, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
+                // secure: process.env.NODE_ENV === 'production',
+                secure: false,
                 sameSite: 'strict',
             })
 
@@ -82,7 +82,8 @@ export default function LoginPage() {
             setCookie('user', JSON.stringify(responseData.user), {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
+                // secure: process.env.NODE_ENV === 'production',
+                secure: false,
                 sameSite: 'strict',
             })
 
@@ -97,28 +98,6 @@ export default function LoginPage() {
             setIsLoading(false)
         }
     }
-
-    // const redirectUser = (role: string) => {
-    //     switch (role) {
-    //         case 'Teacher':
-    //             router.push('/teacher')
-    //             break
-    //         case 'Student':
-    //             router.push('/home')
-    //             break
-    //         case 'Admin':
-    //             router.push('/admin')
-    //             break
-    //         default:
-    //             router.push('/')
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     if (status === 'authenticated' && session?.user?.status) {
-    //         redirectUser(session.user.status)
-    //     }
-    // }, [session, status, router])
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">
