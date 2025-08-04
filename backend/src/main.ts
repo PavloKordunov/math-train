@@ -11,7 +11,7 @@ async function bootstrap() {
     app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
     app.enableCors({
-        origin: ['http://localhost:3000', 'http://84.247.181.29:3000'],
+        origin: ['http://localhost:3000', 'https://pointup.com.ua'],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
         allowedHeaders: 'Content-Type, Authorization, X-Requested-With',

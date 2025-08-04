@@ -37,8 +37,8 @@ const StudentResults = ({
     }, [])
 
     useEffect(() => {
-        console.log(topicTests)
-        console.log('filtredTests:', testResuls)
+        console.log('topicTests', topicTests)
+        console.log('filtredTests:', filtredTests)
     }, [topicTests])
 
     useEffect(() => {
@@ -47,6 +47,7 @@ const StudentResults = ({
             const filtered = testResuls.filter(
                 (test: any) => !topicTestIds.has(test.testId)
             )
+            console.log('filtered', filtered)
             setFiltredTests(filtered)
         }
     }, [topicTests, testResuls])
