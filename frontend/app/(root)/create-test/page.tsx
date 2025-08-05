@@ -38,9 +38,15 @@ const CreateTest = () => {
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
+    const [titleError, setTitleError] = useState('')
+
     const MemoizedTestTasks = memo(TestTasks)
 
     const handleCreateTest = async () => {
+        if (!test.title || test.title.trim() === '') {
+            setTitleError('Потрібно ввести назву тесту')
+            return
+        }
         try {
             const res = await fetch(`${API_URL}/api/test`, {
                 method: 'POST',
@@ -99,7 +105,7 @@ const CreateTest = () => {
                 id: nanoid(),
                 title: '',
                 type: 'multiple',
-                answers: Array(5)
+                answers: Array(3)
                     .fill(null)
                     .map(() => ({
                         text: '',
@@ -235,7 +241,12 @@ const CreateTest = () => {
             <h1 className="text-[36px] mb-4 font-bold text-center">
                 Створення нового тесту
             </h1>
-            <TestBasicInfo test={test} setTest={setTest} />
+            <TestBasicInfo
+                test={test}
+                setTest={setTest}
+                titleError={titleError}
+                clearTitleError={() => setTitleError('')}
+            />
             <MemoizedTestTasks
                 test={test}
                 updateTask={updateTask}

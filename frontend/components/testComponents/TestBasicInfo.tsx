@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-const TestBasicInfo = ({ test, setTest }: any) => {
+const TestBasicInfo = ({ test, setTest, titleError, clearTitleError }: any) => {
     return (
         <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
             <div className="mb-4">
@@ -10,12 +10,16 @@ const TestBasicInfo = ({ test, setTest }: any) => {
                 <input
                     type="text"
                     value={test.title}
-                    onChange={(e) =>
+                    onChange={(e) => {
                         setTest({ ...test, title: e.target.value })
-                    }
+                        if (e.target.value.trim()) clearTitleError()
+                    }}
                     className="w-full border border-gray-300 rounded-xl px-4 py-2"
                     placeholder="Наприклад: Тест №3 — Інтеграли"
                 />
+                {titleError && (
+                    <p className="text-sm text-red-600 mt-1">{titleError}</p>
+                )}
             </div>
 
             <div className="mb-4">
@@ -37,7 +41,7 @@ const TestBasicInfo = ({ test, setTest }: any) => {
                     Тривалість (хв)
                 </label>
                 <input
-                    type="number"
+                    type="text"
                     value={test.timeLimit}
                     onChange={(e) =>
                         setTest({ ...test, timeLimit: Number(e.target.value) })
