@@ -101,25 +101,6 @@ const TestTasks = ({
         updateTest({ ...test, tasks: sortedTasks })
     }
 
-    // const config = {
-    //     loader: { load: ['input/asciimath', 'input/tex', '[tex]/ams'] },
-    //     asciimath: {},
-    //     tex: {
-    //         inlineMath: [
-    //             ['$', '$'],
-    //             ['\\(', '\\)'],
-    //         ],
-    //         displayMath: [
-    //             ['$$', '$$'],
-    //             ['\\[', '\\]'],
-    //         ],
-    //         packages: { '[+]': ['ams'] },
-    //     },
-    //     svg: {
-    //         fontCache: 'global',
-    //     },
-    // }
-
     return (
         <div>
             {test.tasks.length > 0 &&

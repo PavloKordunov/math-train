@@ -98,7 +98,7 @@ export const getAllStudentPerfomenceById = async (studentId: any) => {
         )
         const data = await res.json()
 
-        console.log(data)
+        console.log('Performance: ', data)
         return data.data
     } catch (error) {
         console.log(error)
@@ -107,9 +107,12 @@ export const getAllStudentPerfomenceById = async (studentId: any) => {
 
 export const getAssignedTests = async (studentId: any) => {
     try {
-        const res = await fetch(`${API_URL}/api/test/assign/${studentId}`)
+        const res = await fetch(
+            `${API_URL}/api/test/assign/student/${studentId}`
+        )
 
         const data = await res.json()
+        console.log('Assigned: ', data)
         return data.data
     } catch (error) {
         console.log(error)

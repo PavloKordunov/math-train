@@ -73,8 +73,7 @@ export default function LoginPage() {
             setCookie('token', token, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
-                // secure: process.env.NODE_ENV === 'production',
-                secure: false,
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
             })
 
@@ -82,8 +81,7 @@ export default function LoginPage() {
             setCookie('user', JSON.stringify(responseData.user), {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
-                // secure: process.env.NODE_ENV === 'production',
-                secure: false,
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
             })
 
