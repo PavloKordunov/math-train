@@ -133,7 +133,7 @@ const NavBar = () => {
                 )}
 
                 <div className="hidden md:flex items-center gap-12">
-                    {navItems.map((item) => (
+                    {navItems.map((item: any) => (
                         <Link
                             key={item.key}
                             href={item.href}
@@ -197,7 +197,7 @@ const NavBar = () => {
 
             {isMobileMenuOpen && user?.status !== 'Student' && (
                 <div className="flex flex-col mt-4 gap-3 md:hidden">
-                    {navItems.map((item) => (
+                    {navItems.map((item: any) => (
                         <Link
                             key={item.key}
                             href={item.href}
