@@ -9,19 +9,15 @@ const TimeTracker = ({
     testResult,
     endedTest,
     setEndedTest,
-}: {
-    test: any
-    handleEndTest: () => void
-    answers: any
-    testResult: any
-    endedTest: boolean
-    setEndedTest: any
-}) => {
+    isMobile = false,
+    timeLeft,
+    setTimeLeft,
+    setShowAnswerModal,
+    showAnswerModal,
+}: any) => {
     const [isOpen, setIsOpen] = useState(false)
     const [notProvidedAnsw, setNotProvidedAnsw] = useState<any>([])
-    const [timeLeft, setTimeLeft] = useState<number>(0)
     const [showTime, setShowTime] = useState(true)
-    const [showAnswerModal, setShowAnswerModal] = useState(false)
     const timeLeftFromStorage = localStorage.getItem('time-left')
 
     const handleSetNotProvidedAnsw = () => {
@@ -44,20 +40,19 @@ const TimeTracker = ({
         }
     }, [test])
 
-    useEffect(() => {
-        if (!endedTest) {
-            const interval = setInterval(() => {
-                setTimeLeft((prev) => prev - 1)
-            }, 1000)
+    // useEffect(() => {
+    //     if (!endedTest) {
+    //         const interval = setInterval(() => {
+    //             setTimeLeft((prev: any) => prev - 1)
+    //         }, 1000)
+    //         if (timeLeft === 1) {
+    //             setShowAnswerModal(true)
+    //             handleEndTest()
+    //         }
 
-            if (timeLeft === 1) {
-                setShowAnswerModal(true)
-                handleEndTest()
-            }
-
-            return () => clearInterval(interval)
-        }
-    }, [timeLeft, endedTest])
+    //         return () => clearInterval(interval)
+    //     }
+    // }, [timeLeft, endedTest])
 
     const formatTime = (seconds: number) => {
         const safeSeconds = Math.max(0, seconds)
@@ -99,63 +94,59 @@ const TimeTracker = ({
 
     return (
         <div className="w-full bg-[#E3E2E2] shadow-md flex items-start">
-            <div className="self-stretch bg-rose-600 w-2"></div>
-            <div className="w-full px-15">
-                <p className="mb-6 mt-4 text-black font-medium text-[18px]">
-                    {test.title} обмежений у часі. Таймер праворуч показує,
-                    скільки хвилин залишилося до кінця роботи. Вибравши
-                    відповідь на завдання, не забудьте натиснути на "Зберегти
-                    відповідь" для кожного завдання. Якщо Ви цього не зробите,
-                    відповідь не буде збережено і зараховано. Перш ніж натиснути
-                    на "Завершити роботу над тестом", перевірте, чи зберегли всі
-                    надані відповіді.
-                </p>
-                <div className="flex gap-6 items-center justify-end mb-6">
-                    <button
-                        className="bg-rose-600 text-white px-3 py-1 rounded-[21px] hover:bg-rose-700 font-semibold"
-                        onClick={() => {
-                            setIsOpen(true)
-                        }}
-                    >
-                        Завершити роботу над тестом
-                    </button>
-                    <div className="flex gap-2 items-center">
-                        <p className="text-rose-600">
+            <div className="self-stretch bg-rose-600 w-1 md:w-2"></div>
+            <div className="w-full px-2 md:px-15">
+                {!isMobile && (
+                    <p className="mb-2 md:mb-6 mt-1 md:mt-4 text-black font-medium text-xs md:text-sm lg:text-[18px]">
+                        {test.title} обмежений у часі. Таймер праворуч показує,
+                        скільки хвилин залишилося до кінця роботи. Вибравши
+                        відповідь на завдання, не забудьте натиснути на
+                        "Зберегти відповідь" для кожного завдання.
+                    </p>
+                )}
+
+                <div className="flex gap-1 md:gap-6 items-center justify-end mb-1 md:mb-6">
+                    {!isMobile && (
+                        <button
+                            className="bg-rose-600 text-white px-2 md:px-3 py-1 rounded-lg md:rounded-[21px] hover:bg-rose-700 font-semibold text-xs md:text-sm lg:text-base"
+                            onClick={() => {
+                                setIsOpen(true)
+                            }}
+                        >
+                            Завершити тест
+                        </button>
+                    )}
+                    <div className="flex gap-1 md:gap-2 items-center">
+                        <p className="text-rose-600 text-sm md:text-base">
                             {showTime && `${formatTime(timeLeft)}`}
                         </p>
                         <div
                             onClick={toggleTime}
-                            className="p-1 bg-rose-600 hover:bg-rose-700"
+                            className="p-1 bg-rose-600 hover:bg-rose-700 rounded"
                         >
                             {showTime ? (
-                                <FiEyeOff size={16} color="white" />
+                                <FiEyeOff size={14} color="white" />
                             ) : (
-                                <FiEye size={16} color="white" />
+                                <FiEye size={14} color="white" />
                             )}
                         </div>
                     </div>
                 </div>
             </div>
+
             {isOpen && (
-                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center ">
-                    <div className="bg-[#FFF] p-6 rounded-md w-fit max-w-[80%]">
-                        <div className="bg-gray-200 border-2 border-gray-300 p-10 w-fit">
-                            <h2 className="font-semibold text-[22px]">
-                                Ви впевнені, що бажаєте завершити роботу над
-                                тестом?
+                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center p-4">
+                    <div className="bg-[#FFF] p-4 md:p-6 rounded-md w-full max-w-md md:max-w-[80%]">
+                        <div className="bg-gray-200 border-2 border-gray-300 p-4 md:p-10 w-full">
+                            <h2 className="font-semibold text-lg md:text-[22px]">
+                                Ви впевнені, що бажаєте завершити тест?
                             </h2>
-                            <p className="text-[18px] mb-4">
-                                Переконайтеся, що Ви натисли на "Зберегти
-                                відповідь" біля кожного виконаного завдання.Ви
-                                можете повернутися до будь-якого і надати та/або
-                                зберегти відповідь. Після натискання на "Так,
-                                завершити роботу" будуть зараховані тільки
-                                збережені відповіді, повернутися до завдань буде
-                                неможливо.
+                            <p className="text-sm md:text-[18px] mb-4">
+                                Переконайтеся, що Ви зберегли всі відповіді.
                             </p>
-                            <div className="flex items-center gap-6">
+                            <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
                                 <button
-                                    className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 font-medium"
+                                    className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 font-medium w-full md:w-auto"
                                     onClick={() => {
                                         setEndedTest(true)
                                         handleEndTest()
@@ -163,95 +154,78 @@ const TimeTracker = ({
                                         setShowAnswerModal(true)
                                     }}
                                 >
-                                    Так, завершити роботу
+                                    Так, завершити
                                 </button>
                                 <button
-                                    className="bg-rose-600 text-white px-4 py-2 rounded hover:bg-rose-700 font-medium"
+                                    className="bg-rose-600 text-white px-4 py-2 rounded hover:bg-rose-700 font-medium w-full md:w-auto mt-2 md:mt-0"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    Ні, повернутися до виконання завдання{' '}
+                                    Ні, повернутися
                                 </button>
                             </div>
                         </div>
                         {notProvidedAnsw.length > 0 && (
-                            <div className="bg-gray-200 border-3 border-red-600 p-4 px-10 w-full">
-                                <p className="font-semibold text-[22px]">
-                                    Не надано та/або не завершершені завдання
+                            <div className="bg-gray-200 border-3 border-red-600 p-3 md:p-4 px-4 md:px-10 w-full mt-3">
+                                <p className="font-semibold text-lg md:text-[22px]">
+                                    Не завершені завдання:
                                 </p>
-                                <p className="text-[18px] flex">
-                                    Математика:{' '}
+                                <div className="flex flex-wrap gap-1 mt-1">
                                     {notProvidedAnsw.map((answ: any) => (
                                         <span
-                                            className="ml-1"
+                                            className="bg-white px-2 py-1 rounded text-sm"
                                             key={`${answ.id}-${answ.number}`}
                                         >
-                                            {' '}
-                                            Завдання: {answ.number},{' '}
+                                            {answ.number}
                                         </span>
                                     ))}
-                                </p>
+                                </div>
                             </div>
                         )}
                     </div>
                 </div>
             )}
+
             {showAnswerModal && (
-                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center ">
-                    <div className="bg-[#FFF] p-6 rounded-md w-fit max-w-[80%]">
-                        <div className="bg-gray-200 border-2 border-gray-300 p-10 w-full">
-                            <h2 className="font-semibold text-[22px]">
-                                Ви завершили роботу над тестом.
+                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center p-4">
+                    <div className="bg-[#FFF] p-4 md:p-6 rounded-md w-full max-w-md md:max-w-[80%]">
+                        <div className="bg-gray-200 border-2 border-gray-300 p-4 md:p-10 w-full">
+                            <h2 className="font-semibold text-lg md:text-[22px]">
+                                Тест завершено
                             </h2>
-                            <p className="text-[18px] mb-4">
+                            <p className="text-sm md:text-[18px] mb-4">
                                 {(() => {
                                     const percentage =
                                         testResult.totalScore /
                                         testResult.maxScore
 
                                     if (percentage === 1) {
-                                        return 'Ідеальний результат! Ви – справжній геній цієї теми! 💯'
-                                    } else if (percentage >= 0.95) {
-                                        return 'Вражаюче! Майже максимальний бал – ви неймовірні! 🌟'
-                                    } else if (percentage >= 0.9) {
-                                        return 'Чудово! Ваші знання на високому рівні! 👏'
+                                        return 'Ідеальний результат! 💯'
                                     } else if (percentage >= 0.8) {
-                                        return 'Відмінний результат! Ви добре володієте матеріалом! 👍'
-                                    } else if (percentage >= 0.7) {
-                                        return 'Добре зроблено! Ви на правильному шляху! 💪'
+                                        return 'Відмінний результат! 👍'
                                     } else if (percentage >= 0.6) {
-                                        return 'Непогано! Дещо більше практики – і буде ідеально! ✨'
-                                    } else if (percentage >= 0.5) {
-                                        return 'Середній результат. Ви впорались, але є куди рости! 📚'
+                                        return 'Добре зроблено! 💪'
                                     } else if (percentage >= 0.4) {
-                                        return 'Ви зробили перші кроки! Продовжуйте працювати над собою! 🚶‍♂️'
-                                    } else if (percentage >= 0.3) {
-                                        return 'Не здавайтесь! Кожна спроба робить вас сильнішими! 💥'
-                                    } else if (percentage >= 0.2) {
-                                        return 'Складний тест? Це лише початок вашого навчання! 🧠'
-                                    } else if (percentage >= 0.1) {
-                                        return 'Не засмучуйтесь! Навіть генії колось починали! 🌱'
+                                        return 'Можна краще! ✨'
                                     } else {
-                                        return 'Важливо не те, як ви почали, а те, як ви продовжите! 🏁'
+                                        return 'Працюйте над собою! 🧠'
                                     }
                                 })()}
                             </p>
                             <div className="flex items-center gap-6">
                                 <Link
                                     href="/home"
-                                    className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 font-medium"
+                                    className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 font-medium w-full text-center"
                                 >
-                                    Вернутись на домашню сторінку
+                                    На головну
                                 </Link>
                             </div>
                         </div>
-                        <div className="bg-gray-200 border-3 border-red-600 p-4 px-10 w-full">
-                            <p className="font-semibold text-[22px]">
-                                Ваш результат (Кількість тестових балів за
-                                виконання тесту із максимально можливих )
+                        <div className="bg-gray-200 border-3 border-red-600 p-3 md:p-4 px-4 md:px-10 w-full mt-3">
+                            <p className="font-semibold text-lg md:text-[22px]">
+                                Результат:
                             </p>
-                            <p className="text-[18px] flex">
-                                Математика - {testResult.totalScore}/
-                                {testResult.maxScore}
+                            <p className="text-sm md:text-[18px]">
+                                {testResult.totalScore}/{testResult.maxScore}
                             </p>
                         </div>
                     </div>

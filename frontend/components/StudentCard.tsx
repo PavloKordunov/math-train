@@ -204,30 +204,32 @@ const StudentCard = ({ student, setStudents }: any) => {
             <Toaster position="bottom-center" />
             <Link
                 href={`/student/${student.id}`}
-                className="w-full max-w-[420px] bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 p-5 flex flex-col items-center space-y-4"
+                className="w-full max-w-[390px] bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 p-4 sm:p-5 flex flex-col items-center space-y-3 sm:space-y-4"
             >
                 <Image
                     src="/person.png"
                     alt="Avatar"
-                    width={100}
-                    height={100}
-                    className="rounded-full"
+                    width={80}
+                    height={80}
+                    className="rounded-full w-16 h-16 sm:w-20 sm:h-20"
                 />
 
                 <div className="text-center w-full">
-                    <h2 className="font-bold text-2xl text-gray-800">
+                    <h2 className="font-bold text-xl sm:text-2xl text-gray-800">
                         {student.name}
                     </h2>
-                    <p className="text-sm text-gray-500">{student.email}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                        {student.email}
+                    </p>
 
-                    <div className="flex items-center justify-center mt-2 gap-2">
+                    <div className="flex items-center justify-center mt-1 sm:mt-2 gap-1 sm:gap-2">
                         <span
                             className={clsx(
-                                'w-3 h-3 rounded-full',
+                                'w-2 h-2 sm:w-3 sm:h-3 rounded-full',
                                 isOnline ? 'bg-green-500' : 'bg-orange-400'
                             )}
                         />
-                        <p className="text-sm font-medium text-gray-600">
+                        <p className="text-xs sm:text-sm font-medium text-gray-600">
                             {isOnline
                                 ? 'Активний'
                                 : `Останній вхід: ${
@@ -239,8 +241,8 @@ const StudentCard = ({ student, setStudents }: any) => {
                     </div>
                 </div>
 
-                <div className="w-full bg-[#F8F8FF] rounded-xl p-4 space-y-3">
-                    <div className="flex justify-between text-sm font-semibold text-gray-700">
+                <div className="w-full bg-[#F8F8FF] rounded-xl p-3 sm:p-4 space-y-2 sm:space-y-3">
+                    <div className="flex justify-between text-xs sm:text-sm font-semibold text-gray-700">
                         <p>Прогрес</p>
                         <p>{progress}%</p>
                     </div>
@@ -249,13 +251,13 @@ const StudentCard = ({ student, setStudents }: any) => {
                         value={progress}
                     />
 
-                    <ul className="text-sm text-gray-600 space-y-1 mt-2">
+                    <ul className="text-xs sm:text-sm text-gray-600 space-y-1 mt-1 sm:mt-2">
                         <li>✅ {studentPerformance?.length} Пройдених тести</li>
                         <li>📚 {activeTests?.length} Активні</li>
                     </ul>
 
-                    <div className="flex items-center mt-3 text-sm text-gray-600">
-                        <IoCalendarOutline size={18} className="mr-2" />
+                    <div className="flex items-center mt-2 sm:mt-3 text-xs sm:text-sm text-gray-600">
+                        <IoCalendarOutline size={16} className="mr-1 sm:mr-2" />
                         <p>
                             Останній тест:{' '}
                             {Array.isArray(studentPerformance) &&
@@ -279,36 +281,41 @@ const StudentCard = ({ student, setStudents }: any) => {
                     </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
+                <div className="w-full mt-3 sm:mt-4">
+                    <div className="flex gap-2 w-full">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setIsAssignModalOpen(true)
+                            }}
+                            className="flex-1 min-w-0 flex items-center justify-center gap-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-2 sm:py-2 sm:px-3 rounded-lg transition-all text-xs sm:text-sm whitespace-nowrap truncate"
+                        >
+                            <span className="truncate">Призначити тест</span>
+                        </button>
+
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault()
+                                setIsUpdateModalOpen(true)
+                            }}
+                            className="flex-1 min-w-0 flex items-center justify-center gap-1 border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-1.5 px-2 sm:py-2 sm:px-3 rounded-lg transition-all text-xs sm:text-sm whitespace-nowrap truncate"
+                        >
+                            <MdEdit className="flex-shrink-0" size={16} />
+                            <span className="truncate">Редагувати</span>
+                        </button>
+                    </div>
+
                     <button
                         onClick={(e) => {
                             e.preventDefault()
-                            setIsAssignModalOpen(true)
+                            setIsDeleteModalOpen(true)
                         }}
-                        className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition-all"
+                        className="w-full mt-2 flex items-center justify-center gap-1 border border-red-300 hover:bg-red-50 text-red-600 font-semibold py-1.5 px-2 sm:py-2 sm:px-3 rounded-lg transition-all text-xs sm:text-sm whitespace-nowrap"
                     >
-                        <IoIosRocket size={18} /> Призначити тест
-                    </button>
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault()
-                            setIsUpdateModalOpen(true)
-                        }}
-                        className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 rounded-xl transition-all"
-                    >
-                        <MdEdit size={18} /> Редагувати
+                        <MdDelete size={16} />
+                        <span>Видалити</span>
                     </button>
                 </div>
-
-                <button
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setIsDeleteModalOpen(true)
-                    }}
-                    className="mt-3 w-full flex items-center justify-center gap-2 border border-red-300 hover:bg-red-50 text-red-600 font-semibold py-2 px-4 rounded-xl transition-all"
-                >
-                    <MdDelete size={18} /> Видалити
-                </button>
             </Link>
             {isAssignModalOpen && (
                 <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center px-4">
