@@ -11,6 +11,9 @@ import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
 import { useSubTopicContext } from '@/helpers/getSubTopicId'
 import { title } from 'process'
+import { TestSchema } from '@/lib/validation'
+import z from 'zod'
+import toast from 'react-hot-toast'
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
@@ -20,7 +23,7 @@ const CreateTest = () => {
     const [test, setTest] = useState({
         title: '',
         description: '',
-        timeLimit: 0,
+        timeLimit: '0',
         teacherId: user?.status === 'Teacher' ? user?.id : '',
         adminID: user?.status === 'Admin' ? user?.id : '',
         tasks: [],
@@ -38,22 +41,48 @@ const CreateTest = () => {
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-    const [titleError, setTitleError] = useState('')
+    const [errors, setErrors] = useState<Record<string, string>>({})
 
     const MemoizedTestTasks = memo(TestTasks)
 
+    const validateForm = () => {
+        try {
+            TestSchema.parse({
+                ...test,
+            })
+            setErrors({})
+            return true
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const newErrors: Record<string, string> = {}
+                error.issues.forEach((issue) => {
+                    if (issue.path.length > 0) {
+                        const fieldName = issue.path[0] as string
+                        newErrors[fieldName] = issue.message
+                    }
+                })
+                setErrors(newErrors)
+            }
+            return false
+        }
+    }
+
     const handleCreateTest = async () => {
-        if (!test.title || test.title.trim() === '') {
-            setTitleError('Потрібно ввести назву тесту')
+        if (!validateForm()) {
+            toast.error('Будь ласка, виправте помилки у формі')
             return
         }
         try {
+            const testToSend = {
+                ...test,
+                timeLimit: Number(test.timeLimit),
+            }
             const res = await fetch(`${API_URL}/api/test`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(test),
+                body: JSON.stringify(testToSend),
             })
 
             const data = await res.json()
@@ -236,6 +265,14 @@ const CreateTest = () => {
         }))
     }, [])
 
+    useEffect(() => {
+        if (test?.tasks?.length > 0 && errors.tasks) {
+            setErrors((prev) => {
+                const { tasks, ...rest } = prev
+                return rest
+            })
+        }
+    }, [test.tasks, errors.tasks])
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">
@@ -244,8 +281,8 @@ const CreateTest = () => {
             <TestBasicInfo
                 test={test}
                 setTest={setTest}
-                titleError={titleError}
-                clearTitleError={() => setTitleError('')}
+                errors={errors}
+                setErrors={setErrors}
             />
             <MemoizedTestTasks
                 test={test}
@@ -268,6 +305,7 @@ const CreateTest = () => {
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
+                tasksError={errors.tasks}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button
