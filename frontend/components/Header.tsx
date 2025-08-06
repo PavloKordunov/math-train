@@ -18,6 +18,11 @@ const NavBar = () => {
     const pathname = usePathname()
     const { user, setUser } = useUser()
 
+    // // Якщо користувач адмін - не показуємо хедер
+    // if (user?.status === 'Admin') {
+    //     return null
+    // }
+
     const logOut = async () => {
         try {
             await signOut({
@@ -59,18 +64,28 @@ const NavBar = () => {
 
     const activeTab = getActiveTab()
 
-    const navItems = [
+    const studentNavItems = [
         {
             label: 'Домашня',
-            href: user?.status === 'Student' ? '/home' : '/teacher',
+            href: '/home',
             key: 'home',
         },
         {
-            label: user?.status === 'Student' ? 'Успішність' : 'Студенти',
-            href:
-                user?.status === 'Student'
-                    ? '/perfomence'
-                    : `/teacher-performance`,
+            label: 'Успішність',
+            href: '/perfomence',
+            key: 'map',
+        },
+    ]
+
+    const teacherNavItems = [
+        {
+            label: 'Домашня',
+            href: '/teacher',
+            key: 'home',
+        },
+        {
+            label: 'Студенти',
+            href: '/teacher-performance',
             key: 'map',
         },
         {
@@ -84,6 +99,15 @@ const NavBar = () => {
             key: 'tests',
         },
     ]
+
+    const adminNavItems: any = []
+
+    const navItems =
+        user?.status === 'Student'
+            ? studentNavItems
+            : user?.status === 'Teacher'
+            ? teacherNavItems
+            : adminNavItems
 
     return (
         <nav className="w-full bg-white shadow-md px-4 py-4 md:px-10 md:py-6">
@@ -99,12 +123,14 @@ const NavBar = () => {
                     </div>
                 </div>
 
-                <button
-                    className="md:hidden text-2xl"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <FiX /> : <FiMenu />}
-                </button>
+                {user?.status !== 'Student' && (
+                    <button
+                        className="md:hidden text-2xl"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+                    </button>
+                )}
 
                 <div className="hidden md:flex items-center gap-12">
                     {navItems.map((item) => (
@@ -125,7 +151,6 @@ const NavBar = () => {
                     ))}
                 </div>
 
-                {/* Профіль */}
                 <div className="hidden md:flex relative items-center">
                     <button
                         onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -170,7 +195,7 @@ const NavBar = () => {
                 </div>
             </div>
 
-            {isMobileMenuOpen && (
+            {isMobileMenuOpen && user?.status !== 'Student' && (
                 <div className="flex flex-col mt-4 gap-3 md:hidden">
                     {navItems.map((item) => (
                         <Link
