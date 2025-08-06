@@ -34,6 +34,8 @@ const ViewTest = () => {
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
+    const [titleError, setTitleError] = useState('')
+
     useEffect(() => {
         const getTestById = async () => {
             try {
@@ -50,6 +52,10 @@ const ViewTest = () => {
     }, [])
 
     const handleUpdateTest = async () => {
+        if (!test.title || test.title.trim() === '') {
+            setTitleError('Потрібно ввести назву тесту')
+            return
+        }
         try {
             const res = await fetch(`${API_URL}/api/test/${testId}`, {
                 method: 'PATCH',
@@ -89,7 +95,7 @@ const ViewTest = () => {
                 id: nanoid(),
                 title: '',
                 type: 'multiple',
-                answers: Array(5)
+                answers: Array(1)
                     .fill(null)
                     .map(() => ({ text: '', isCorrect: false, id: nanoid() })),
                 pairs: [],
@@ -236,6 +242,8 @@ const ViewTest = () => {
                 test={test}
                 setTest={setTest}
                 formatDateForInput={formatDateForInput}
+                titleError={titleError}
+                clearTitleError={() => setTitleError('')}
             />
             <TestTasks
                 test={test}

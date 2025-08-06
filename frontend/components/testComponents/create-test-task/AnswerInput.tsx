@@ -6,6 +6,7 @@ const AnswerInput = ({
     toggleAnswerCorrect,
     handleAnswerChange,
     subject,
+    handleRemoveAnswer,
 }: any) => (
     <div key={index} className="flex items-center gap-4 mt-4">
         <input
@@ -27,6 +28,13 @@ const AnswerInput = ({
                 placeholder="Введіть варіант відповіді"
             />
         )}
+
+        <button
+            onClick={() => handleRemoveAnswer(index)}
+            className="text-red-500 hover:underline"
+        >
+            ✕
+        </button>
     </div>
 )
 
