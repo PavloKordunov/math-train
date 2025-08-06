@@ -73,7 +73,7 @@ export default function LoginPage() {
             setCookie('token', token, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
+                secure: true,
                 sameSite: 'strict',
             })
 
@@ -81,7 +81,7 @@ export default function LoginPage() {
             setCookie('user', JSON.stringify(responseData.user), {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
+                secure: true,
                 sameSite: 'strict',
             })
 
@@ -98,21 +98,23 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden px-4 sm:px-6 lg:px-8">
             <Toaster position="bottom-center" />
-            <div className="absolute top-6 left-6 flex items-center gap-2">
-                <div className="w-30 h-30 relative mb-4">
+
+            {/* <div className="absolute top-6 left-6 hidden md:flex items-center gap-2 z-10">
+                <div className="w-32 h-32 relative">
                     <Image
                         src="/logo.png"
-                        alt=""
+                        alt="Логотип"
                         fill
                         className="object-contain"
+                        priority
                     />
                 </div>
-            </div>
+            </div> */}
 
-            <div className="bg-[#FFFFFF] rounded-[32px] shadow-md w-full max-w-md py-12 px-10 text-center z-10">
-                <h1 className="text-2xl md:text-3xl text-[#000] font-bold mb-8 flex items-center justify-center gap-2">
+            <div className="bg-white rounded-3xl shadow-md w-full max-w-md py-12 px-6 sm:px-10 text-center z-10">
+                <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-[#000]">
                     Вхід до платформи
                 </h1>
 
@@ -121,42 +123,42 @@ export default function LoginPage() {
                     className="space-y-6"
                 >
                     <div className="text-left">
-                        <label className="text-sm text-[#000] font-medium mb-1 block">
+                        <label className="text-sm font-medium mb-1 block text-[#000]">
                             📧 Електронна пошта
                         </label>
                         <input
                             {...register('email')}
                             type="email"
-                            className={`w-full px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 ${
+                            className={`w-full px-4 py-3 rounded-xl bg-[#e9e5e5] text-sm text-[#000] focus:outline-none focus-visible:ring-2 ${
                                 errors.email
-                                    ? 'focus:ring-red-500'
-                                    : 'focus:ring-[#4CAF50]'
-                            } text-[#000]`}
+                                    ? 'focus-visible:ring-red-500'
+                                    : 'focus-visible:ring-[#4CAF50]'
+                            }`}
                             placeholder="you@example.com"
                         />
                         {errors.email && (
-                            <p className="text-red-500 text-xs mt-1 text-left">
+                            <p className="text-red-500 text-xs mt-1">
                                 {errors.email.message}
                             </p>
                         )}
                     </div>
 
                     <div className="text-left">
-                        <label className="text-sm text-[#000] font-medium mb-1 block">
+                        <label className="text-sm font-medium mb-1 block text-[#000]">
                             🔑 Пароль
                         </label>
                         <input
                             {...register('password')}
                             type="password"
-                            className={`w-full text-[#000] px-4 py-3 rounded-[16px] bg-[#e9e5e5] text-sm focus:outline-none focus:ring-2 ${
+                            className={`w-full px-4 py-3 rounded-xl bg-[#e9e5e5] text-sm text-[#000] focus:outline-none focus-visible:ring-2 ${
                                 errors.password
-                                    ? 'focus:ring-red-500'
-                                    : 'focus:ring-[#1565C0]'
+                                    ? 'focus-visible:ring-red-500'
+                                    : 'focus-visible:ring-[#1565C0]'
                             }`}
                             placeholder="********"
                         />
                         {errors.password && (
-                            <p className="text-red-500 text-xs mt-1 text-left">
+                            <p className="text-red-500 text-xs mt-1">
                                 {errors.password.message}
                             </p>
                         )}
@@ -166,7 +168,7 @@ export default function LoginPage() {
                         Немає акаунту?{' '}
                         <Link
                             href="/register"
-                            className="text-[#4CAF50] cursor-pointer hover:underline"
+                            className="text-[#4CAF50] font-medium hover:underline"
                         >
                             Зареєструватись →
                         </Link>
@@ -175,7 +177,7 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-8 py-3 rounded-[16px] bg-[#1565C0] text-white font-semibold text-[16px] shadow-md transition hover:bg-[#0d47a1] disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full py-3 rounded-xl bg-[#1565C0] text-white font-semibold text-base shadow-md transition hover:bg-[#0d47a1] disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isLoading ? (
                             <ClipLoader color="#ffffff" size={20} />
@@ -188,20 +190,21 @@ export default function LoginPage() {
                 <div className="flex items-center gap-4 mt-8 justify-center">
                     <button
                         onClick={() => signIn('google')}
-                        className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg hover:bg-gray-50 transition"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 bg-white rounded-xl shadow-lg hover:bg-gray-50 transition"
                         disabled={isLoading}
                     >
                         <FcGoogle size={24} />
                     </button>
                     <button
                         onClick={() => signIn('github')}
-                        className="flex-1 flex items-center justify-center border-none gap-2 py-3 bg-white rounded-[12px] shadow-lg hover:bg-gray-50 transition"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 bg-white rounded-xl shadow-lg hover:bg-gray-50 transition"
                         disabled={isLoading}
                     >
                         <FaGithub size={24} color="black" />
                     </button>
                 </div>
             </div>
+
             {openPlans && <PlansPage />}
         </div>
     )

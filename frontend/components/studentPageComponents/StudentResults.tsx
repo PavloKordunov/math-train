@@ -135,7 +135,7 @@ const StudentResults = ({
                     <div className="flex gap-8 my-10">
                         <p
                             onClick={() => setActive('passTests')}
-                            className={`font-bold text-[24px]/8 sm:text-[28px] cursor-pointer relative transition duration-200 ${
+                            className={`font-bold text-[18px]/6 sm:text-[24px] cursor-pointer relative transition duration-200 ${
                                 active === 'passTests'
                                     ? 'text-[#CA193A]'
                                     : 'text-black'
@@ -148,7 +148,7 @@ const StudentResults = ({
                         </p>
                         <p
                             onClick={() => setActive('passTopicTests')}
-                            className={`font-bold text-[24px]/8 sm:text-[28px] cursor-pointer relative transition duration-200 ${
+                            className={`font-bold text-[18px]/6 sm:text-[24px] cursor-pointer relative transition duration-200 ${
                                 active === 'passTopicTests'
                                     ? 'text-[#CA193A]'
                                     : 'text-black'
@@ -161,7 +161,7 @@ const StudentResults = ({
                         </p>
                         <p
                             onClick={() => setActive('activeTests')}
-                            className={`font-bold text-[24px]/8 sm:text-[28px] cursor-pointer relative transition duration-200 ${
+                            className={`font-bold text-[18px]/6 sm:text-[24px] cursor-pointer relative transition duration-200 ${
                                 active === 'activeTests'
                                     ? 'text-[#CA193A]'
                                     : 'text-black'

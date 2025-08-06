@@ -53,9 +53,9 @@ const TopicTestPage = () => {
     }
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-[1280px] w-full">
-                <h1 className="text-[40px] font-semibold mb-10">
+                <h1 className="text-[32px] sm:text-[40px] font-semibold mb-10 text-center sm:text-left">
                     Математика: завдання за темами
                 </h1>
                 <TopicTesets

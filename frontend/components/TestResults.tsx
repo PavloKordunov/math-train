@@ -51,7 +51,7 @@ const TestResults = ({ test, student }: { test: any; student: any }) => {
                     />
                 </div>
 
-                <div className="flex flex-col justify-between p-6 gap-4 md:w-3/4 bg-white border-l-2 border-[#CDC8C8]">
+                <div className="flex flex-col justify-between p-6 gap-4 md:w-3/4 bg-white md:border-l-2 md:border-[#CDC8C8]">
                     <div>
                         <p className="font-bold text-[18px] uppercase mb-6">
                             {test?.testName}, Здано:{' '}

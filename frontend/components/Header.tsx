@@ -28,11 +28,11 @@ const NavBar = () => {
             localStorage.removeItem('user')
             deleteCookie('user', {
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
+                secure: true,
             })
             deleteCookie('token', {
                 path: '/',
-                secure: process.env.NODE_ENV === 'production',
+                secure: true,
             })
 
             setUser(null)

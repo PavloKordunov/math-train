@@ -36,7 +36,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                     setCookie('user', JSON.stringify(data.user), {
                         maxAge: 30 * 24 * 60 * 60,
                         path: '/',
-                        secure: process.env.NODE_ENV === 'production',
+                        secure: true,
                         sameSite: 'strict',
                     })
                 } catch (error) {
