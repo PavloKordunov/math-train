@@ -57,3 +57,11 @@ export const RegisterStudentSchema = z.object({
 })
 
 export type RegisterStudentFormData = z.infer<typeof RegisterStudentSchema>
+
+export const TestSchema = z.object({
+    title: z.string().min(1, 'Назва тесту обовʼязкова'),
+    timeLimit: z.string().nonempty('Поле є обовʼязковим').transform(Number),
+    tasks: z
+        .array(z.any())
+        .min(1, 'Тест повинен містити щонайменше одне завдання'),
+})

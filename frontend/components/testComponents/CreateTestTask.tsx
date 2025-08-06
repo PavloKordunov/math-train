@@ -25,6 +25,7 @@ const CreateTestTask = ({
     toggleAnswerCorrect,
     handleSaveMatchingTask,
     value,
+    tasksError,
 }: any) => {
     const [base64, setBase64] = useState('')
     const [internalValue, setInternalValue] = useState(value)
@@ -467,6 +468,9 @@ const CreateTestTask = ({
                         onSave={handleSaveTask}
                     />
                 </div>
+            )}
+            {tasksError && (
+                <p className="text-sm text-red-600 mt-1">{tasksError}</p>
             )}
         </div>
     )

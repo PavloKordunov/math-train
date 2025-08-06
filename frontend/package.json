@@ -38,7 +38,7 @@
         "react-spinners": "^0.17.0",
         "react-textarea-autosize": "^8.5.9",
         "recharts": "^2.15.3",
-        "zod": "^4.0.5"
+        "zod": "^4.0.15"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
