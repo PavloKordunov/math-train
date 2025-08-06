@@ -60,36 +60,36 @@ const AssignTestModal = ({ test, students, student, toggleModal }: any) => {
     }, [])
 
     return (
-        <div className="fixed inset-0 bg-black/40 z-[1000] flex items-center justify-center px-4">
+        <div className="fixed inset-0 bg-black/40 z-[1000] flex items-center justify-center px-4 py-4 overflow-y-auto">
             <Toaster position="bottom-center" />
-            <div className="bg-[#F0F4F8] w-full max-w-xl p-6 rounded-2xl flex items-center gap-3 relative">
+            <div className="bg-[#F0F4F8] w-full max-w-xl p-4 md:p-6 rounded-2xl flex flex-col md:flex-row gap-4 md:gap-6 relative max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-center md:w-1/3">
                     <Image
                         src="/mathItemImg.png"
                         alt="Math"
                         width={160}
                         height={100}
-                        className="object-contain"
+                        className="object-contain w-32 h-auto md:w-40"
                     />
                 </div>
 
-                <div className="md:w-2/3">
-                    <h2 className="text-2xl font-semibold text-gray-800">
+                <div className="w-full md:w-2/3 space-y-4">
+                    <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
                         {test.title}
                     </h2>
 
-                    <div className="flex gap-4">
-                        <p className="text-lg font-medium text-gray-700">
-                            Кількість завдань: {test.tasks.length}
+                    <div className="flex flex-wrap gap-2 md:gap-4">
+                        <p className="text-base md:text-lg font-medium text-gray-700">
+                            Завдань: {test.tasks.length}
                         </p>
-                        <p className="text-lg font-medium text-gray-700">
+                        <p className="text-base md:text-lg font-medium text-gray-700">
                             Час: {test.timeLimit} хв
                         </p>
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-2 w-full">
                         {student ? (
-                            <div className="w-full border border-gray-300 rounded-xl px-4 py-2">
+                            <div className="w-full border border-gray-300 rounded-xl px-4 py-2 bg-white">
                                 <p className="font-medium">{student.name}</p>
                             </div>
                         ) : (
@@ -115,13 +115,13 @@ const AssignTestModal = ({ test, students, student, toggleModal }: any) => {
                                         <div
                                             ref={innerRef}
                                             {...innerProps}
-                                            className={`p-3 ${
+                                            className={`p-2 md:p-3 ${
                                                 isFocused
                                                     ? 'bg-[#FFECE7]'
                                                     : 'bg-white'
                                             } hover:bg-[#FFECE7] cursor-pointer`}
                                         >
-                                            <p className="font-medium">
+                                            <p className="font-medium text-sm md:text-base">
                                                 {data.label}
                                             </p>
                                         </div>
@@ -134,6 +134,7 @@ const AssignTestModal = ({ test, students, student, toggleModal }: any) => {
                                         borderRadius: '0.5rem',
                                         padding: '0.25rem',
                                         boxShadow: 'none',
+                                        minHeight: '44px',
                                         '&:hover': {
                                             borderColor: '#9CA3AF',
                                         },
@@ -151,14 +152,28 @@ const AssignTestModal = ({ test, students, student, toggleModal }: any) => {
                                             ? '#FFECE7'
                                             : 'white',
                                         color: '#1F2937',
+                                        fontSize: '0.875rem',
+                                        padding: '8px 12px',
+                                    }),
+                                    input: (base) => ({
+                                        ...base,
+                                        fontSize: '0.875rem',
+                                    }),
+                                    placeholder: (base) => ({
+                                        ...base,
+                                        fontSize: '0.875rem',
+                                    }),
+                                    singleValue: (base) => ({
+                                        ...base,
+                                        fontSize: '0.875rem',
                                     }),
                                 }}
                             />
                         )}
                     </div>
 
-                    <div>
-                        <label className="block text-gray-700 font-medium mt-2">
+                    <div className="space-y-1">
+                        <label className="block text-gray-700 font-medium text-sm md:text-base">
                             Крайній термін проходження
                         </label>
                         <input
@@ -170,20 +185,20 @@ const AssignTestModal = ({ test, students, student, toggleModal }: any) => {
                                 ).toISOString()
                                 setEndTime(isoDate)
                             }}
-                            className="w-full border border-gray-300 rounded-xl px-4 py-2"
+                            className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm md:text-base"
                         />
                     </div>
 
-                    <div className="flex justify-end gap-4 mt-4">
+                    <div className="flex flex-col-reverse md:flex-row justify-end gap-2 md:gap-4 mt-4">
                         <button
                             onClick={toggleModal}
-                            className="px-8 py-3 rounded-[16px] border-[2px] border-gray-300 text-black font-semibold text-[16px] transition"
+                            className="px-4 py-2 md:px-8 md:py-3 rounded-xl md:rounded-[16px] border border-gray-300 text-black font-semibold text-sm md:text-[16px] transition"
                         >
                             Скасувати
                         </button>
                         <button
                             onClick={assignTest}
-                            className="px-8 py-3 rounded-[16px] bg-red-500 text-white font-semibold text-[16px] shadow-md transition"
+                            className="px-4 py-2 md:px-8 md:py-3 rounded-xl md:rounded-[16px] bg-red-500 text-white font-semibold text-sm md:text-[16px] shadow-md transition"
                         >
                             Призначити
                         </button>

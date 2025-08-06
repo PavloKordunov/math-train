@@ -82,45 +82,60 @@ const TestItem = ({ test }: { test: any }) => {
                 </div>
             </div>
             {isOpen && (
-                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center">
+                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center p-4">
                     <Toaster position="bottom-center" />
-                    <div className="bg-[#F0F4F8] px-10 py-6 rounded-[31px] w-fit">
-                        <h1 className="font-bold text-[24px] uppercase">
-                            Тест, {test.title}, час завершення:{' '}
-                            {formatDateToUkrainian(test.endTime)}
-                        </h1>
-                        <p className="mb-10 font-medium text-[18px]">
-                            Тест обмежений часом на {test.test.timeLimit} хвилин
-                        </p>
-                        <div className="flex gap-4 items-center justify-end">
-                            <button
-                                className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase"
-                                onClick={toggleModal}
-                            >
-                                Скасувати
-                            </button>
-                            {notEndedTest &&
-                            notEndedTest?.testId !== test.test.id ? (
+                    <div className="bg-[#F0F4F8] px-6 py-6 sm:px-10 sm:py-8 rounded-2xl sm:rounded-[31px] w-full max-w-md sm:max-w-xl">
+                        <div className="space-y-4">
+                            <h1 className="font-bold text-lg sm:text-2xl uppercase text-center sm:text-left">
+                                Тест: {test.test.title}
+                            </h1>
+
+                            <div className="bg-white p-4 rounded-lg shadow-sm">
+                                <p className="text-gray-700 font-medium mb-2">
+                                    <span className="font-semibold">
+                                        Час завершення:
+                                    </span>{' '}
+                                    {formatDateToUkrainian(test.endTime)}
+                                </p>
+                                <p className="text-gray-700 font-medium">
+                                    <span className="font-semibold">
+                                        Обмеження часу:
+                                    </span>{' '}
+                                    {test.test.timeLimit} хвилин
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-3 justify-end">
                                 <button
-                                    className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase"
-                                    onClick={() => {
-                                        toast.error(
-                                            'Ви не завершили роботу над попереднім тестом'
-                                        )
-                                    }}
+                                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md font-semibold transition-colors text-sm sm:text-base"
+                                    onClick={toggleModal}
                                 >
-                                    Розпочати тестування
+                                    Скасувати
                                 </button>
-                            ) : (
-                                <Link
-                                    href={`/test/${test.test.id}`}
-                                    className="bg-[#CA193A] px-4 py-2 text-white rounded-md font-semibold uppercase"
-                                >
-                                    {notEndedTest?.testId !== test.test.id
-                                        ? `Розпочати тестування`
-                                        : `Продовжити тестування`}
-                                </Link>
-                            )}
+
+                                {notEndedTest &&
+                                notEndedTest?.testId !== test.test.id ? (
+                                    <button
+                                        className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md font-semibold transition-colors text-sm sm:text-base"
+                                        onClick={() => {
+                                            toast.error(
+                                                'Ви не завершили роботу над попереднім тестом'
+                                            )
+                                        }}
+                                    >
+                                        Розпочати тестування
+                                    </button>
+                                ) : (
+                                    <Link
+                                        href={`/test/${test.test.id}`}
+                                        className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md font-semibold transition-colors text-center text-sm sm:text-base"
+                                    >
+                                        {notEndedTest?.testId !== test.test.id
+                                            ? 'Розпочати тестування'
+                                            : 'Продовжити тестування'}
+                                    </Link>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

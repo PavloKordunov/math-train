@@ -318,120 +318,126 @@ const StudentCard = ({ student, setStudents }: any) => {
                 </div>
             </Link>
             {isAssignModalOpen && (
-                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center px-4">
-                    <div className="bg-[#F0F4F8] w-full max-w-xl p-6 rounded-2xl flex items-center gap-3 relative">
-                        <div className="flex justify-center md:w-1/3">
+                <div className="fixed inset-0 bg-black/60 z-[1000] flex items-center justify-center px-4 py-4 overflow-y-auto">
+                    <div className="bg-[#F0F4F8] w-full max-w-xl p-4 md:p-6 rounded-2xl flex flex-col md:flex-row gap-4 md:gap-6 relative max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-center items-center md:w-1/3">
                             <Image
                                 src="/person.png"
                                 alt="student"
                                 width={160}
                                 height={100}
-                                className="object-contain"
+                                className="object-contain w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white shadow-md"
                             />
                         </div>
 
-                        <div className="md:w-2/3">
-                            <h2 className="text-2xl font-semibold text-gray-800">
+                        <div className="w-full md:w-2/3 space-y-4">
+                            <h2 className="text-xl md:text-2xl font-semibold text-gray-800 text-center md:text-left">
                                 {student.name}
                             </h2>
-                            <div className="mt-4">
-                                <Select
-                                    options={tests.map((t: any) => ({
-                                        value: t.id,
-                                        label: t.title,
-                                    }))}
-                                    onChange={(selected) =>
-                                        setSelectedTest(selected?.value)
-                                    }
-                                    isSearchable
-                                    placeholder="Виберіть тест..."
-                                    noOptionsMessage={() =>
-                                        'Тестів не знайдено'
-                                    }
-                                    className="react-select-container"
-                                    classNamePrefix="react-select"
-                                    components={{
-                                        Option: ({
-                                            innerRef,
-                                            innerProps,
-                                            data,
-                                            isFocused,
-                                        }: any) => (
-                                            <div
-                                                ref={innerRef}
-                                                {...innerProps}
-                                                className={`p-3 ${
-                                                    isFocused
-                                                        ? 'bg-[#FFECE7]'
-                                                        : 'bg-white'
-                                                } hover:bg-[#FFECE7] cursor-pointer`}
-                                            >
-                                                <p className="font-medium">
-                                                    {data.label}
-                                                </p>
-                                            </div>
-                                        ),
-                                    }}
-                                    styles={{
-                                        control: (base: any) => ({
-                                            ...base,
-                                            borderColor: '#CDC8C8',
-                                            borderRadius: '0.5rem',
-                                            padding: '0.25rem',
-                                            boxShadow: 'none',
-                                            '&:hover': {
-                                                borderColor: '#9CA3AF',
-                                            },
-                                        }),
-                                        menu: (base: any) => ({
-                                            ...base,
-                                            border: '1px solid #CDC8C8',
-                                            borderRadius: '0.5rem',
-                                            boxShadow:
-                                                '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                                        }),
-                                        option: (
-                                            base: any,
-                                            { isFocused }: any
-                                        ) => ({
-                                            ...base,
-                                            backgroundColor: isFocused
-                                                ? '#FFECE7'
-                                                : 'white',
-                                            color: '#1F2937',
-                                        }),
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-700 font-medium mt-2">
-                                    Крайній термін проходження
-                                </label>
-                                <input
-                                    type="datetime-local"
-                                    value={formatDateForInput(endTime)}
-                                    onChange={(e) => {
-                                        const isoDate = new Date(
-                                            e.target.value
-                                        ).toISOString()
-                                        setEndTime(isoDate)
-                                    }}
-                                    className="w-full border border-gray-300 rounded-xl px-4 py-2"
-                                />
+
+                            <div className="space-y-4">
+                                <div>
+                                    <Select
+                                        options={tests.map((t: any) => ({
+                                            value: t.id,
+                                            label: t.title,
+                                        }))}
+                                        onChange={(selected) =>
+                                            setSelectedTest(selected?.value)
+                                        }
+                                        isSearchable
+                                        placeholder="Виберіть тест..."
+                                        noOptionsMessage={() =>
+                                            'Тестів не знайдено'
+                                        }
+                                        className="react-select-container"
+                                        classNamePrefix="react-select"
+                                        components={{
+                                            Option: ({
+                                                innerRef,
+                                                innerProps,
+                                                data,
+                                                isFocused,
+                                            }: any) => (
+                                                <div
+                                                    ref={innerRef}
+                                                    {...innerProps}
+                                                    className={`p-2 md:p-3 ${
+                                                        isFocused
+                                                            ? 'bg-[#FFECE7]'
+                                                            : 'bg-white'
+                                                    } hover:bg-[#FFECE7] cursor-pointer`}
+                                                >
+                                                    <p className="font-medium text-sm md:text-base">
+                                                        {data.label}
+                                                    </p>
+                                                </div>
+                                            ),
+                                        }}
+                                        styles={{
+                                            control: (base: any) => ({
+                                                ...base,
+                                                borderColor: '#CDC8C8',
+                                                borderRadius: '0.5rem',
+                                                padding: '0.25rem',
+                                                boxShadow: 'none',
+                                                minHeight: '44px',
+                                                '&:hover': {
+                                                    borderColor: '#9CA3AF',
+                                                },
+                                            }),
+                                            menu: (base: any) => ({
+                                                ...base,
+                                                border: '1px solid #CDC8C8',
+                                                borderRadius: '0.5rem',
+                                                boxShadow:
+                                                    '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                            }),
+                                            option: (
+                                                base: any,
+                                                { isFocused }: any
+                                            ) => ({
+                                                ...base,
+                                                backgroundColor: isFocused
+                                                    ? '#FFECE7'
+                                                    : 'white',
+                                                color: '#1F2937',
+                                                fontSize: '0.875rem',
+                                            }),
+                                        }}
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-gray-700 font-medium text-sm md:text-base">
+                                        Крайній термін проходження
+                                    </label>
+                                    <input
+                                        type="datetime-local"
+                                        value={formatDateForInput(endTime)}
+                                        onChange={(e) => {
+                                            const isoDate = new Date(
+                                                e.target.value
+                                            ).toISOString()
+                                            setEndTime(isoDate)
+                                        }}
+                                        className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm md:text-base"
+                                    />
+                                </div>
                             </div>
 
-                            <div className="flex justify-end gap-4 mt-4">
+                            <div className="flex flex-col-reverse md:flex-row justify-end gap-3 md:gap-4 pt-2">
                                 <button
                                     onClick={() => setIsAssignModalOpen(false)}
-                                    className="px-8 py-3 rounded-[16px] border-[2px] border-gray-300 text-black font-semibold text-[16px]  transition"
+                                    className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-gray-300 text-black font-semibold text-sm md:text-base transition hover:bg-gray-100"
                                 >
                                     Скасувати
                                 </button>
                                 <button
                                     onClick={assignTest}
-                                    className="px-8 py-3 rounded-[16px] bg-red-500 text-white font-semibold text-[16px] shadow-md  transition"
+                                    className="px-4 py-2 md:px-6 md:py-3 rounded-xl bg-red-500 text-white font-semibold text-sm md:text-base shadow-md transition hover:bg-red-600"
                                 >
-                                    Назначити
+                                    Призначити
                                 </button>
                             </div>
                         </div>
