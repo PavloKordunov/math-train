@@ -105,6 +105,9 @@ export class TeacherService {
                 this.databaseServise.test.findMany({
                     where: { teacherId: id },
                     include: { tasks: true },
+                    orderBy: {
+                        id: 'desc',
+                    },
                 }),
             ])
 

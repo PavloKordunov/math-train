@@ -71,7 +71,7 @@ export class StudentService {
                     take: pageSize,
                     where: { teacherId: id },
                     orderBy: {
-                        id: 'asc',
+                        id: 'desc',
                     },
                 }),
                 this.databaseService.student.count(),
