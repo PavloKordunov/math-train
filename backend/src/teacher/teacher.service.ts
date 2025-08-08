@@ -23,23 +23,7 @@ export class TeacherService {
         const skip = (page - 1) * pageSize
 
         try {
-            const [items, total] = await Promise.all([
-                this.databaseServise.teacher.findMany({
-                    skip,
-                    take: pageSize,
-                    orderBy: {
-                        id: 'asc',
-                    },
-                }),
-                this.databaseServise.teacher.count(),
-            ])
-            return {
-                data: items,
-                total,
-                page,
-                pageSize,
-                totalPages: Math.ceil(total / pageSize),
-            }
+            return await this.databaseServise.teacher.findMany()
         } catch (error) {
             throw new InternalServerErrorException('Failed to get teachers')
         }

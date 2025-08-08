@@ -17,8 +17,8 @@ export class TeacherController {
     constructor(private readonly teacherServise: TeacherService) {}
 
     @Get()
-    getAllTeachers(@Query('page') page: string) {
-        return this.teacherServise.getAllTeachers(Number(page))
+    getAllTeachers() {
+        return this.teacherServise.getAllTeachers()
     }
 
     @Get(':id')

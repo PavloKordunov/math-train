@@ -1,7 +1,15 @@
-import { title } from 'process'
 import { memo } from 'react'
 
-const TestBasicInfo = ({ test, setTest, errors, setErrors }: any) => {
+const TestBasicInfo = ({
+    title,
+    description,
+    timeLimit,
+    setTitle,
+    setDescription,
+    setTimeLimit,
+    errors,
+    setErrors,
+}: any) => {
     return (
         <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
             <div className="mb-4">
@@ -10,9 +18,9 @@ const TestBasicInfo = ({ test, setTest, errors, setErrors }: any) => {
                 </label>
                 <input
                     type="text"
-                    value={test.title}
+                    value={title || ''}
                     onChange={(e) => {
-                        setTest({ ...test, title: e.target.value })
+                        setTitle(e.target.value)
                         if (errors.title && e.target.value.trim() !== '') {
                             setErrors((prev: any) => ({ ...prev, title: '' }))
                         }
@@ -30,12 +38,10 @@ const TestBasicInfo = ({ test, setTest, errors, setErrors }: any) => {
                     Опис тесту
                 </label>
                 <textarea
-                    value={test.description}
-                    onChange={(e) =>
-                        setTest({ ...test, description: e.target.value })
-                    }
+                    value={description || ''}
+                    onChange={(e) => setDescription(e.target.value)}
                     className="resize-none w-full border border-gray-300 rounded-xl px-4 py-2"
-                    placeholder="Короткий опис, наприклад: Тест охоплює теми похідних, інтегралів і графіків функцій."
+                    placeholder="Короткий опис..."
                 />
             </div>
 
@@ -43,12 +49,11 @@ const TestBasicInfo = ({ test, setTest, errors, setErrors }: any) => {
                 <label className="block text-gray-700 font-medium mb-1">
                     Тривалість (хв)
                 </label>
-                {console.log(typeof test.timeLimit, test.timeLimit)}
                 <input
                     type="text"
-                    value={test.timeLimit}
+                    value={timeLimit || ''}
                     onChange={(e) => {
-                        setTest({ ...test, timeLimit: e.target.value })
+                        setTimeLimit(e.target.value)
                         if (errors.timeLimit && e.target.value.trim() !== '') {
                             setErrors((prev: any) => ({
                                 ...prev,
@@ -59,11 +64,13 @@ const TestBasicInfo = ({ test, setTest, errors, setErrors }: any) => {
                     onKeyDown={(e) => {
                         if (
                             !/[0-9]/.test(e.key) &&
-                            e.key !== 'Backspace' &&
-                            e.key !== 'Delete' &&
-                            e.key !== 'ArrowLeft' &&
-                            e.key !== 'ArrowRight' &&
-                            e.key !== 'Tab'
+                            ![
+                                'Backspace',
+                                'Delete',
+                                'ArrowLeft',
+                                'ArrowRight',
+                                'Tab',
+                            ].includes(e.key)
                         ) {
                             e.preventDefault()
                         }

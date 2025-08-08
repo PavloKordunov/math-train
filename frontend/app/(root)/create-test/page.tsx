@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -43,7 +43,7 @@ const CreateTest = () => {
 
     const [errors, setErrors] = useState<Record<string, string>>({})
 
-    const MemoizedTestTasks = memo(TestTasks)
+    const MemoizedTestTasks = useMemo(() => memo(TestTasks), [])
 
     const validateForm = () => {
         try {
@@ -100,11 +100,6 @@ const CreateTest = () => {
         if (storedTest) {
             const parsedTest = JSON.parse(storedTest)
             setTest(parsedTest)
-            // setMaxNumber(
-            //     Math.max(
-            //         ...parsedTest?.tasks?.map((t: any) => parseInt(t.number))
-            //     ) + 1
-            // )
         }
     }, [])
 
@@ -237,10 +232,20 @@ const CreateTest = () => {
             })),
         }
 
-        setTest((prev: any) => ({
-            ...prev,
-            tasks: [...prev.tasks, taskToSave],
-        }))
+        setTest((prev: any) => {
+            const newNumber = prev.tasks.length + 1
+
+            return {
+                ...prev,
+                tasks: [
+                    ...prev.tasks,
+                    {
+                        ...taskToSave,
+                        number: newNumber.toString(),
+                    },
+                ],
+            }
+        })
 
         setQuestion({
             id: '',
@@ -279,17 +284,29 @@ const CreateTest = () => {
                 Створення нового тесту
             </h1>
             <TestBasicInfo
-                test={test}
-                setTest={setTest}
+                title={test.title}
+                description={test.description}
+                timeLimit={test.timeLimit}
+                setTitle={(value: string) =>
+                    setTest((prev) => ({ ...prev, title: value }))
+                }
+                setDescription={(value: string) =>
+                    setTest((prev) => ({ ...prev, description: value }))
+                }
+                setTimeLimit={(value: string) =>
+                    setTest((prev) => ({ ...prev, timeLimit: value }))
+                }
                 errors={errors}
                 setErrors={setErrors}
             />
+
             <MemoizedTestTasks
-                test={test}
+                tasks={test.tasks}
                 updateTask={updateTask}
                 deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
+                key={test.tasks.length}
             />
             <CreateTestTask
                 subject={user?.subject}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useParams, useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -114,6 +114,8 @@ const ViewTest = () => {
             console.log(error)
         }
     }
+
+    const MemoizedTestTasks = useMemo(() => memo(TestTasks), [])
 
     const handleSelect = (type: string) => {
         setQuestionType(type)
@@ -276,18 +278,29 @@ const ViewTest = () => {
                 Оновлення тесту
             </h1>
             <TestBasicInfo
-                test={test}
-                setTest={setTest}
-                formatDateForInput={formatDateForInput}
+                title={test.title}
+                description={test.description}
+                timeLimit={test.timeLimit}
+                setTitle={(value: string) =>
+                    setTest((prev) => ({ ...prev, title: value }))
+                }
+                setDescription={(value: string) =>
+                    setTest((prev) => ({ ...prev, description: value }))
+                }
+                setTimeLimit={(value: string) =>
+                    setTest((prev) => ({ ...prev, timeLimit: value }))
+                }
                 errors={errors}
                 setErrors={setErrors}
             />
-            <TestTasks
-                test={test}
+
+            <MemoizedTestTasks
+                tasks={test.tasks}
                 updateTask={updateTask}
                 deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
+                key={test.tasks.length}
             />
             <CreateTestTask
                 subject={user?.subject}

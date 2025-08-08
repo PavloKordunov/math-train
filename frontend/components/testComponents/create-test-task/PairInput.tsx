@@ -18,18 +18,6 @@ const PairInput = ({
                     className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1 truncate"
                 />
             ) : (
-                // <input
-                //     value={pair.left.text}
-                //     onChange={(e) =>
-                //         handlePairChange(index, 'left', e.target.value)
-                //     }
-                //     className={`flex-1 border p-2 rounded resize-none w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2`}
-                //     placeholder={'Введіть текст'}
-                //     style={{
-                //         fontFamily: 'monospace',
-                //         lineHeight: '1.5',
-                //     }}
-                // />
                 <BoldTextInput
                     value={pair.left.text}
                     onChange={(val: any) =>

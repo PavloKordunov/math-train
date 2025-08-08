@@ -18,11 +18,6 @@ const NavBar = () => {
     const pathname = usePathname()
     const { user, setUser } = useUser()
 
-    // // Якщо користувач адмін - не показуємо хедер
-    // if (user?.status === 'Admin') {
-    //     return null
-    // }
-
     const logOut = async () => {
         try {
             await signOut({
@@ -123,17 +118,15 @@ const NavBar = () => {
                     </div>
                 </div>
 
-                {user?.status !== 'Student' && (
-                    <button
-                        className="md:hidden text-2xl"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <FiX /> : <FiMenu />}
-                    </button>
-                )}
+                <button
+                    className="md:hidden text-2xl"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                    {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+                </button>
 
                 <div className="hidden md:flex items-center gap-12">
-                    {navItems.map((item) => (
+                    {navItems.map((item: any) => (
                         <Link
                             key={item.key}
                             href={item.href}
@@ -195,9 +188,9 @@ const NavBar = () => {
                 </div>
             </div>
 
-            {isMobileMenuOpen && user?.status !== 'Student' && (
+            {isMobileMenuOpen && (
                 <div className="flex flex-col mt-4 gap-3 md:hidden">
-                    {navItems.map((item) => (
+                    {navItems.map((item: any) => (
                         <Link
                             key={item.key}
                             href={item.href}
