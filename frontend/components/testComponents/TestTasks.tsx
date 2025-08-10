@@ -7,10 +7,13 @@ import LatextTranform from '@/helpers/latexTransform'
 import Image from 'next/image'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 import renderBoldText from '@/helpers/renderBoldText'
+import { useUser } from '@/hooks/useUser'
 
 const TestTasks = memo(
     ({ tasks, updateTask, deleteTask, updateTest, subject }: any) => {
         const [editingTask, setEditingTask] = useState(null)
+
+        const { user } = useUser()
 
         const handleEditClick = (task: any) => {
             setEditingTask(task)
@@ -153,7 +156,8 @@ const TestTasks = memo(
                                             </button>
                                         </div>
                                     </div>
-                                    {subject === 'Mathematics' ? (
+                                    {subject === 'Mathematics' ||
+                                    user?.status === 'Admin' ? (
                                         <LatextTranform
                                             content={task.title}
                                             className="text-xl font-semibold mb-4 max-w-full"
@@ -184,7 +188,8 @@ const TestTasks = memo(
                                                     checked={answer.isCorrect}
                                                     readOnly
                                                 />
-                                                {subject === 'Mathematics' ? (
+                                                {subject === 'Mathematics' ||
+                                                user?.status === 'Admin' ? (
                                                     <LatextTranform
                                                         content={answer.text}
                                                     />
@@ -238,7 +243,8 @@ const TestTasks = memo(
                                             </button>
                                         </div>
                                     </div>
-                                    {subject === 'Mathematics' ? (
+                                    {subject === 'Mathematics' ||
+                                    user?.status === 'Admin' ? (
                                         <LatextTranform
                                             content={task.title}
                                             className="text-xl font-semibold mb-4"
@@ -266,7 +272,8 @@ const TestTasks = memo(
                                                 <p className="font-medium">
                                                     {idx + 1}.
                                                 </p>
-                                                {subject === 'Mathematics' ? (
+                                                {subject === 'Mathematics' ||
+                                                user?.status === 'Admin' ? (
                                                     <LatextTranform
                                                         content={pair.left.text}
                                                     />
@@ -279,7 +286,8 @@ const TestTasks = memo(
                                             <span className="text-gray-500">
                                                 —
                                             </span>
-                                            {subject === 'Mathematics' ? (
+                                            {subject === 'Mathematics' ||
+                                            user?.status === 'Admin' ? (
                                                 <LatextTranform
                                                     content={pair.right.text}
                                                 />
@@ -332,7 +340,8 @@ const TestTasks = memo(
                                             </button>
                                         </div>
                                     </div>
-                                    {subject === 'Mathematics' ? (
+                                    {subject === 'Mathematics' ||
+                                    user?.status === 'Admin' ? (
                                         <LatextTranform
                                             content={task.title}
                                             className="text-xl font-semibold mb-4"
@@ -356,7 +365,8 @@ const TestTasks = memo(
                                         <p className="font-medium">
                                             Відповідь:{' '}
                                         </p>
-                                        {subject === 'Mathematics' ? (
+                                        {subject === 'Mathematics' ||
+                                        user?.status === 'Admin' ? (
                                             <LatextTranform
                                                 content={
                                                     task.answers?.[0]?.text ||
