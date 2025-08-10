@@ -8,10 +8,11 @@ const PairInput = ({
     handlePairChange,
     handleRemovePair,
     subject,
+    user,
 }: any) => (
     <div className="flex items-center gap-4 mt-4 w-full">
         <div className="flex-1 min-w-0">
-            {subject === 'Mathematics' ? (
+            {subject === 'Mathematics' || user.status === 'Admin' ? (
                 <MathInput
                     value={pair.left.text}
                     onChange={(val) => handlePairChange(index, 'left', val)}
@@ -29,7 +30,7 @@ const PairInput = ({
         </div>
         <span className="text-xl font-bold">—</span>
         <div className="flex-1 min-w-0">
-            {subject === 'Mathematics' ? (
+            {subject === 'Mathematics' || user.status === 'Admin' ? (
                 <MathInput
                     value={pair.right.text}
                     onChange={(val) => handlePairChange(index, 'right', val)}

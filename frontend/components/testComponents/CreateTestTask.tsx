@@ -6,6 +6,7 @@ import ActionButtons from './create-test-task/ActionButtons'
 import PairInput from './create-test-task/PairInput'
 import MathInput from '../MathInput'
 import BoldTextInput from '../BoldTextInput'
+import { useUser } from '@/hooks/useUser'
 
 type ErrorsShape = {
     title?: string
@@ -30,6 +31,7 @@ const CreateTestTask = ({
     const [base64, setBase64] = useState('')
     const [internalValue, setInternalValue] = useState(value)
     const [errors, setErrors] = useState<ErrorsShape>({})
+    const { user } = useUser()
 
     useEffect(() => {
         setInternalValue(value)
@@ -280,7 +282,7 @@ const CreateTestTask = ({
     }
 
     const renderTitleInput = () => {
-        if (subject === 'Mathematics') {
+        if (subject === 'Mathematics' || user?.status === 'Admin') {
             return (
                 <MathInput
                     value={question.title}
@@ -396,6 +398,7 @@ const CreateTestTask = ({
                             handlePairChange={handlePairChange}
                             handleRemovePair={handleRemovePair}
                             subject={subject}
+                            user={user}
                         />
                     ))}
                     {errors?.pairs && (
@@ -434,7 +437,8 @@ const CreateTestTask = ({
                     />
                     <div className="flex items-center gap-4 mt-4">
                         <p>Введіть відповідь: </p>
-                        {subject === 'Mathematics' ? (
+                        {subject === 'Mathematics' ||
+                        user?.status === 'Admin' ? (
                             <MathInput
                                 value={question.answers[0]?.text || ''}
                                 onChange={(val) =>

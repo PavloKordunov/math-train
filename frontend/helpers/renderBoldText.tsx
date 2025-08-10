@@ -14,9 +14,7 @@ function renderBoldText(text: string) {
         parts.push(text.slice(lastIndex))
     }
     return (
-        <div
-            className={`text-xl mb-4 max-w-full break-words whitespace-pre-wrap`}
-        >
+        <div className={`text-xl  max-w-full break-words whitespace-pre-wrap`}>
             <span>{parts}</span>
         </div>
     )

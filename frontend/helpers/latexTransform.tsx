@@ -25,7 +25,9 @@ const LatexTransform = ({
     if (!content?.trim() || !ready) return null
 
     return (
-        <div className={`${className} break-words whitespace-pre-wrap`}>
+        <div
+            className={`${className} text-center break-words whitespace-pre-wrap`}
+        >
             <MathJax dynamic>
                 <span>{content}</span>
             </MathJax>
