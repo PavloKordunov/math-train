@@ -160,6 +160,12 @@ exports.Prisma.TeacherScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.FolderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  teacherId: 'teacherId'
+};
+
 exports.Prisma.StudentScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -198,11 +204,13 @@ exports.Prisma.TestScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   testTYpe: 'testTYpe',
+  testTheme: 'testTheme',
   teacherId: 'teacherId',
   adminID: 'adminID',
   status: 'status',
   subTopicId: 'subTopicId',
-  groupId: 'groupId'
+  groupId: 'groupId',
+  folderId: 'folderId'
 };
 
 exports.Prisma.AssignedTestScalarFieldEnum = {
@@ -296,6 +304,7 @@ exports.Prisma.ModelName = {
   Topic: 'Topic',
   SubTopic: 'SubTopic',
   Teacher: 'Teacher',
+  Folder: 'Folder',
   Student: 'Student',
   StudentScore: 'StudentScore',
   Test: 'Test',

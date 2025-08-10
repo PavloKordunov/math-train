@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { LoginSchema, LoginFormData } from '@/lib/validation'
 import PlansPage from '@/components/PlansPage'
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md'
 
 export default function LoginPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -22,6 +23,7 @@ export default function LoginPage() {
     const { setUser } = useUser()
     const [isLoading, setIsLoading] = useState(false)
     const [openPlans, setOpenPlans] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     const {
         register,
@@ -147,16 +149,35 @@ export default function LoginPage() {
                         <label className="text-sm font-medium mb-1 block text-[#000]">
                             🔑 Пароль
                         </label>
-                        <input
-                            {...register('password')}
-                            type="password"
-                            className={`w-full px-4 py-3 rounded-xl bg-[#e9e5e5] text-sm text-[#000] focus:outline-none focus-visible:ring-2 ${
-                                errors.password
-                                    ? 'focus-visible:ring-red-500'
-                                    : 'focus-visible:ring-[#1565C0]'
-                            }`}
-                            placeholder="********"
-                        />
+                        <div className="w-full relative">
+                            <input
+                                {...register('password')}
+                                type={showPassword ? 'text' : 'password'}
+                                className={`w-full px-4 pr-10 py-3 rounded-xl bg-[#e9e5e5] text-sm text-[#000] focus:outline-none focus-visible:ring-2 ${
+                                    errors.password
+                                        ? 'focus-visible:ring-red-500'
+                                        : 'focus-visible:ring-[#1565C0]'
+                                }`}
+                                placeholder="********"
+                            />
+                            <div className="absolute top-3 right-4">
+                                {showPassword ? (
+                                    <MdVisibility
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                        size={20}
+                                    />
+                                ) : (
+                                    <MdVisibilityOff
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                        size={20}
+                                    />
+                                )}
+                            </div>
+                        </div>
                         {errors.password && (
                             <p className="text-red-500 text-xs mt-1">
                                 {errors.password.message}

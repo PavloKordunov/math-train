@@ -187,7 +187,6 @@ const NavBar = () => {
                     )}
                 </div>
             </div>
-
             {isMobileMenuOpen && (
                 <div className="flex flex-col mt-4 gap-3 md:hidden">
                     {navItems.map((item: any) => (
