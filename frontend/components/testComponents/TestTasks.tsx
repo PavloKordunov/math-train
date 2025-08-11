@@ -54,7 +54,7 @@ const TestTasks = memo(
 
                 deleteTask(taskId)
             },
-            [deleteTask]
+            [deleteTask, tasks, updateTest]
         )
 
         const handleMoveUpTask = useCallback(

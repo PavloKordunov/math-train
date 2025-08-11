@@ -117,8 +117,8 @@ const CreateTest = () => {
         console.log(test)
     }, [test])
 
-    const updateTest = (updatedTest: any) => {
-        setTest(updatedTest)
+    const updateTest = (updatedFields: any) => {
+        setTest((prev) => ({ ...prev, ...updatedFields }))
     }
 
     const handleSelect = useCallback((type: string) => {
@@ -278,6 +278,7 @@ const CreateTest = () => {
             })
         }
     }, [test.tasks, errors.tasks])
+
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">

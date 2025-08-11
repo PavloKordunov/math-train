@@ -6,6 +6,7 @@ import MathInput from '../MathInput'
 import { MdDelete } from 'react-icons/md'
 import Image from 'next/image'
 import BoldTextInput from '../BoldTextInput'
+import { useUser } from '@/hooks/useUser'
 
 type ErrorsShape = {
     title?: string
@@ -16,6 +17,8 @@ type ErrorsShape = {
 }
 
 const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
+    const { user } = useUser()
+
     const [editedTask, setEditedTask] = useState(
         JSON.parse(JSON.stringify(task))
     )
@@ -338,7 +341,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                             Заголовок:
                         </label>
 
-                        {subject === 'Mathematics' ? (
+                        {subject === 'Mathematics' ||
+                        user?.status === 'Admin' ? (
                             <MathInput
                                 value={editedTask.title}
                                 onChange={handleTitleChange}
@@ -420,7 +424,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                 }
                                             />
 
-                                            {subject === 'Mathematics' ? (
+                                            {subject === 'Mathematics' ||
+                                            user?.status === 'Admin' ? (
                                                 <MathInput
                                                     value={answer.text}
                                                     onChange={(val: string) => {
@@ -496,7 +501,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                             className="flex items-center gap-4 mb-4"
                                         >
                                             <div className="flex-1">
-                                                {subject === 'Mathematics' ? (
+                                                {subject === 'Mathematics' ||
+                                                user?.status === 'Admin' ? (
                                                     <MathInput
                                                         value={pair.left.text}
                                                         onChange={(
@@ -528,7 +534,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                 —
                                             </span>
                                             <div className="flex-1">
-                                                {subject === 'Mathematics' ? (
+                                                {subject === 'Mathematics' ||
+                                                user?.status === 'Admin' ? (
                                                     <MathInput
                                                         value={pair.right.text}
                                                         onChange={(
@@ -588,7 +595,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                             <h3 className="text-lg font-semibold mb-2">
                                 Відповідь:
                             </h3>
-                            {subject === 'Mathematics' ? (
+                            {subject === 'Mathematics' ||
+                            user?.status === 'Admin' ? (
                                 <MathInput
                                     value={editedTask.answers?.[0]?.text || ''}
                                     onChange={(val: string) => {
@@ -623,7 +631,7 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                         </button>
                         <button
                             type="submit"
-                            onClick={onSave}
+                            // onClick={handleSubmit}
                             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                         >
                             Зберегти

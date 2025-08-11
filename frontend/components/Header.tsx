@@ -90,7 +90,7 @@ const NavBar = () => {
         },
         {
             label: 'Тести',
-            href: '/topic-tests/mathematics',
+            href: `/topic-tests/${user?.subject?.toLocaleLowerCase()}`,
             key: 'tests',
         },
     ]
