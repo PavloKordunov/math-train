@@ -1,6 +1,7 @@
 // MathInput.tsx
 import React, { useRef, useState, useCallback } from 'react'
 import FormulaModal from './testComponents/FormulaModal'
+import { useUser } from '@/hooks/useUser'
 
 interface MathInputProps {
     value: string
@@ -10,10 +11,52 @@ interface MathInputProps {
     inputType?: 'input' | 'textarea'
 }
 
+function toggleBoldInTextarea(
+    textarea: HTMLTextAreaElement,
+    value: string,
+    onChange: (newVal: string) => void
+) {
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+
+    if (start === end) return
+
+    const before = value.slice(0, start)
+    const selected = value.slice(start, end)
+    const after = value.slice(end)
+
+    const isBolded =
+        selected.startsWith('**') &&
+        selected.endsWith('**') &&
+        selected.length >= 4
+
+    let newSelected: string
+    if (isBolded) {
+        newSelected = selected.slice(2, -2)
+    } else {
+        newSelected = `**${selected}**`
+    }
+
+    const newVal = before + newSelected + after
+    onChange(newVal)
+
+    const delta = isBolded ? -2 : 2
+    const newStart = start + (isBolded ? 0 : 2)
+    const newEnd = end + (isBolded ? 0 : 4)
+    requestAnimationFrame(() => {
+        textarea.focus()
+        textarea.setSelectionRange(
+            isBolded ? start : newStart,
+            isBolded ? end - 4 : newEnd
+        )
+    })
+}
+
 const MathInput: React.FC<MathInputProps> = React.memo(
     ({ value, onChange, className, placeholder, inputType = 'input' }) => {
         const [showFormulaModal, setShowFormulaModal] = useState(false)
         const inputRef = useRef<any>(null)
+        const { user } = useUser()
 
         const insertFormulaAtCursor = useCallback(
             (formula: string) => {
@@ -47,36 +90,116 @@ const MathInput: React.FC<MathInputProps> = React.memo(
             [onChange]
         )
 
+        const handleBoldClick = () => {
+            if (!inputRef.current) return
+            toggleBoldInTextarea(inputRef.current, value, onChange)
+        }
+
         return (
             <div className="relative w-full">
                 <div className="flex gap-2 items-start">
                     {inputType === 'textarea' ? (
-                        <textarea
-                            ref={inputRef}
-                            value={value}
-                            onChange={handleChange}
-                            className={`flex-1 border p-2 rounded resize-none ${
-                                className ?? ''
-                            }`}
-                            placeholder={
-                                placeholder ?? 'Введіть текст або формулу'
-                            }
-                            style={{ fontFamily: 'monospace', lineHeight: 1.5 }}
-                            rows={2}
-                        />
+                        <>
+                            {user?.status === 'Admin' ? (
+                                <div className="flex-1 relative">
+                                    <textarea
+                                        ref={inputRef}
+                                        value={value}
+                                        onChange={handleChange}
+                                        className={`flex-1 border p-2 rounded resize-none ${
+                                            className ?? ''
+                                        }`}
+                                        placeholder={
+                                            placeholder ??
+                                            'Введіть текст або формулу'
+                                        }
+                                        style={{
+                                            fontFamily: 'monospace',
+                                            lineHeight: 1.5,
+                                        }}
+                                        rows={2}
+                                    />
+                                    <div className="absolute top-2 right-4">
+                                        <button
+                                            type="button"
+                                            onClick={handleBoldClick}
+                                            className="px-2 py-1 border rounded font-bold select-none"
+                                            aria-label="Жирний"
+                                        >
+                                            B
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <textarea
+                                    ref={inputRef}
+                                    value={value}
+                                    onChange={handleChange}
+                                    className={`flex-1 border p-2 rounded resize-none ${
+                                        className ?? ''
+                                    }`}
+                                    placeholder={
+                                        placeholder ??
+                                        'Введіть текст або формулу'
+                                    }
+                                    style={{
+                                        fontFamily: 'monospace',
+                                        lineHeight: 1.5,
+                                    }}
+                                    rows={2}
+                                />
+                            )}
+                        </>
                     ) : (
-                        <input
-                            ref={inputRef}
-                            value={value}
-                            onChange={handleChange}
-                            className={`flex-1 border p-2 rounded ${
-                                className ?? ''
-                            }`}
-                            placeholder={
-                                placeholder ?? 'Введіть текст або формулу'
-                            }
-                            style={{ fontFamily: 'monospace', lineHeight: 1.5 }}
-                        />
+                        <>
+                            {user?.status === 'Admin' ? (
+                                <div className="flex-1 relative">
+                                    <input
+                                        ref={inputRef}
+                                        value={value}
+                                        onChange={handleChange}
+                                        className={`flex-1 border p-2 rounded ${
+                                            className ?? ''
+                                        }`}
+                                        placeholder={
+                                            placeholder ??
+                                            'Введіть текст або формулу'
+                                        }
+                                        style={{
+                                            fontFamily: 'monospace',
+                                            lineHeight: 1.5,
+                                        }}
+                                    />
+                                    <div className="absolute top-1 right-2">
+                                        <button
+                                            type="button"
+                                            onClick={handleBoldClick}
+                                            className="px-2 py-1 border rounded font-bold select-none"
+                                            aria-label="Жирний"
+                                        >
+                                            B
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <input
+                                    ref={inputRef}
+                                    value={value}
+                                    onChange={handleChange}
+                                    className={`flex-1 border p-2 rounded ${
+                                        className ?? ''
+                                    }`}
+                                    placeholder={
+                                        placeholder ??
+                                        'Введіть текст або формулу'
+                                    }
+                                    style={{
+                                        fontFamily: 'monospace',
+                                        lineHeight: 1.5,
+                                    }}
+                                />
+                            )}
+                        </>
                     )}
                     <button
                         type="button"

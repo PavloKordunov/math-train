@@ -26,6 +26,8 @@ const NavBar = () => {
             })
 
             localStorage.removeItem('user')
+            localStorage.removeItem('test')
+            localStorage.removeItem('time-left')
             deleteCookie('user', {
                 path: '/',
                 secure: true,

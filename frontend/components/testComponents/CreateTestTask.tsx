@@ -93,10 +93,6 @@ const CreateTestTask = ({
                     id: nanoid(),
                 },
             ]
-            // setErrors((errPrev) => ({
-            //     ...errPrev,
-            //     pairs: validatePairsRealtime(updatedPairs),
-            // }))
             return { ...prev, pairs: updatedPairs }
         })
     }

@@ -10,7 +10,7 @@ import renderBoldText from '@/helpers/renderBoldText'
 import { useUser } from '@/hooks/useUser'
 
 const TestTasks = memo(
-    ({ tasks, updateTask, deleteTask, updateTest, subject }: any) => {
+    ({ tasks, updateTask, deleteTask, updateTest, subject, test }: any) => {
         const [editingTask, setEditingTask] = useState(null)
 
         const { user } = useUser()
@@ -30,33 +30,6 @@ const TestTasks = memo(
             [updateTask]
         )
 
-        const handleDelete = useCallback(
-            (taskId: any) => {
-                const taskToDelete = tasks.find((t: any) => t.id === taskId)
-                if (!taskToDelete) return
-
-                const deleteNumber = parseInt(taskToDelete.number)
-
-                const updatedTasks = tasks
-                    .filter((t: any) => t.id !== taskId)
-                    .map((t: any) => {
-                        const currentNumber = parseInt(t.number)
-                        return {
-                            ...t,
-                            number:
-                                currentNumber > deleteNumber
-                                    ? (currentNumber - 1).toString()
-                                    : t.number,
-                        }
-                    })
-
-                updateTest({ tasks: updatedTasks })
-
-                deleteTask(taskId)
-            },
-            [deleteTask, tasks, updateTest]
-        )
-
         const handleMoveUpTask = useCallback(
             (task: any) => {
                 const currentNumber = parseInt(task.number)
@@ -64,22 +37,27 @@ const TestTasks = memo(
 
                 const newNumber = currentNumber - 1
 
-                const updatedTasks = tasks.map((t: any) => {
-                    if (parseInt(t.number) === currentNumber) {
-                        return { ...t, number: newNumber.toString() }
-                    } else if (parseInt(t.number) === newNumber) {
-                        return { ...t, number: currentNumber.toString() }
-                    }
-                    return t
+                // Оновлюємо тільки tasks, не чіпаючи інші поля
+                updateTest({
+                    tasks: tasks
+                        .map((t: any) => {
+                            if (parseInt(t.number) === currentNumber) {
+                                return { ...t, number: newNumber.toString() }
+                            } else if (parseInt(t.number) === newNumber) {
+                                return {
+                                    ...t,
+                                    number: currentNumber.toString(),
+                                }
+                            }
+                            return t
+                        })
+                        .sort(
+                            (a: any, b: any) =>
+                                parseInt(a.number) - parseInt(b.number)
+                        ),
                 })
-
-                const sortedTasks = [...updatedTasks].sort(
-                    (a, b) => parseInt(a.number) - parseInt(b.number)
-                )
-
-                updateTest({ tasks: sortedTasks })
             },
-            [tasks, updateTask]
+            [tasks, updateTest] // Видалено test з залежностей
         )
 
         const handleMoveDownTask = useCallback(
@@ -93,21 +71,53 @@ const TestTasks = memo(
 
                 const newNumber = currentNumber + 1
 
-                const updatedTasks = tasks.map((t: any) => {
-                    if (parseInt(t.number) === currentNumber) {
-                        return { ...t, number: newNumber.toString() }
-                    } else if (parseInt(t.number) === newNumber) {
-                        return { ...t, number: currentNumber.toString() }
-                    }
-                    return t
+                // Оновлюємо тільки tasks
+                updateTest({
+                    tasks: tasks
+                        .map((t: any) => {
+                            if (parseInt(t.number) === currentNumber) {
+                                return { ...t, number: newNumber.toString() }
+                            } else if (parseInt(t.number) === newNumber) {
+                                return {
+                                    ...t,
+                                    number: currentNumber.toString(),
+                                }
+                            }
+                            return t
+                        })
+                        .sort(
+                            (a: any, b: any) =>
+                                parseInt(a.number) - parseInt(b.number)
+                        ),
                 })
-
-                const sortedTasks = [...updatedTasks].sort(
-                    (a, b) => parseInt(a.number) - parseInt(b.number)
-                )
-                updateTest({ tasks: sortedTasks })
             },
-            [tasks, updateTask]
+            [tasks, updateTest] // Видалено test з залежностей
+        )
+
+        const handleDelete = useCallback(
+            (taskId: any) => {
+                const taskToDelete = tasks.find((t: any) => t.id === taskId)
+                if (!taskToDelete) return
+
+                const deleteNumber = parseInt(taskToDelete.number)
+
+                // Оновлюємо тільки tasks
+                updateTest({
+                    tasks: tasks
+                        .filter((t: any) => t.id !== taskId)
+                        .map((t: any) => {
+                            const currentNumber = parseInt(t.number)
+                            return {
+                                ...t,
+                                number:
+                                    currentNumber > deleteNumber
+                                        ? (currentNumber - 1).toString()
+                                        : t.number,
+                            }
+                        }),
+                })
+            },
+            [tasks, updateTest]
         )
 
         return (
@@ -158,10 +168,7 @@ const TestTasks = memo(
                                     </div>
                                     {subject === 'Mathematics' ||
                                     user?.status === 'Admin' ? (
-                                        <LatextTranform
-                                            content={task.title}
-                                            className="text-xl font-semibold mb-4 max-w-full"
-                                        />
+                                        <LatextTranform content={task.title} />
                                     ) : (
                                         renderBoldText(task.title)
                                     )}
@@ -245,10 +252,7 @@ const TestTasks = memo(
                                     </div>
                                     {subject === 'Mathematics' ||
                                     user?.status === 'Admin' ? (
-                                        <LatextTranform
-                                            content={task.title}
-                                            className="text-xl font-semibold mb-4"
-                                        />
+                                        <LatextTranform content={task.title} />
                                     ) : (
                                         renderBoldText(task.title)
                                     )}
@@ -342,10 +346,7 @@ const TestTasks = memo(
                                     </div>
                                     {subject === 'Mathematics' ||
                                     user?.status === 'Admin' ? (
-                                        <LatextTranform
-                                            content={task.title}
-                                            className="text-xl font-semibold mb-4"
-                                        />
+                                        <LatextTranform content={task.title} />
                                     ) : (
                                         renderBoldText(task.title)
                                     )}

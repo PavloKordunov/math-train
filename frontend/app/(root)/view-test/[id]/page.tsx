@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useParams, useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -18,7 +18,7 @@ const ViewTest = () => {
     const testId = params?.id
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
-    const { user, setUser } = useUser()
+    const { user } = useUser()
     const [test, setTest] = useState({
         title: '',
         description: '',
@@ -44,10 +44,9 @@ const ViewTest = () => {
             try {
                 const res = await fetch(`${API_URL}/api/test/${testId}`)
                 const data = await res.json()
-                console.log(data)
                 setTest({
                     ...data,
-                    timeLimit: data.timeLimit?.toString() ?? '0', // ← тут
+                    timeLimit: data.timeLimit?.toString() ?? '0',
                 })
             } catch (error) {
                 console.log(error)
@@ -108,7 +107,6 @@ const ViewTest = () => {
             })
 
             const data = await res.json()
-            console.log(data)
             router.push('/teacher')
         } catch (error) {
             console.log(error)
@@ -117,7 +115,7 @@ const ViewTest = () => {
 
     const MemoizedTestTasks = useMemo(() => memo(TestTasks), [])
 
-    const handleSelect = (type: string) => {
+    const handleSelect = useCallback((type: string) => {
         setQuestionType(type)
 
         if (type === 'multiple') {
@@ -167,29 +165,47 @@ const ViewTest = () => {
         }
 
         setModalOpen(false)
-    }
+    }, [])
 
-    const updateAnswerText = (index: number, text: string) => {
+    const updateAnswerText = useCallback((index: number, text: string) => {
         const updatedAnswers = [...question.answers]
         updatedAnswers[index].text = text
         setQuestion({ ...question, answers: updatedAnswers })
-    }
+    }, [])
 
-    const toggleAnswerCorrect = (index: number) => {
+    const toggleAnswerCorrect = useCallback((index: number) => {
         const updatedAnswers = [...question.answers]
         updatedAnswers[index].isCorrect = !updatedAnswers[index].isCorrect
         setQuestion({ ...question, answers: updatedAnswers })
-    }
+    }, [])
 
-    const formatDateForInput = (isoString: string) => {
-        if (!isoString) return ''
+    const handleTitleChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, title: value }))
+    }, [])
 
-        const date = new Date(isoString)
-        if (isNaN(date.getTime())) return ''
+    const handleDescriptionChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, description: value }))
+    }, [])
 
-        const offset = date.getTimezoneOffset() * 60000
-        return new Date(date.getTime() - offset).toISOString().slice(0, 16)
-    }
+    const handleTimeLimitChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, timeLimit: value }))
+    }, [])
+
+    const updateTask = useCallback((updatedTask: any) => {
+        setTest((prev: any) => ({
+            ...prev,
+            tasks: prev.tasks.map((task: any) =>
+                task.id === updatedTask.id ? updatedTask : task
+            ),
+        }))
+    }, [])
+
+    const updateTest = useCallback((updatedFields: any) => {
+        setTest((prev) => ({
+            ...prev,
+            ...updatedFields,
+        }))
+    }, [])
 
     const handleSaveMatchingTask = () => {
         const validPairs = question.pairs.filter(
@@ -237,33 +253,6 @@ const ViewTest = () => {
     }
 
     useEffect(() => {
-        console.log(question)
-    }, [question])
-
-    const updateTask = (updatedTask: any) => {
-        setTest((prev: any) => ({
-            ...prev,
-            tasks: prev.tasks.map((task: any) =>
-                task.id === updatedTask.id ? updatedTask : task
-            ),
-        }))
-    }
-
-    const deleteTask = (taskId: any) => {
-        setTest((prev) => ({
-            ...prev,
-            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
-        }))
-    }
-
-    useEffect(() => {
-        console.log(test)
-    }, [test])
-    const updateTest = (updatedTest: any) => {
-        setTest(updatedTest)
-    }
-
-    useEffect(() => {
         if (test?.tasks?.length > 0 && errors.tasks) {
             setErrors((prev) => {
                 const { tasks, ...rest } = prev
@@ -281,15 +270,9 @@ const ViewTest = () => {
                 title={test.title}
                 description={test.description}
                 timeLimit={test.timeLimit}
-                setTitle={(value: string) =>
-                    setTest((prev) => ({ ...prev, title: value }))
-                }
-                setDescription={(value: string) =>
-                    setTest((prev) => ({ ...prev, description: value }))
-                }
-                setTimeLimit={(value: string) =>
-                    setTest((prev) => ({ ...prev, timeLimit: value }))
-                }
+                setTitle={handleTitleChange}
+                setDescription={handleDescriptionChange}
+                setTimeLimit={handleTimeLimitChange}
                 errors={errors}
                 setErrors={setErrors}
             />
@@ -297,14 +280,16 @@ const ViewTest = () => {
             <MemoizedTestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
-                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
                 key={test.tasks.length}
+                test={test}
             />
             <CreateTestTask
                 subject={user?.subject}
+                key={questionType}
                 questionType={questionType}
+                handleSelect={handleSelect}
                 setQuestionType={setQuestionType}
                 test={test}
                 setTest={setTest}

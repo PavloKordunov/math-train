@@ -8,13 +8,12 @@ function toggleBoldInTextarea(
     const start = textarea.selectionStart
     const end = textarea.selectionEnd
 
-    if (start === end) return // нічого не виділено
+    if (start === end) return
 
     const before = value.slice(0, start)
     const selected = value.slice(start, end)
     const after = value.slice(end)
 
-    // Якщо вже обгорнуте в **...**, прибираємо
     const isBolded =
         selected.startsWith('**') &&
         selected.endsWith('**') &&
@@ -30,11 +29,9 @@ function toggleBoldInTextarea(
     const newVal = before + newSelected + after
     onChange(newVal)
 
-    // Поставити курсор/виділення так, щоб користувач відчував continuity
     const delta = isBolded ? -2 : 2
     const newStart = start + (isBolded ? 0 : 2)
     const newEnd = end + (isBolded ? 0 : 4)
-    // Відкладено, бо state може оновитися асинхронно
     requestAnimationFrame(() => {
         textarea.focus()
         textarea.setSelectionRange(
@@ -43,31 +40,6 @@ function toggleBoldInTextarea(
         )
     })
 }
-
-// function renderWithBoldMarkup(text: string) {
-//     // Розбиває на куски, замінюючи **bold** на <strong>
-//     const parts: React.ReactNode[] = []
-//     const regex = /\*\*(.+?)\*\*/g
-//     let lastIndex = 0
-//     let match
-//     while ((match = regex.exec(text)) !== null) {
-//         if (match.index > lastIndex) {
-//             parts.push(text.slice(lastIndex, match.index))
-//         }
-//         parts.push(<strong key={match.index}>{match[1]}</strong>)
-//         lastIndex = regex.lastIndex
-//     }
-//     if (lastIndex < text.length) {
-//         parts.push(text.slice(lastIndex))
-//     }
-//     return (
-//         <div
-//             className={`text-xl font-semibold mb-4 max-w-full break-words whitespace-pre-wrap`}
-//         >
-//             <span>{parts}</span>
-//         </div>
-//     )
-// }
 
 const BoldTextInput = ({
     value,

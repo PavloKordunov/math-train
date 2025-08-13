@@ -10,7 +10,6 @@ import TestBasicInfo from '@/components/testComponents/TestBasicInfo'
 import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
 import { useSubTopicContext } from '@/helpers/getSubTopicId'
-import { title } from 'process'
 import { TestSchema } from '@/lib/validation'
 import z from 'zod'
 import toast from 'react-hot-toast'
@@ -37,6 +36,18 @@ const CreateTest = () => {
         image: '',
         number: 0,
     })
+
+    const handleTitleChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, title: value }))
+    }, [])
+
+    const handleDescriptionChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, description: value }))
+    }, [])
+
+    const handleTimeLimitChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, timeLimit: value }))
+    }, [])
 
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -113,12 +124,11 @@ const CreateTest = () => {
         return () => clearTimeout(timer)
     }, [test])
 
-    useEffect(() => {
-        console.log(test)
-    }, [test])
-
     const updateTest = (updatedFields: any) => {
-        setTest((prev) => ({ ...prev, ...updatedFields }))
+        setTest((prev) => ({
+            ...prev,
+            ...updatedFields,
+        }))
     }
 
     const handleSelect = useCallback((type: string) => {
@@ -263,13 +273,6 @@ const CreateTest = () => {
         setQuestionType('')
     }
 
-    const deleteTask = useCallback((taskId: any) => {
-        setTest((prev) => ({
-            ...prev,
-            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
-        }))
-    }, [])
-
     useEffect(() => {
         if (test?.tasks?.length > 0 && errors.tasks) {
             setErrors((prev) => {
@@ -288,15 +291,9 @@ const CreateTest = () => {
                 title={test.title}
                 description={test.description}
                 timeLimit={test.timeLimit}
-                setTitle={(value: string) =>
-                    setTest((prev) => ({ ...prev, title: value }))
-                }
-                setDescription={(value: string) =>
-                    setTest((prev) => ({ ...prev, description: value }))
-                }
-                setTimeLimit={(value: string) =>
-                    setTest((prev) => ({ ...prev, timeLimit: value }))
-                }
+                setTitle={handleTitleChange}
+                setDescription={handleDescriptionChange}
+                setTimeLimit={handleTimeLimitChange}
                 errors={errors}
                 setErrors={setErrors}
             />
@@ -304,10 +301,10 @@ const CreateTest = () => {
             <MemoizedTestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
-                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
                 key={test.tasks.length}
+                test={test}
             />
             <CreateTestTask
                 subject={user?.subject}
