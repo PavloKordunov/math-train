@@ -214,6 +214,7 @@ const MathInput: React.FC<MathInputProps> = React.memo(
                     <FormulaModal
                         initialValue=""
                         onSubmit={insertFormulaAtCursor}
+                        setShowFormulaModal={setShowFormulaModal}
                         onCancel={() => setShowFormulaModal(false)}
                     />
                 )}

@@ -107,7 +107,9 @@ const ViewTest = () => {
             })
 
             const data = await res.json()
-            router.push('/teacher')
+            user?.status === 'Teacher'
+                ? router.push('/teacher')
+                : router.push('/admin')
         } catch (error) {
             console.log(error)
         }
@@ -174,9 +176,14 @@ const ViewTest = () => {
     }, [])
 
     const toggleAnswerCorrect = useCallback((index: number) => {
-        const updatedAnswers = [...question.answers]
-        updatedAnswers[index].isCorrect = !updatedAnswers[index].isCorrect
-        setQuestion({ ...question, answers: updatedAnswers })
+        setQuestion((prev: any) => ({
+            ...prev,
+            answers: prev.answers.map((answer: any, i: any) =>
+                i === index
+                    ? { ...answer, isCorrect: !answer.isCorrect }
+                    : answer
+            ),
+        }))
     }, [])
 
     const handleTitleChange = useCallback((value: string) => {

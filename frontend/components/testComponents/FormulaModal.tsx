@@ -6,12 +6,14 @@ interface FormulaModalProps {
     initialValue?: string
     onSubmit: (formula: string) => void
     onCancel: () => void
+    setShowFormulaModal: any
 }
 
 const FormulaModal: React.FC<FormulaModalProps> = ({
     initialValue = '',
     onSubmit,
     onCancel,
+    setShowFormulaModal,
 }) => {
     const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null)
 
@@ -60,7 +62,10 @@ const FormulaModal: React.FC<FormulaModalProps> = ({
                     <button
                         type="button"
                         onClick={() => {
-                            if (draft.trim()) onSubmit(draft.trim())
+                            if (draft.trim()) {
+                                onSubmit(draft.trim())
+                                setShowFormulaModal(false)
+                            }
                         }}
                         className="px-4 py-2 rounded bg-blue-600 text-white"
                     >
