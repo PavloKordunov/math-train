@@ -274,7 +274,6 @@ const TestPage = () => {
                                                 </h2>
                                                 <LatextTranform
                                                     content={task.title}
-                                                    className="text-base md:text-[18px] mb-4 md:mb-6 font-medium"
                                                 />
                                                 {task.image && (
                                                     <div className="w-full h-fit overflow-hidden rounded-lg md:rounded-[21px]">
@@ -317,7 +316,6 @@ const TestPage = () => {
                                                                     content={
                                                                         answer.text
                                                                     }
-                                                                    className="text-sm md:text-base"
                                                                 />
                                                             </div>
                                                         )
@@ -404,7 +402,6 @@ const TestPage = () => {
                                                 </h2>
                                                 <LatextTranform
                                                     content={task.title}
-                                                    className="text-base md:text-[18px] mb-4 md:mb-6 font-medium"
                                                 />
                                                 {task.image && (
                                                     <div className="w-full h-fit overflow-hidden rounded-lg md:rounded-[21px]">

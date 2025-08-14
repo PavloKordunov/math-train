@@ -116,10 +116,7 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({
             <h2 className="text-lg md:text-[24px] font-medium mb-4 md:mb-8">
                 Завдання {task.number}
             </h2>
-            <LatextTranform
-                content={task.title}
-                className="text-base md:text-[18px] mb-4 md:mb-6 font-medium"
-            />
+            <LatextTranform content={task.title} />
             {task.image && (
                 <div className="w-full h-fit overflow-hidden rounded-lg md:rounded-[21px]">
                     <Image
@@ -143,10 +140,7 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({
                                     key={`left-${index}`}
                                 >
                                     <p>{index + 1}. </p>
-                                    <LatextTranform
-                                        content={pair.left.text}
-                                        className="text-base md:text-[18px] ml-1 md:ml-2 font-medium"
-                                    />
+                                    <LatextTranform content={pair.left.text} />
                                 </div>
                             ))}
                     </div>
@@ -157,10 +151,7 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({
                                 key={`right-${index}`}
                             >
                                 <p>{String.fromCharCode(65 + index)}. </p>
-                                <LatextTranform
-                                    content={pair.right.text}
-                                    className="text-base md:text-[18px] ml-1 md:ml-2 font-medium"
-                                />
+                                <LatextTranform content={pair.right.text} />
                             </div>
                         ))}
                     </div>
@@ -185,7 +176,6 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({
                                             </p>
                                             <LatextTranform
                                                 content={pair.left.text}
-                                                className="text-base ml-1 font-medium"
                                             />
                                         </div>
                                     ))}
@@ -223,7 +213,6 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({
                                             </span>
                                             <LatextTranform
                                                 content={pair.right.text}
-                                                className="ml-1 inline"
                                             />
                                         </div>
                                     )
