@@ -51,10 +51,7 @@ const ViewTest = () => {
                                             Запитання {task.number}
                                         </p>
                                     </div>
-                                    <LatextTranform
-                                        content={task.title}
-                                        className="text-xl font-semibold mb-4 max-w-full"
-                                    />
+                                    <LatextTranform content={task.title} />
                                     {task.image && (
                                         <div className="w-full h-fit overflow-hidden rounded-[21px]">
                                             <Image
@@ -93,10 +90,7 @@ const ViewTest = () => {
                                             Запитання {task.number}
                                         </p>
                                     </div>
-                                    <LatextTranform
-                                        content={task.title}
-                                        className="text-xl font-semibold mb-4"
-                                    />
+                                    <LatextTranform content={task.title} />
                                     {task.image && (
                                         <div className="w-full h-fit overflow-hidden rounded-[21px]">
                                             <Image
@@ -139,10 +133,7 @@ const ViewTest = () => {
                                             Запитання {task.number}
                                         </p>
                                     </div>
-                                    <LatextTranform
-                                        content={task.title}
-                                        className="text-xl font-semibold mb-4"
-                                    />
+                                    <LatextTranform content={task.title} />
                                     {task.image && (
                                         <div className="w-full h-fit overflow-hidden rounded-[21px]">
                                             <Image
