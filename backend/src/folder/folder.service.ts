@@ -61,7 +61,15 @@ export class FolderService {
                         teacherId,
                     },
                 },
-                include: { tests: true },
+                include: {
+                    tests: {
+                        select: {
+                            tasks: true,
+                            id: true,
+                            title: true,
+                        },
+                    },
+                },
             })
 
             if (!folder) {

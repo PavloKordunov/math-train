@@ -442,7 +442,6 @@ const TeacherPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Список тестів */}
                                 {folderTests?.tests?.map((test: any) => (
                                     <TeacherTestItem
                                         key={test.id}
