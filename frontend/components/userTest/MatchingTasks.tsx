@@ -116,7 +116,9 @@ const MatchingTask: React.FC<MatchingTaskProps> = ({
             <h2 className="text-lg md:text-[24px] font-medium mb-4 md:mb-8">
                 Завдання {task.number}
             </h2>
-            <LatextTranform content={task.title} />
+            <div className="mb-6">
+                <LatextTranform content={task.title} />
+            </div>
             {task.image && (
                 <div className="w-full h-fit overflow-hidden rounded-lg md:rounded-[21px]">
                     <Image

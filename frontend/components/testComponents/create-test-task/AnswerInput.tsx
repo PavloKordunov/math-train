@@ -1,6 +1,7 @@
+import React, { memo } from 'react'
 import MathInput from '@/components/MathInput'
 import BoldTextInput from '@/components/BoldTextInput'
-import { useUser } from '@/hooks/useUser'
+
 const AnswerInput = ({
     index,
     answer,
@@ -8,17 +9,15 @@ const AnswerInput = ({
     handleAnswerChange,
     subject,
     handleRemoveAnswer,
+    user,
 }: any) => {
-    const { user } = useUser()
-
     return (
-        <div key={index} className="flex items-center gap-4 mt-4">
+        <div className="flex items-center gap-4 mt-4">
             <input
                 type="checkbox"
                 checked={answer.isCorrect}
                 onChange={() => toggleAnswerCorrect(index)}
             />
-
             {subject === 'Mathematics' || user?.status === 'Admin' ? (
                 <MathInput
                     value={answer.text}
@@ -32,7 +31,6 @@ const AnswerInput = ({
                     placeholder="Введіть варіант відповіді"
                 />
             )}
-
             <button
                 onClick={() => handleRemoveAnswer(index)}
                 className="text-red-500 hover:underline"
@@ -43,4 +41,4 @@ const AnswerInput = ({
     )
 }
 
-export default AnswerInput
+export default memo(AnswerInput)

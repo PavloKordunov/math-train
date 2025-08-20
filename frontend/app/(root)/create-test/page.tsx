@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -53,8 +53,6 @@ const CreateTest = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [errors, setErrors] = useState<Record<string, string>>({})
-
-    const MemoizedTestTasks = useMemo(() => memo(TestTasks), [])
 
     const validateForm = () => {
         try {
@@ -119,10 +117,10 @@ const CreateTest = () => {
             if (test.tasks.length > 0) {
                 localStorage.setItem('test', JSON.stringify(test))
             }
-        }, 500)
+        }, 1000)
 
         return () => clearTimeout(timer)
-    }, [test])
+    }, [test.tasks.length])
 
     const updateTest = (updatedFields: any) => {
         setTest((prev) => ({
@@ -187,15 +185,6 @@ const CreateTest = () => {
             })
         }
         setModalOpen(false)
-    }, [])
-
-    const updateAnswerText = useCallback((index: number, text: string) => {
-        setQuestion((prev: any) => ({
-            ...prev,
-            answers: prev.answers.map((answer: any, i: any) =>
-                i === index ? { ...answer, text } : answer
-            ),
-        }))
     }, [])
 
     const toggleAnswerCorrect = useCallback((index: number) => {
@@ -298,27 +287,23 @@ const CreateTest = () => {
                 setErrors={setErrors}
             />
 
-            <MemoizedTestTasks
+            <TestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
                 updateTest={updateTest}
                 subject={user?.subject}
-                key={test.tasks.length}
                 test={test}
             />
             <CreateTestTask
                 subject={user?.subject}
                 key={questionType}
                 questionType={questionType}
-                handleSelect={handleSelect}
                 setQuestionType={setQuestionType}
-                test={test}
                 setTest={setTest}
                 setModalOpen={setModalOpen}
                 question={question}
                 setQuestion={setQuestion}
                 toggleAnswerCorrect={toggleAnswerCorrect}
-                updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
             />

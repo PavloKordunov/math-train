@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { RegisterStudentSchema } from '@/lib/validation'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
+import { FaInfoCircle } from 'react-icons/fa'
 
 const AddStudent = () => {
     const [isOpenModal, setIsOpenModal] = useState(false)
@@ -112,10 +113,30 @@ const AddStudent = () => {
 
             {isOpenModal && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000]">
-                    <div className="bg-white rounded-[32px] shadow-md w-full max-w-md py-8 px-6 sm:py-12 sm:px-10 mx-4">
-                        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+                    <div className="bg-white rounded-[32px] shadow-md w-full max-w-md py-8 px-6 sm:py-10 sm:px-10 mx-4">
+                        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center">
                             Додати учня
                         </h1>
+
+                        {/* Вікно попередження */}
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                            <div className="flex items-start">
+                                <FaInfoCircle className="text-yellow-600 text-lg mt-0.5 mr-3 flex-shrink-0" />
+                                <div>
+                                    <p className="text-sm text-yellow-800 font-medium mb-1">
+                                        Увага: Електронна пошта учня
+                                    </p>
+                                    <p className="text-xs text-yellow-700">
+                                        Електронна пошта має бути не
+                                        зареєстрована на платформі. Рекомендуємо
+                                        використовувати формат:{' '}
+                                        <strong>поштаУчня_m@gmail.com</strong>,
+                                        де <strong>m</strong> - позначення
+                                        предмету (математика).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
                         <div className="space-y-4">
                             <div className="text-left">

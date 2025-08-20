@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import LatextTranform from '@/helpers/latexTransform'
 import Image from 'next/image'
+import renderBoldText from '@/helpers/renderBoldText'
 
 const ViewTest = () => {
     const params = useParams()
@@ -45,116 +46,238 @@ const ViewTest = () => {
                     test.tasks.map((task: any, index: any) => (
                         <div key={task.id || index}>
                             {task.type === 'multiple' && (
-                                <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-[24px] font-bold">
+                                <div className="bg-white shadow-lg rounded-2xl mb-8 max-w-3xl mx-auto overflow-hidden border border-gray-200">
+                                    <div className="flex items-center justify-between bg-gray-50 px-6 py-4 border-b border-gray-200">
+                                        <p className="text-xl font-semibold text-gray-800">
                                             Запитання {task.number}
                                         </p>
                                     </div>
-                                    <LatextTranform content={task.title} />
-                                    {task.image && (
-                                        <div className="w-full h-fit overflow-hidden rounded-[21px]">
-                                            <Image
-                                                src={task.image}
-                                                alt={task.title}
-                                                width={237}
-                                                height={237}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                    )}
-                                    {task.answers.map(
-                                        (answer: any, idx: any) => (
-                                            <div
-                                                key={idx}
-                                                className="flex items-center gap-4 mt-4"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={answer.isCorrect}
-                                                    readOnly
-                                                />
+                                    <div className="p-6">
+                                        <div className="mb-4">
+                                            {user?.subject === 'Mathematics' ||
+                                            user?.status === 'Admin' ? (
                                                 <LatextTranform
-                                                    content={answer.text}
+                                                    content={task.title}
+                                                />
+                                            ) : (
+                                                renderBoldText(task.title)
+                                            )}
+                                        </div>
+
+                                        {task.image && (
+                                            <div className="w-full mt-4 overflow-hidden rounded-xl border">
+                                                <Image
+                                                    src={task.image}
+                                                    alt={task.title}
+                                                    width={237}
+                                                    height={237}
+                                                    className="w-full h-auto object-cover"
                                                 />
                                             </div>
-                                        )
-                                    )}
+                                        )}
+
+                                        <div className="mt-6 space-y-3">
+                                            {task.answers.map(
+                                                (answer: any, idx: number) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={
+                                                                answer.isCorrect
+                                                            }
+                                                            readOnly
+                                                            className="w-5 h-5 accent-blue-600"
+                                                        />
+                                                        <div className="font-medium break-words">
+                                                            {user?.subject ===
+                                                                'Mathematics' ||
+                                                            user?.status ===
+                                                                'Admin' ? (
+                                                                <LatextTranform
+                                                                    content={
+                                                                        answer.text
+                                                                    }
+                                                                />
+                                                            ) : (
+                                                                renderBoldText(
+                                                                    answer.text
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
 
                             {task.type === 'matching' && (
-                                <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-[24px] font-bold">
+                                <div className="bg-white shadow-lg rounded-2xl mb-8 max-w-3xl mx-auto overflow-hidden border border-gray-200">
+                                    <div className="flex items-center justify-between bg-gray-50 px-6 py-4 border-b border-gray-200">
+                                        <p className="text-xl font-semibold text-gray-800">
                                             Запитання {task.number}
                                         </p>
                                     </div>
-                                    <LatextTranform content={task.title} />
-                                    {task.image && (
-                                        <div className="w-full h-fit overflow-hidden rounded-[21px]">
-                                            <Image
-                                                src={task.image}
-                                                alt={task.title}
-                                                width={237}
-                                                height={237}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                    )}
-                                    {task.pairs.map((pair: any, idx: any) => (
-                                        <div
-                                            key={idx}
-                                            className="flex items-center gap-4 mt-4"
-                                        >
-                                            <div className="flex items-center">
-                                                <p className="font-medium">
-                                                    {idx + 1}.
-                                                </p>
+                                    <div className="p-6">
+                                        <div className="mb-4">
+                                            {user?.subject === 'Mathematics' ||
+                                            user?.status === 'Admin' ? (
                                                 <LatextTranform
-                                                    content={pair.left.text}
+                                                    content={task.title}
+                                                />
+                                            ) : (
+                                                renderBoldText(task.title)
+                                            )}
+                                        </div>
+
+                                        {task.image && (
+                                            <div className="w-full mt-4 overflow-hidden rounded-xl border">
+                                                <Image
+                                                    src={task.image}
+                                                    alt={task.title}
+                                                    width={237}
+                                                    height={237}
+                                                    className="w-full h-auto object-cover"
                                                 />
                                             </div>
-                                            <span className="text-gray-500">
-                                                —
-                                            </span>
-                                            <LatextTranform
-                                                content={pair.right.text}
-                                            />
+                                        )}
+                                        <div className="mt-6 space-y-3">
+                                            {task.pairs.map(
+                                                (pair: any, idx: number) => {
+                                                    const isFake =
+                                                        !pair.left.text ||
+                                                        !pair.right.text
+
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            className={`grid grid-cols-12 items-center gap-4 px-4 py-3 rounded-xl border 
+                                ${
+                                    isFake
+                                        ? 'bg-gray-100 border-dashed border-gray-300 text-gray-400'
+                                        : 'bg-white border-gray-200 shadow-sm hover:shadow-md transition'
+                                }`}
+                                                        >
+                                                            <div className="col-span-1 text-sm text-gray-400">
+                                                                {idx + 1}.
+                                                            </div>
+
+                                                            <div className="col-span-5 font-medium break-words">
+                                                                {user?.subject ===
+                                                                    'Mathematics' ||
+                                                                user?.status ===
+                                                                    'Admin' ? (
+                                                                    <LatextTranform
+                                                                        content={
+                                                                            pair
+                                                                                .left
+                                                                                .text ||
+                                                                            '…'
+                                                                        }
+                                                                    />
+                                                                ) : (
+                                                                    renderBoldText(
+                                                                        pair
+                                                                            .left
+                                                                            .text ||
+                                                                            '—'
+                                                                    )
+                                                                )}
+                                                            </div>
+
+                                                            <div className="col-span-1 text-center text-gray-400">
+                                                                ⇄
+                                                            </div>
+
+                                                            <div className="col-span-5 font-medium break-words text-right">
+                                                                {user?.subject ===
+                                                                    'Mathematics' ||
+                                                                user?.status ===
+                                                                    'Admin' ? (
+                                                                    <LatextTranform
+                                                                        content={
+                                                                            pair
+                                                                                .right
+                                                                                .text ||
+                                                                            '?'
+                                                                        }
+                                                                    />
+                                                                ) : (
+                                                                    renderBoldText(
+                                                                        pair
+                                                                            .right
+                                                                            .text ||
+                                                                            '—'
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                            )}
                                         </div>
-                                    ))}
+                                    </div>
                                 </div>
                             )}
 
                             {task.type === 'written' && (
-                                <div className="bg-[#F0F4F8] shadow-md rounded-2xl p-6 mb-8 max-w-3xl mx-auto">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-[24px] font-bold">
+                                <div className="bg-white shadow-lg rounded-2xl mb-8 max-w-3xl mx-auto overflow-hidden border border-gray-200">
+                                    <div className="flex items-center justify-between bg-gray-50 px-6 py-4 border-b border-gray-200">
+                                        <p className="text-xl font-semibold text-gray-800">
                                             Запитання {task.number}
                                         </p>
                                     </div>
-                                    <LatextTranform content={task.title} />
-                                    {task.image && (
-                                        <div className="w-full h-fit overflow-hidden rounded-[21px]">
-                                            <Image
-                                                src={task.image}
-                                                alt={task.title}
-                                                width={237}
-                                                height={237}
-                                                className="w-full h-full object-cover"
-                                            />
+                                    <div className="p-6">
+                                        <div className="mb-4">
+                                            {user?.subject === 'Mathematics' ||
+                                            user?.status === 'Admin' ? (
+                                                <LatextTranform
+                                                    content={task.title}
+                                                />
+                                            ) : (
+                                                renderBoldText(task.title)
+                                            )}
                                         </div>
-                                    )}
-                                    <div className="flex items-center gap-4 mt-4">
-                                        <p className="font-medium">
-                                            Відповідь:{' '}
-                                        </p>
-                                        <LatextTranform
-                                            content={
-                                                task.answers?.[0]?.text ||
-                                                'Немає відповіді'
-                                            }
-                                        />
+
+                                        {task.image && (
+                                            <div className="w-full mt-4 overflow-hidden rounded-xl border">
+                                                <Image
+                                                    src={task.image}
+                                                    alt={task.title}
+                                                    width={237}
+                                                    height={237}
+                                                    className="w-full h-auto object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                        <div className="mt-6 px-4 py-3 rounded-xl border border-gray-200 bg-gray-50">
+                                            <p className="font-medium text-gray-700 mb-2">
+                                                Відповідь:
+                                            </p>
+                                            <div className="font-medium">
+                                                {user?.subject ===
+                                                    'Mathematics' ||
+                                                user?.status === 'Admin' ? (
+                                                    <LatextTranform
+                                                        content={
+                                                            task.answers?.[0]
+                                                                ?.text ||
+                                                            'Немає відповіді'
+                                                        }
+                                                    />
+                                                ) : (
+                                                    renderBoldText(
+                                                        task.answers?.[0]
+                                                            ?.text ||
+                                                            'Немає відповіді'
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             )}

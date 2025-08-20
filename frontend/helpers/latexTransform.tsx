@@ -1,4 +1,3 @@
-// LatexTransform.tsx
 'use client'
 
 import dynamic from 'next/dynamic'
@@ -38,7 +37,6 @@ const LatexTransform = ({ content }: { content: string }) => {
 
     return (
         <div className={`break-words whitespace-pre-wrap text-xl`}>
-            {/* 👇 ОСНОВНА ЗМІНА ТУТ — ДОДАЄМО KEY 👇 */}
             <MathJax dynamic key={content}>
                 <span>{nodes}</span>
             </MathJax>

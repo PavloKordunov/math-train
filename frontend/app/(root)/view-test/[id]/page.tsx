@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useParams, useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -106,7 +106,6 @@ const ViewTest = () => {
                 }),
             })
 
-            const data = await res.json()
             user?.status === 'Teacher'
                 ? router.push('/teacher')
                 : router.push('/admin')
@@ -114,8 +113,6 @@ const ViewTest = () => {
             console.log(error)
         }
     }
-
-    const MemoizedTestTasks = useMemo(() => memo(TestTasks), [])
 
     const handleSelect = useCallback((type: string) => {
         setQuestionType(type)
@@ -167,12 +164,6 @@ const ViewTest = () => {
         }
 
         setModalOpen(false)
-    }, [])
-
-    const updateAnswerText = useCallback((index: number, text: string) => {
-        const updatedAnswers = [...question.answers]
-        updatedAnswers[index].text = text
-        setQuestion({ ...question, answers: updatedAnswers })
     }, [])
 
     const toggleAnswerCorrect = useCallback((index: number) => {
@@ -238,10 +229,20 @@ const ViewTest = () => {
             })),
         }
 
-        setTest((prev: any) => ({
-            ...prev,
-            tasks: [...prev.tasks, taskToSave],
-        }))
+        setTest((prev: any) => {
+            const newNumber = prev.tasks.length + 1
+
+            return {
+                ...prev,
+                tasks: [
+                    ...prev.tasks,
+                    {
+                        ...taskToSave,
+                        number: newNumber.toString(),
+                    },
+                ],
+            }
+        })
 
         setQuestion({
             id: '',
@@ -284,7 +285,7 @@ const ViewTest = () => {
                 setErrors={setErrors}
             />
 
-            <MemoizedTestTasks
+            <TestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
                 updateTest={updateTest}
@@ -296,15 +297,12 @@ const ViewTest = () => {
                 subject={user?.subject}
                 key={questionType}
                 questionType={questionType}
-                handleSelect={handleSelect}
                 setQuestionType={setQuestionType}
-                test={test}
                 setTest={setTest}
                 setModalOpen={setModalOpen}
                 question={question}
                 setQuestion={setQuestion}
                 toggleAnswerCorrect={toggleAnswerCorrect}
-                updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
             />
