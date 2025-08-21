@@ -6,6 +6,7 @@ import ActionButtons from './create-test-task/ActionButtons'
 import PairInput from './create-test-task/PairInput'
 import MathInput from '../MathInput'
 import BoldTextInput from '../BoldTextInput'
+import { MdDelete } from 'react-icons/md'
 
 type ErrorsShape = {
     title?: string
@@ -26,14 +27,12 @@ const CreateTestTask = ({
     handleSaveMatchingTask,
     value,
     tasksError,
+    handleDeleteImage,
+    setEditedImages,
 }: any) => {
-    const [base64, setBase64] = useState('')
-    const [internalValue, setInternalValue] = useState(value)
     const [errors, setErrors] = useState<ErrorsShape>({})
 
-    useEffect(() => {
-        setInternalValue(value)
-    }, [value])
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const questionRef = useRef(question)
     questionRef.current = question
@@ -43,11 +42,30 @@ const CreateTestTask = ({
             setQuestion((prev: any) => ({ ...prev, title: val }))
             setErrors((prev) => ({
                 ...prev,
-                title: val && val.trim() ? undefined : prev.title,
+                title: (val && val.trim()) || question.image ? '' : prev.title,
             }))
         },
-        [setQuestion]
+        [setQuestion, question.image]
     )
+
+    const handleRejectTask = () => {
+        if (question.image) {
+            handleDeleteImage('title', question.image)
+        }
+
+        question.answers.forEach((ans: any) => {
+            if (ans.image) handleDeleteImage(ans.id, ans.image)
+        })
+
+        question.pairs.forEach((pair: any) => {
+            if (pair.left.image)
+                handleDeleteImage(pair.left.id, pair.left.image)
+            if (pair.right.image)
+                handleDeleteImage(pair.right.id, pair.right.image)
+        })
+
+        setQuestionType('')
+    }
 
     const handleAnswerChange = useCallback(
         (index: number, val: string) => {
@@ -57,9 +75,10 @@ const CreateTestTask = ({
 
             setErrors((prev) => {
                 const newAnswersErr = prev.answers ? [...prev.answers] : []
-                if (val && val.trim()) {
-                    newAnswersErr[index] = ''
-                }
+                newAnswersErr[index] =
+                    (val && val.trim()) || updatedAnswers[index].image
+                        ? ''
+                        : 'Потрібно ввести текст або додати зображення'
                 return { ...prev, answers: newAnswersErr }
             })
         },
@@ -116,17 +135,21 @@ const CreateTestTask = ({
         } else {
             const hasFullPair = pairs.some(
                 (p: any) =>
-                    p.left?.text?.trim() !== '' && p.right?.text?.trim() !== ''
+                    (p.left?.text?.trim() !== '' || !p.left?.image) &&
+                    (p.right?.text?.trim() !== '' || !p.right?.image)
             )
             const allPairsValid = pairs.every(
                 (p: any) =>
-                    p.left?.text?.trim() !== '' || p.right?.text?.trim() !== ''
+                    p.left?.text?.trim() !== '' ||
+                    p.right?.text?.trim() !== '' ||
+                    !p.left?.image ||
+                    !p.right?.image
             )
 
             if (!hasFullPair) {
-                return 'Потрібна хоча б одна пара з обома сторонами заповненими'
+                return 'Потрібна хоча б одна пара з обома сторонами заповненими текстом чи картинкою'
             } else if (!allPairsValid) {
-                return 'Кожна пара повинна мати хоча б одну частину заповнену'
+                return 'Кожна пара повинна мати хоча б одну частину заповнену текстом чи картинкою'
             }
         }
         return ''
@@ -151,6 +174,10 @@ const CreateTestTask = ({
             setQuestion((prev: any) => {
                 const newAnswers = [...prev.answers]
                 if (newAnswers.length === 1) return prev
+                const answerToRemove = newAnswers[index]
+                if (answerToRemove.image) {
+                    handleDeleteImage(answerToRemove.id, answerToRemove.image)
+                }
                 newAnswers.splice(index, 1)
                 return { ...prev, answers: newAnswers }
             })
@@ -168,16 +195,23 @@ const CreateTestTask = ({
         let valid = true
         const newErrors: ErrorsShape = {}
 
-        if (!question.title || question.title.trim() === '') {
-            newErrors.title = 'Потрібно ввести умову завдання'
+        if (
+            (!question.title || question.title.trim() === '') &&
+            !question.image
+        ) {
+            newErrors.title =
+                'Потрібно ввести умову завдання або додати зображення'
             valid = false
         }
 
         if (questionType === 'multiple' || questionType === 'written') {
             const answerErrs: string[] = []
             question.answers.forEach((ans: any, idx: number) => {
-                if (!ans.text || ans.text.trim() === '') {
-                    answerErrs[idx] = 'Порожня відповідь'
+                if ((!ans.text || ans.text.trim() === '') && !ans.image) {
+                    answerErrs[idx] =
+                        questionType === 'written'
+                            ? 'Потрібно ввести текст'
+                            : 'Потрібно ввести текст або додати зображення'
                     valid = false
                 } else {
                     answerErrs[idx] = ''
@@ -204,27 +238,29 @@ const CreateTestTask = ({
             } else {
                 const hasFullPair = question.pairs.some(
                     (p: any) =>
-                        p.left?.text?.trim() !== '' &&
-                        p.right?.text?.trim() !== ''
+                        (p.left?.text?.trim() !== '' || p.left?.image) &&
+                        (p.right?.text?.trim() !== '' || p.right?.image)
                 )
                 const allPairsValid = question.pairs.every(
                     (p: any) =>
                         p.left?.text?.trim() !== '' ||
-                        p.right?.text?.trim() !== ''
+                        p.right?.text?.trim() !== '' ||
+                        p.left?.image ||
+                        p.right?.image
                 )
 
                 if (!hasFullPair) {
                     newErrors.pairs =
-                        'Потрібна хоча б одна пара з обома сторонами заповненими'
+                        'Потрібна хоча б одна пара з обома сторонами заповненими текстом чи картинкою'
                     valid = false
                 } else if (!allPairsValid) {
                     newErrors.pairs =
-                        'Кожна пара повинна мати хоча б одну частину заповнену'
+                        'Кожна пара повинна мати хоча б одну частину заповнену текстом чи картинкою'
                     valid = false
                 }
             }
         }
-
+        console.log('p: ', question.pairs)
         setErrors(newErrors)
         return valid
     }
@@ -275,8 +311,6 @@ const CreateTestTask = ({
             setQuestionType('')
             setErrors({})
         }
-
-        setBase64('')
     }
 
     const renderTitleInput = () => {
@@ -287,6 +321,8 @@ const CreateTestTask = ({
                     onChange={handleTitleChange}
                     className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
                     inputType="textarea"
+                    setQuestion={setQuestion}
+                    setEditedImages={setEditedImages}
                 />
             )
         }
@@ -296,6 +332,8 @@ const CreateTestTask = ({
                 onChange={handleTitleChange}
                 placeholder="Введіть питання"
                 inputType="textarea"
+                setQuestion={setQuestion}
+                setEditedImages={setEditedImages}
             />
         )
     }
@@ -319,17 +357,28 @@ const CreateTestTask = ({
                         Умова завдання
                     </label>
                     {renderTitleInput()}
+                    {question?.image && (
+                        <div className="relative inline-block">
+                            <img
+                                src={question.image}
+                                alt=""
+                                className="max-w-full max-h-50 rounded-lg"
+                            />
+                            <button
+                                onClick={() =>
+                                    handleDeleteImage('title', question.image)
+                                }
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                            >
+                                <MdDelete size={20} className="text-red-500" />
+                            </button>
+                        </div>
+                    )}
                     {errors?.title && (
                         <p className="text-sm text-red-600 mt-1">
                             {errors.title}
                         </p>
                     )}
-
-                    <ImageUpload
-                        base64={base64}
-                        setBase64={setBase64}
-                        setQuestion={setQuestion}
-                    />
 
                     {question.answers.map((answer: any, index: number) => (
                         <div
@@ -344,7 +393,32 @@ const CreateTestTask = ({
                                     handleAnswerChange={handleAnswerChange}
                                     handleRemoveAnswer={handleRemoveAnswer}
                                     subject={subject}
+                                    setQuestion={setQuestion}
+                                    setEditedImages={setEditedImages}
                                 />
+                                {answer.image && (
+                                    <div className="relative inline-block mt-1">
+                                        <img
+                                            src={answer.image}
+                                            alt=""
+                                            className="max-w-full max-h-30 rounded-lg"
+                                        />
+                                        <button
+                                            onClick={() =>
+                                                handleDeleteImage(
+                                                    answer.id,
+                                                    answer.image
+                                                )
+                                            }
+                                            className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                                        >
+                                            <MdDelete
+                                                size={20}
+                                                className="text-red-500"
+                                            />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                             {errors.answers && errors.answers[index] && (
                                 <p className="text-xs text-red-600">
@@ -366,7 +440,7 @@ const CreateTestTask = ({
                     )}
 
                     <ActionButtons
-                        onCancel={() => setQuestionType('')}
+                        onCancel={handleRejectTask}
                         onSave={handleSaveTask}
                     />
                 </div>
@@ -378,16 +452,28 @@ const CreateTestTask = ({
                         Умова завдання
                     </label>
                     {renderTitleInput()}
+                    {question?.image && (
+                        <div className="relative inline-block">
+                            <img
+                                src={question.image}
+                                alt=""
+                                className="max-w-full max-h-50 rounded-lg"
+                            />
+                            <button
+                                onClick={() =>
+                                    handleDeleteImage('title', question.image)
+                                }
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                            >
+                                <MdDelete size={20} className="text-red-500" />
+                            </button>
+                        </div>
+                    )}
                     {errors?.title && (
                         <p className="text-sm text-red-600 mt-1">
                             {errors.title}
                         </p>
                     )}
-                    <ImageUpload
-                        base64={base64}
-                        setBase64={setBase64}
-                        setQuestion={setQuestion}
-                    />
                     {question.pairs.map((pair: any, index: number) => (
                         <PairInput
                             key={pair.id}
@@ -396,6 +482,9 @@ const CreateTestTask = ({
                             handlePairChange={handlePairChange}
                             handleRemovePair={handleRemovePair}
                             subject={subject}
+                            setQuestion={setQuestion}
+                            handleDeleteImage={handleDeleteImage}
+                            setEditedImages={setEditedImages}
                         />
                     ))}
                     {errors?.pairs && (
@@ -410,7 +499,7 @@ const CreateTestTask = ({
                         ➕ Додати пару
                     </button>
                     <ActionButtons
-                        onCancel={() => setQuestionType('')}
+                        onCancel={handleRejectTask}
                         onSave={handleSaveTask}
                     />
                 </div>
@@ -422,16 +511,28 @@ const CreateTestTask = ({
                         Умова завдання
                     </label>
                     {renderTitleInput()}
+                    {question?.image && (
+                        <div className="relative inline-block">
+                            <img
+                                src={question.image}
+                                alt=""
+                                className="max-w-full max-h-50 rounded-lg"
+                            />
+                            <button
+                                onClick={() =>
+                                    handleDeleteImage('title', question.image)
+                                }
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                            >
+                                <MdDelete size={20} className="text-red-500" />
+                            </button>
+                        </div>
+                    )}
                     {errors?.title && (
                         <p className="text-sm text-red-600 mt-1">
                             {errors.title}
                         </p>
                     )}
-                    <ImageUpload
-                        base64={base64}
-                        setBase64={setBase64}
-                        setQuestion={setQuestion}
-                    />
                     <div className="flex items-center gap-4 mt-4">
                         <p>Введіть відповідь: </p>
                         {subject === 'Mathematics' ? (
@@ -444,6 +545,7 @@ const CreateTestTask = ({
                                     })
                                 }
                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                typeAnswer={'ansWrite'}
                             />
                         ) : (
                             <BoldTextInput
@@ -455,6 +557,7 @@ const CreateTestTask = ({
                                     })
                                 }
                                 placeholder="Введіть відповідь"
+                                typeAnswer={'ansWrite'}
                             />
                         )}
                     </div>
@@ -464,7 +567,7 @@ const CreateTestTask = ({
                         </p>
                     )}
                     <ActionButtons
-                        onCancel={() => setQuestionType('')}
+                        onCancel={handleRejectTask}
                         onSave={handleSaveTask}
                     />
                 </div>

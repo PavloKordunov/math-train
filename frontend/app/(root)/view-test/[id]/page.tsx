@@ -38,24 +38,13 @@ const ViewTest = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [errors, setErrors] = useState<Record<string, string>>({})
+    const [deleteImage, setDeleteImage] = useState<any[]>([])
+    const [editedImages, setEditedImages] = useState<any[]>([])
 
     useEffect(() => {
-        const getTestById = async () => {
-            try {
-                const res = await fetch(`${API_URL}/api/test/${testId}`)
-                const data = await res.json()
-                console.log(data)
-                setTest({
-                    ...data,
-                    timeLimit: data.timeLimit?.toString() ?? '0', // ← тут
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        getTestById()
-    }, [])
+        if (editedImages.length === 0) return
+        localStorage.setItem('editedImages', JSON.stringify(editedImages))
+    }, [editedImages])
 
     const validateForm = () => {
         try {
@@ -79,12 +68,58 @@ const ViewTest = () => {
         }
     }
 
+    useEffect(() => {
+        const getTestById = async () => {
+            try {
+                const res = await fetch(`${API_URL}/api/test/${testId}`)
+                const data = await res.json()
+
+                setTest({
+                    ...data,
+                    timeLimit: data.timeLimit?.toString() ?? '0',
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        const savedEdited = localStorage.getItem('editedImages')
+        if (savedEdited) {
+            try {
+                console.log('editedImages', JSON.parse(savedEdited))
+                handleDeleteImages(JSON.parse(savedEdited))
+                localStorage.removeItem('editedImages')
+            } catch (e) {
+                console.error('Помилка відновлення editedImages:', e)
+            }
+        }
+
+        getTestById()
+    }, [])
+
+    const handleDeleteImages = async (images: string[]) => {
+        try {
+            if (!images || images.length === 0) return
+
+            await fetch(`${API_URL}/api/upload/urls`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ urls: images }),
+            })
+            console.log('Deleted images:', images)
+        } catch (error) {
+            console.error('Error deleting images:', error)
+        }
+    }
+
     const handleUpdateTest = async () => {
         if (!validateForm()) {
             toast.error('Будь ласка, виправте помилки у формі')
             return
         }
+
         try {
+            if (deleteImage) await handleDeleteImages(deleteImage)
             const res = await fetch(`${API_URL}/api/test/${testId}`, {
                 method: 'PATCH',
                 headers: {
@@ -108,7 +143,7 @@ const ViewTest = () => {
             })
 
             const data = await res.json()
-            console.log(data)
+            localStorage.removeItem('editedImages')
             router.push('/teacher')
         } catch (error) {
             console.log(error)
@@ -146,8 +181,8 @@ const ViewTest = () => {
                 ],
                 pairs: [
                     {
-                        left: { id: nanoid(), text: '' },
-                        right: { id: nanoid(), text: '' },
+                        left: { id: nanoid(), text: '', image: '' },
+                        right: { id: nanoid(), text: '', image: '' },
                         id: nanoid(),
                     },
                 ],
@@ -203,20 +238,33 @@ const ViewTest = () => {
             },
         }))
 
-        const taskToSave = {
-            ...question,
-            type: questionType,
-            answers: answers,
-            pairs: question.pairs.map((pair: any) => ({
-                left: { id: pair.left.id, text: pair.left.text },
-                right: { id: pair.right.id, text: pair.right.text },
-            })),
-        }
+        setTest((prev: any) => {
+            const newNumber = prev.tasks.length + 1
 
-        setTest((prev: any) => ({
-            ...prev,
-            tasks: [...prev.tasks, taskToSave],
-        }))
+            const taskToSave = {
+                ...question,
+                type: questionType,
+                number: newNumber.toString(),
+                answers: answers,
+                pairs: question.pairs.map((pair: any) => ({
+                    left: {
+                        id: pair.left.id,
+                        text: pair.left.text,
+                        image: pair.left.image,
+                    },
+                    right: {
+                        id: pair.right.id,
+                        text: pair.right.text,
+                        image: pair.right.image,
+                    },
+                })),
+            }
+
+            return {
+                ...prev,
+                tasks: [...prev.tasks, taskToSave],
+            }
+        })
 
         setQuestion({
             id: '',
@@ -225,8 +273,8 @@ const ViewTest = () => {
             answers: [],
             pairs: [
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ],
@@ -288,6 +336,9 @@ const ViewTest = () => {
                 deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
+                setDeleteImage={setDeleteImage}
+                typeEditing={'edit'}
+                setEditedImages={setEditedImages}
             />
             <CreateTestTask
                 subject={user?.subject}
@@ -302,6 +353,7 @@ const ViewTest = () => {
                 updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
+                setEditedImages={setEditedImages}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button

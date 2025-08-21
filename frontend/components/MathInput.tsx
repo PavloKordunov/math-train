@@ -2,21 +2,31 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import FormulaModal from './testComponents/FormulaModal'
+import { MdImage, MdPhotoCamera } from 'react-icons/md'
+import ImageUpload from './testComponents/create-test-task/ImageUpload'
 
 interface MathInputProps {
+    index?: any
     value: string
     onChange: (val: string) => void
     className?: string
     placeholder?: string
     inputType?: 'input' | 'textarea'
+    typeAnswer?: any
+    setQuestion?: any
+    setEditedImages?: any
 }
 
 const MathInput: React.FC<MathInputProps> = ({
+    index,
     value,
     onChange,
     className,
     placeholder,
     inputType = 'input',
+    typeAnswer,
+    setQuestion,
+    setEditedImages,
 }) => {
     const [showFormulaModal, setShowFormulaModal] = useState(false)
     const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null)
@@ -67,11 +77,30 @@ const MathInput: React.FC<MathInputProps> = ({
                         onChange={(e) => onChange(e.target.value)}
                         className={`flex-1 border p-2 rounded ${
                             className ?? ''
-                        }`}
+                        } `}
                         placeholder={placeholder ?? 'Введіть текст або формулу'}
                         style={{ fontFamily: 'monospace', lineHeight: 1.5 }}
                     />
                 )}
+                {inputType === 'textarea' && (
+                    <ImageUpload
+                        setQuestion={setQuestion}
+                        id={'title'}
+                        setEditedImages={setEditedImages}
+                        className="top-1 right-4"
+                    />
+                )}
+
+                {typeAnswer !== 'ansWrite' && inputType !== 'textarea' && (
+                    <ImageUpload
+                        setQuestion={setQuestion}
+                        typeAnswer={typeAnswer}
+                        id={index}
+                        setEditedImages={setEditedImages}
+                        className="top-1 right-4"
+                    />
+                )}
+
                 <button
                     type="button"
                     onClick={() => setShowFormulaModal(true)}

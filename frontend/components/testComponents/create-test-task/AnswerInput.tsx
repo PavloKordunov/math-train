@@ -7,6 +7,8 @@ const AnswerInput = ({
     handleAnswerChange,
     subject,
     handleRemoveAnswer,
+    setQuestion,
+    setEditedImages,
 }: any) => (
     <div key={index} className="flex items-center gap-4 mt-4">
         <input
@@ -20,12 +22,18 @@ const AnswerInput = ({
                 value={answer.text}
                 onChange={(val: string) => handleAnswerChange(index, val)}
                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                index={answer.id}
+                setQuestion={setQuestion}
+                setEditedImages={setEditedImages}
             />
         ) : (
             <BoldTextInput
                 value={answer.text}
                 onChange={(val: string) => handleAnswerChange(index, val)}
                 placeholder="Введіть варіант відповіді"
+                index={answer.id}
+                setQuestion={setQuestion}
+                setEditedImages={setEditedImages}
             />
         )}
 
