@@ -313,6 +313,13 @@ const ViewTest = () => {
         }
     }, [test.tasks, errors.tasks])
 
+    const deleteTask = useCallback((taskId: any) => {
+        setTest((prev) => ({
+            ...prev,
+            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
+        }))
+    }, [])
+
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">
@@ -332,6 +339,7 @@ const ViewTest = () => {
             <TestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
+                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
                 key={test.tasks.length}

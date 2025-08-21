@@ -224,8 +224,8 @@ const CreateTestTask: React.FC<Props> = ({
             pairs: [
                 ...(prev.pairs || []),
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ],
@@ -379,7 +379,7 @@ const CreateTestTask: React.FC<Props> = ({
                     onChange={handleLocalTitleChange}
                     className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
                     inputType="textarea"
-                    setQuestion={setQuestion}
+                    setQuestion={setLocalQuestion}
                     setEditedImages={setEditedImages}
                 />
             )

@@ -318,6 +318,13 @@ const CreateTest = () => {
         setQuestionType('')
     }
 
+    const deleteTask = useCallback((taskId: any) => {
+        setTest((prev) => ({
+            ...prev,
+            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
+        }))
+    }, [])
+
     useEffect(() => {
         if (test?.tasks?.length > 0 && errors.tasks) {
             setErrors((prev) => {
@@ -346,6 +353,7 @@ const CreateTest = () => {
             <TestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
+                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
                 test={test}
