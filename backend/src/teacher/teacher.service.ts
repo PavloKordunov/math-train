@@ -23,23 +23,7 @@ export class TeacherService {
         const skip = (page - 1) * pageSize
 
         try {
-            const [items, total] = await Promise.all([
-                this.databaseServise.teacher.findMany({
-                    skip,
-                    take: pageSize,
-                    orderBy: {
-                        id: 'asc',
-                    },
-                }),
-                this.databaseServise.teacher.count(),
-            ])
-            return {
-                data: items,
-                total,
-                page,
-                pageSize,
-                totalPages: Math.ceil(total / pageSize),
-            }
+            return await this.databaseServise.teacher.findMany()
         } catch (error) {
             throw new InternalServerErrorException('Failed to get teachers')
         }
@@ -107,30 +91,38 @@ export class TeacherService {
 
     async getTeacherMainById(id: string) {
         try {
-            const [students, assignedTestCount, tests] = await Promise.all([
-                this.databaseServise.student.findMany({
-                    where: { teacherId: id },
-                }),
-                this.databaseServise.assignedTest.count({
-                    where: {
-                        student: {
-                            teacherId: id,
+            const [students, assignedTestCount, tests, folders] =
+                await Promise.all([
+                    this.databaseServise.student.findMany({
+                        where: { teacherId: id },
+                    }),
+                    this.databaseServise.assignedTest.count({
+                        where: {
+                            student: {
+                                teacherId: id,
+                            },
                         },
-                    },
-                }),
-                this.databaseServise.test.findMany({
-                    where: { teacherId: id },
-                    include: { tasks: true },
-                    orderBy: {
-                        id: 'desc',
-                    },
-                }),
-            ])
+                    }),
+                    this.databaseServise.test.findMany({
+                        where: { teacherId: id },
+                        include: { tasks: true },
+                        orderBy: {
+                            id: 'desc',
+                        },
+                    }),
+                    this.databaseServise.folder.findMany({
+                        where: { teacherId: id },
+                        orderBy: {
+                            id: 'desc',
+                        },
+                    }),
+                ])
 
             return {
                 students,
                 assignedTestCount,
                 tests,
+                folders,
             }
         } catch (error) {
             throw new InternalServerErrorException(error.message)

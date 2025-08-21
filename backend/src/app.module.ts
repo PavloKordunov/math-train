@@ -14,6 +14,7 @@ import { S3Module } from './s3/s3.module'
 import { LiqpayModule } from './liqpay/liqpay.module'
 import { ScheduleModule } from './schedule/schedule.module'
 import { GroupModule } from './group/group.module';
+import { FolderModule } from './folder/folder.module';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { GroupModule } from './group/group.module';
         LiqpayModule,
         ScheduleModule,
         GroupModule,
+        FolderModule,
     ],
     controllers: [AppController],
     providers: [AppService],

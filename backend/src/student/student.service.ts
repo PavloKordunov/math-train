@@ -224,6 +224,10 @@ export class StudentService {
                 throw new NotFoundException('Student not found')
             }
 
+            await this.databaseService.studentScore.deleteMany({
+                where: { studentId: id },
+            })
+
             return await this.databaseService.student.delete({
                 where: { id },
             })

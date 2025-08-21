@@ -56,6 +56,17 @@ model Teacher {
   students         Student[]
   schedule         Schedule[]
   groups           Group[]
+  folders          Folder[]
+}
+
+model Folder {
+  id        String   @id @default(cuid())
+  name      String
+  tests     Test[]
+  teacherId String
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+
+  @@unique([name, teacherId], name: "folder_name_teacher_unique")
 }
 
 model Student {
@@ -107,6 +118,7 @@ model Test {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   testTYpe    String?
+  testTheme   String?
 
   teacherId     String?
   teacher       Teacher?       @relation(fields: [teacherId], references: [id])
@@ -120,6 +132,8 @@ model Test {
   subTopic      SubTopic?      @relation(fields: [subTopicId], references: [id])
   groupId       String?
   group         Group?         @relation(fields: [groupId], references: [id])
+  folderId      String?
+  folder        Folder?        @relation(fields: [folderId], references: [id])
 }
 
 model AssignedTest {

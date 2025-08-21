@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -10,7 +10,6 @@ import TestBasicInfo from '@/components/testComponents/TestBasicInfo'
 import CreateTaskModal from '@/components/testComponents/CreateTaskModal'
 import FormulaHints from '@/components/testComponents/FormulasHint'
 import { useSubTopicContext } from '@/helpers/getSubTopicId'
-import { title } from 'process'
 import { TestSchema } from '@/lib/validation'
 import z from 'zod'
 import toast from 'react-hot-toast'
@@ -21,7 +20,6 @@ const CreateTest = () => {
     const [deleteImage, setDeleteImage] = useState<any[]>([])
     const { user } = useUser()
     const [editedImages, setEditedImages] = useState<any[]>([])
-
     const { subTopicId } = useSubTopicContext()
     const [test, setTest] = useState({
         title: '',
@@ -41,12 +39,22 @@ const CreateTest = () => {
         number: 0,
     })
 
+    const handleTitleChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, title: value }))
+    }, [])
+
+    const handleDescriptionChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, description: value }))
+    }, [])
+
+    const handleTimeLimitChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, timeLimit: value }))
+    }, [])
+
     const router = useRouter()
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [errors, setErrors] = useState<Record<string, string>>({})
-
-    const MemoizedTestTasks = memo(TestTasks)
 
     const handleDeleteImage = async (type: string, imageUrl: string) => {
         try {
@@ -149,11 +157,6 @@ const CreateTest = () => {
         if (storedTest) {
             const parsedTest = JSON.parse(storedTest)
             setTest(parsedTest)
-            // setMaxNumber(
-            //     Math.max(
-            //         ...parsedTest?.tasks?.map((t: any) => parseInt(t.number))
-            //     ) + 1
-            // )
         }
     }, [])
 
@@ -162,17 +165,16 @@ const CreateTest = () => {
             if (test.tasks.length > 0) {
                 localStorage.setItem('test', JSON.stringify(test))
             }
-        }, 500)
+        }, 1000)
 
         return () => clearTimeout(timer)
-    }, [test])
+    }, [test.tasks.length])
 
-    useEffect(() => {
-        console.log(test)
-    }, [test])
-
-    const updateTest = (updatedTest: any) => {
-        setTest(updatedTest)
+    const updateTest = (updatedFields: any) => {
+        setTest((prev) => ({
+            ...prev,
+            ...updatedFields,
+        }))
     }
 
     const handleSelect = useCallback((type: string) => {
@@ -233,15 +235,6 @@ const CreateTest = () => {
         setModalOpen(false)
     }, [])
 
-    const updateAnswerText = useCallback((index: number, text: string) => {
-        setQuestion((prev: any) => ({
-            ...prev,
-            answers: prev.answers.map((answer: any, i: any) =>
-                i === index ? { ...answer, text } : answer
-            ),
-        }))
-    }, [])
-
     const toggleAnswerCorrect = useCallback((index: number) => {
         setQuestion((prev: any) => ({
             ...prev,
@@ -276,31 +269,36 @@ const CreateTest = () => {
             },
         }))
 
+        const taskToSave = {
+            ...question,
+            type: questionType,
+            answers: answers,
+            pairs: question.pairs.map((pair: any) => ({
+                left: {
+                    id: pair.left.id,
+                    text: pair.left.text,
+                    image: pair.left.image,
+                },
+                right: {
+                    id: pair.right.id,
+                    text: pair.right.text,
+                    image: pair.right.image,
+                },
+            })),
+        }
+
         setTest((prev: any) => {
             const newNumber = prev.tasks.length + 1
 
-            const taskToSave = {
-                ...question,
-                type: questionType,
-                number: newNumber.toString(), // додаємо номер завдання
-                answers: answers,
-                pairs: question.pairs.map((pair: any) => ({
-                    left: {
-                        id: pair.left.id,
-                        text: pair.left.text,
-                        image: pair.left.image,
-                    },
-                    right: {
-                        id: pair.right.id,
-                        text: pair.right.text,
-                        image: pair.right.image,
-                    },
-                })),
-            }
-
             return {
                 ...prev,
-                tasks: [...prev.tasks, taskToSave],
+                tasks: [
+                    ...prev.tasks,
+                    {
+                        ...taskToSave,
+                        number: newNumber.toString(),
+                    },
+                ],
             }
         })
 
@@ -320,13 +318,6 @@ const CreateTest = () => {
         setQuestionType('')
     }
 
-    const deleteTask = useCallback((taskId: any) => {
-        setTest((prev) => ({
-            ...prev,
-            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
-        }))
-    }, [])
-
     useEffect(() => {
         if (test?.tasks?.length > 0 && errors.tasks) {
             setErrors((prev) => {
@@ -335,23 +326,29 @@ const CreateTest = () => {
             })
         }
     }, [test.tasks, errors.tasks])
+
     return (
         <div>
             <h1 className="text-[36px] mb-4 font-bold text-center">
                 Створення нового тесту
             </h1>
             <TestBasicInfo
-                test={test}
-                setTest={setTest}
+                title={test.title}
+                description={test.description}
+                timeLimit={test.timeLimit}
+                setTitle={handleTitleChange}
+                setDescription={handleDescriptionChange}
+                setTimeLimit={handleTimeLimitChange}
                 errors={errors}
                 setErrors={setErrors}
             />
-            <MemoizedTestTasks
-                test={test}
+
+            <TestTasks
+                tasks={test.tasks}
                 updateTask={updateTask}
-                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
+                test={test}
                 handleDeleteImage={handleDeleteImage}
                 deleteImage={deleteImage}
                 setDeleteImage={setDeleteImage}
@@ -362,15 +359,12 @@ const CreateTest = () => {
                 subject={user?.subject}
                 key={questionType}
                 questionType={questionType}
-                handleSelect={handleSelect}
                 setQuestionType={setQuestionType}
-                test={test}
                 setTest={setTest}
                 setModalOpen={setModalOpen}
                 question={question}
                 setQuestion={setQuestion}
                 toggleAnswerCorrect={toggleAnswerCorrect}
-                updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
                 handleDeleteImage={handleDeleteImage}

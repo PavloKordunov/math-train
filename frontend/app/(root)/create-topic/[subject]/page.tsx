@@ -403,29 +403,6 @@ const CreateSubjectTopic = () => {
                                                             {test.tasks.length})
                                                         </p>
                                                         <div className="flex items-center gap-4">
-                                                            {/* <div
-                                                                style={{
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                }}
-                                                            >
-                                                                <CircularProgressbar
-                                                                    value={21}
-                                                                    text={`${21}%`}
-                                                                    styles={buildStyles(
-                                                                        {
-                                                                            textSize:
-                                                                                '28px',
-                                                                            pathColor:
-                                                                                '#d0002d',
-                                                                            textColor:
-                                                                                '#000',
-                                                                            trailColor:
-                                                                                '#eee',
-                                                                        }
-                                                                    )}
-                                                                />
-                                                            </div> */}
                                                             <Link
                                                                 href={`/view-test/${test.id}`}
                                                                 className="bg-[#CA193A] px-4 h-10 text-white flex items-center rounded-md font-semibold uppercase"

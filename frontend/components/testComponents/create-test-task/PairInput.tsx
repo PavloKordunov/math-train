@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import MathInput from '@/components/MathInput'
 import BoldTextInput from '@/components/BoldTextInput'
 import { MdDelete } from 'react-icons/md'
@@ -12,13 +12,16 @@ const PairInput = ({
     setQuestion,
     handleDeleteImage,
     setEditedImages,
+    user,
 }: any) => (
     <div className="flex items-center gap-4 mt-4 w-full">
         <div className="flex-1 min-w-0">
-            {subject === 'Mathematics' ? (
+            {subject === 'Mathematics' || user?.status === 'Admin' ? (
                 <MathInput
                     value={pair.left.text}
-                    onChange={(val) => handlePairChange(index, 'left', val)}
+                    onChange={(val: any) =>
+                        handlePairChange(index, 'left', val)
+                    }
                     className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1 truncate"
                     index={`left${pair.left.id}`}
                     typeAnswer={'matching'}
@@ -31,8 +34,8 @@ const PairInput = ({
                     onChange={(val: any) =>
                         handlePairChange(index, 'left', val)
                     }
-                    index={`left${pair.left.id}`}
                     placeholder="Введіть варіант відповіді"
+                    index={`left${pair.left.id}`}
                     setQuestion={setQuestion}
                     setEditedImages={setEditedImages}
                 />
@@ -57,10 +60,12 @@ const PairInput = ({
         </div>
         <span className="text-xl font-bold">—</span>
         <div className="flex-1 min-w-0">
-            {subject === 'Mathematics' ? (
+            {subject === 'Mathematics' || user?.status === 'Admin' ? (
                 <MathInput
                     value={pair.right.text}
-                    onChange={(val) => handlePairChange(index, 'right', val)}
+                    onChange={(val: any) =>
+                        handlePairChange(index, 'right', val)
+                    }
                     className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1 truncate"
                     index={`right${pair.right.id}`}
                     typeAnswer={'matching'}
@@ -106,4 +111,4 @@ const PairInput = ({
     </div>
 )
 
-export default PairInput
+export default memo(PairInput)

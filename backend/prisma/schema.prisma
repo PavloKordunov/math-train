@@ -56,6 +56,17 @@ model Teacher {
   students          Student[]
   schedule          Schedule[]
   groups            Group[]
+  folders           Folder[]
+}
+
+model Folder {
+  id          String @id @default(cuid())
+  name        String 
+  tests       Test[]
+  teacherId   String
+  teacher     Teacher? @relation(fields: [teacherId], references: [id])
+
+  @@unique([name, teacherId], name: "folder_name_teacher_unique")
 }
 
 model Student {
@@ -98,28 +109,31 @@ model StudentScore {
 }
 
 model Test {
-  id          String   @id @default(cuid())
+  id          String            @id @default(cuid())
   title       String?
   timeLimit   Int?
   description String?
   score       String?
   startTime   DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
   testTYpe    String?
+  testTheme   String?
 
   teacherId   String?
-  teacher     Teacher? @relation(fields: [teacherId], references: [id])
+  teacher     Teacher?          @relation(fields: [teacherId], references: [id])
   adminID     String?
-  admin       Admin?   @relation(fields: [adminID], references: [id])
+  admin       Admin?            @relation(fields: [adminID], references: [id])
   tasks       Task[]  
   studentScores StudentScore[]
-  status      TestStatus @default(PENDING)
+  status      TestStatus        @default(PENDING)
   assignedTo  AssignedTest[]
   subTopicId  String?
-  subTopic    SubTopic? @relation(fields: [subTopicId], references: [id])
+  subTopic    SubTopic?         @relation(fields: [subTopicId], references: [id])
   groupId     String?
-  group       Group? @relation(fields: [groupId], references: [id])
+  group       Group?            @relation(fields: [groupId], references: [id])
+  folderId    String?
+  folder      Folder?            @relation(fields: [folderId], references: [id])
 }
 
 model AssignedTest {

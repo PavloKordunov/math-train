@@ -34,6 +34,11 @@ export type SubTopic = $Result.DefaultSelection<Prisma.$SubTopicPayload>
  */
 export type Teacher = $Result.DefaultSelection<Prisma.$TeacherPayload>
 /**
+ * Model Folder
+ * 
+ */
+export type Folder = $Result.DefaultSelection<Prisma.$FolderPayload>
+/**
  * Model Student
  * 
  */
@@ -278,6 +283,16 @@ export class PrismaClient<
     * ```
     */
   get teacher(): Prisma.TeacherDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Folders
+    * const folders = await prisma.folder.findMany()
+    * ```
+    */
+  get folder(): Prisma.FolderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.student`: Exposes CRUD operations for the **Student** model.
@@ -792,6 +807,7 @@ export namespace Prisma {
     Topic: 'Topic',
     SubTopic: 'SubTopic',
     Teacher: 'Teacher',
+    Folder: 'Folder',
     Student: 'Student',
     StudentScore: 'StudentScore',
     Test: 'Test',
@@ -817,7 +833,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "admin" | "topic" | "subTopic" | "teacher" | "student" | "studentScore" | "test" | "assignedTest" | "task" | "schedule" | "group"
+      modelProps: "admin" | "topic" | "subTopic" | "teacher" | "folder" | "student" | "studentScore" | "test" | "assignedTest" | "task" | "schedule" | "group"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1114,6 +1130,80 @@ export namespace Prisma {
           count: {
             args: Prisma.TeacherCountArgs<ExtArgs>
             result: $Utils.Optional<TeacherCountAggregateOutputType> | number
+          }
+        }
+      }
+      Folder: {
+        payload: Prisma.$FolderPayload<ExtArgs>
+        fields: Prisma.FolderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FolderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FolderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          findFirst: {
+            args: Prisma.FolderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FolderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          findMany: {
+            args: Prisma.FolderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          create: {
+            args: Prisma.FolderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          createMany: {
+            args: Prisma.FolderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FolderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          delete: {
+            args: Prisma.FolderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          update: {
+            args: Prisma.FolderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          deleteMany: {
+            args: Prisma.FolderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FolderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FolderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          upsert: {
+            args: Prisma.FolderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          aggregate: {
+            args: Prisma.FolderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFolder>
+          }
+          groupBy: {
+            args: Prisma.FolderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FolderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FolderCountArgs<ExtArgs>
+            result: $Utils.Optional<FolderCountAggregateOutputType> | number
           }
         }
       }
@@ -1723,6 +1813,7 @@ export namespace Prisma {
     topic?: TopicOmit
     subTopic?: SubTopicOmit
     teacher?: TeacherOmit
+    folder?: FolderOmit
     student?: StudentOmit
     studentScore?: StudentScoreOmit
     test?: TestOmit
@@ -1930,6 +2021,7 @@ export namespace Prisma {
     students: number
     schedule: number
     groups: number
+    folders: number
   }
 
   export type TeacherCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1937,6 +2029,7 @@ export namespace Prisma {
     students?: boolean | TeacherCountOutputTypeCountStudentsArgs
     schedule?: boolean | TeacherCountOutputTypeCountScheduleArgs
     groups?: boolean | TeacherCountOutputTypeCountGroupsArgs
+    folders?: boolean | TeacherCountOutputTypeCountFoldersArgs
   }
 
   // Custom InputTypes
@@ -1976,6 +2069,44 @@ export namespace Prisma {
    */
   export type TeacherCountOutputTypeCountGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GroupWhereInput
+  }
+
+  /**
+   * TeacherCountOutputType without action
+   */
+  export type TeacherCountOutputTypeCountFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
+  }
+
+
+  /**
+   * Count Type FolderCountOutputType
+   */
+
+  export type FolderCountOutputType = {
+    tests: number
+  }
+
+  export type FolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tests?: boolean | FolderCountOutputTypeCountTestsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FolderCountOutputType
+     */
+    select?: FolderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeCountTestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestWhereInput
   }
 
 
@@ -5637,6 +5768,7 @@ export namespace Prisma {
     students?: boolean | Teacher$studentsArgs<ExtArgs>
     schedule?: boolean | Teacher$scheduleArgs<ExtArgs>
     groups?: boolean | Teacher$groupsArgs<ExtArgs>
+    folders?: boolean | Teacher$foldersArgs<ExtArgs>
     _count?: boolean | TeacherCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["teacher"]>
 
@@ -5688,6 +5820,7 @@ export namespace Prisma {
     students?: boolean | Teacher$studentsArgs<ExtArgs>
     schedule?: boolean | Teacher$scheduleArgs<ExtArgs>
     groups?: boolean | Teacher$groupsArgs<ExtArgs>
+    folders?: boolean | Teacher$foldersArgs<ExtArgs>
     _count?: boolean | TeacherCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeacherIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5700,6 +5833,7 @@ export namespace Prisma {
       students: Prisma.$StudentPayload<ExtArgs>[]
       schedule: Prisma.$SchedulePayload<ExtArgs>[]
       groups: Prisma.$GroupPayload<ExtArgs>[]
+      folders: Prisma.$FolderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6111,6 +6245,7 @@ export namespace Prisma {
     students<T extends Teacher$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     schedule<T extends Teacher$scheduleArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$scheduleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     groups<T extends Teacher$groupsArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    folders<T extends Teacher$foldersArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6635,6 +6770,30 @@ export namespace Prisma {
   }
 
   /**
+   * Teacher.folders
+   */
+  export type Teacher$foldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    cursor?: FolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
    * Teacher without action
    */
   export type TeacherDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6650,6 +6809,1087 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TeacherInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Folder
+   */
+
+  export type AggregateFolder = {
+    _count: FolderCountAggregateOutputType | null
+    _min: FolderMinAggregateOutputType | null
+    _max: FolderMaxAggregateOutputType | null
+  }
+
+  export type FolderMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    teacherId: string | null
+  }
+
+  export type FolderMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    teacherId: string | null
+  }
+
+  export type FolderCountAggregateOutputType = {
+    id: number
+    name: number
+    teacherId: number
+    _all: number
+  }
+
+
+  export type FolderMinAggregateInputType = {
+    id?: true
+    name?: true
+    teacherId?: true
+  }
+
+  export type FolderMaxAggregateInputType = {
+    id?: true
+    name?: true
+    teacherId?: true
+  }
+
+  export type FolderCountAggregateInputType = {
+    id?: true
+    name?: true
+    teacherId?: true
+    _all?: true
+  }
+
+  export type FolderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Folder to aggregate.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Folders
+    **/
+    _count?: true | FolderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FolderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FolderMaxAggregateInputType
+  }
+
+  export type GetFolderAggregateType<T extends FolderAggregateArgs> = {
+        [P in keyof T & keyof AggregateFolder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFolder[P]>
+      : GetScalarType<T[P], AggregateFolder[P]>
+  }
+
+
+
+
+  export type FolderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithAggregationInput | FolderOrderByWithAggregationInput[]
+    by: FolderScalarFieldEnum[] | FolderScalarFieldEnum
+    having?: FolderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FolderCountAggregateInputType | true
+    _min?: FolderMinAggregateInputType
+    _max?: FolderMaxAggregateInputType
+  }
+
+  export type FolderGroupByOutputType = {
+    id: string
+    name: string
+    teacherId: string
+    _count: FolderCountAggregateOutputType | null
+    _min: FolderMinAggregateOutputType | null
+    _max: FolderMaxAggregateOutputType | null
+  }
+
+  type GetFolderGroupByPayload<T extends FolderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FolderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FolderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FolderGroupByOutputType[P]>
+            : GetScalarType<T[P], FolderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FolderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    teacherId?: boolean
+    tests?: boolean | Folder$testsArgs<ExtArgs>
+    teacher?: boolean | Folder$teacherArgs<ExtArgs>
+    _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+  export type FolderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    teacherId?: boolean
+    teacher?: boolean | Folder$teacherArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+  export type FolderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    teacherId?: boolean
+    teacher?: boolean | Folder$teacherArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+  export type FolderSelectScalar = {
+    id?: boolean
+    name?: boolean
+    teacherId?: boolean
+  }
+
+  export type FolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "teacherId", ExtArgs["result"]["folder"]>
+  export type FolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tests?: boolean | Folder$testsArgs<ExtArgs>
+    teacher?: boolean | Folder$teacherArgs<ExtArgs>
+    _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | Folder$teacherArgs<ExtArgs>
+  }
+  export type FolderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | Folder$teacherArgs<ExtArgs>
+  }
+
+  export type $FolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Folder"
+    objects: {
+      tests: Prisma.$TestPayload<ExtArgs>[]
+      teacher: Prisma.$TeacherPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      teacherId: string
+    }, ExtArgs["result"]["folder"]>
+    composites: {}
+  }
+
+  type FolderGetPayload<S extends boolean | null | undefined | FolderDefaultArgs> = $Result.GetResult<Prisma.$FolderPayload, S>
+
+  type FolderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FolderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FolderCountAggregateInputType | true
+    }
+
+  export interface FolderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Folder'], meta: { name: 'Folder' } }
+    /**
+     * Find zero or one Folder that matches the filter.
+     * @param {FolderFindUniqueArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FolderFindUniqueArgs>(args: SelectSubset<T, FolderFindUniqueArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Folder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FolderFindUniqueOrThrowArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FolderFindUniqueOrThrowArgs>(args: SelectSubset<T, FolderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindFirstArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FolderFindFirstArgs>(args?: SelectSubset<T, FolderFindFirstArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindFirstOrThrowArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FolderFindFirstOrThrowArgs>(args?: SelectSubset<T, FolderFindFirstOrThrowArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Folders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Folders
+     * const folders = await prisma.folder.findMany()
+     * 
+     * // Get first 10 Folders
+     * const folders = await prisma.folder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const folderWithIdOnly = await prisma.folder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FolderFindManyArgs>(args?: SelectSubset<T, FolderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Folder.
+     * @param {FolderCreateArgs} args - Arguments to create a Folder.
+     * @example
+     * // Create one Folder
+     * const Folder = await prisma.folder.create({
+     *   data: {
+     *     // ... data to create a Folder
+     *   }
+     * })
+     * 
+     */
+    create<T extends FolderCreateArgs>(args: SelectSubset<T, FolderCreateArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Folders.
+     * @param {FolderCreateManyArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folder = await prisma.folder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FolderCreateManyArgs>(args?: SelectSubset<T, FolderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Folders and returns the data saved in the database.
+     * @param {FolderCreateManyAndReturnArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folder = await prisma.folder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Folders and only return the `id`
+     * const folderWithIdOnly = await prisma.folder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FolderCreateManyAndReturnArgs>(args?: SelectSubset<T, FolderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Folder.
+     * @param {FolderDeleteArgs} args - Arguments to delete one Folder.
+     * @example
+     * // Delete one Folder
+     * const Folder = await prisma.folder.delete({
+     *   where: {
+     *     // ... filter to delete one Folder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FolderDeleteArgs>(args: SelectSubset<T, FolderDeleteArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Folder.
+     * @param {FolderUpdateArgs} args - Arguments to update one Folder.
+     * @example
+     * // Update one Folder
+     * const folder = await prisma.folder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FolderUpdateArgs>(args: SelectSubset<T, FolderUpdateArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Folders.
+     * @param {FolderDeleteManyArgs} args - Arguments to filter Folders to delete.
+     * @example
+     * // Delete a few Folders
+     * const { count } = await prisma.folder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FolderDeleteManyArgs>(args?: SelectSubset<T, FolderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Folders
+     * const folder = await prisma.folder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FolderUpdateManyArgs>(args: SelectSubset<T, FolderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders and returns the data updated in the database.
+     * @param {FolderUpdateManyAndReturnArgs} args - Arguments to update many Folders.
+     * @example
+     * // Update many Folders
+     * const folder = await prisma.folder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Folders and only return the `id`
+     * const folderWithIdOnly = await prisma.folder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FolderUpdateManyAndReturnArgs>(args: SelectSubset<T, FolderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Folder.
+     * @param {FolderUpsertArgs} args - Arguments to update or create a Folder.
+     * @example
+     * // Update or create a Folder
+     * const folder = await prisma.folder.upsert({
+     *   create: {
+     *     // ... data to create a Folder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Folder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FolderUpsertArgs>(args: SelectSubset<T, FolderUpsertArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderCountArgs} args - Arguments to filter Folders to count.
+     * @example
+     * // Count the number of Folders
+     * const count = await prisma.folder.count({
+     *   where: {
+     *     // ... the filter for the Folders we want to count
+     *   }
+     * })
+    **/
+    count<T extends FolderCountArgs>(
+      args?: Subset<T, FolderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FolderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Folder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FolderAggregateArgs>(args: Subset<T, FolderAggregateArgs>): Prisma.PrismaPromise<GetFolderAggregateType<T>>
+
+    /**
+     * Group by Folder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FolderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FolderGroupByArgs['orderBy'] }
+        : { orderBy?: FolderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FolderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFolderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Folder model
+   */
+  readonly fields: FolderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Folder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FolderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tests<T extends Folder$testsArgs<ExtArgs> = {}>(args?: Subset<T, Folder$testsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teacher<T extends Folder$teacherArgs<ExtArgs> = {}>(args?: Subset<T, Folder$teacherArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Folder model
+   */
+  interface FolderFieldRefs {
+    readonly id: FieldRef<"Folder", 'String'>
+    readonly name: FieldRef<"Folder", 'String'>
+    readonly teacherId: FieldRef<"Folder", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Folder findUnique
+   */
+  export type FolderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder findUniqueOrThrow
+   */
+  export type FolderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder findFirst
+   */
+  export type FolderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Folders.
+     */
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder findFirstOrThrow
+   */
+  export type FolderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Folders.
+     */
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder findMany
+   */
+  export type FolderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folders to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder create
+   */
+  export type FolderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Folder.
+     */
+    data: XOR<FolderCreateInput, FolderUncheckedCreateInput>
+  }
+
+  /**
+   * Folder createMany
+   */
+  export type FolderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Folders.
+     */
+    data: FolderCreateManyInput | FolderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Folder createManyAndReturn
+   */
+  export type FolderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * The data used to create many Folders.
+     */
+    data: FolderCreateManyInput | FolderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Folder update
+   */
+  export type FolderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Folder.
+     */
+    data: XOR<FolderUpdateInput, FolderUncheckedUpdateInput>
+    /**
+     * Choose, which Folder to update.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder updateMany
+   */
+  export type FolderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Folders.
+     */
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Folders to update
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Folder updateManyAndReturn
+   */
+  export type FolderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * The data used to update Folders.
+     */
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Folders to update
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Folder upsert
+   */
+  export type FolderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Folder to update in case it exists.
+     */
+    where: FolderWhereUniqueInput
+    /**
+     * In case the Folder found by the `where` argument doesn't exist, create a new Folder with this data.
+     */
+    create: XOR<FolderCreateInput, FolderUncheckedCreateInput>
+    /**
+     * In case the Folder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FolderUpdateInput, FolderUncheckedUpdateInput>
+  }
+
+  /**
+   * Folder delete
+   */
+  export type FolderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter which Folder to delete.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder deleteMany
+   */
+  export type FolderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Folders to delete
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Folder.tests
+   */
+  export type Folder$testsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Test
+     */
+    select?: TestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Test
+     */
+    omit?: TestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestInclude<ExtArgs> | null
+    where?: TestWhereInput
+    orderBy?: TestOrderByWithRelationInput | TestOrderByWithRelationInput[]
+    cursor?: TestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestScalarFieldEnum | TestScalarFieldEnum[]
+  }
+
+  /**
+   * Folder.teacher
+   */
+  export type Folder$teacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Teacher
+     */
+    select?: TeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Teacher
+     */
+    omit?: TeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeacherInclude<ExtArgs> | null
+    where?: TeacherWhereInput
+  }
+
+  /**
+   * Folder without action
+   */
+  export type FolderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
   }
 
 
@@ -9082,11 +10322,13 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     testTYpe: string | null
+    testTheme: string | null
     teacherId: string | null
     adminID: string | null
     status: $Enums.TestStatus | null
     subTopicId: string | null
     groupId: string | null
+    folderId: string | null
   }
 
   export type TestMaxAggregateOutputType = {
@@ -9099,11 +10341,13 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     testTYpe: string | null
+    testTheme: string | null
     teacherId: string | null
     adminID: string | null
     status: $Enums.TestStatus | null
     subTopicId: string | null
     groupId: string | null
+    folderId: string | null
   }
 
   export type TestCountAggregateOutputType = {
@@ -9116,11 +10360,13 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     testTYpe: number
+    testTheme: number
     teacherId: number
     adminID: number
     status: number
     subTopicId: number
     groupId: number
+    folderId: number
     _all: number
   }
 
@@ -9143,11 +10389,13 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     testTYpe?: true
+    testTheme?: true
     teacherId?: true
     adminID?: true
     status?: true
     subTopicId?: true
     groupId?: true
+    folderId?: true
   }
 
   export type TestMaxAggregateInputType = {
@@ -9160,11 +10408,13 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     testTYpe?: true
+    testTheme?: true
     teacherId?: true
     adminID?: true
     status?: true
     subTopicId?: true
     groupId?: true
+    folderId?: true
   }
 
   export type TestCountAggregateInputType = {
@@ -9177,11 +10427,13 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     testTYpe?: true
+    testTheme?: true
     teacherId?: true
     adminID?: true
     status?: true
     subTopicId?: true
     groupId?: true
+    folderId?: true
     _all?: true
   }
 
@@ -9281,11 +10533,13 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     testTYpe: string | null
+    testTheme: string | null
     teacherId: string | null
     adminID: string | null
     status: $Enums.TestStatus
     subTopicId: string | null
     groupId: string | null
+    folderId: string | null
     _count: TestCountAggregateOutputType | null
     _avg: TestAvgAggregateOutputType | null
     _sum: TestSumAggregateOutputType | null
@@ -9317,11 +10571,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
+    testTheme?: boolean
     teacherId?: boolean
     adminID?: boolean
     status?: boolean
     subTopicId?: boolean
     groupId?: boolean
+    folderId?: boolean
     teacher?: boolean | Test$teacherArgs<ExtArgs>
     admin?: boolean | Test$adminArgs<ExtArgs>
     tasks?: boolean | Test$tasksArgs<ExtArgs>
@@ -9329,6 +10585,7 @@ export namespace Prisma {
     assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     group?: boolean | Test$groupArgs<ExtArgs>
+    folder?: boolean | Test$folderArgs<ExtArgs>
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
@@ -9342,15 +10599,18 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
+    testTheme?: boolean
     teacherId?: boolean
     adminID?: boolean
     status?: boolean
     subTopicId?: boolean
     groupId?: boolean
+    folderId?: boolean
     teacher?: boolean | Test$teacherArgs<ExtArgs>
     admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     group?: boolean | Test$groupArgs<ExtArgs>
+    folder?: boolean | Test$folderArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9363,15 +10623,18 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
+    testTheme?: boolean
     teacherId?: boolean
     adminID?: boolean
     status?: boolean
     subTopicId?: boolean
     groupId?: boolean
+    folderId?: boolean
     teacher?: boolean | Test$teacherArgs<ExtArgs>
     admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     group?: boolean | Test$groupArgs<ExtArgs>
+    folder?: boolean | Test$folderArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectScalar = {
@@ -9384,14 +10647,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     testTYpe?: boolean
+    testTheme?: boolean
     teacherId?: boolean
     adminID?: boolean
     status?: boolean
     subTopicId?: boolean
     groupId?: boolean
+    folderId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "createdAt" | "updatedAt" | "testTYpe" | "teacherId" | "adminID" | "status" | "subTopicId" | "groupId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "timeLimit" | "description" | "score" | "startTime" | "createdAt" | "updatedAt" | "testTYpe" | "testTheme" | "teacherId" | "adminID" | "status" | "subTopicId" | "groupId" | "folderId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Test$teacherArgs<ExtArgs>
     admin?: boolean | Test$adminArgs<ExtArgs>
@@ -9400,6 +10665,7 @@ export namespace Prisma {
     assignedTo?: boolean | Test$assignedToArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     group?: boolean | Test$groupArgs<ExtArgs>
+    folder?: boolean | Test$folderArgs<ExtArgs>
     _count?: boolean | TestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9407,12 +10673,14 @@ export namespace Prisma {
     admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     group?: boolean | Test$groupArgs<ExtArgs>
+    folder?: boolean | Test$folderArgs<ExtArgs>
   }
   export type TestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Test$teacherArgs<ExtArgs>
     admin?: boolean | Test$adminArgs<ExtArgs>
     subTopic?: boolean | Test$subTopicArgs<ExtArgs>
     group?: boolean | Test$groupArgs<ExtArgs>
+    folder?: boolean | Test$folderArgs<ExtArgs>
   }
 
   export type $TestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9425,6 +10693,7 @@ export namespace Prisma {
       assignedTo: Prisma.$AssignedTestPayload<ExtArgs>[]
       subTopic: Prisma.$SubTopicPayload<ExtArgs> | null
       group: Prisma.$GroupPayload<ExtArgs> | null
+      folder: Prisma.$FolderPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9436,11 +10705,13 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       testTYpe: string | null
+      testTheme: string | null
       teacherId: string | null
       adminID: string | null
       status: $Enums.TestStatus
       subTopicId: string | null
       groupId: string | null
+      folderId: string | null
     }, ExtArgs["result"]["test"]>
     composites: {}
   }
@@ -9842,6 +11113,7 @@ export namespace Prisma {
     assignedTo<T extends Test$assignedToArgs<ExtArgs> = {}>(args?: Subset<T, Test$assignedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedTestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     subTopic<T extends Test$subTopicArgs<ExtArgs> = {}>(args?: Subset<T, Test$subTopicArgs<ExtArgs>>): Prisma__SubTopicClient<$Result.GetResult<Prisma.$SubTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     group<T extends Test$groupArgs<ExtArgs> = {}>(args?: Subset<T, Test$groupArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    folder<T extends Test$folderArgs<ExtArgs> = {}>(args?: Subset<T, Test$folderArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9880,11 +11152,13 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Test", 'DateTime'>
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
     readonly testTYpe: FieldRef<"Test", 'String'>
+    readonly testTheme: FieldRef<"Test", 'String'>
     readonly teacherId: FieldRef<"Test", 'String'>
     readonly adminID: FieldRef<"Test", 'String'>
     readonly status: FieldRef<"Test", 'TestStatus'>
     readonly subTopicId: FieldRef<"Test", 'String'>
     readonly groupId: FieldRef<"Test", 'String'>
+    readonly folderId: FieldRef<"Test", 'String'>
   }
     
 
@@ -10426,6 +11700,25 @@ export namespace Prisma {
      */
     include?: GroupInclude<ExtArgs> | null
     where?: GroupWhereInput
+  }
+
+  /**
+   * Test.folder
+   */
+  export type Test$folderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
   }
 
   /**
@@ -15068,6 +16361,15 @@ export namespace Prisma {
   export type TeacherScalarFieldEnum = (typeof TeacherScalarFieldEnum)[keyof typeof TeacherScalarFieldEnum]
 
 
+  export const FolderScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    teacherId: 'teacherId'
+  };
+
+  export type FolderScalarFieldEnum = (typeof FolderScalarFieldEnum)[keyof typeof FolderScalarFieldEnum]
+
+
   export const StudentScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -15112,11 +16414,13 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     testTYpe: 'testTYpe',
+    testTheme: 'testTheme',
     teacherId: 'teacherId',
     adminID: 'adminID',
     status: 'status',
     subTopicId: 'subTopicId',
-    groupId: 'groupId'
+    groupId: 'groupId',
+    folderId: 'folderId'
   };
 
   export type TestScalarFieldEnum = (typeof TestScalarFieldEnum)[keyof typeof TestScalarFieldEnum]
@@ -15547,6 +16851,7 @@ export namespace Prisma {
     students?: StudentListRelationFilter
     schedule?: ScheduleListRelationFilter
     groups?: GroupListRelationFilter
+    folders?: FolderListRelationFilter
   }
 
   export type TeacherOrderByWithRelationInput = {
@@ -15565,6 +16870,7 @@ export namespace Prisma {
     students?: StudentOrderByRelationAggregateInput
     schedule?: ScheduleOrderByRelationAggregateInput
     groups?: GroupOrderByRelationAggregateInput
+    folders?: FolderOrderByRelationAggregateInput
   }
 
   export type TeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -15586,6 +16892,7 @@ export namespace Prisma {
     students?: StudentListRelationFilter
     schedule?: ScheduleListRelationFilter
     groups?: GroupListRelationFilter
+    folders?: FolderListRelationFilter
   }, "id" | "email" | "phone">
 
   export type TeacherOrderByWithAggregationInput = {
@@ -15620,6 +16927,55 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
     status?: EnumStatusWithAggregatesFilter<"Teacher"> | $Enums.Status
+  }
+
+  export type FolderWhereInput = {
+    AND?: FolderWhereInput | FolderWhereInput[]
+    OR?: FolderWhereInput[]
+    NOT?: FolderWhereInput | FolderWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    teacherId?: StringFilter<"Folder"> | string
+    tests?: TestListRelationFilter
+    teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
+  }
+
+  export type FolderOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    teacherId?: SortOrder
+    tests?: TestOrderByRelationAggregateInput
+    teacher?: TeacherOrderByWithRelationInput
+  }
+
+  export type FolderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    folder_name_teacher_unique?: FolderFolder_name_teacher_uniqueCompoundUniqueInput
+    AND?: FolderWhereInput | FolderWhereInput[]
+    OR?: FolderWhereInput[]
+    NOT?: FolderWhereInput | FolderWhereInput[]
+    name?: StringFilter<"Folder"> | string
+    teacherId?: StringFilter<"Folder"> | string
+    tests?: TestListRelationFilter
+    teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
+  }, "id" | "folder_name_teacher_unique">
+
+  export type FolderOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    teacherId?: SortOrder
+    _count?: FolderCountOrderByAggregateInput
+    _max?: FolderMaxOrderByAggregateInput
+    _min?: FolderMinOrderByAggregateInput
+  }
+
+  export type FolderScalarWhereWithAggregatesInput = {
+    AND?: FolderScalarWhereWithAggregatesInput | FolderScalarWhereWithAggregatesInput[]
+    OR?: FolderScalarWhereWithAggregatesInput[]
+    NOT?: FolderScalarWhereWithAggregatesInput | FolderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Folder"> | string
+    name?: StringWithAggregatesFilter<"Folder"> | string
+    teacherId?: StringWithAggregatesFilter<"Folder"> | string
   }
 
   export type StudentWhereInput = {
@@ -15819,11 +17175,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
+    testTheme?: StringNullableFilter<"Test"> | string | null
     teacherId?: StringNullableFilter<"Test"> | string | null
     adminID?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
     groupId?: StringNullableFilter<"Test"> | string | null
+    folderId?: StringNullableFilter<"Test"> | string | null
     teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     tasks?: TaskListRelationFilter
@@ -15831,6 +17189,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestListRelationFilter
     subTopic?: XOR<SubTopicNullableScalarRelationFilter, SubTopicWhereInput> | null
     group?: XOR<GroupNullableScalarRelationFilter, GroupWhereInput> | null
+    folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
   }
 
   export type TestOrderByWithRelationInput = {
@@ -15843,11 +17202,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrderInput | SortOrder
+    testTheme?: SortOrderInput | SortOrder
     teacherId?: SortOrderInput | SortOrder
     adminID?: SortOrderInput | SortOrder
     status?: SortOrder
     subTopicId?: SortOrderInput | SortOrder
     groupId?: SortOrderInput | SortOrder
+    folderId?: SortOrderInput | SortOrder
     teacher?: TeacherOrderByWithRelationInput
     admin?: AdminOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
@@ -15855,6 +17216,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestOrderByRelationAggregateInput
     subTopic?: SubTopicOrderByWithRelationInput
     group?: GroupOrderByWithRelationInput
+    folder?: FolderOrderByWithRelationInput
   }
 
   export type TestWhereUniqueInput = Prisma.AtLeast<{
@@ -15870,11 +17232,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
+    testTheme?: StringNullableFilter<"Test"> | string | null
     teacherId?: StringNullableFilter<"Test"> | string | null
     adminID?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
     groupId?: StringNullableFilter<"Test"> | string | null
+    folderId?: StringNullableFilter<"Test"> | string | null
     teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     tasks?: TaskListRelationFilter
@@ -15882,6 +17246,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestListRelationFilter
     subTopic?: XOR<SubTopicNullableScalarRelationFilter, SubTopicWhereInput> | null
     group?: XOR<GroupNullableScalarRelationFilter, GroupWhereInput> | null
+    folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
   }, "id">
 
   export type TestOrderByWithAggregationInput = {
@@ -15894,11 +17259,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrderInput | SortOrder
+    testTheme?: SortOrderInput | SortOrder
     teacherId?: SortOrderInput | SortOrder
     adminID?: SortOrderInput | SortOrder
     status?: SortOrder
     subTopicId?: SortOrderInput | SortOrder
     groupId?: SortOrderInput | SortOrder
+    folderId?: SortOrderInput | SortOrder
     _count?: TestCountOrderByAggregateInput
     _avg?: TestAvgOrderByAggregateInput
     _max?: TestMaxOrderByAggregateInput
@@ -15919,11 +17286,13 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     testTYpe?: StringNullableWithAggregatesFilter<"Test"> | string | null
+    testTheme?: StringNullableWithAggregatesFilter<"Test"> | string | null
     teacherId?: StringNullableWithAggregatesFilter<"Test"> | string | null
     adminID?: StringNullableWithAggregatesFilter<"Test"> | string | null
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableWithAggregatesFilter<"Test"> | string | null
     groupId?: StringNullableWithAggregatesFilter<"Test"> | string | null
+    folderId?: StringNullableWithAggregatesFilter<"Test"> | string | null
   }
 
   export type AssignedTestWhereInput = {
@@ -16425,6 +17794,7 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleCreateNestedManyWithoutTeacherInput
     groups?: GroupCreateNestedManyWithoutTeacherInput
+    folders?: FolderCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateInput = {
@@ -16443,6 +17813,7 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleUncheckedCreateNestedManyWithoutTeacherInput
     groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
+    folders?: FolderUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUpdateInput = {
@@ -16461,6 +17832,7 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUpdateManyWithoutTeacherNestedInput
     groups?: GroupUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateInput = {
@@ -16479,6 +17851,7 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
     groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherCreateManyInput = {
@@ -16521,6 +17894,51 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  }
+
+  export type FolderCreateInput = {
+    id?: string
+    name: string
+    tests?: TestCreateNestedManyWithoutFolderInput
+    teacher?: TeacherCreateNestedOneWithoutFoldersInput
+  }
+
+  export type FolderUncheckedCreateInput = {
+    id?: string
+    name: string
+    teacherId: string
+    tests?: TestUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tests?: TestUpdateManyWithoutFolderNestedInput
+    teacher?: TeacherUpdateOneWithoutFoldersNestedInput
+  }
+
+  export type FolderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+    tests?: TestUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderCreateManyInput = {
+    id?: string
+    name: string
+    teacherId: string
+  }
+
+  export type FolderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FolderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    teacherId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StudentCreateInput = {
@@ -16733,6 +18151,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     admin?: AdminCreateNestedOneWithoutTestsInput
@@ -16741,6 +18160,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateInput = {
@@ -16753,11 +18173,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -16773,6 +18195,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     admin?: AdminUpdateOneWithoutTestsNestedInput
@@ -16781,6 +18204,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateInput = {
@@ -16793,11 +18217,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -16813,11 +18239,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
   }
 
   export type TestUpdateManyMutationInput = {
@@ -16830,6 +18258,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
   }
 
@@ -16843,11 +18272,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssignedTestCreateInput = {
@@ -17383,6 +18814,12 @@ export namespace Prisma {
     none?: GroupWhereInput
   }
 
+  export type FolderListRelationFilter = {
+    every?: FolderWhereInput
+    some?: FolderWhereInput
+    none?: FolderWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -17397,6 +18834,10 @@ export namespace Prisma {
   }
 
   export type GroupOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FolderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17468,6 +18909,34 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type TeacherNullableScalarRelationFilter = {
+    is?: TeacherWhereInput | null
+    isNot?: TeacherWhereInput | null
+  }
+
+  export type FolderFolder_name_teacher_uniqueCompoundUniqueInput = {
+    name: string
+    teacherId: string
+  }
+
+  export type FolderCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    teacherId?: SortOrder
+  }
+
+  export type FolderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    teacherId?: SortOrder
+  }
+
+  export type FolderMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    teacherId?: SortOrder
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -17751,11 +19220,6 @@ export namespace Prisma {
     not?: NestedEnumTestStatusFilter<$PrismaModel> | $Enums.TestStatus
   }
 
-  export type TeacherNullableScalarRelationFilter = {
-    is?: TeacherWhereInput | null
-    isNot?: TeacherWhereInput | null
-  }
-
   export type AdminNullableScalarRelationFilter = {
     is?: AdminWhereInput | null
     isNot?: AdminWhereInput | null
@@ -17772,6 +19236,11 @@ export namespace Prisma {
     isNot?: SubTopicWhereInput | null
   }
 
+  export type FolderNullableScalarRelationFilter = {
+    is?: FolderWhereInput | null
+    isNot?: FolderWhereInput | null
+  }
+
   export type TaskOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -17786,11 +19255,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrder
+    testTheme?: SortOrder
     teacherId?: SortOrder
     adminID?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
     groupId?: SortOrder
+    folderId?: SortOrder
   }
 
   export type TestAvgOrderByAggregateInput = {
@@ -17807,11 +19278,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrder
+    testTheme?: SortOrder
     teacherId?: SortOrder
     adminID?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
     groupId?: SortOrder
+    folderId?: SortOrder
   }
 
   export type TestMinOrderByAggregateInput = {
@@ -17824,11 +19297,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     testTYpe?: SortOrder
+    testTheme?: SortOrder
     teacherId?: SortOrder
     adminID?: SortOrder
     status?: SortOrder
     subTopicId?: SortOrder
     groupId?: SortOrder
+    folderId?: SortOrder
   }
 
   export type TestSumOrderByAggregateInput = {
@@ -18254,6 +19729,13 @@ export namespace Prisma {
     connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
   }
 
+  export type FolderCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<FolderCreateWithoutTeacherInput, FolderUncheckedCreateWithoutTeacherInput> | FolderCreateWithoutTeacherInput[] | FolderUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutTeacherInput | FolderCreateOrConnectWithoutTeacherInput[]
+    createMany?: FolderCreateManyTeacherInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+  }
+
   export type TestUncheckedCreateNestedManyWithoutTeacherInput = {
     create?: XOR<TestCreateWithoutTeacherInput, TestUncheckedCreateWithoutTeacherInput> | TestCreateWithoutTeacherInput[] | TestUncheckedCreateWithoutTeacherInput[]
     connectOrCreate?: TestCreateOrConnectWithoutTeacherInput | TestCreateOrConnectWithoutTeacherInput[]
@@ -18280,6 +19762,13 @@ export namespace Prisma {
     connectOrCreate?: GroupCreateOrConnectWithoutTeacherInput | GroupCreateOrConnectWithoutTeacherInput[]
     createMany?: GroupCreateManyTeacherInputEnvelope
     connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+  }
+
+  export type FolderUncheckedCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<FolderCreateWithoutTeacherInput, FolderUncheckedCreateWithoutTeacherInput> | FolderCreateWithoutTeacherInput[] | FolderUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutTeacherInput | FolderCreateOrConnectWithoutTeacherInput[]
+    createMany?: FolderCreateManyTeacherInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
   }
 
   export type EnumSubjectFieldUpdateOperationsInput = {
@@ -18346,6 +19835,20 @@ export namespace Prisma {
     deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
   }
 
+  export type FolderUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<FolderCreateWithoutTeacherInput, FolderUncheckedCreateWithoutTeacherInput> | FolderCreateWithoutTeacherInput[] | FolderUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutTeacherInput | FolderCreateOrConnectWithoutTeacherInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutTeacherInput | FolderUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: FolderCreateManyTeacherInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutTeacherInput | FolderUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutTeacherInput | FolderUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
+  }
+
   export type TestUncheckedUpdateManyWithoutTeacherNestedInput = {
     create?: XOR<TestCreateWithoutTeacherInput, TestUncheckedCreateWithoutTeacherInput> | TestCreateWithoutTeacherInput[] | TestUncheckedCreateWithoutTeacherInput[]
     connectOrCreate?: TestCreateOrConnectWithoutTeacherInput | TestCreateOrConnectWithoutTeacherInput[]
@@ -18400,6 +19903,78 @@ export namespace Prisma {
     update?: GroupUpdateWithWhereUniqueWithoutTeacherInput | GroupUpdateWithWhereUniqueWithoutTeacherInput[]
     updateMany?: GroupUpdateManyWithWhereWithoutTeacherInput | GroupUpdateManyWithWhereWithoutTeacherInput[]
     deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
+  export type FolderUncheckedUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<FolderCreateWithoutTeacherInput, FolderUncheckedCreateWithoutTeacherInput> | FolderCreateWithoutTeacherInput[] | FolderUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutTeacherInput | FolderCreateOrConnectWithoutTeacherInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutTeacherInput | FolderUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: FolderCreateManyTeacherInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutTeacherInput | FolderUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutTeacherInput | FolderUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
+  }
+
+  export type TestCreateNestedManyWithoutFolderInput = {
+    create?: XOR<TestCreateWithoutFolderInput, TestUncheckedCreateWithoutFolderInput> | TestCreateWithoutFolderInput[] | TestUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutFolderInput | TestCreateOrConnectWithoutFolderInput[]
+    createMany?: TestCreateManyFolderInputEnvelope
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+  }
+
+  export type TeacherCreateNestedOneWithoutFoldersInput = {
+    create?: XOR<TeacherCreateWithoutFoldersInput, TeacherUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutFoldersInput
+    connect?: TeacherWhereUniqueInput
+  }
+
+  export type TestUncheckedCreateNestedManyWithoutFolderInput = {
+    create?: XOR<TestCreateWithoutFolderInput, TestUncheckedCreateWithoutFolderInput> | TestCreateWithoutFolderInput[] | TestUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutFolderInput | TestCreateOrConnectWithoutFolderInput[]
+    createMany?: TestCreateManyFolderInputEnvelope
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+  }
+
+  export type TestUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<TestCreateWithoutFolderInput, TestUncheckedCreateWithoutFolderInput> | TestCreateWithoutFolderInput[] | TestUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutFolderInput | TestCreateOrConnectWithoutFolderInput[]
+    upsert?: TestUpsertWithWhereUniqueWithoutFolderInput | TestUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: TestCreateManyFolderInputEnvelope
+    set?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    disconnect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    delete?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    update?: TestUpdateWithWhereUniqueWithoutFolderInput | TestUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: TestUpdateManyWithWhereWithoutFolderInput | TestUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: TestScalarWhereInput | TestScalarWhereInput[]
+  }
+
+  export type TeacherUpdateOneWithoutFoldersNestedInput = {
+    create?: XOR<TeacherCreateWithoutFoldersInput, TeacherUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutFoldersInput
+    upsert?: TeacherUpsertWithoutFoldersInput
+    disconnect?: TeacherWhereInput | boolean
+    delete?: TeacherWhereInput | boolean
+    connect?: TeacherWhereUniqueInput
+    update?: XOR<XOR<TeacherUpdateToOneWithWhereWithoutFoldersInput, TeacherUpdateWithoutFoldersInput>, TeacherUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type TestUncheckedUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<TestCreateWithoutFolderInput, TestUncheckedCreateWithoutFolderInput> | TestCreateWithoutFolderInput[] | TestUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: TestCreateOrConnectWithoutFolderInput | TestCreateOrConnectWithoutFolderInput[]
+    upsert?: TestUpsertWithWhereUniqueWithoutFolderInput | TestUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: TestCreateManyFolderInputEnvelope
+    set?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    disconnect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    delete?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    connect?: TestWhereUniqueInput | TestWhereUniqueInput[]
+    update?: TestUpdateWithWhereUniqueWithoutFolderInput | TestUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: TestUpdateManyWithWhereWithoutFolderInput | TestUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: TestScalarWhereInput | TestScalarWhereInput[]
   }
 
   export type StudentScoreCreateNestedManyWithoutStudentInput = {
@@ -18609,6 +20184,12 @@ export namespace Prisma {
     connect?: GroupWhereUniqueInput
   }
 
+  export type FolderCreateNestedOneWithoutTestsInput = {
+    create?: XOR<FolderCreateWithoutTestsInput, FolderUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutTestsInput
+    connect?: FolderWhereUniqueInput
+  }
+
   export type TaskUncheckedCreateNestedManyWithoutTestInput = {
     create?: XOR<TaskCreateWithoutTestInput, TaskUncheckedCreateWithoutTestInput> | TaskCreateWithoutTestInput[] | TaskUncheckedCreateWithoutTestInput[]
     connectOrCreate?: TaskCreateOrConnectWithoutTestInput | TaskCreateOrConnectWithoutTestInput[]
@@ -18722,6 +20303,16 @@ export namespace Prisma {
     delete?: GroupWhereInput | boolean
     connect?: GroupWhereUniqueInput
     update?: XOR<XOR<GroupUpdateToOneWithWhereWithoutTestsInput, GroupUpdateWithoutTestsInput>, GroupUncheckedUpdateWithoutTestsInput>
+  }
+
+  export type FolderUpdateOneWithoutTestsNestedInput = {
+    create?: XOR<FolderCreateWithoutTestsInput, FolderUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutTestsInput
+    upsert?: FolderUpsertWithoutTestsInput
+    disconnect?: FolderWhereInput | boolean
+    delete?: FolderWhereInput | boolean
+    connect?: FolderWhereUniqueInput
+    update?: XOR<XOR<FolderUpdateToOneWithWhereWithoutTestsInput, FolderUpdateWithoutTestsInput>, FolderUncheckedUpdateWithoutTestsInput>
   }
 
   export type TaskUncheckedUpdateManyWithoutTestNestedInput = {
@@ -19329,6 +20920,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
@@ -19336,6 +20928,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutAdminInput = {
@@ -19348,10 +20941,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -19424,11 +21019,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     testTYpe?: StringNullableFilter<"Test"> | string | null
+    testTheme?: StringNullableFilter<"Test"> | string | null
     teacherId?: StringNullableFilter<"Test"> | string | null
     adminID?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     subTopicId?: StringNullableFilter<"Test"> | string | null
     groupId?: StringNullableFilter<"Test"> | string | null
+    folderId?: StringNullableFilter<"Test"> | string | null
   }
 
   export type AdminCreateWithoutTopicsInput = {
@@ -19574,6 +21171,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     admin?: AdminCreateNestedOneWithoutTestsInput
@@ -19581,6 +21179,7 @@ export namespace Prisma {
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutSubTopicInput = {
@@ -19593,10 +21192,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     groupId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -19667,6 +21268,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     admin?: AdminCreateNestedOneWithoutTestsInput
     tasks?: TaskCreateNestedManyWithoutTestInput
@@ -19674,6 +21276,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutTeacherInput = {
@@ -19686,10 +21289,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -19805,6 +21410,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FolderCreateWithoutTeacherInput = {
+    id?: string
+    name: string
+    tests?: TestCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateWithoutTeacherInput = {
+    id?: string
+    name: string
+    tests?: TestUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderCreateOrConnectWithoutTeacherInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutTeacherInput, FolderUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type FolderCreateManyTeacherInputEnvelope = {
+    data: FolderCreateManyTeacherInput | FolderCreateManyTeacherInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TestUpsertWithWhereUniqueWithoutTeacherInput = {
     where: TestWhereUniqueInput
     update: XOR<TestUpdateWithoutTeacherInput, TestUncheckedUpdateWithoutTeacherInput>
@@ -19911,6 +21538,187 @@ export namespace Prisma {
     teacherId?: StringFilter<"Group"> | string
   }
 
+  export type FolderUpsertWithWhereUniqueWithoutTeacherInput = {
+    where: FolderWhereUniqueInput
+    update: XOR<FolderUpdateWithoutTeacherInput, FolderUncheckedUpdateWithoutTeacherInput>
+    create: XOR<FolderCreateWithoutTeacherInput, FolderUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type FolderUpdateWithWhereUniqueWithoutTeacherInput = {
+    where: FolderWhereUniqueInput
+    data: XOR<FolderUpdateWithoutTeacherInput, FolderUncheckedUpdateWithoutTeacherInput>
+  }
+
+  export type FolderUpdateManyWithWhereWithoutTeacherInput = {
+    where: FolderScalarWhereInput
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyWithoutTeacherInput>
+  }
+
+  export type FolderScalarWhereInput = {
+    AND?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    OR?: FolderScalarWhereInput[]
+    NOT?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    teacherId?: StringFilter<"Folder"> | string
+  }
+
+  export type TestCreateWithoutFolderInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testTYpe?: string | null
+    testTheme?: string | null
+    status?: $Enums.TestStatus
+    teacher?: TeacherCreateNestedOneWithoutTestsInput
+    admin?: AdminCreateNestedOneWithoutTestsInput
+    tasks?: TaskCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
+    subTopic?: SubTopicCreateNestedOneWithoutTestsInput
+    group?: GroupCreateNestedOneWithoutTestsInput
+  }
+
+  export type TestUncheckedCreateWithoutFolderInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testTYpe?: string | null
+    testTheme?: string | null
+    teacherId?: string | null
+    adminID?: string | null
+    status?: $Enums.TestStatus
+    subTopicId?: string | null
+    groupId?: string | null
+    tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
+    studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
+    assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
+  }
+
+  export type TestCreateOrConnectWithoutFolderInput = {
+    where: TestWhereUniqueInput
+    create: XOR<TestCreateWithoutFolderInput, TestUncheckedCreateWithoutFolderInput>
+  }
+
+  export type TestCreateManyFolderInputEnvelope = {
+    data: TestCreateManyFolderInput | TestCreateManyFolderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeacherCreateWithoutFoldersInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    password: string
+    subject: $Enums.Subject
+    plan?: string | null
+    subscriptionTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.Status
+    tests?: TestCreateNestedManyWithoutTeacherInput
+    students?: StudentCreateNestedManyWithoutTeacherInput
+    schedule?: ScheduleCreateNestedManyWithoutTeacherInput
+    groups?: GroupCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherUncheckedCreateWithoutFoldersInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    password: string
+    subject: $Enums.Subject
+    plan?: string | null
+    subscriptionTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.Status
+    tests?: TestUncheckedCreateNestedManyWithoutTeacherInput
+    students?: StudentUncheckedCreateNestedManyWithoutTeacherInput
+    schedule?: ScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherCreateOrConnectWithoutFoldersInput = {
+    where: TeacherWhereUniqueInput
+    create: XOR<TeacherCreateWithoutFoldersInput, TeacherUncheckedCreateWithoutFoldersInput>
+  }
+
+  export type TestUpsertWithWhereUniqueWithoutFolderInput = {
+    where: TestWhereUniqueInput
+    update: XOR<TestUpdateWithoutFolderInput, TestUncheckedUpdateWithoutFolderInput>
+    create: XOR<TestCreateWithoutFolderInput, TestUncheckedCreateWithoutFolderInput>
+  }
+
+  export type TestUpdateWithWhereUniqueWithoutFolderInput = {
+    where: TestWhereUniqueInput
+    data: XOR<TestUpdateWithoutFolderInput, TestUncheckedUpdateWithoutFolderInput>
+  }
+
+  export type TestUpdateManyWithWhereWithoutFolderInput = {
+    where: TestScalarWhereInput
+    data: XOR<TestUpdateManyMutationInput, TestUncheckedUpdateManyWithoutFolderInput>
+  }
+
+  export type TeacherUpsertWithoutFoldersInput = {
+    update: XOR<TeacherUpdateWithoutFoldersInput, TeacherUncheckedUpdateWithoutFoldersInput>
+    create: XOR<TeacherCreateWithoutFoldersInput, TeacherUncheckedCreateWithoutFoldersInput>
+    where?: TeacherWhereInput
+  }
+
+  export type TeacherUpdateToOneWithWhereWithoutFoldersInput = {
+    where?: TeacherWhereInput
+    data: XOR<TeacherUpdateWithoutFoldersInput, TeacherUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type TeacherUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    tests?: TestUpdateManyWithoutTeacherNestedInput
+    students?: StudentUpdateManyWithoutTeacherNestedInput
+    schedule?: ScheduleUpdateManyWithoutTeacherNestedInput
+    groups?: GroupUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type TeacherUncheckedUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    subject?: EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
+    plan?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    tests?: TestUncheckedUpdateManyWithoutTeacherNestedInput
+    students?: StudentUncheckedUpdateManyWithoutTeacherNestedInput
+    schedule?: ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
   export type StudentScoreCreateWithoutStudentInput = {
     id?: string
     score: number
@@ -19986,6 +21794,7 @@ export namespace Prisma {
     tests?: TestCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleCreateNestedManyWithoutTeacherInput
     groups?: GroupCreateNestedManyWithoutTeacherInput
+    folders?: FolderCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutStudentsInput = {
@@ -20003,6 +21812,7 @@ export namespace Prisma {
     tests?: TestUncheckedCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleUncheckedCreateNestedManyWithoutTeacherInput
     groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
+    folders?: FolderUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutStudentsInput = {
@@ -20117,6 +21927,7 @@ export namespace Prisma {
     tests?: TestUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUpdateManyWithoutTeacherNestedInput
     groups?: GroupUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutStudentsInput = {
@@ -20134,6 +21945,7 @@ export namespace Prisma {
     tests?: TestUncheckedUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
     groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type GroupUpsertWithoutStudentsInput = {
@@ -20210,6 +22022,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     admin?: AdminCreateNestedOneWithoutTestsInput
@@ -20217,6 +22030,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutStudentScoresInput = {
@@ -20229,11 +22043,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
@@ -20307,6 +22123,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     admin?: AdminUpdateOneWithoutTestsNestedInput
@@ -20314,6 +22131,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutStudentScoresInput = {
@@ -20326,11 +22144,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
@@ -20350,6 +22170,7 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleCreateNestedManyWithoutTeacherInput
     groups?: GroupCreateNestedManyWithoutTeacherInput
+    folders?: FolderCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutTestsInput = {
@@ -20367,6 +22188,7 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleUncheckedCreateNestedManyWithoutTeacherInput
     groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
+    folders?: FolderUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutTestsInput = {
@@ -20539,6 +22361,23 @@ export namespace Prisma {
     create: XOR<GroupCreateWithoutTestsInput, GroupUncheckedCreateWithoutTestsInput>
   }
 
+  export type FolderCreateWithoutTestsInput = {
+    id?: string
+    name: string
+    teacher?: TeacherCreateNestedOneWithoutFoldersInput
+  }
+
+  export type FolderUncheckedCreateWithoutTestsInput = {
+    id?: string
+    name: string
+    teacherId: string
+  }
+
+  export type FolderCreateOrConnectWithoutTestsInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutTestsInput, FolderUncheckedCreateWithoutTestsInput>
+  }
+
   export type TeacherUpsertWithoutTestsInput = {
     update: XOR<TeacherUpdateWithoutTestsInput, TeacherUncheckedUpdateWithoutTestsInput>
     create: XOR<TeacherCreateWithoutTestsInput, TeacherUncheckedCreateWithoutTestsInput>
@@ -20565,6 +22404,7 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUpdateManyWithoutTeacherNestedInput
     groups?: GroupUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutTestsInput = {
@@ -20582,6 +22422,7 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
     groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type AdminUpsertWithoutTestsInput = {
@@ -20735,6 +22576,29 @@ export namespace Prisma {
     assignedTests?: AssignedTestUncheckedUpdateManyWithoutGroupNestedInput
   }
 
+  export type FolderUpsertWithoutTestsInput = {
+    update: XOR<FolderUpdateWithoutTestsInput, FolderUncheckedUpdateWithoutTestsInput>
+    create: XOR<FolderCreateWithoutTestsInput, FolderUncheckedCreateWithoutTestsInput>
+    where?: FolderWhereInput
+  }
+
+  export type FolderUpdateToOneWithWhereWithoutTestsInput = {
+    where?: FolderWhereInput
+    data: XOR<FolderUpdateWithoutTestsInput, FolderUncheckedUpdateWithoutTestsInput>
+  }
+
+  export type FolderUpdateWithoutTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    teacher?: TeacherUpdateOneWithoutFoldersNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutTestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    teacherId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StudentCreateWithoutAssignedTestsInput = {
     id?: string
     name: string
@@ -20803,6 +22667,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     admin?: AdminCreateNestedOneWithoutTestsInput
@@ -20810,6 +22675,7 @@ export namespace Prisma {
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutAssignedToInput = {
@@ -20822,11 +22688,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
   }
@@ -20927,6 +22795,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     admin?: AdminUpdateOneWithoutTestsNestedInput
@@ -20934,6 +22803,7 @@ export namespace Prisma {
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutAssignedToInput = {
@@ -20946,11 +22816,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
   }
@@ -20965,6 +22837,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     admin?: AdminCreateNestedOneWithoutTestsInput
@@ -20972,6 +22845,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
     group?: GroupCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutTasksInput = {
@@ -20984,11 +22858,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
   }
@@ -21019,6 +22895,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     admin?: AdminUpdateOneWithoutTestsNestedInput
@@ -21026,6 +22903,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTasksInput = {
@@ -21038,11 +22916,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
   }
@@ -21062,6 +22942,7 @@ export namespace Prisma {
     tests?: TestCreateNestedManyWithoutTeacherInput
     students?: StudentCreateNestedManyWithoutTeacherInput
     groups?: GroupCreateNestedManyWithoutTeacherInput
+    folders?: FolderCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutScheduleInput = {
@@ -21079,6 +22960,7 @@ export namespace Prisma {
     tests?: TestUncheckedCreateNestedManyWithoutTeacherInput
     students?: StudentUncheckedCreateNestedManyWithoutTeacherInput
     groups?: GroupUncheckedCreateNestedManyWithoutTeacherInput
+    folders?: FolderUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutScheduleInput = {
@@ -21112,6 +22994,7 @@ export namespace Prisma {
     tests?: TestUpdateManyWithoutTeacherNestedInput
     students?: StudentUpdateManyWithoutTeacherNestedInput
     groups?: GroupUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutScheduleInput = {
@@ -21129,6 +23012,7 @@ export namespace Prisma {
     tests?: TestUncheckedUpdateManyWithoutTeacherNestedInput
     students?: StudentUncheckedUpdateManyWithoutTeacherNestedInput
     groups?: GroupUncheckedUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherCreateWithoutGroupsInput = {
@@ -21146,6 +23030,7 @@ export namespace Prisma {
     tests?: TestCreateNestedManyWithoutTeacherInput
     students?: StudentCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleCreateNestedManyWithoutTeacherInput
+    folders?: FolderCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutGroupsInput = {
@@ -21163,6 +23048,7 @@ export namespace Prisma {
     tests?: TestUncheckedCreateNestedManyWithoutTeacherInput
     students?: StudentUncheckedCreateNestedManyWithoutTeacherInput
     schedule?: ScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    folders?: FolderUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutGroupsInput = {
@@ -21222,6 +23108,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     status?: $Enums.TestStatus
     teacher?: TeacherCreateNestedOneWithoutTestsInput
     admin?: AdminCreateNestedOneWithoutTestsInput
@@ -21229,6 +23116,7 @@ export namespace Prisma {
     studentScores?: StudentScoreCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestCreateNestedManyWithoutTestInput
     subTopic?: SubTopicCreateNestedOneWithoutTestsInput
+    folder?: FolderCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutGroupInput = {
@@ -21241,10 +23129,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
+    folderId?: string | null
     tasks?: TaskUncheckedCreateNestedManyWithoutTestInput
     studentScores?: StudentScoreUncheckedCreateNestedManyWithoutTestInput
     assignedTo?: AssignedTestUncheckedCreateNestedManyWithoutTestInput
@@ -21312,6 +23202,7 @@ export namespace Prisma {
     tests?: TestUpdateManyWithoutTeacherNestedInput
     students?: StudentUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutGroupsInput = {
@@ -21329,6 +23220,7 @@ export namespace Prisma {
     tests?: TestUncheckedUpdateManyWithoutTeacherNestedInput
     students?: StudentUncheckedUpdateManyWithoutTeacherNestedInput
     schedule?: ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type StudentUpsertWithWhereUniqueWithoutGroupInput = {
@@ -21397,10 +23289,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
   }
 
   export type TopicUpdateWithoutAdminInput = {
@@ -21439,6 +23333,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
@@ -21446,6 +23341,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutAdminInput = {
@@ -21458,10 +23354,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -21477,10 +23375,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubTopicCreateManyTopicInput = {
@@ -21519,10 +23419,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     groupId?: string | null
+    folderId?: string | null
   }
 
   export type TestUpdateWithoutSubTopicInput = {
@@ -21535,6 +23437,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     admin?: AdminUpdateOneWithoutTestsNestedInput
@@ -21542,6 +23445,7 @@ export namespace Prisma {
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutSubTopicInput = {
@@ -21554,10 +23458,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -21573,10 +23479,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TestCreateManyTeacherInput = {
@@ -21589,10 +23497,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
     groupId?: string | null
+    folderId?: string | null
   }
 
   export type StudentCreateManyTeacherInput = {
@@ -21625,6 +23535,11 @@ export namespace Prisma {
     title: string
   }
 
+  export type FolderCreateManyTeacherInput = {
+    id?: string
+    name: string
+  }
+
   export type TestUpdateWithoutTeacherInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21635,6 +23550,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     admin?: AdminUpdateOneWithoutTestsNestedInput
     tasks?: TaskUpdateManyWithoutTestNestedInput
@@ -21642,6 +23558,7 @@ export namespace Prisma {
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
     group?: GroupUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTeacherInput = {
@@ -21654,10 +23571,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -21673,10 +23592,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StudentUpdateWithoutTeacherInput = {
@@ -21777,6 +23698,101 @@ export namespace Prisma {
   export type GroupUncheckedUpdateManyWithoutTeacherInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FolderUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tests?: TestUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tests?: TestUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateManyWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestCreateManyFolderInput = {
+    id?: string
+    title?: string | null
+    timeLimit?: number | null
+    description?: string | null
+    score?: string | null
+    startTime?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testTYpe?: string | null
+    testTheme?: string | null
+    teacherId?: string | null
+    adminID?: string | null
+    status?: $Enums.TestStatus
+    subTopicId?: string | null
+    groupId?: string | null
+  }
+
+  export type TestUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    teacher?: TeacherUpdateOneWithoutTestsNestedInput
+    admin?: AdminUpdateOneWithoutTestsNestedInput
+    tasks?: TaskUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
+    subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
+    group?: GroupUpdateOneWithoutTestsNestedInput
+  }
+
+  export type TestUncheckedUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
+    studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
+    assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateManyWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminID?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
+    subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StudentScoreCreateManyStudentInput = {
@@ -22019,10 +24035,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testTYpe?: string | null
+    testTheme?: string | null
     teacherId?: string | null
     adminID?: string | null
     status?: $Enums.TestStatus
     subTopicId?: string | null
+    folderId?: string | null
   }
 
   export type AssignedTestCreateManyGroupInput = {
@@ -22089,6 +24107,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     teacher?: TeacherUpdateOneWithoutTestsNestedInput
     admin?: AdminUpdateOneWithoutTestsNestedInput
@@ -22096,6 +24115,7 @@ export namespace Prisma {
     studentScores?: StudentScoreUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUpdateManyWithoutTestNestedInput
     subTopic?: SubTopicUpdateOneWithoutTestsNestedInput
+    folder?: FolderUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutGroupInput = {
@@ -22108,10 +24128,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     tasks?: TaskUncheckedUpdateManyWithoutTestNestedInput
     studentScores?: StudentScoreUncheckedUpdateManyWithoutTestNestedInput
     assignedTo?: AssignedTestUncheckedUpdateManyWithoutTestNestedInput
@@ -22127,10 +24149,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testTYpe?: NullableStringFieldUpdateOperationsInput | string | null
+    testTheme?: NullableStringFieldUpdateOperationsInput | string | null
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     adminID?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     subTopicId?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssignedTestUpdateWithoutGroupInput = {

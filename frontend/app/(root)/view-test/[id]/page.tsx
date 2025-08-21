@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from '@/hooks/useUser'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useParams, useRouter } from 'next/navigation'
 import TestTasks from '@/components/testComponents/TestTasks'
@@ -18,7 +18,7 @@ const ViewTest = () => {
     const testId = params?.id
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
-    const { user, setUser } = useUser()
+    const { user } = useUser()
     const [test, setTest] = useState({
         title: '',
         description: '',
@@ -46,34 +46,11 @@ const ViewTest = () => {
         localStorage.setItem('editedImages', JSON.stringify(editedImages))
     }, [editedImages])
 
-    const validateForm = () => {
-        try {
-            TestSchema.parse({
-                ...test,
-            })
-            setErrors({})
-            return true
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                const newErrors: Record<string, string> = {}
-                error.issues.forEach((issue) => {
-                    if (issue.path.length > 0) {
-                        const fieldName = issue.path[0] as string
-                        newErrors[fieldName] = issue.message
-                    }
-                })
-                setErrors(newErrors)
-            }
-            return false
-        }
-    }
-
     useEffect(() => {
         const getTestById = async () => {
             try {
                 const res = await fetch(`${API_URL}/api/test/${testId}`)
                 const data = await res.json()
-
                 setTest({
                     ...data,
                     timeLimit: data.timeLimit?.toString() ?? '0',
@@ -112,12 +89,33 @@ const ViewTest = () => {
         }
     }
 
+    const validateForm = () => {
+        try {
+            TestSchema.parse({
+                ...test,
+            })
+            setErrors({})
+            return true
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const newErrors: Record<string, string> = {}
+                error.issues.forEach((issue) => {
+                    if (issue.path.length > 0) {
+                        const fieldName = issue.path[0] as string
+                        newErrors[fieldName] = issue.message
+                    }
+                })
+                setErrors(newErrors)
+            }
+            return false
+        }
+    }
+
     const handleUpdateTest = async () => {
         if (!validateForm()) {
             toast.error('Будь ласка, виправте помилки у формі')
             return
         }
-
         try {
             if (deleteImage) await handleDeleteImages(deleteImage)
             const res = await fetch(`${API_URL}/api/test/${testId}`, {
@@ -141,16 +139,16 @@ const ViewTest = () => {
                     })),
                 }),
             })
-
-            const data = await res.json()
             localStorage.removeItem('editedImages')
-            router.push('/teacher')
+            user?.status === 'Teacher'
+                ? router.push('/teacher')
+                : router.push('/admin')
         } catch (error) {
             console.log(error)
         }
     }
 
-    const handleSelect = (type: string) => {
+    const handleSelect = useCallback((type: string) => {
         setQuestionType(type)
 
         if (type === 'multiple') {
@@ -158,7 +156,7 @@ const ViewTest = () => {
                 id: nanoid(),
                 title: '',
                 type: 'multiple',
-                answers: Array(1)
+                answers: Array(3)
                     .fill(null)
                     .map(() => ({ text: '', isCorrect: false, id: nanoid() })),
                 pairs: [],
@@ -200,29 +198,46 @@ const ViewTest = () => {
         }
 
         setModalOpen(false)
-    }
+    }, [])
 
-    const updateAnswerText = (index: number, text: string) => {
-        const updatedAnswers = [...question.answers]
-        updatedAnswers[index].text = text
-        setQuestion({ ...question, answers: updatedAnswers })
-    }
+    const toggleAnswerCorrect = useCallback((index: number) => {
+        setQuestion((prev: any) => ({
+            ...prev,
+            answers: prev.answers.map((answer: any, i: any) =>
+                i === index
+                    ? { ...answer, isCorrect: !answer.isCorrect }
+                    : answer
+            ),
+        }))
+    }, [])
 
-    const toggleAnswerCorrect = (index: number) => {
-        const updatedAnswers = [...question.answers]
-        updatedAnswers[index].isCorrect = !updatedAnswers[index].isCorrect
-        setQuestion({ ...question, answers: updatedAnswers })
-    }
+    const handleTitleChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, title: value }))
+    }, [])
 
-    const formatDateForInput = (isoString: string) => {
-        if (!isoString) return ''
+    const handleDescriptionChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, description: value }))
+    }, [])
 
-        const date = new Date(isoString)
-        if (isNaN(date.getTime())) return ''
+    const handleTimeLimitChange = useCallback((value: string) => {
+        setTest((prev) => ({ ...prev, timeLimit: value }))
+    }, [])
 
-        const offset = date.getTimezoneOffset() * 60000
-        return new Date(date.getTime() - offset).toISOString().slice(0, 16)
-    }
+    const updateTask = useCallback((updatedTask: any) => {
+        setTest((prev: any) => ({
+            ...prev,
+            tasks: prev.tasks.map((task: any) =>
+                task.id === updatedTask.id ? updatedTask : task
+            ),
+        }))
+    }, [])
+
+    const updateTest = useCallback((updatedFields: any) => {
+        setTest((prev) => ({
+            ...prev,
+            ...updatedFields,
+        }))
+    }, [])
 
     const handleSaveMatchingTask = () => {
         const validPairs = question.pairs.filter(
@@ -233,36 +248,43 @@ const ViewTest = () => {
             left: {
                 rightId: pair.right.id,
                 rightText: pair.right.text,
+                rightImage: pair.right.image,
                 leftId: pair.left.id,
                 leftText: pair.left.text,
+                leftImage: pair.left.image,
             },
         }))
+
+        const taskToSave = {
+            ...question,
+            type: questionType,
+            answers: answers,
+            pairs: question.pairs.map((pair: any) => ({
+                left: {
+                    id: pair.left.id,
+                    text: pair.left.text,
+                    image: pair.left.image,
+                },
+                right: {
+                    id: pair.right.id,
+                    text: pair.right.text,
+                    image: pair.right.image,
+                },
+            })),
+        }
 
         setTest((prev: any) => {
             const newNumber = prev.tasks.length + 1
 
-            const taskToSave = {
-                ...question,
-                type: questionType,
-                number: newNumber.toString(),
-                answers: answers,
-                pairs: question.pairs.map((pair: any) => ({
-                    left: {
-                        id: pair.left.id,
-                        text: pair.left.text,
-                        image: pair.left.image,
-                    },
-                    right: {
-                        id: pair.right.id,
-                        text: pair.right.text,
-                        image: pair.right.image,
-                    },
-                })),
-            }
-
             return {
                 ...prev,
-                tasks: [...prev.tasks, taskToSave],
+                tasks: [
+                    ...prev.tasks,
+                    {
+                        ...taskToSave,
+                        number: newNumber.toString(),
+                    },
+                ],
             }
         })
 
@@ -283,33 +305,6 @@ const ViewTest = () => {
     }
 
     useEffect(() => {
-        console.log(question)
-    }, [question])
-
-    const updateTask = (updatedTask: any) => {
-        setTest((prev: any) => ({
-            ...prev,
-            tasks: prev.tasks.map((task: any) =>
-                task.id === updatedTask.id ? updatedTask : task
-            ),
-        }))
-    }
-
-    const deleteTask = (taskId: any) => {
-        setTest((prev) => ({
-            ...prev,
-            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
-        }))
-    }
-
-    useEffect(() => {
-        console.log(test)
-    }, [test])
-    const updateTest = (updatedTest: any) => {
-        setTest(updatedTest)
-    }
-
-    useEffect(() => {
         if (test?.tasks?.length > 0 && errors.tasks) {
             setErrors((prev) => {
                 const { tasks, ...rest } = prev
@@ -324,33 +319,37 @@ const ViewTest = () => {
                 Оновлення тесту
             </h1>
             <TestBasicInfo
-                test={test}
-                setTest={setTest}
-                formatDateForInput={formatDateForInput}
+                title={test.title}
+                description={test.description}
+                timeLimit={test.timeLimit}
+                setTitle={handleTitleChange}
+                setDescription={handleDescriptionChange}
+                setTimeLimit={handleTimeLimitChange}
                 errors={errors}
                 setErrors={setErrors}
             />
+
             <TestTasks
-                test={test}
+                tasks={test.tasks}
                 updateTask={updateTask}
-                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
+                key={test.tasks.length}
+                test={test}
                 setDeleteImage={setDeleteImage}
                 typeEditing={'edit'}
                 setEditedImages={setEditedImages}
             />
             <CreateTestTask
                 subject={user?.subject}
+                key={questionType}
                 questionType={questionType}
                 setQuestionType={setQuestionType}
-                test={test}
                 setTest={setTest}
                 setModalOpen={setModalOpen}
                 question={question}
                 setQuestion={setQuestion}
                 toggleAnswerCorrect={toggleAnswerCorrect}
-                updateAnswerText={updateAnswerText}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
                 setEditedImages={setEditedImages}

@@ -155,7 +155,7 @@ const TopicTestsResult = ({
                                                                     </button>
                                                                 ) : (
                                                                     <Link
-                                                                        href={`/perfomence/${test.id}`}
+                                                                        href={`/perfomence/${result.id}`}
                                                                         className="bg-[#CA193A] px-3 py-1.5 sm:px-4 sm:py-2 text-white text-xs sm:text-sm rounded-md font-semibold uppercase hover:bg-[#b01535] transition-colors text-center"
                                                                     >
                                                                         Переглянути

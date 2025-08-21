@@ -18,11 +18,6 @@ const NavBar = () => {
     const pathname = usePathname()
     const { user, setUser } = useUser()
 
-    // // Якщо користувач адмін - не показуємо хедер
-    // if (user?.status === 'Admin') {
-    //     return null
-    // }
-
     const logOut = async () => {
         try {
             await signOut({
@@ -31,6 +26,8 @@ const NavBar = () => {
             })
 
             localStorage.removeItem('user')
+            localStorage.removeItem('test')
+            localStorage.removeItem('time-left')
             deleteCookie('user', {
                 path: '/',
                 secure: true,
@@ -95,7 +92,7 @@ const NavBar = () => {
         },
         {
             label: 'Тести',
-            href: '/topic-tests/mathematics',
+            href: `/topic-tests/${user?.subject?.toLocaleLowerCase()}`,
             key: 'tests',
         },
     ]
@@ -123,14 +120,12 @@ const NavBar = () => {
                     </div>
                 </div>
 
-                {user?.status !== 'Student' && (
-                    <button
-                        className="md:hidden text-2xl"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <FiX /> : <FiMenu />}
-                    </button>
-                )}
+                <button
+                    className="md:hidden text-2xl"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                    {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+                </button>
 
                 <div className="hidden md:flex items-center gap-12">
                     {navItems.map((item: any) => (
@@ -194,8 +189,7 @@ const NavBar = () => {
                     )}
                 </div>
             </div>
-
-            {isMobileMenuOpen && user?.status !== 'Student' && (
+            {isMobileMenuOpen && (
                 <div className="flex flex-col mt-4 gap-3 md:hidden">
                     {navItems.map((item: any) => (
                         <Link

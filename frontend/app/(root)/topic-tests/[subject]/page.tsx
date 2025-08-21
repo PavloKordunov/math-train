@@ -12,9 +12,22 @@ const TopicTestPage = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const [topics, setTopics] = useState<any[]>([])
     const [students, setStudents] = useState<any[]>([])
+    const [ukrSubName, setUkrSubName] = useState('')
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedTest, setSelectedTest] = useState<any>(null)
+
+    useEffect(() => {
+        if (subjectName === 'mathematics') {
+            setUkrSubName('Математика')
+        } else if (subjectName === 'ukrainian') {
+            setUkrSubName('Українська мова')
+        } else if (subjectName === 'english') {
+            setUkrSubName('Англійська мова')
+        } else if (subjectName === 'history') {
+            setUkrSubName('Історія України')
+        }
+    }, [subjectName])
 
     useEffect(() => {
         const getaAlltopicsBySubject = async () => {
@@ -56,7 +69,7 @@ const TopicTestPage = () => {
         <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-[1280px] w-full">
                 <h1 className="text-[32px] sm:text-[40px] font-semibold mb-10 text-center sm:text-left">
-                    Математика: завдання за темами
+                    {ukrSubName}: завдання за темами
                 </h1>
                 <TopicTesets
                     topics={topics}
