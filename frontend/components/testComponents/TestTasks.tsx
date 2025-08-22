@@ -498,27 +498,28 @@ const TestTasks = memo(
                                                                             '—'
                                                                     )
                                                                 )}
+                                                                {pair.left
+                                                                    .image && (
+                                                                    <div className="w-full max-w-xs rounded-lg overflow-hidden">
+                                                                        <Image
+                                                                            src={
+                                                                                pair
+                                                                                    .left
+                                                                                    .image
+                                                                            }
+                                                                            alt={``}
+                                                                            width={
+                                                                                237
+                                                                            }
+                                                                            height={
+                                                                                237
+                                                                            }
+                                                                            className="w-full h-auto object-contain"
+                                                                        />
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                            {pair.left
-                                                                .image && (
-                                                                <div className="w-full max-w-xs rounded-lg overflow-hidden">
-                                                                    <Image
-                                                                        src={
-                                                                            pair
-                                                                                .left
-                                                                                .image
-                                                                        }
-                                                                        alt={``}
-                                                                        width={
-                                                                            237
-                                                                        }
-                                                                        height={
-                                                                            237
-                                                                        }
-                                                                        className="w-full h-auto object-contain"
-                                                                    />
-                                                                </div>
-                                                            )}
+
                                                             <div className="col-span-1 text-center text-gray-400">
                                                                 ⇄
                                                             </div>
@@ -669,11 +670,11 @@ const TestTasks = memo(
                         </div>
                     ))}
 
-                {editingTask && (
+                {editTaskModal && (
                     <EditTaskModal
                         task={editingTask}
                         onSave={handleSave}
-                        onClose={() => setEditingTask(null)}
+                        onClose={() => handleClose(editingTask)}
                         subject={subject}
                         setDeleteImage={setDeleteImage}
                         deleteImage={deleteImage}

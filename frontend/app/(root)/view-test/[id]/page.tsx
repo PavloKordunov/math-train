@@ -43,6 +43,7 @@ const ViewTest = () => {
 
     useEffect(() => {
         if (editedImages.length === 0) return
+        console.log('editedImages', editedImages)
         localStorage.setItem('editedImages', JSON.stringify(editedImages))
     }, [editedImages])
 

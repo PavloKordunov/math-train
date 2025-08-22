@@ -32,7 +32,6 @@ const ImageUpload = ({
             setEditedImages((prev: any) => [...prev, data.publicUrl])
             setQuestion((prev: any) => {
                 if (id === 'title') {
-                    console.log('title', data.publicUrl)
                     return { ...prev, image: data.publicUrl }
                 } else if (typeAnswer === 'matching') {
                     return {
