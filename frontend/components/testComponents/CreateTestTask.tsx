@@ -1,4 +1,11 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react'
 import { nanoid } from 'nanoid'
 import ImageUpload from './create-test-task/ImageUpload'
 import AnswerInput from './create-test-task/AnswerInput'
@@ -6,6 +13,7 @@ import PairInput from './create-test-task/PairInput'
 import MathInput from '../MathInput'
 import BoldTextInput from '../BoldTextInput'
 import { useUser } from '@/hooks/useUser'
+import { MdDelete } from 'react-icons/md'
 
 type ErrorsShape = {
     title?: string
@@ -26,6 +34,8 @@ interface Props {
     handleSaveMatchingTask: () => void
     value?: any
     tasksError?: string
+    handleDeleteImage?: any
+    setEditedImages?: any
 }
 
 const emptyForType = (type: string) => {
@@ -35,7 +45,12 @@ const emptyForType = (type: string) => {
             type: 'multiple',
             answers: Array(3)
                 .fill(null)
-                .map(() => ({ text: '', isCorrect: false, id: nanoid() })),
+                .map(() => ({
+                    text: '',
+                    isCorrect: false,
+                    id: nanoid(),
+                    image: '',
+                })),
             pairs: [],
             image: '',
         }
@@ -47,8 +62,8 @@ const emptyForType = (type: string) => {
             answers: [],
             pairs: [
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ],
@@ -76,29 +91,56 @@ const CreateTestTask: React.FC<Props> = ({
     handleSaveMatchingTask,
     value,
     tasksError,
+    handleDeleteImage,
+    setEditedImages,
 }) => {
     const { user } = useUser()
 
     const [localQuestion, setLocalQuestion] = useState(
         () => question || emptyForType(questionType || 'multiple')
     )
-    const [base64, setBase64] = useState('')
     const [errors, setErrors] = useState<ErrorsShape>({})
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
 
+    const questionRef = useRef(question)
+    questionRef.current = question
     useEffect(() => {
         setLocalQuestion(question || emptyForType(questionType || 'multiple'))
     }, [question?.id, questionType])
 
-    const handleLocalTitleChange = useCallback((val: string) => {
-        setLocalQuestion((prev: any) => ({ ...prev, title: val }))
-        setErrors((prev) => ({
-            ...prev,
-            title: val && val.trim() ? undefined : prev.title,
-        }))
-    }, [])
+    const handleLocalTitleChange = useCallback(
+        (val: string) => {
+            setLocalQuestion((prev: any) => ({ ...prev, title: val }))
+            setErrors((prev) => ({
+                ...prev,
+                title: (val && val.trim()) || question.image ? '' : prev.title,
+            }))
+        },
+        [setQuestion, question.image]
+    )
+
+    const handleRejectTask = () => {
+        if (question.image) {
+            handleDeleteImage('title', question.image)
+        }
+
+        question.answers.forEach((ans: any) => {
+            if (ans.image) handleDeleteImage(ans.id, ans.image)
+        })
+
+        question.pairs.forEach((pair: any) => {
+            if (pair.left.image)
+                handleDeleteImage(pair.left.id, pair.left.image)
+            if (pair.right.image)
+                handleDeleteImage(pair.right.id, pair.right.image)
+        })
+
+        setQuestionType('')
+    }
 
     const handleLocalAnswerChange = useCallback(
         (index: number, val: string) => {
+            const updatedAnswers = [...questionRef.current.answers]
             setLocalQuestion((prev: any) => {
                 const answers = prev.answers ? [...prev.answers] : []
                 answers[index] = {
@@ -111,11 +153,13 @@ const CreateTestTask: React.FC<Props> = ({
             setErrors((prev) => {
                 const ans = prev.answers ? [...prev.answers] : []
                 ans[index] =
-                    val && val.trim() ? '' : ans[index] || 'Порожня відповідь'
+                    (val && val.trim()) || updatedAnswers[index].image
+                        ? ''
+                        : ans[index] || 'Порожня відповідь'
                 return { ...prev, answers: ans }
             })
         },
-        []
+        [setQuestion]
     )
 
     const handleAddLocalAnswer = useCallback(() => {
@@ -134,15 +178,20 @@ const CreateTestTask: React.FC<Props> = ({
 
     const handleRemoveLocalAnswer = useCallback((index: number) => {
         setLocalQuestion((prev: any) => {
-            const answers = [...(prev.answers || [])]
-            if (answers.length === 1) return prev
-            answers.splice(index, 1)
-            return { ...prev, answers }
+            const newAnswers = [...prev.answers]
+            if (newAnswers.length === 1) return prev
+            const answerToRemove = newAnswers[index]
+            if (answerToRemove.image) {
+                handleDeleteImage(answerToRemove.id, answerToRemove.image)
+            }
+            newAnswers.splice(index, 1)
+            return { ...prev, answers: newAnswers }
         })
         setErrors((prev) => {
-            const answers = prev.answers ? [...prev.answers] : []
-            if (answers.length > index) answers.splice(index, 1)
-            return { ...prev, answers }
+            if (!prev.answers) return prev
+            const newAnswersErr = [...prev.answers]
+            if (newAnswersErr.length > index) newAnswersErr.splice(index, 1)
+            return { ...prev, answers: newAnswersErr }
         })
     }, [])
 
@@ -175,8 +224,8 @@ const CreateTestTask: React.FC<Props> = ({
             pairs: [
                 ...(prev.pairs || []),
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ],
@@ -196,7 +245,10 @@ const CreateTestTask: React.FC<Props> = ({
         let valid = true
         const newErrors: ErrorsShape = {}
 
-        if (!localQuestion.title || localQuestion.title.trim() === '') {
+        if (
+            (!localQuestion.title || localQuestion.title.trim() === '') &&
+            !localQuestion.image
+        ) {
             newErrors.title = 'Потрібно ввести умову завдання'
             valid = false
         }
@@ -204,7 +256,7 @@ const CreateTestTask: React.FC<Props> = ({
         if (questionType === 'multiple' || questionType === 'written') {
             const answerErrs: string[] = []
             ;(localQuestion.answers || []).forEach((ans: any, idx: number) => {
-                if (!ans?.text || ans.text.trim() === '') {
+                if ((!ans.text || ans.text.trim() === '') && !ans.image) {
                     answerErrs[idx] = 'Порожня відповідь'
                     valid = false
                 } else answerErrs[idx] = ''
@@ -235,12 +287,22 @@ const CreateTestTask: React.FC<Props> = ({
                     rightId: pair.right.id,
                     leftText: pair.left.text,
                     rightText: pair.right.text,
+                    leftImage: pair.left.image,
+                    rightImage: pair.right.image,
                 },
             }))
 
             const pairs = validPairs.map((pair: any) => ({
-                left: { id: pair.left.id, text: pair.left.text },
-                right: { id: pair.right.id, text: pair.right.text },
+                left: {
+                    id: pair.left.id,
+                    text: pair.left.text,
+                    image: pair.left.image,
+                },
+                right: {
+                    id: pair.right.id,
+                    text: pair.right.text,
+                    image: pair.right.image,
+                },
             }))
 
             setTest((prev: any) => {
@@ -265,7 +327,6 @@ const CreateTestTask: React.FC<Props> = ({
             setQuestion(reset)
             setQuestionType('')
             setErrors({})
-            setBase64('')
             return
         }
 
@@ -298,7 +359,6 @@ const CreateTestTask: React.FC<Props> = ({
         const reset = emptyForType(questionType)
         setLocalQuestion(reset)
         setQuestion(reset)
-        setBase64('')
         setQuestionType('')
         setErrors({})
     }, [
@@ -319,6 +379,8 @@ const CreateTestTask: React.FC<Props> = ({
                     onChange={handleLocalTitleChange}
                     className="w-full border border-gray-300 rounded-xl text-[20px] px-4 py-2"
                     inputType="textarea"
+                    setQuestion={setLocalQuestion}
+                    setEditedImages={setEditedImages}
                 />
             )
         }
@@ -328,6 +390,8 @@ const CreateTestTask: React.FC<Props> = ({
                 onChange={handleLocalTitleChange}
                 placeholder="Введіть питання"
                 inputType="textarea"
+                setQuestion={setLocalQuestion}
+                setEditedImages={setEditedImages}
             />
         )
     }, [localQuestion.title, subject, user?.status, handleLocalTitleChange])
@@ -355,22 +419,31 @@ const CreateTestTask: React.FC<Props> = ({
                         Умова завдання
                     </label>
                     {renderTitleInput()}
+                    {localQuestion?.image && (
+                        <div className="relative inline-block">
+                            <img
+                                src={localQuestion.image}
+                                alt=""
+                                className="max-w-full max-h-50 rounded-lg"
+                            />
+                            <button
+                                onClick={() =>
+                                    handleDeleteImage(
+                                        'title',
+                                        localQuestion.image
+                                    )
+                                }
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                            >
+                                <MdDelete size={20} className="text-red-500" />
+                            </button>
+                        </div>
+                    )}
                     {errors?.title && (
                         <p className="text-sm text-red-600 mt-1">
                             {errors.title}
                         </p>
                     )}
-
-                    <ImageUpload
-                        base64={base64}
-                        setBase64={setBase64}
-                        setQuestion={(q: any) =>
-                            setLocalQuestion((prev: any) => ({
-                                ...prev,
-                                image: q,
-                            }))
-                        }
-                    />
 
                     {(localQuestion.answers || []).map(
                         (answer: any, index: number) => (
@@ -378,22 +451,49 @@ const CreateTestTask: React.FC<Props> = ({
                                 key={answer.id}
                                 className="flex flex-col gap-1 mb-2"
                             >
-                                <AnswerInput
-                                    index={index}
-                                    answer={answer}
-                                    toggleAnswerCorrect={() =>
-                                        toggleLocalCorrect(index)
-                                    }
-                                    handleAnswerChange={(
-                                        i: number,
-                                        val: string
-                                    ) => handleLocalAnswerChange(i, val)}
-                                    handleRemoveAnswer={(i: number) =>
-                                        handleRemoveLocalAnswer(i)
-                                    }
-                                    subject={subject}
-                                    user={user}
-                                />
+                                <div>
+                                    <AnswerInput
+                                        index={index}
+                                        answer={answer}
+                                        toggleAnswerCorrect={() =>
+                                            toggleLocalCorrect(index)
+                                        }
+                                        handleAnswerChange={(
+                                            i: number,
+                                            val: string
+                                        ) => handleLocalAnswerChange(i, val)}
+                                        handleRemoveAnswer={(i: number) =>
+                                            handleRemoveLocalAnswer(i)
+                                        }
+                                        subject={subject}
+                                        user={user}
+                                        setQuestion={setLocalQuestion}
+                                        setEditedImages={setEditedImages}
+                                    />
+                                    {answer.image && (
+                                        <div className="relative inline-block mt-1">
+                                            <img
+                                                src={answer.image}
+                                                alt=""
+                                                className="max-w-full max-h-30 rounded-lg"
+                                            />
+                                            <button
+                                                onClick={() =>
+                                                    handleDeleteImage(
+                                                        answer.id,
+                                                        answer.image
+                                                    )
+                                                }
+                                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                                            >
+                                                <MdDelete
+                                                    size={20}
+                                                    className="text-red-500"
+                                                />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                                 {errors.answers && errors.answers[index] && (
                                     <p className="text-xs text-red-600">
                                         {errors.answers[index]}
@@ -418,7 +518,7 @@ const CreateTestTask: React.FC<Props> = ({
                     <div className="flex w-full mt-4 items-center gap-4 justify-end">
                         <button
                             onClick={() => {
-                                setQuestionType('')
+                                handleRejectTask()
                             }}
                             className="px-8 py-3 h-full rounded-[16px] bg-gray-300 text-black font-semibold text-[16px] shadow-md transition"
                         >
@@ -440,22 +540,31 @@ const CreateTestTask: React.FC<Props> = ({
                         Умова завдання
                     </label>
                     {renderTitleInput()}
+                    {localQuestion?.image && (
+                        <div className="relative inline-block">
+                            <img
+                                src={localQuestion.image}
+                                alt=""
+                                className="max-w-full max-h-50 rounded-lg"
+                            />
+                            <button
+                                onClick={() =>
+                                    handleDeleteImage(
+                                        'title',
+                                        localQuestion.image
+                                    )
+                                }
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                            >
+                                <MdDelete size={20} className="text-red-500" />
+                            </button>
+                        </div>
+                    )}
                     {errors?.title && (
                         <p className="text-sm text-red-600 mt-1">
                             {errors.title}
                         </p>
                     )}
-
-                    <ImageUpload
-                        base64={base64}
-                        setBase64={setBase64}
-                        setQuestion={(q: any) =>
-                            setLocalQuestion((prev: any) => ({
-                                ...prev,
-                                image: q,
-                            }))
-                        }
-                    />
 
                     {(localQuestion.pairs || []).map(
                         (pair: any, idx: number) => (
@@ -473,6 +582,9 @@ const CreateTestTask: React.FC<Props> = ({
                                 }
                                 subject={subject}
                                 user={user}
+                                setQuestion={setLocalQuestion}
+                                handleDeleteImage={handleDeleteImage}
+                                setEditedImages={setEditedImages}
                             />
                         )
                     )}
@@ -492,9 +604,7 @@ const CreateTestTask: React.FC<Props> = ({
 
                     <div className="flex w-full mt-4 items-center gap-4 justify-end">
                         <button
-                            onClick={() => {
-                                setQuestionType('')
-                            }}
+                            onClick={handleRejectTask}
                             className="px-8 py-3 h-full rounded-[16px] bg-gray-300 text-black font-semibold text-[16px] shadow-md transition"
                         >
                             Відхилити
@@ -515,22 +625,31 @@ const CreateTestTask: React.FC<Props> = ({
                         Умова завдання
                     </label>
                     {renderTitleInput()}
+                    {localQuestion?.image && (
+                        <div className="relative inline-block">
+                            <img
+                                src={localQuestion.image}
+                                alt=""
+                                className="max-w-full max-h-50 rounded-lg"
+                            />
+                            <button
+                                onClick={() =>
+                                    handleDeleteImage(
+                                        'title',
+                                        localQuestion.image
+                                    )
+                                }
+                                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                            >
+                                <MdDelete size={20} className="text-red-500" />
+                            </button>
+                        </div>
+                    )}
                     {errors?.title && (
                         <p className="text-sm text-red-600 mt-1">
                             {errors.title}
                         </p>
                     )}
-
-                    <ImageUpload
-                        base64={base64}
-                        setBase64={setBase64}
-                        setQuestion={(q: any) =>
-                            setLocalQuestion((prev: any) => ({
-                                ...prev,
-                                image: q,
-                            }))
-                        }
-                    />
 
                     <div className="flex items-center gap-4 mt-4">
                         <p>Введіть відповідь: </p>
@@ -538,7 +657,7 @@ const CreateTestTask: React.FC<Props> = ({
                         user?.status === 'Admin' ? (
                             <MathInput
                                 value={localQuestion.answers?.[0]?.text || ''}
-                                onChange={(val) =>
+                                onChange={(val: any) =>
                                     setLocalQuestion((prev: any) => ({
                                         ...prev,
                                         answers: [
@@ -552,6 +671,7 @@ const CreateTestTask: React.FC<Props> = ({
                                     }))
                                 }
                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                typeAnswer={'ansWrite'}
                             />
                         ) : (
                             <BoldTextInput
@@ -570,6 +690,7 @@ const CreateTestTask: React.FC<Props> = ({
                                     }))
                                 }
                                 placeholder="Введіть відповідь"
+                                typeAnswer={'ansWrite'}
                             />
                         )}
                     </div>
@@ -582,9 +703,7 @@ const CreateTestTask: React.FC<Props> = ({
 
                     <div className="flex w-full mt-4 items-center gap-4 justify-end">
                         <button
-                            onClick={() => {
-                                setQuestionType('')
-                            }}
+                            onClick={handleRejectTask}
                             className="px-8 py-3 h-full rounded-[16px] bg-gray-300 text-black font-semibold text-[16px] shadow-md transition"
                         >
                             Відхилити

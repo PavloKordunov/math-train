@@ -19,7 +19,9 @@ import AiModal from '@/components/AiModal'
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [questionType, setQuestionType] = useState('')
+    const [deleteImage, setDeleteImage] = useState<any[]>([])
     const { user } = useUser()
+    const [editedImages, setEditedImages] = useState<any[]>([])
     const { subTopicId } = useSubTopicContext()
     const [test, setTest] = useState({
         title: '',
@@ -57,6 +59,52 @@ const CreateTest = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [errors, setErrors] = useState<Record<string, string>>({})
+
+    const handleDeleteImage = async (type: string, imageUrl: string) => {
+        try {
+            if (!imageUrl) return
+
+            await fetch(
+                `${API_URL}/api/upload/url?url=${encodeURIComponent(imageUrl)}`,
+                {
+                    method: 'DELETE',
+                }
+            )
+            setQuestion((prev: any) => {
+                if (type === 'title') {
+                    return { ...prev, image: '' }
+                }
+                if (prev.answers.some((ans: any) => ans.id === type)) {
+                    return {
+                        ...prev,
+                        answers: prev.answers.map((ans: any) =>
+                            ans.id === type ? { ...ans, image: '' } : ans
+                        ),
+                    }
+                }
+
+                return {
+                    ...prev,
+                    pairs: prev.pairs.map((pair: any) => {
+                        if (pair.left.id === type) {
+                            return {
+                                ...pair,
+                                left: { ...pair.left, image: '' },
+                            }
+                        } else if (pair.right.id === type) {
+                            return {
+                                ...pair,
+                                right: { ...pair.right, image: '' },
+                            }
+                        }
+                        return pair
+                    }),
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const validateForm = () => {
         try {
@@ -169,8 +217,8 @@ const CreateTest = () => {
                 ],
                 pairs: [
                     {
-                        left: { id: nanoid(), text: '' },
-                        right: { id: nanoid(), text: '' },
+                        left: { id: nanoid(), text: '', image: '' },
+                        right: { id: nanoid(), text: '', image: '' },
                         id: nanoid(),
                     },
                 ],
@@ -230,8 +278,16 @@ const CreateTest = () => {
             type: questionType,
             answers: answers,
             pairs: question.pairs.map((pair: any) => ({
-                left: { id: pair.left.id, text: pair.left.text },
-                right: { id: pair.right.id, text: pair.right.text },
+                left: {
+                    id: pair.left.id,
+                    text: pair.left.text,
+                    image: pair.left.image,
+                },
+                right: {
+                    id: pair.right.id,
+                    text: pair.right.text,
+                    image: pair.right.image,
+                },
             })),
         }
 
@@ -257,14 +313,21 @@ const CreateTest = () => {
             answers: [],
             pairs: [
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ],
         })
         setQuestionType('')
     }
+
+    const deleteTask = useCallback((taskId: any) => {
+        setTest((prev) => ({
+            ...prev,
+            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
+        }))
+    }, [])
 
     useEffect(() => {
         if (test?.tasks?.length > 0 && errors.tasks) {
@@ -294,9 +357,15 @@ const CreateTest = () => {
             <TestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
+                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
                 test={test}
+                handleDeleteImage={handleDeleteImage}
+                deleteImage={deleteImage}
+                setDeleteImage={setDeleteImage}
+                typeEditing={'create'}
+                setEditedImages={setEditedImages}
             />
             <CreateTestTask
                 subject={user?.subject}
@@ -310,6 +379,8 @@ const CreateTest = () => {
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
+                handleDeleteImage={handleDeleteImage}
+                setEditedImages={setEditedImages}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl gap-4">
                 <button

@@ -38,6 +38,14 @@ const ViewTest = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const [errors, setErrors] = useState<Record<string, string>>({})
+    const [deleteImage, setDeleteImage] = useState<any[]>([])
+    const [editedImages, setEditedImages] = useState<any[]>([])
+
+    useEffect(() => {
+        if (editedImages.length === 0) return
+        console.log('editedImages', editedImages)
+        localStorage.setItem('editedImages', JSON.stringify(editedImages))
+    }, [editedImages])
 
     useEffect(() => {
         const getTestById = async () => {
@@ -53,8 +61,34 @@ const ViewTest = () => {
             }
         }
 
+        const savedEdited = localStorage.getItem('editedImages')
+        if (savedEdited) {
+            try {
+                console.log('editedImages', JSON.parse(savedEdited))
+                handleDeleteImages(JSON.parse(savedEdited))
+                localStorage.removeItem('editedImages')
+            } catch (e) {
+                console.error('Помилка відновлення editedImages:', e)
+            }
+        }
+
         getTestById()
     }, [])
+
+    const handleDeleteImages = async (images: string[]) => {
+        try {
+            if (!images || images.length === 0) return
+
+            await fetch(`${API_URL}/api/upload/urls`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ urls: images }),
+            })
+            console.log('Deleted images:', images)
+        } catch (error) {
+            console.error('Error deleting images:', error)
+        }
+    }
 
     const validateForm = () => {
         try {
@@ -84,6 +118,7 @@ const ViewTest = () => {
             return
         }
         try {
+            if (deleteImage) await handleDeleteImages(deleteImage)
             const res = await fetch(`${API_URL}/api/test/${testId}`, {
                 method: 'PATCH',
                 headers: {
@@ -105,7 +140,7 @@ const ViewTest = () => {
                     })),
                 }),
             })
-
+            localStorage.removeItem('editedImages')
             user?.status === 'Teacher'
                 ? router.push('/teacher')
                 : router.push('/admin')
@@ -122,7 +157,7 @@ const ViewTest = () => {
                 id: nanoid(),
                 title: '',
                 type: 'multiple',
-                answers: Array(1)
+                answers: Array(3)
                     .fill(null)
                     .map(() => ({ text: '', isCorrect: false, id: nanoid() })),
                 pairs: [],
@@ -145,8 +180,8 @@ const ViewTest = () => {
                 ],
                 pairs: [
                     {
-                        left: { id: nanoid(), text: '' },
-                        right: { id: nanoid(), text: '' },
+                        left: { id: nanoid(), text: '', image: '' },
+                        right: { id: nanoid(), text: '', image: '' },
                         id: nanoid(),
                     },
                 ],
@@ -214,8 +249,10 @@ const ViewTest = () => {
             left: {
                 rightId: pair.right.id,
                 rightText: pair.right.text,
+                rightImage: pair.right.image,
                 leftId: pair.left.id,
                 leftText: pair.left.text,
+                leftImage: pair.left.image,
             },
         }))
 
@@ -224,8 +261,16 @@ const ViewTest = () => {
             type: questionType,
             answers: answers,
             pairs: question.pairs.map((pair: any) => ({
-                left: { id: pair.left.id, text: pair.left.text },
-                right: { id: pair.right.id, text: pair.right.text },
+                left: {
+                    id: pair.left.id,
+                    text: pair.left.text,
+                    image: pair.left.image,
+                },
+                right: {
+                    id: pair.right.id,
+                    text: pair.right.text,
+                    image: pair.right.image,
+                },
             })),
         }
 
@@ -251,8 +296,8 @@ const ViewTest = () => {
             answers: [],
             pairs: [
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ],
@@ -268,6 +313,13 @@ const ViewTest = () => {
             })
         }
     }, [test.tasks, errors.tasks])
+
+    const deleteTask = useCallback((taskId: any) => {
+        setTest((prev) => ({
+            ...prev,
+            tasks: prev.tasks.filter((task: any) => task.id !== taskId),
+        }))
+    }, [])
 
     return (
         <div>
@@ -288,10 +340,14 @@ const ViewTest = () => {
             <TestTasks
                 tasks={test.tasks}
                 updateTask={updateTask}
+                deleteTask={deleteTask}
                 updateTest={updateTest}
                 subject={user?.subject}
                 key={test.tasks.length}
                 test={test}
+                setDeleteImage={setDeleteImage}
+                typeEditing={'edit'}
+                setEditedImages={setEditedImages}
             />
             <CreateTestTask
                 subject={user?.subject}
@@ -305,6 +361,7 @@ const ViewTest = () => {
                 toggleAnswerCorrect={toggleAnswerCorrect}
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
+                setEditedImages={setEditedImages}
             />
             <div className="flex items-center justify-end mx-auto max-w-3xl">
                 <button

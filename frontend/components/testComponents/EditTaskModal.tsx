@@ -16,7 +16,14 @@ type ErrorsShape = {
     pairs?: string
 }
 
-const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
+const EditTaskModal = ({
+    task,
+    onSave,
+    onClose,
+    subject,
+    setDeleteImage,
+    setEditedImages,
+}: any) => {
     const { user } = useUser()
 
     const [editedTask, setEditedTask] = useState(
@@ -35,11 +42,15 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
         } else {
             const hasFullPair = pairs.some(
                 (p: any) =>
-                    p.left?.text?.trim() !== '' && p.right?.text?.trim() !== ''
+                    (p.left?.text?.trim() !== '' || p.left?.image) &&
+                    (p.right?.text?.trim() !== '' || p.right?.image)
             )
             const allPairsValid = pairs.every(
                 (p: any) =>
-                    p.left?.text?.trim() !== '' || p.right?.text?.trim() !== ''
+                    p.left?.text?.trim() !== '' ||
+                    p.right?.text?.trim() !== '' ||
+                    p.left?.image ||
+                    p.right?.image
             )
 
             if (!hasFullPair) {
@@ -59,7 +70,7 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                     sizeAnswer: 'Потрібно додати хоча б одну відповідь',
                 }))
             } else if (errors.sizeAnswer) {
-                setErrors((prev) => ({ ...prev, sizeAnswer: undefined }))
+                setErrors((prev) => ({ ...prev, sizeAnswer: '' }))
             }
         }
     }, [editedTask.answers, editedTask.type])
@@ -79,6 +90,7 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                     text: '',
                     isCorrect: false,
                     id: nanoid(),
+                    image: '',
                 }
             }
             updatedAnswers[index].text = text
@@ -111,8 +123,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
             const updatedPairs = [...(prev.pairs || [])]
             if (!updatedPairs[index]) {
                 updatedPairs[index] = {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 }
             }
@@ -131,8 +143,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
             const updatedPairs = [...(prev.pairs || [])]
             if (!updatedPairs[index]) {
                 updatedPairs[index] = {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 }
             }
@@ -150,29 +162,40 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
             const updatedPairs = [
                 ...(prev.pairs || []),
                 {
-                    left: { id: nanoid(), text: '' },
-                    right: { id: nanoid(), text: '' },
+                    left: { id: nanoid(), text: '', image: '' },
+                    right: { id: nanoid(), text: '', image: '' },
                     id: nanoid(),
                 },
             ]
-            setErrors((errPrev) => ({
-                ...errPrev,
-                pairs: validatePairsRealtime(updatedPairs),
-            }))
             return { ...prev, pairs: updatedPairs }
         })
     }
 
     const removePair = (index: number) => {
+        const pairToRemove = editedTask?.pairs?.[index]
+        const leftImage = pairToRemove?.left?.image
+        const rightImage = pairToRemove?.right?.image
+
         setEditedTask((prev: any) => {
             const updatedPairs = [...(prev.pairs || [])]
             updatedPairs.splice(index, 1)
-            setErrors((errPrev) => ({
-                ...errPrev,
-                pairs: validatePairsRealtime(updatedPairs),
-            }))
+
             return { ...prev, pairs: updatedPairs }
         })
+
+        if (leftImage) {
+            setDeleteImage((prev: any) => [...prev, leftImage])
+        }
+        if (rightImage) {
+            setDeleteImage((prev: any) => [...prev, rightImage])
+        }
+
+        setErrors((prev) => ({
+            ...prev,
+            pairs: validatePairsRealtime(
+                editedTask.pairs?.filter((_: any, i: any) => i !== index) || []
+            ),
+        }))
     }
 
     const handleAddAnswer = useCallback(() => {
@@ -181,7 +204,7 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                 ...prev,
                 answers: [
                     ...(prev.answers || []),
-                    { text: '', isCorrect: false, id: nanoid() },
+                    { text: '', isCorrect: false, id: nanoid(), image: '' },
                 ],
             }
             return updated
@@ -194,11 +217,18 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
 
     const handleRemoveAnswer = useCallback(
         (index: number) => {
+            const answerToRemove = editedTask?.answers?.[index]
+            const removedImage = answerToRemove?.image
+
             setEditedTask((prev: any) => {
                 const newAnswers = [...(prev.answers || [])]
                 newAnswers.splice(index, 1)
                 return { ...prev, answers: newAnswers }
             })
+
+            if (removedImage) {
+                setDeleteImage((prev: any) => [...prev, removedImage])
+            }
             setErrors((prev) => {
                 const out: any = { ...prev }
                 if (out.answers) {
@@ -221,7 +251,10 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
         let valid = true
         const newErrors: ErrorsShape = {}
 
-        if (!editedTask.title || editedTask.title.trim() === '') {
+        if (
+            (!editedTask.title || editedTask.title.trim() === '') &&
+            !editedTask.image
+        ) {
             newErrors.title = 'Потрібно ввести умову завдання'
             valid = false
         }
@@ -230,7 +263,7 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
             const answerErrs: string[] = []
             const currentAnswers = editedTask.answers || []
             currentAnswers.forEach((ans: any, idx: number) => {
-                if (!ans.text || ans.text.trim() === '') {
+                if ((!ans.text || ans.text.trim() === '') && !ans.image) {
                     answerErrs[idx] = 'Порожня відповідь'
                     valid = false
                 } else {
@@ -263,13 +296,15 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
             } else {
                 const hasFullPair = editedTask.pairs.some(
                     (p: any) =>
-                        p.left?.text?.trim() !== '' &&
-                        p.right?.text?.trim() !== ''
+                        (p.left?.text?.trim() !== '' || p.left?.image) &&
+                        (p.right?.text?.trim() !== '' || p.right?.image)
                 )
                 const allPairsValid = editedTask.pairs.every(
                     (p: any) =>
                         p.left?.text?.trim() !== '' ||
-                        p.right?.text?.trim() !== ''
+                        p.right?.text?.trim() !== '' ||
+                        p.left?.image ||
+                        p.right?.image
                 )
 
                 if (!hasFullPair) {
@@ -294,33 +329,39 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
         onSave(editedTask)
     }
 
-    const [base64, setBase64] = useState('')
+    const handleRemoveImage = (type: string) => {
+        setEditedTask((prev: any) => {
+            if (type === 'title') {
+                return { ...prev, image: '' }
+            }
+            if (prev.answers.some((ans: any) => `answer${ans.id}` === type)) {
+                return {
+                    ...prev,
+                    answers: prev.answers.map((ans: any) =>
+                        `answer${ans.id}` === type ? { ...ans, image: '' } : ans
+                    ),
+                }
+            }
 
-    const encodeImageFileAsURL = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const file = event.target.files?.[0]
-        if (!file) return
-
-        const reader = new FileReader()
-        reader.onloadend = function () {
-            const base64String = reader.result as string
-            setEditedTask((prev: any) => ({
+            return {
                 ...prev,
-                image: base64String,
-            }))
-        }
-        reader.readAsDataURL(file)
+                pairs: prev.pairs.map((pair: any) => {
+                    if (`left${pair.left.id}` === type) {
+                        return {
+                            ...pair,
+                            left: { ...pair.left, image: '' },
+                        }
+                    } else if (`right${pair.right.id}` === type) {
+                        return {
+                            ...pair,
+                            right: { ...pair.right, image: '' },
+                        }
+                    }
+                    return pair
+                }),
+            }
+        })
     }
-
-    useEffect(() => {
-        if (base64 && base64 !== editedTask.image) {
-            setEditedTask((prev: any) => ({
-                ...prev,
-                image: base64,
-            }))
-        }
-    }, [base64, editedTask.image])
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
@@ -348,6 +389,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                 onChange={handleTitleChange}
                                 className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
                                 inputType="textarea"
+                                setQuestion={setEditedTask}
+                                setEditedImages={setEditedImages}
                             />
                         ) : (
                             <BoldTextInput
@@ -355,6 +398,8 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                 onChange={handleTitleChange}
                                 placeholder="Введіть відповідь"
                                 inputType="textarea"
+                                setQuestion={setEditedTask}
+                                setEditedImages={setEditedImages}
                             />
                         )}
                         {errors.title && (
@@ -363,42 +408,29 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                             </p>
                         )}
 
-                        {editedTask.image ? (
-                            <div className="relative w-fit mt-3">
-                                <Image
+                        {editedTask?.image && (
+                            <div className="relative inline-block">
+                                <img
                                     src={editedTask.image}
                                     alt=""
-                                    width={200}
-                                    height={200}
-                                    className="w-fit max-h-64"
+                                    className="max-w-full max-h-50 rounded-lg"
                                 />
-                                <div
-                                    onClick={() =>
-                                        setEditedTask((prev: any) => ({
-                                            ...prev,
-                                            image: '',
-                                        }))
-                                    }
-                                    className="absolute top-[10px] right-[10px] w-7 h-8 cursor-pointer"
+                                <button
+                                    onClick={() => {
+                                        setDeleteImage((del: any) => [
+                                            ...del,
+                                            editedTask.image,
+                                        ])
+                                        handleRemoveImage('title')
+                                    }}
+                                    className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
                                 >
-                                    <MdDelete size={24} />
-                                </div>
+                                    <MdDelete
+                                        size={20}
+                                        className="text-red-500"
+                                    />
+                                </button>
                             </div>
-                        ) : (
-                            <>
-                                <label
-                                    className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
-                                    htmlFor="img"
-                                >
-                                    <span>Завантажте світлину</span>
-                                </label>
-                                <input
-                                    type="file"
-                                    id="img"
-                                    onChange={encodeImageFileAsURL}
-                                    className="hidden"
-                                />
-                            </>
                         )}
                     </div>
 
@@ -435,6 +467,11 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                         )
                                                     }}
                                                     className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                                    index={answer.id}
+                                                    setQuestion={setEditedTask}
+                                                    setEditedImages={
+                                                        setEditedImages
+                                                    }
                                                 />
                                             ) : (
                                                 <BoldTextInput
@@ -446,6 +483,11 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                         )
                                                     }}
                                                     placeholder="Введіть відповідь"
+                                                    index={answer.id}
+                                                    setQuestion={setEditedTask}
+                                                    setEditedImages={
+                                                        setEditedImages
+                                                    }
                                                 />
                                             )}
 
@@ -459,6 +501,35 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                 ✕
                                             </button>
                                         </div>
+                                        {answer.image && (
+                                            <div className="relative inline-block mt-1  w-max">
+                                                <img
+                                                    src={answer.image}
+                                                    alt=""
+                                                    className="max-w-full max-h-30 rounded-lg"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setDeleteImage(
+                                                            (del: any) => [
+                                                                ...del,
+                                                                answer.image,
+                                                            ]
+                                                        )
+                                                        handleRemoveImage(
+                                                            `answer${answer.id}`
+                                                        )
+                                                    }}
+                                                    className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                                                >
+                                                    <MdDelete
+                                                        size={20}
+                                                        className="text-red-500"
+                                                    />
+                                                </button>
+                                            </div>
+                                        )}
                                         {errors.answers &&
                                             errors.answers[index] && (
                                                 <p className="text-sm text-red-600 mt-1">
@@ -514,6 +585,14 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                             )
                                                         }}
                                                         className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                                        index={`left${pair.left.id}`}
+                                                        typeAnswer={'matching'}
+                                                        setQuestion={
+                                                            setEditedTask
+                                                        }
+                                                        setEditedImages={
+                                                            setEditedImages
+                                                        }
                                                     />
                                                 ) : (
                                                     <BoldTextInput
@@ -527,7 +606,51 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                             )
                                                         }}
                                                         placeholder="Введіть відповідь"
+                                                        typeAnswer={'matching'}
+                                                        index={`left${pair.left.id}`}
+                                                        setQuestion={
+                                                            setEditedTask
+                                                        }
+                                                        setEditedImages={
+                                                            setEditedImages
+                                                        }
                                                     />
+                                                )}
+                                                {pair.left.image && (
+                                                    <div className="relative inline-block mt-1">
+                                                        <img
+                                                            src={
+                                                                pair.left.image
+                                                            }
+                                                            alt=""
+                                                            className="max-w-full max-h-30 rounded-lg"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                setDeleteImage(
+                                                                    (
+                                                                        del: any
+                                                                    ) => [
+                                                                        ...del,
+                                                                        pair
+                                                                            .left
+                                                                            .image,
+                                                                    ]
+                                                                )
+                                                                handleRemoveImage(
+                                                                    `left${pair.left.id}`
+                                                                )
+                                                            }}
+                                                            className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                                                        >
+                                                            <MdDelete
+                                                                size={20}
+                                                                className="text-red-500"
+                                                            />
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </div>
                                             <span className="text-gray-500">
@@ -547,6 +670,14 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                             )
                                                         }}
                                                         className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                                        index={`right${pair.right.id}`}
+                                                        typeAnswer={'matching'}
+                                                        setQuestion={
+                                                            setEditedTask
+                                                        }
+                                                        setEditedImages={
+                                                            setEditedImages
+                                                        }
                                                     />
                                                 ) : (
                                                     <BoldTextInput
@@ -560,7 +691,51 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                                             )
                                                         }}
                                                         placeholder="Введіть відповідь"
+                                                        index={`right${pair.right.id}`}
+                                                        typeAnswer={'matching'}
+                                                        setQuestion={
+                                                            setEditedTask
+                                                        }
+                                                        setEditedImages={
+                                                            setEditedImages
+                                                        }
                                                     />
+                                                )}
+                                                {pair.right.image && (
+                                                    <div className="relative inline-block mt-1">
+                                                        <img
+                                                            src={
+                                                                pair.right.image
+                                                            }
+                                                            alt=""
+                                                            className="max-w-full max-h-30 rounded-lg"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                setDeleteImage(
+                                                                    (
+                                                                        del: any
+                                                                    ) => [
+                                                                        ...del,
+                                                                        pair
+                                                                            .right
+                                                                            .image,
+                                                                    ]
+                                                                )
+                                                                handleRemoveImage(
+                                                                    `right${pair.right.id}`
+                                                                )
+                                                            }}
+                                                            className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                                                        >
+                                                            <MdDelete
+                                                                size={20}
+                                                                className="text-red-500"
+                                                            />
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </div>
                                             <button
@@ -603,6 +778,7 @@ const EditTaskModal = ({ task, onSave, onClose, subject }: any) => {
                                         handleAnswerTextChange(0, val)
                                     }}
                                     className="w-full border border-gray-300 text-[20px] rounded-xl px-4 py-1"
+                                    typeAnswer={'ansWrite'}
                                 />
                             ) : (
                                 <BoldTextInput

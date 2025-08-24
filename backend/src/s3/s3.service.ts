@@ -3,6 +3,8 @@ import {
     PutObjectCommand,
     GetObjectCommand,
     DeleteObjectCommand,
+    DeleteObjectsCommand,
+    CopyObjectCommand,
 } from '@aws-sdk/client-s3'
 import { Injectable, UploadedFile } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -42,29 +44,22 @@ export class S3Service {
 
     async uploadFile(file: Express.Multer.File) {
         try {
-            const buffer = await sharp(file.buffer)
-                .resize({ width: 1080, height: 1920, fit: 'contain' })
-                .toBuffer()
-
-            const fileName = this.generateFileName()
+            const fileName = `temp/${this.generateFileName()}`
 
             const uploadParams = {
                 Bucket: this.bucketName,
-                Body: buffer,
+                Body: file.buffer,
                 Key: fileName,
                 ContentType: file.mimetype,
             }
 
             await this.s3.send(new PutObjectCommand(uploadParams))
 
-            const command = new GetObjectCommand({
-                Bucket: this.bucketName,
-                Key: fileName,
-            })
+            const publicUrl = this.generateUrl(fileName)
 
-            const publicUrl = `https://${this.bucketName}.s3.${this.configService.get(
-                'AWS_BUCKET_REGION'
-            )}.amazonaws.com/${fileName}`
+            // const publicUrl = `https://${this.bucketName}.s3.${this.configService.get(
+            //     'AWS_BUCKET_REGION'
+            // )}.amazonaws.com/${fileName}`
 
             return {
                 fileName,
@@ -92,6 +87,32 @@ export class S3Service {
             console.error('[Delete Error]', error)
             throw error
         }
+    }
+
+    async deleteManyUrls(urls: string[]) {
+        try {
+            if (!urls || urls.length === 0) return { deleted: [] }
+
+            const objects = urls.map((url) => {
+                const key = this.extractKeyFromUrl(url)
+                return { Key: key }
+            })
+            await this.s3.send(
+                new DeleteObjectsCommand({
+                    Bucket: this.bucketName,
+                    Delete: { Objects: objects },
+                })
+            )
+        } catch (error) {
+            console.error('[Delete Error]', error)
+            throw error
+        }
+    }
+
+    private generateUrl(key: string) {
+        return `https://${this.bucketName}.s3.${this.configService.get(
+            'AWS_BUCKET_REGION'
+        )}.amazonaws.com/${key}`
     }
 
     private extractKeyFromUrl(url: string): string {

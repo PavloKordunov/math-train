@@ -1,4 +1,6 @@
 import { useRef } from 'react'
+import { any } from 'zod'
+import ImageUpload from './testComponents/create-test-task/ImageUpload'
 
 function toggleBoldInTextarea(
     textarea: HTMLTextAreaElement,
@@ -46,11 +48,19 @@ const BoldTextInput = ({
     onChange,
     placeholder,
     inputType,
+    setQuestion,
+    setEditedImages,
+    typeAnswer,
+    index,
 }: {
     value: string
     onChange: (v: string) => void
     placeholder?: string
     inputType?: string
+    setQuestion?: any
+    setEditedImages?: any
+    typeAnswer?: any
+    index?: any
 }) => {
     const textareaRef = useRef<any>(null)
 
@@ -90,11 +100,31 @@ const BoldTextInput = ({
                     />
                 )}
             </div>
+            <div className="absolute top-6 right-4">
+                {inputType === 'textarea' && (
+                    <ImageUpload
+                        setQuestion={setQuestion}
+                        id={'title'}
+                        setEditedImages={setEditedImages}
+                        className="bottom-0 right-10"
+                    />
+                )}
+
+                {typeAnswer !== 'ansWrite' && inputType !== 'textarea' && (
+                    <ImageUpload
+                        setQuestion={setQuestion}
+                        typeAnswer={typeAnswer}
+                        id={index}
+                        setEditedImages={setEditedImages}
+                        className="bottom-0 right-10"
+                    />
+                )}
+            </div>
             <div className="absolute top-2 right-4">
                 <button
                     type="button"
                     onClick={handleBoldClick}
-                    className="px-2 py-1 border rounded font-bold select-none"
+                    className="px-2.5 py-1 border rounded font-bold select-none"
                     aria-label="Жирний"
                 >
                     B

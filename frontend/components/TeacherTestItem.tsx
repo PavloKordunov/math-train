@@ -13,7 +13,21 @@ const TeacherTestItem = ({ students, test }: { students: any; test: any }) => {
 
     const toggleModal = () => setIsModalOpen(!isModalOpen)
 
+    const handleDeleteImage = async () => {
+        try {
+            await fetch(
+                `${API_URL}/api/upload/url?url=${encodeURIComponent(test.id)}`,
+                {
+                    method: 'DELETE',
+                }
+            )
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const deleteTest = async () => {
+        handleDeleteImage()
         try {
             const res = await fetch(`${API_URL}/api/test/${test.id}`, {
                 method: 'DELETE',

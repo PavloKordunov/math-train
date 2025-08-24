@@ -2,13 +2,18 @@
 import React, { useRef, useState, useCallback } from 'react'
 import FormulaModal from './testComponents/FormulaModal'
 import { useUser } from '@/hooks/useUser'
+import ImageUpload from './testComponents/create-test-task/ImageUpload'
 
 interface MathInputProps {
+    index?: any
     value: string
     onChange: (val: string) => void
     className?: string
     placeholder?: string
     inputType?: 'input' | 'textarea'
+    typeAnswer?: any
+    setQuestion?: any
+    setEditedImages?: any
 }
 
 function toggleBoldInTextarea(
@@ -53,7 +58,17 @@ function toggleBoldInTextarea(
 }
 
 const MathInput: React.FC<MathInputProps> = React.memo(
-    ({ value, onChange, className, placeholder, inputType = 'input' }) => {
+    ({
+        index,
+        value,
+        onChange,
+        className,
+        placeholder,
+        inputType = 'input',
+        typeAnswer,
+        setQuestion,
+        setEditedImages,
+    }) => {
         const [showFormulaModal, setShowFormulaModal] = useState(false)
         const inputRef = useRef<any>(null)
         const { user } = useUser()
@@ -200,6 +215,24 @@ const MathInput: React.FC<MathInputProps> = React.memo(
                                 />
                             )}
                         </>
+                    )}
+                    {inputType === 'textarea' && (
+                        <ImageUpload
+                            setQuestion={setQuestion}
+                            id={'title'}
+                            setEditedImages={setEditedImages}
+                            className="top-1 right-4"
+                        />
+                    )}
+
+                    {typeAnswer !== 'ansWrite' && inputType !== 'textarea' && (
+                        <ImageUpload
+                            setQuestion={setQuestion}
+                            typeAnswer={typeAnswer}
+                            id={index}
+                            setEditedImages={setEditedImages}
+                            className="top-1 right-4"
+                        />
                     )}
                     <button
                         type="button"
