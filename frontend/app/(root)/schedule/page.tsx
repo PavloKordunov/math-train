@@ -54,12 +54,10 @@ const BigCalendar = () => {
         null
     )
 
-    // Modal states
     const [openModal, setOpenModal] = useState(false)
     const [openEventPanel, setOpenEventPanel] = useState(false)
     const [openEditModal, setOpenEditModal] = useState(false)
 
-    // Form states
     const [formData, setFormData] = useState({
         title: '',
         dayOfWeek: 0,
@@ -70,7 +68,6 @@ const BigCalendar = () => {
     })
     const [editingSchedule, setEditingSchedule] = useState<any>(null)
 
-    // Memoized constants
     const formattedRange = useMemo(
         () =>
             `${moment(date).format('D MMM')} – ${moment(date)
@@ -111,7 +108,6 @@ const BigCalendar = () => {
         []
     )
 
-    // Event generation
     const generateWeeklyEvents = useCallback(
         (scheduleItem: any): CalendarEvent[] => {
             const events: CalendarEvent[] = []
@@ -157,7 +153,6 @@ const BigCalendar = () => {
         []
     )
 
-    // Data fetching
     useEffect(() => {
         const getSchedule = async () => {
             if (!user?.id) return
@@ -178,7 +173,6 @@ const BigCalendar = () => {
         getSchedule()
     }, [API_URL, user?.id, generateWeeklyEvents])
 
-    // Event handlers
     const handleNavigate = useCallback((direction: 'NEXT' | 'PREV') => {
         setDate((prev) =>
             moment(prev)
@@ -192,7 +186,6 @@ const BigCalendar = () => {
         setOpenEventPanel(true)
     }, [])
 
-    // Event styling
     const eventStyleGetter = useCallback((event: CalendarEvent) => {
         const getEventColor = (status: EventStatus) => {
             switch (status) {
@@ -219,7 +212,6 @@ const BigCalendar = () => {
         }
     }, [])
 
-    // API operations
     const createEvent = useCallback(async () => {
         if (!user?.id || !formData.title) {
             toast.error("Будь ласка, заповніть всі обов'язкові поля.")
@@ -467,7 +459,6 @@ const BigCalendar = () => {
         <div className="relative h-full">
             <Toaster position="bottom-center" />
 
-            {/* Calendar Header */}
             <div className="flex justify-between items-center mb-4 p-2 sm:p-0">
                 <div className="flex items-center gap-2">
                     <button
@@ -501,7 +492,6 @@ const BigCalendar = () => {
                 </button>
             </div>
 
-            {/* Main Calendar */}
             <div className="overflow-hidden">
                 <Calendar
                     localizer={localizer}
@@ -568,7 +558,6 @@ const BigCalendar = () => {
                 </Modal>
             )}
 
-            {/* Event Details Panel */}
             {openEventPanel && selectedEvent && (
                 <SidePanel onClose={() => setOpenEventPanel(false)}>
                     <EventDetails
@@ -599,7 +588,6 @@ const BigCalendar = () => {
     )
 }
 
-// Reusable Modal Component
 const Modal = ({
     children,
     onClose,
@@ -777,7 +765,6 @@ const EventForm = ({
     </div>
 )
 
-// Event Details Component
 const EventDetails = ({
     event,
     onStatusChange,
@@ -897,7 +884,6 @@ const EventDetails = ({
     )
 }
 
-// Status Button Component
 const StatusButton = ({
     icon,
     label,
@@ -953,7 +939,6 @@ const StatusButton = ({
     )
 }
 
-// Edit Schedule Form Component
 const EditScheduleForm = ({
     schedule,
     setSchedule,

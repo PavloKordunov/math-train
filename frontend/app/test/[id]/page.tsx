@@ -82,7 +82,32 @@ const TestPage = () => {
         getTestById()
     }, [testId])
 
+    useEffect(() => {
+        console.log('TASKS!!!!: ', test.tasks)
+    }, [test.tasks])
+
     const handleEndTest = async () => {
+        console.log('TASKS: ', test.tasks)
+        const allAnswers: any[] = []
+
+        test?.tasks?.forEach((task: any) => {
+            const existingAnswer = answers.find(
+                (ans: any) => ans.taskId === task.id
+            )
+
+            if (existingAnswer) {
+                allAnswers.push(existingAnswer)
+            } else {
+                allAnswers.push({
+                    taskId: task.id,
+                    answer: null,
+                    type: task.type,
+                })
+            }
+        })
+
+        console.log('allAnswers: ', allAnswers)
+
         try {
             const res = await fetch(
                 `${API_URL}/api/test/${test.id}/check/${user?.id}`,
@@ -91,7 +116,7 @@ const TestPage = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(answers),
+                    body: JSON.stringify(allAnswers),
                 }
             )
 

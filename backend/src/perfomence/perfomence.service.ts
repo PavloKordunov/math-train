@@ -125,30 +125,41 @@ export class PerfomenceService {
             const userAnswers = testResult?.studentTest
                 ? JSON.parse(testResult.studentTest as string)
                 : []
-            const testTasks = testResult.test.tasks
+            const testTasks: any = testResult.test.tasks
 
-            const sortedAnswers: any = {
-                multiple: [],
-                matching: [],
-                written: [],
-            }
+            // Створюємо масив у порядку завдань з тесту
+            const answersInOrder: any = []
 
-            for (const userAnswer of userAnswers) {
-                const task: any = testTasks.find(
-                    (t) => t.id === userAnswer.taskId
+            for (const task of testTasks) {
+                const userAnswer: any = userAnswers.find(
+                    (ua) => ua.taskId === task.id
                 )
-                if (!task) continue
+
+                if (!userAnswer) {
+                    // Якщо відповіді немає, все одно додаємо завдання
+                    answersInOrder.push({
+                        type: task.type,
+                        title: task.title,
+                        taskId: task.id,
+                        isAnswered: false,
+                    })
+                    continue
+                }
 
                 switch (task.type) {
                     case 'multiple': {
-                        const selectedAnswer = task.answers.find(
-                            (a) => a.id === userAnswer.answer
-                        )
-                        const correctAnswer = task.answers.find(
+                        const selectedAnswer: any =
+                            userAnswer.answer !== null
+                                ? task.answers.find(
+                                      (a) => a.id === userAnswer.answer
+                                  )
+                                : null
+                        const correctAnswer: any = task.answers.find(
                             (a) => a.isCorrect
                         )
 
-                        sortedAnswers.multiple.push({
+                        answersInOrder.push({
+                            type: 'multiple',
                             title: task.title,
                             taskId: userAnswer.taskId,
                             isCorrect: selectedAnswer?.isCorrect || false,
@@ -169,13 +180,17 @@ export class PerfomenceService {
                     }
 
                     case 'matching': {
-                        if (!Array.isArray(userAnswer.answer)) continue
+                        const userAnswerArray =
+                            userAnswer.answer !== null &&
+                            Array.isArray(userAnswer.answer)
+                                ? userAnswer.answer
+                                : []
 
                         const pairs: any = []
                         let allCorrect = true
 
-                        userAnswer.answer.forEach((userPair, index) => {
-                            const taskAnswer = task.answers[index]
+                        task.answers.forEach((taskAnswer, index) => {
+                            const userPair = userAnswerArray[index]
                             const isCorrect =
                                 taskAnswer?.left?.rightId ===
                                 userPair?.left?.rightId
@@ -186,11 +201,11 @@ export class PerfomenceService {
                                 userAnswer: {
                                     left: {
                                         text: userPair?.left?.leftText || '',
-                                        id: userPair.left.leftId,
+                                        id: userPair?.left?.leftId || '',
                                     },
                                     right: {
-                                        text: userPair.left.rightText || '',
-                                        id: userPair.left.rightId || '',
+                                        text: userPair?.left?.rightText || '',
+                                        id: userPair?.left?.rightId || '',
                                     },
                                 },
                                 correctAnswer: {
@@ -199,7 +214,7 @@ export class PerfomenceService {
                                         id: taskAnswer?.left?.leftId || '',
                                     },
                                     right: {
-                                        text: taskAnswer?.left.rightText,
+                                        text: taskAnswer?.left?.rightText || '',
                                         id: taskAnswer?.left?.rightId || '',
                                     },
                                 },
@@ -207,7 +222,8 @@ export class PerfomenceService {
                             })
                         })
 
-                        sortedAnswers.matching.push({
+                        answersInOrder.push({
+                            type: 'matching',
                             title: task.title,
                             taskId: userAnswer.taskId,
                             isCorrect: allCorrect,
@@ -217,19 +233,24 @@ export class PerfomenceService {
                     }
 
                     case 'written': {
-                        if (typeof userAnswer.answer !== 'string') continue
+                        const userAnswerText =
+                            userAnswer.answer !== null &&
+                            typeof userAnswer.answer === 'string'
+                                ? userAnswer.answer
+                                : ''
 
                         const correctAnswer = task.answers[0]
                         const isCorrect =
                             correctAnswer?.text?.toLowerCase().trim() ===
-                            userAnswer.answer.toLowerCase().trim()
+                            userAnswerText.toLowerCase().trim()
 
-                        sortedAnswers.written.push({
+                        answersInOrder.push({
+                            type: 'written',
                             title: task.title,
                             taskId: userAnswer.taskId,
                             isCorrect,
                             userAnswer: {
-                                answer: userAnswer.answer,
+                                answer: userAnswerText,
                                 id: userAnswer.taskId,
                             },
                             correctAnswer: correctAnswer
@@ -241,9 +262,6 @@ export class PerfomenceService {
                         })
                         break
                     }
-
-                    default:
-                        continue
                 }
             }
 
@@ -252,7 +270,7 @@ export class PerfomenceService {
                 testName: testResult.testName,
                 studentScore: testResult.score,
                 maxScore: testResult.maxScore,
-                answers: sortedAnswers,
+                answers: answersInOrder, // Повертаємо масив у порядку завдань
             }
         } catch (error) {
             if (error instanceof NotFoundException) {
@@ -261,7 +279,6 @@ export class PerfomenceService {
             throw new InternalServerErrorException('Failed to get test review')
         }
     }
-
     async deletePerfomence(id: string) {
         try {
             const testResult =

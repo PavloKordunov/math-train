@@ -427,6 +427,7 @@ export class TestService {
                             id: true,
                             answers: true,
                             type: true,
+                            title: true,
                         },
                     },
                 },
@@ -445,66 +446,161 @@ export class TestService {
                     if (Array.isArray(task.answers)) {
                         maxScore += task.answers.length
                     }
-                }
-                if (task.type === 'written') {
+                } else if (task.type === 'written') {
                     maxScore += 2
                 }
             }
 
-            for (const dto of compareAnswersDtos) {
-                if (!dto?.taskId) continue
+            const normalizedForSave: Array<any> = []
 
-                const task: any = test.tasks.find((t) => t.id === dto.taskId)
-                if (!task) continue
+            for (const task of test.tasks) {
+                const dto = compareAnswersDtos.find(
+                    (d) => d?.taskId === task.id
+                )
 
-                if (dto.type !== task.type) continue
+                const saveEntry: any = {
+                    taskId: task.id,
+                    type: task.type,
+                    answer: dto?.answer ?? null,
+                    awarded: 0,
+                }
+
+                if (!dto) {
+                    normalizedForSave.push(saveEntry)
+                    continue
+                }
+
+                if (dto.type !== task.type) {
+                    normalizedForSave.push(saveEntry)
+                    continue
+                }
 
                 switch (task.type) {
                     case 'multiple': {
-                        if (typeof dto.answer !== 'string') continue
-                        const selectedAnswer = task.answers.find(
-                            (a) => a.id === dto.answer
-                        )
-                        if (selectedAnswer?.isCorrect) {
-                            totalScore += 1
+                        if (typeof dto.answer === 'string') {
+                            const selectedAnswer: any = Array.isArray(
+                                task.answers
+                            )
+                                ? task.answers.find(
+                                      (a: any) => a?.id === dto.answer
+                                  )
+                                : undefined
+                            if (selectedAnswer?.isCorrect) {
+                                totalScore += 1
+                                saveEntry.awarded = 1
+                            }
                         }
                         break
                     }
 
                     case 'matching': {
-                        if (!Array.isArray(dto.answer)) continue
-                        let correctPairs = 0
-                        dto.answer.forEach((userPair, index) => {
-                            const taskAnswer = task.answers[index]
-                            if (
-                                taskAnswer?.left?.rightId ===
-                                userPair?.left?.rightId
-                            ) {
-                                correctPairs++
-                            }
-                            // maxScore += 1
+                        if (!Array.isArray(dto.answer)) {
+                            break
+                        }
+
+                        const taskPairs: Array<any> = Array.isArray(
+                            task.answers
+                        )
+                            ? task.answers
+                            : []
+                        const mapByLeftId = new Map<string, any>()
+                        const mapByLeftIndex = new Map<number, any>()
+
+                        taskPairs.forEach((p: any, idx: number) => {
+                            const leftId = p?.left?.id ?? p?.leftId ?? null
+                            if (leftId) mapByLeftId.set(String(leftId), p)
+                            mapByLeftIndex.set(idx, p)
                         })
+
+                        let correctPairs = 0
+
+                        for (const userPair of dto.answer) {
+                            const userLeftId =
+                                userPair?.left?.id ?? userPair?.leftId ?? null
+                            const userRightId =
+                                userPair?.left?.rightId ??
+                                userPair?.rightId ??
+                                null
+                            const userLeftIndex =
+                                typeof userPair?.leftIndex === 'number'
+                                    ? userPair.leftIndex
+                                    : null
+
+                            let correctPair: any = undefined
+                            if (
+                                userLeftId &&
+                                mapByLeftId.has(String(userLeftId))
+                            ) {
+                                correctPair = mapByLeftId.get(
+                                    String(userLeftId)
+                                )
+                            } else if (
+                                userLeftIndex !== null &&
+                                mapByLeftIndex.has(userLeftIndex)
+                            ) {
+                                correctPair = mapByLeftIndex.get(userLeftIndex)
+                            }
+
+                            if (correctPair) {
+                                const correctRightId =
+                                    correctPair?.left?.rightId ??
+                                    correctPair?.rightId ??
+                                    null
+                                if (
+                                    correctRightId &&
+                                    userRightId &&
+                                    String(correctRightId) ===
+                                        String(userRightId)
+                                ) {
+                                    correctPairs++
+                                }
+                            } else {
+                                const idx = dto.answer.indexOf(userPair)
+                                const taskPairAtIdx = taskPairs[idx]
+                                const correctRightIdAlt =
+                                    taskPairAtIdx?.left?.rightId ??
+                                    taskPairAtIdx?.rightId ??
+                                    null
+                                const userRightIdAlt = userRightId
+                                if (
+                                    correctRightIdAlt &&
+                                    userRightIdAlt &&
+                                    String(correctRightIdAlt) ===
+                                        String(userRightIdAlt)
+                                ) {
+                                    correctPairs++
+                                }
+                            }
+                        }
+
                         totalScore += correctPairs
+                        saveEntry.awarded = correctPairs
                         break
                     }
 
                     case 'written': {
-                        if (typeof dto.answer !== 'string') continue
-                        const correctText = task.answers[0]?.text
-                        if (
-                            correctText &&
-                            correctText.toLowerCase().trim() ===
-                                dto.answer.toLowerCase().trim()
-                        ) {
-                            totalScore += 2
+                        if (typeof dto.answer === 'string') {
+                            const correctText =
+                                task.answers && task.answers[0]
+                                    ? task.answers[0]?.text
+                                    : null
+                            if (
+                                correctText &&
+                                correctText.toLowerCase().trim() ===
+                                    dto.answer.toLowerCase().trim()
+                            ) {
+                                totalScore += 2
+                                saveEntry.awarded = 2
+                            }
                         }
-                        // maxScore += 2
                         break
                     }
 
                     default:
-                        continue
+                        break
                 }
+
+                normalizedForSave.push(saveEntry)
             }
 
             await this.databaseService.assignedTest.deleteMany({
@@ -519,13 +615,13 @@ export class TestService {
                     isCompleted: true,
                     maxScore: maxScore,
                     testName: test.title ?? '',
-                    studentTest: JSON.stringify(compareAnswersDtos),
+                    studentTest: JSON.stringify(normalizedForSave),
                 },
             })
 
             return { totalScore, maxScore }
         } catch (error) {
-            console.error('Answer comparison failed:', error.message)
+            console.error('Answer comparison failed:', error?.message ?? error)
             if (
                 error instanceof NotFoundException ||
                 error instanceof BadRequestException

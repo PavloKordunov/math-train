@@ -14,7 +14,7 @@ const StudentPerfomence = () => {
         const getAllStudentPerfomence = async () => {
             try {
                 const res = await fetch(
-                    `${API_URL}/api/perfomence/one/student/${user?.id}`
+                    `${API_URL}/api/perfomence/one/student/${user?.id}?page=3`
                 )
                 const data = await res.json()
 

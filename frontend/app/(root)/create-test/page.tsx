@@ -13,6 +13,8 @@ import { useSubTopicContext } from '@/helpers/getSubTopicId'
 import { TestSchema } from '@/lib/validation'
 import z from 'zod'
 import toast from 'react-hot-toast'
+import { Wand2 } from 'lucide-react'
+import AiModal from '@/components/AiModal'
 
 const CreateTest = () => {
     const [modalOpen, setModalOpen] = useState(false)
@@ -36,6 +38,8 @@ const CreateTest = () => {
         image: '',
         number: 0,
     })
+
+    const [openAiModal, setOpenaiModal] = useState(false)
 
     const handleTitleChange = useCallback((value: string) => {
         setTest((prev) => ({ ...prev, title: value }))
@@ -307,14 +311,25 @@ const CreateTest = () => {
                 handleSaveMatchingTask={handleSaveMatchingTask}
                 tasksError={errors.tasks}
             />
-            <div className="flex items-center justify-end mx-auto max-w-3xl">
+            <div className="flex items-center justify-end mx-auto max-w-3xl gap-4">
                 <button
                     onClick={handleCreateTest}
                     className="px-8 py-3 h-full rounded-[16px] bg-[#CA193A] text-white font-semibold text-[16px] shadow-md transition"
                 >
                     Створити тест
                 </button>
+
+                <button
+                    onClick={() => {
+                        setOpenaiModal(true)
+                    }}
+                    className="flex items-center gap-2 px-6 py-3 h-full rounded-[16px] bg-[#3B82F6] text-white font-semibold text-[16px] shadow-md transition"
+                >
+                    <Wand2 className="w-5 h-5" />
+                    Створити з AI
+                </button>
             </div>
+
             {user?.subject === 'Mathematics' && (
                 <div className="hidden [@media(min-width:1440px)]:block">
                     <FormulaHints />
@@ -324,6 +339,12 @@ const CreateTest = () => {
                 <CreateTaskModal
                     handleSelect={handleSelect}
                     setModalOpen={setModalOpen}
+                />
+            )}
+            {openAiModal && (
+                <AiModal
+                    onClose={() => setOpenaiModal(false)}
+                    setTest={setTest}
                 />
             )}
         </div>

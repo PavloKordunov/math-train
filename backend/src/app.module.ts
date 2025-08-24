@@ -15,6 +15,7 @@ import { LiqpayModule } from './liqpay/liqpay.module'
 import { ScheduleModule } from './schedule/schedule.module'
 import { GroupModule } from './group/group.module';
 import { FolderModule } from './folder/folder.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { FolderModule } from './folder/folder.module';
         ScheduleModule,
         GroupModule,
         FolderModule,
+        AiModule,
     ],
     controllers: [AppController],
     providers: [AppService],
