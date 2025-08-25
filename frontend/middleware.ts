@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 import { jwtVerify } from 'jose'
+import { verify } from 'crypto'
 
 interface User {
     id: string
@@ -16,7 +17,7 @@ interface Session {
     expires: string
 }
 
-const PUBLIC_ROUTES = ['/login', '/register']
+const PUBLIC_ROUTES = ['/login', '/register', '/verify']
 const STUDENT_ROUTES = [
     '/home',
     '/student/[id]',

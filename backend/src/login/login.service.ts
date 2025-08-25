@@ -54,6 +54,14 @@ export class LoginService {
                 throw new UnauthorizedException('User not have permission')
             }
 
+            if (
+                role === 'teacher' &&
+                'isEmailVerified' in user &&
+                !user.isEmailVerified
+            ) {
+                throw new UnauthorizedException('Email not verified')
+            }
+
             const token = await this.generateToken(user)
 
             return {

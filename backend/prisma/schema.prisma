@@ -44,6 +44,7 @@ model Teacher {
   id                String   @id @default(cuid())
   name              String
   email             String   @unique
+  isEmailVerified  Boolean  @default(false)
   phone             String   @unique 
   password          String
   subject           Subject
@@ -186,6 +187,13 @@ model Group {
   students        Student[]
   tests           Test[]
   assignedTests   AssignedTest[]
+}
+
+model EmailVerificationCode {
+  id        String   @id @default(uuid())
+  email     String @unique
+  code      String @unique
+  expiresAt DateTime
 }
 
 enum Status {

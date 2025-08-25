@@ -31,9 +31,19 @@ export class TeacherController {
         return this.teacherServise.getTeacherMainById(id)
     }
 
+    @Post('verify-email')
+    async verifyEmail(@Body('code') code: string) {
+        return this.teacherServise.verifyEmail(code)
+    }
+
     @Post('register')
     register(@Body() createTeacherDto: createTeacherDto) {
         return this.teacherServise.register(createTeacherDto)
+    }
+
+    @Post('send-verification')
+    sendVerificationEmail(@Body('email') email: string) {
+        return this.teacherServise.sendVerificationEmail(email)
     }
 
     @Patch(':email')

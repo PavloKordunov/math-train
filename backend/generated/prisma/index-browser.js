@@ -150,6 +150,7 @@ exports.Prisma.TeacherScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  isEmailVerified: 'isEmailVerified',
   phone: 'phone',
   password: 'password',
   subject: 'subject',
@@ -255,6 +256,13 @@ exports.Prisma.GroupScalarFieldEnum = {
   teacherId: 'teacherId'
 };
 
+exports.Prisma.EmailVerificationCodeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  expiresAt: 'expiresAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -311,7 +319,8 @@ exports.Prisma.ModelName = {
   AssignedTest: 'AssignedTest',
   Task: 'Task',
   Schedule: 'Schedule',
-  Group: 'Group'
+  Group: 'Group',
+  EmailVerificationCode: 'EmailVerificationCode'
 };
 
 /**

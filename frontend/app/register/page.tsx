@@ -4,8 +4,8 @@ import Image from 'next/image'
 import { FcGoogle } from 'react-icons/fc'
 import { FaBookOpen, FaFeatherAlt, FaGithub, FaPenFancy } from 'react-icons/fa'
 import Link from 'next/link'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
 import { FaCalculator } from 'react-icons/fa'
 import { RegisterSchema } from '@/lib/validation'
@@ -29,6 +29,9 @@ export default function RegisterPage() {
     const router = useRouter()
     const { setUser } = useUser()
     const [openPlans, setOpenPlans] = useState(false)
+    const params = useSearchParams()
+    const [openVerifyModal, setOpenVerifyModal] = useState(false)
+    const [emailSent, setEmailSent] = useState(false)
 
     const validateForm = () => {
         try {
@@ -108,7 +111,8 @@ export default function RegisterPage() {
             //     router.push('/teacher')
             // }
             setOpenSubjectModal(false)
-            setOpenPlans(true)
+            setOpenVerifyModal(true)
+
             setIsLoading(false)
         } catch (error: any) {
             console.error(error)
@@ -312,6 +316,72 @@ export default function RegisterPage() {
                     </button>
                 </div>
             </div>
+
+            {openVerifyModal && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4">
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl text-center">
+                        <h3 className="text-lg md:text-xl font-semibold mb-4 text-gray-800">
+                            Підтвердіть вашу пошту
+                        </h3>
+                        {!emailSent ? (
+                            <>
+                                <p className="mb-4">
+                                    Натисніть кнопку, щоб надіслати лист
+                                    підтвердження.
+                                </p>
+                                <button
+                                    onClick={async () => {
+                                        setIsLoading(true)
+                                        try {
+                                            const res = await fetch(
+                                                `${API_URL}/api/teacher/send-verification`,
+                                                {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type':
+                                                            'application/json',
+                                                    },
+                                                    body: JSON.stringify({
+                                                        email: registerData.email,
+                                                    }),
+                                                }
+                                            )
+                                            if (!res.ok)
+                                                throw new Error(
+                                                    'Не вдалося надіслати лист'
+                                                )
+                                            setEmailSent(true)
+                                            toast.success(
+                                                'Лист надіслано! Перевірте пошту.'
+                                            )
+                                        } catch (err: any) {
+                                            toast.error(err.message)
+                                        } finally {
+                                            setIsLoading(false)
+                                        }
+                                    }}
+                                    className="py-2 px-4 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+                                >
+                                    Надіслати лист
+                                </button>
+                            </>
+                        ) : (
+                            <div>
+                                <p className="text-green-600 mb-4">
+                                    Лист надіслано! Підтвердьте пошту через
+                                    посилання.
+                                </p>
+                                <button
+                                    onClick={() => setOpenPlans(true)}
+                                    className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+                                >
+                                    Продовжити
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {openSubjectModal && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4">
